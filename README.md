@@ -1,0 +1,1 @@
+# vplatform-plugin-widget-smartclient
