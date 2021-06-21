@@ -1,0 +1,16 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGLayoutManager",
+    "version":"3.15.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGLayoutManager",
+        "name": "V3布局管理模块",
+        "desc": "管理平台控件布局",
+        "symbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGLayoutManager",
+        "defineUrl": "./dist/index.js",
+        "docUrl":"./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "visible": false
+    }]
+}

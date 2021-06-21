@@ -1,0 +1,16 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+    "version":"3.4.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGStyleHelper",
+        "name": "V平台样式处理模块",
+        "desc": "字体样式处理类",
+        "symbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+        "defineUrl": "./dist/index.js",
+        "docUrl":"./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "visible": false
+    }]
+}

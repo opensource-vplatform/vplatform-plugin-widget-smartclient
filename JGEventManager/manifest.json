@@ -1,0 +1,16 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGEventManager",
+    "version":"3.3.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGEventManager",
+        "name": "V3事件管理模块",
+        "symbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGEventManager",
+        "desc": "提供事件绑定及销毁方法",
+        "defineUrl": "./dist/index.js",
+        "docUrl":"./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "visible": false
+    }]
+}

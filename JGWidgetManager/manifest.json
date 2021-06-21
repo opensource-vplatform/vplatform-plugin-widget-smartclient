@@ -1,0 +1,16 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGWidgetManager",
+    "version":"3.4.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGWidgetManager",
+        "name": "V3控件实例管理模块",
+        "desc": "提供获取设置控件实例方法",
+        "symbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGWidgetManager",
+        "defineUrl": "./dist/index.js",
+        "docUrl":"./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "visible": false
+    }]
+}

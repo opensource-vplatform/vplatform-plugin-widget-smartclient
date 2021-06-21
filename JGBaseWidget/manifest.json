@@ -1,0 +1,41 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+    "version":"3.15.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGBaseWidget",
+        "name": "V3控件基类",
+        "desc": "定义平台控件基础属性及方法",
+        "symbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+        "defineUrl": "./dist/index.js",
+        "docUrl":"./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "visible": false,
+        "dependencies":[{
+            "groupId":"com.toone.v3.platform",
+            "code":"vjs.framework.extension.platform.plugin.ui.smartclient.JGEventManager",
+            "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGEventManager",
+            "pluginCode":"JGEventManager",
+            "pluginType":"widget"
+        },{
+            "groupId":"com.toone.v3.platform",
+            "code":"vjs.framework.extension.platform.plugin.ui.smartclient.TimerEventHandler",
+            "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.TimerEventHandler",
+            "pluginCode":"TimerEventHandler",
+            "pluginType":"widget"
+        },{
+            "groupId":"com.toone.v3.platform",
+            "code":"vjs.framework.extension.platform.plugin.ui.smartclient.JGWidgetManager",
+            "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGWidgetManager",
+            "pluginCode":"JGWidgetManager",
+            "pluginType":"widget"
+        },{
+            "groupId":"com.toone.v3.platform",
+            "code":"vjs.framework.extension.platform.plugin.ui.smartclient.JGLayoutManager",
+            "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGLayoutManager",
+            "pluginCode":"JGLayoutManager",
+            "pluginType":"widget"
+        }]
+    }]
+}
