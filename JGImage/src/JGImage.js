@@ -7,6 +7,7 @@
  * isc.JGImage.create({
  *  ToolTip : "tip",
  *  Width:200,
+ *  autoDraw: true,
  *  Height:200
  * });
  */

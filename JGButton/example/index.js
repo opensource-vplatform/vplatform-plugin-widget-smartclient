@@ -1,1 +1,1 @@
-[{"name":"JGButton","key":"class:JGButton","example":"var btn = isc.JGButton.create({\r SimpleChineseTitle : \"test\",\r Top : 50,\r Left : 50,\r Height : 50,\r Width : 150\r});\rbtn.on(\"OnClick\",function(){\r alert(\"clicked!\");\r});"}]
+[{"name":"JGButton","key":"class:JGButton","example":"var btn = isc.JGButton.create({\r SimpleChineseTitle : \"test\",\r Top : 50,\r Left : 50,\r autoDraw: true,\r Height : 50,\r Width : 150\r});\rbtn.on(\"OnClick\",function(){\r alert(\"clicked!\");\r});"}]

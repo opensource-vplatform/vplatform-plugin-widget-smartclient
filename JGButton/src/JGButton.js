@@ -8,6 +8,7 @@
  *  SimpleChineseTitle : "test",
  *  Top : 50,
  *  Left : 50,
+ *  autoDraw: true,
  *  Height : 50,
  *  Width : 150
  * });

@@ -3,6 +3,11 @@
  * @class JGLinkLabel
  * @extends JGBaseWidget
  * @mixes JGStyleHelper
+ * @example
+ * isc.JGLinkLabel.create({
+ *  SimpleChineseTitle : "链接标题",
+ *      
+ * });
  */
 isc.ClassFactory.defineClass("JGLinkLabel", "JGBaseWidget");
 isc.ClassFactory.mixInInterface("JGLinkLabel", "JGStyleHelper");

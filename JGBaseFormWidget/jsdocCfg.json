@@ -20,7 +20,7 @@
         }
     },
     "opts": {
-        "destination": "./doc/index.js",
+        "docDest": "./doc/index.js",
         "exampleDest": "./example/index.js",
         "encoding": "utf8",
         "private": true,

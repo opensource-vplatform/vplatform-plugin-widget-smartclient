@@ -132,6 +132,12 @@
             "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
             "pluginCode": "JGBaseWidget",
             "pluginType": "widget"
+        },{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+            "pluginCode": "JGStyleHelper",
+            "pluginType": "widget"
         }]
     }]
 }

@@ -1,1 +1,1 @@
-[{"key":"class:JGImage","example":"isc.JGImage.create({\r ToolTip : \"tip\",\r Width:200,\r Height:200\r});"}]
+[{"name":"JGImage","key":"class:JGImage","example":"isc.JGImage.create({\r ToolTip : \"tip\",\r Width:200,\r autoDraw: true,\r Height:200\r});"}]

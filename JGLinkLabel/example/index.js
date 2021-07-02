@@ -1,0 +1,1 @@
+[{"name":"JGLinkLabel","key":"class:JGLinkLabel","example":"isc.JGLinkLabel.create({\r SimpleChineseTitle : \"链接标题\",\r     \r});"}]
