@@ -583,6 +583,9 @@ isc.JGBaseWidget.addMethods({
 
     /**
      * 设置显示状态
+     * @memberof JGBaseWidget
+     * @method
+     * @instance
      * @param visible 显示状态
      */
     setVisible: function (visible) {
@@ -596,7 +599,10 @@ isc.JGBaseWidget.addMethods({
 
     /**
      * 获取显示状态
-     * @return 显示状态
+     * @memberof JGBaseWidget
+     * @method
+     * @instance
+     * @return {Boolean 显示状态
      */
     getVisible: function () {
         return this.Visible;

@@ -66,7 +66,7 @@ isc.JGButton.addProperties({
      * @property {Number}
      * @instance
      */
-     Height: 20,
+     Height: 28,
      AutoTest: true,
     /**
      * 宽度
@@ -146,6 +146,7 @@ isc.JGButton.addProperties({
 isc.JGButton.addMethods({
     //自定义控件可覆盖父类的这个方法，扩展本控件的初始实例化逻辑，相当于控件的构造函数
     _initWidget: function () {
+        this.ImageObj = this.ImageValue;
         if (this.Theme && this.Theme != "customType" && !this.isOldWindowLayoutConfig()) { //旧窗体中按钮会设置前景色和背景色
             //如果配置了主题，而且不是自定义清空前景背景色
             this.ForeColor = "";

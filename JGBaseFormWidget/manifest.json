@@ -1,0 +1,23 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+    "version":"3.15.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGBaseFormWidget",
+        "name": "表单类控件基类",
+        "desc": "定义表单类控件基础属性及方法",
+        "symbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+        "defineUrl": "./dist/index.js",
+        "docUrl":"./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "visible": false,
+        "dependencies":[{
+            "groupId":"com.toone.v3.platform",
+            "code":"vjs.framework.extension.platform.plugin.ui.smartclient.JGFormWidget",
+            "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGFormWidget",
+            "pluginCode":"JGFormWidget",
+            "pluginType":"widget"
+        }]
+    }]
+}

@@ -1,0 +1,1 @@
+[{"key":"class:JGTimer","example":"var timer = isc.JGTimer.create({\r TimerEvent : function(){\r     alert(\"fire!\");\r }\r});\rtimer.startTimer();"}]

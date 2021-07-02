@@ -1,171 +1,268 @@
 {
     "groupId": "com.toone.v3.platform",
     "code": "widget-smartclient-JGButton",
-    "version":"3.15.0",
+    "version": "3.15.0",
     "plugins": [{
         "type": "widget",
         "code": "JGButton",
         "name": "V平台按钮控件",
+        "icon": "./JGButton.png",
         "desc": "",
         "defineUrl": "./dist/index.js",
-        "docUrl":"./doc/index.js",
+        "docUrl": "./doc/index.js",
         "exampleUrl": "./example/index.js",
-        "visible": false,
-        "properties":[{
-            "code":"ColSpan",
-            "name":"列宽",
-            "catalog":"GroupLayout",
-            "type":"char",
-            "desc":"设置该控件跨多少列",
-            "default":"1",
-		    "editor":{
-			    "type":"select",
-                "options":[{
-                    "value": "1",
-                    "label": "1列"
-                },{
-                    "value": "2",
-                    "label": "2列"
-                },{
-                    "value": "3",
-                    "label": "3列"
-                },{
-                    "value": "4",
-                    "label": "4列"
-                }]
-		    }
-        },{
-            "code":"EndRow",
-            "name":"结束行",
-            "catalog":"GroupLayout",
-            "type":"boolean",
-            "desc":"设置控件是否作为该行的结束列",
-            "default":false,
-		    "editor":{
-			    "type":"boolean"
-		    }
-        },{
-            "code":"Visible",
-            "name":"显示",
-            "catalog":"Layout",
-            "type":"boolean",
-            "desc":"确定该控件是否显示",
-            "default":true,
-		    "editor":{
-			    "type":"boolean"
-		    },
-            "access":{
-                "webDesigner":{
-				    "readable":true,
-				    "writable":true
-			    }
+        "properties": [{
+                "code": "Height",
+                "name": "高度",
+                "type": "integer",
+                "editor": {
+                    "type": "height"
+                }
+            }, {
+                "code": "Width",
+                "name": "宽度",
+                "type": "integer",
+                "editor": {
+                    "type": "width"
+                }
+            },
+            {
+                "code": "Top",
+                "name": "上边距",
+                "type": "integer",
+                "editor": {
+                    "type": "top"
+                }
+            },
+            {
+                "code": "Left",
+                "name": "左边距",
+                "type": "integer",
+                "editor": {
+                    "type": "left"
+                }
+            },
+            {
+                "code": "ColSpan",
+                "name": "列宽",
+                "catalog": "GroupLayout",
+                "type": "char",
+                "desc": "设置该控件跨多少列",
+                "default": "1",
+                "editor": {
+                    "type": "select",
+                    "options": [{
+                        "value": "1",
+                        "label": "1列"
+                    }, {
+                        "value": "2",
+                        "label": "2列"
+                    }, {
+                        "value": "3",
+                        "label": "3列"
+                    }, {
+                        "value": "4",
+                        "label": "4列"
+                    }]
+                }
+            },
+            {
+                "code": "EndRow",
+                "name": "结束行",
+                "catalog": "GroupLayout",
+                "type": "boolean",
+                "desc": "设置控件是否作为该行的结束列",
+                "default": false,
+                "editor": {
+                    "type": "boolean"
+                }
+            },
+            {
+                "code": "Visible",
+                "name": "显示",
+                "catalog": "Layout",
+                "type": "boolean",
+                "desc": "确定该控件是否显示",
+                "default": true,
+                "editor": {
+                    "type": "boolean"
+                },
+                "access": {
+                    "webDesigner": {
+                        "readable": true,
+                        "writable": true
+                    }
+                }
+            },
+            {
+                "code": "ImageValue",
+                "name": "图标",
+                "catalog": "Layout",
+                "type": "char",
+                "desc": "将在控件上显示的图标",
+                "editor": {
+                    "type": "resource"
+                },
+                "compatible": {
+                    "enhanceType": "resource"
+                }
+            },
+            {
+                "code": "Theme",
+                "name": "主题",
+                "catalog": "Layout",
+                "type": "char",
+                "desc": "设置控件系统内置主题风格",
+                "editor": {
+                    "type": "select",
+                    "optionType": "theme"
+                },
+                "access": {
+                    "webDesigner": {
+                        "readable": true,
+                        "writable": true
+                    }
+                }
+            },
+            {
+                "code": "FontStyle",
+                "name": "字体样式",
+                "type": "char",
+                "editor": {
+                    "type": "text"
+                },
+                "compatible": {
+                    "enhanceType": "font"
+                }
+            },
+            {
+                "code": "BackColor",
+                "name": "背景色",
+                "type": "char",
+                "compatible": {
+                    "enhanceType": "color"
+                },
+                "editor": {
+                    "type": "text"
+                }
+            },
+            {
+                "code": "StaticLayoutSize",
+                "name": "宽度固定",
+                "type": "boolean",
+                "editor": {
+                    "type": "boolean"
+                }
+            },
+            {
+                "code": "Dock",
+                "name": "泊靠",
+                "type": "char",
+                "compatible": {
+                    "enhanceType": "string"
+                }
+            },
+            {
+                "code": "RemindText",
+                "name": "提醒文字",
+                "catalog": "Layout",
+                "type": "char",
+                "desc": "设置控件提示信息",
+                "editor": {
+                    "type": "text"
+                }
+            },
+            {
+                "code": "ForeColor",
+                "type": "char",
+                "compatible": {
+                    "enhanceType": "color"
+                },
+                "name": "字体颜色"
+            },
+            {
+                "code": "Code",
+                "name": "控件编码",
+                "catalog": "Other",
+                "type": "char",
+                "desc": "在设计器中用来表示该控件唯一编码。",
+                "editor": {
+                    "type": "code",
+                    "prefix": "JGButton"
+                }
+            },
+            {
+                "code": "LabelText",
+                "name": "标题",
+                "catalog": "Other",
+                "type": "char",
+                "desc": "设置控件显示的标题",
+                "editor": {
+                    "type": "text"
+                },
+                "access": {
+                    "webDesigner": {
+                        "readable": true,
+                        "writable": true
+                    }
+                },
+                "compatible": {
+                    "enhanceType": "language"
+                }
+            },
+            {
+                "code": "OnClick",
+                "name": "单击事件",
+                "catalog": "Event",
+                "type": "function",
+                "desc": "单击控件时触发",
+                "editor": {
+                    "type": "ruleset"
+                }
+            },
+            {
+                "code": "ToolTip",
+                "name": "浮动提示",
+                "catalog": "Data",
+                "type": "char",
+                "desc": "鼠标悬停在控件上时显示的提示信息",
+                "editor": {
+                    "type": "expression"
+                },
+                "compatible": {
+                    "enhanceType": "expLanguage"
+                }
+            },
+            {
+                "code": "Enabled",
+                "name": "使能",
+                "catalog": "Data",
+                "type": "boolean",
+                "desc": "设置控件是否启用",
+                "default": true,
+                "editor": {
+                    "type": "boolean"
+                },
+                "access": {
+                    "webDesigner": {
+                        "readable": true,
+                        "writable": true
+                    }
+                }
             }
-        },{
-            "code":"ImageValue",
-            "name":"图标",
-            "catalog":"Layout",
-            "type":"char",
-            "desc":"将在控件上显示的图标",
-		    "editor":{
-			    "type":"resource"
-		    }
-        },{
-            "code":"Theme",
-            "name":"主题",
-            "catalog":"Layout",
-            "type":"char",
-            "desc":"设置控件系统内置主题风格",
-		    "editor":{
-			    "type":"select",
-                "optionType":"theme"
-		    },
-            "access":{
-                "webDesigner":{
-				    "readable":true,
-				    "writable":true
-			    }
-            }
-        },{
-            "code":"RemindText",
-            "name":"提醒文字",
-            "catalog":"Layout",
-            "type":"char",
-            "desc":"设置控件提示信息",
-		    "editor":{
-			    "type":"text"
-		    }
-        },{
-            "code":"Code",
-            "name":"控件编码",
-            "catalog":"Other",
-            "type":"char",
-            "desc":"在设计器中用来表示该控件唯一编码。",
-		    "editor":{
-			    "type":"code",
-                "prefix":"JGButton"
-		    }
-        },{
-            "code":"SimpleChineseTitle",
-            "name":"标题",
-            "catalog":"Other",
-            "type":"char",
-            "desc":"设置控件显示的标题",
-		    "editor":{
-			    "type":"text"
-		    },
-            "access":{
-                "webDesigner":{
-				    "readable":true,
-				    "writable":true
-			    }
-            }
-        },{
-            "code":"OnClick",
-            "name":"单击事件",
-            "catalog":"Event",
-            "type":"char",
-            "desc":"单击控件时触发",
-		    "editor":{
-			    "type":"ruleset"
-		    }
-        },{
-            "code":"ToolTip",
-            "name":"浮动提示",
-            "catalog":"Data",
-            "type":"char",
-            "desc":"鼠标悬停在控件上时显示的提示信息",
-		    "editor":{
-			    "type":"expression"
-		    }
-        },{
-            "code":"Enabled",
-            "name":"使能",
-            "catalog":"Data",
-            "type":"char",
-            "desc":"设置控件是否启用",
-            "default":true,
-		    "editor":{
-			    "type":"boolean"
-		    },
-            "access":{
-                "webDesigner":{
-				    "readable":true,
-				    "writable":true
-			    }
-            }
-        }],
-        "dependencies":[{
-            "groupId":"com.toone.v3.platform",
-            "code":"vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
-            "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
-            "pluginCode":"JGBaseWidget",
-            "pluginType":"widget"
-        },{
-            "groupId":"com.toone.v3.platform",
-            "code":"vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
-            "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
-            "pluginCode":"JGStyleHelper",
-            "pluginType":"widget"
+        ],
+        "dependencies": [{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+            "pluginCode": "JGBaseWidget",
+            "pluginType": "widget"
+        }, {
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+            "pluginCode": "JGStyleHelper",
+            "pluginType": "widget"
         }]
     }]
 }

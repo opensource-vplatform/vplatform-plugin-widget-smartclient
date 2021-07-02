@@ -1,0 +1,114 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGTimer",
+    "version": "3.15.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGTimer",
+        "name": "V平台定时器控件",
+        "icon": "./JGTimer.png",
+        "desc": "",
+        "defineUrl": "./dist/index.js",
+        "docUrl": "./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "properties": [{
+                "code": "Height",
+                "name": "高度",
+                "type": "integer",
+                "editor": {
+                    "type": "height"
+                }
+            }, {
+                "code": "RunTimes",
+                "name": "执行次数",
+                "type": "integer",
+                "default":0,
+                "editor": {
+                    "type": "integer"
+                }
+            }, {
+                "code": "Startup",
+                "name": "启动",
+                "type": "boolean",
+                "desc": "是否启动定时器",
+                "default":false,
+                "editor": {
+                    "type": "boolean"
+                }
+            },
+            {
+                "code": "Code",
+                "name": "控件编码",
+                "catalog": "Other",
+                "type": "char",
+                "desc": "在设计器中用来表示该控件唯一编码。",
+                "editor": {
+                    "type": "code",
+                    "prefix": "JGTimer"
+                }
+            }, {
+                "code": "Width",
+                "name": "宽度",
+                "type": "integer",
+                "editor": {
+                    "type": "width"
+                }
+            }, {
+                "code": "Interval",
+                "name": "事件间隔(秒)",
+                "type": "integer",
+                "desc":"定时事件执行的频率",
+                "default":10,
+                "editor": {
+                    "type": "integer"
+                }
+            },
+            {
+                "code": "LabelText",
+                "name": "标题",
+                "catalog": "Other",
+                "type": "char",
+                "desc": "设置控件显示的标题",
+                "editor": {
+                    "type": "text"
+                },
+                "compatible": {
+                    "enhanceType": "language"
+                }
+            },
+            {
+                "code": "Top",
+                "name": "上边距",
+                "type": "integer",
+                "editor": {
+                    "type": "top"
+                }
+            },
+            {
+                "code": "Left",
+                "name": "左边距",
+                "type": "integer",
+                "editor": {
+                    "type": "left"
+                }
+            },
+            {
+                "code": "TimerEvent",
+                "name": "定时事件",
+                "catalog": "Event",
+                "type": "function",
+                "desc": "定时器定时触发的事件",
+                "editor": {
+                    "type": "ruleset"
+                }
+            }
+        ],
+        "dependencies": [{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+            "pluginCode": "JGBaseWidget",
+            "pluginType": "widget"
+        }]
+    }]
+}

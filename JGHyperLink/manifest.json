@@ -1,0 +1,347 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGHyperLink",
+    "version":"3.9.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGHyperLink",
+        "name": "链接文本",
+        "icon": "./JGHyperLink.png",
+        "desc": "",
+        "defineUrl": "./dist/index.js",
+        "docUrl":"./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "properties":[{
+            "code":"Code",
+            "name":"控件编码",
+            "catalog":"Other",
+            "type":"char",
+            "desc":"在设计器中用来表示该控件唯一编码。",
+		    "editor":{
+			    "type":"code",
+                "prefix":"JGHyperLink"
+		    }
+        },{
+            "code":"DefaultValue",
+            "name":"默认值",
+            "catalog":"Other",
+            "type":"char",
+            "desc":"控件默认值",
+		    "editor":{
+			    "type":"text"
+		    }
+        },{
+            "code":"DisplayFormat",
+            "name":"显示格式",
+            "catalog":"Other",
+            "type":"char",
+            "desc":"显示格式",
+		    "editor":{
+			    "type":"text"
+		    },
+            "compatible": {
+                "enhanceType": "displayFormat"
+            }
+        },{
+            "code": "Enabled",
+            "name": "使能",
+            "catalog": "Data",
+            "type": "boolean",
+            "desc": "设置控件是否启用",
+            "default": true,
+            "editor": {
+                "type": "boolean"
+            }
+        },{
+            "code":"Height",
+            "name":"高度",
+            "catalog":"GroupLayout",
+            "type":"number",
+            "desc":"设置控件高度",
+            "default":26,
+		    "editor":{
+			    "type":"height"
+		    }
+        },{
+            "code":"LabelBackColor",
+            "name":"标签背景色",
+            "catalog":"GroupLayout",
+            "type":"char",
+            "desc":"标签背景色",
+		    "editor":{
+			    "type":"text"
+		    },
+            "compatible": {
+                "enhanceType": "color"
+            }
+        },{
+            "code":"LabelFontStyle",
+            "name":"标签字体",
+            "catalog":"GroupLayout",
+            "type":"char",
+            "desc":"标签字体",
+		    "editor":{
+			    "type":"text"
+		    },
+            "compatible": {
+                "enhanceType": "font"
+            }
+        },{
+            "code":"LabelForeColor",
+            "name":"标签前景色",
+            "catalog":"GroupLayout",
+            "type":"char",
+            "desc":"标签前景色",
+		    "editor":{
+			    "type":"text"
+		    },
+            "compatible": {
+                "enhanceType": "color"
+            }
+        },{
+            "code":"LabelTextAlign",
+            "name":"标签对齐方式",
+            "catalog":"GroupLayout",
+            "type":"char",
+            "desc":"标签对齐方式",
+		    "editor":{
+			    "type":"text"
+		    },
+            "compatible": {
+                "enhanceType": "alignment"
+            }
+        },{
+            "code":"LabelVisible",
+            "name":"显示标题",
+            "catalog":"GroupLayout",
+            "type":"boolean",
+            "desc":"显示标题",
+		    "editor":{
+			    "type":"boolean"
+		    }
+        },{
+            "code":"LabelWidth",
+            "name":"标签宽度",
+            "catalog":"GroupLayout",
+            "type":"integer",
+            "desc":"标签宽度",
+		    "editor":{
+			    "type":"integer"
+		    }
+        },{
+            "code":"Left",
+            "name":"左边距",
+            "catalog":"GroupLayout",
+            "type":"number",
+            "desc":"设置控件左边距",
+            "default":100,
+		    "editor":{
+			    "type":"left"
+		    }
+        },{
+            "code":"PercentHeight",
+            "name":"百分比高度",
+            "catalog":"GroupLayout",
+            "type":"char",
+            "desc":"百分比高度",
+		    "editor":{
+			    "type":"text"
+		    }
+        },{
+            "code":"PercentWidth",
+            "name":"百分比宽度",
+            "catalog":"GroupLayout",
+            "type":"char",
+            "desc":"百分比宽度",
+		    "editor":{
+			    "type":"text"
+		    }
+        },{
+            "code":"TabIndex",
+            "name":"界面顺序号",
+            "catalog":"GroupLayout",
+            "type":"number",
+            "desc":"设置控件界面顺序号",
+            "default":3,
+		    "editor":{
+			    "type":"integer"
+		    }
+        },{
+            "code":"Top",
+            "name":"上边距",
+            "catalog":"GroupLayout",
+            "type":"number",
+            "desc":"设置控件上边距",
+            "default":100,
+		    "editor":{
+			    "type":"top"
+		    }
+        },{
+            "code":"ValueBackColor",
+            "name":"值背景色",
+            "catalog":"GroupLayout",
+            "type":"char",
+            "desc":"值背景色",
+		    "editor":{
+			    "type":"text"
+		    },
+            "compatible": {
+                "enhanceType": "color"
+            }
+        },{
+            "code":"ValueFontStyle",
+            "name":"值字体",
+            "catalog":"GroupLayout",
+            "type":"char",
+            "desc":"值字体",
+		    "editor":{
+			    "type":"text"
+		    },
+            "compatible": {
+                "enhanceType": "font"
+            }
+        },{
+            "code":"ValueForeColor",
+            "name":"值前景色",
+            "catalog":"GroupLayout",
+            "type":"char",
+            "desc":"值前景色",
+		    "editor":{
+			    "type":"text"
+		    },
+            "compatible": {
+                "enhanceType": "color"
+            }
+        },{
+            "code":"ValueTextAlign",
+            "name":"值对齐方式",
+            "catalog":"GroupLayout",
+            "type":"char",
+            "desc":"值对齐方式",
+		    "editor":{
+			    "type":"text"
+		    },
+            "compatible": {
+                "enhanceType": "alignment"
+            }
+        },{
+            "code":"Visible",
+            "name":"显示",
+            "catalog":"Layout",
+            "type":"boolean",
+            "desc":"确定该控件是否显示",
+            "default":true,
+		    "editor":{
+			    "type":"boolean"
+		    }
+        },{
+            "code":"Width",
+            "name":"宽度",
+            "catalog":"GroupLayout",
+            "type":"number",
+            "desc":"设置控件宽度",
+            "default":235,
+		    "editor":{
+			    "type":"width"
+		    }
+        },{
+            "code":"Dock",
+            "name":"泊靠",
+            "catalog":"Layout",
+            "type":"char",
+            "desc":"定义要绑定到容器的控件边框",
+		    "editor":{
+			    "type":"text"
+		    }
+        },{
+            "code":"LabelText",
+            "name":"标题",
+            "catalog":"Layout",
+            "type":"char",
+            "desc":"标题",
+		    "editor":{
+			    "type":"text"
+		    },
+            "compatible": {
+                "enhanceType": "language"
+            }
+        },{
+            "code":"OnValueChanged",
+            "name":"值改变事件",
+            "catalog":"Event",
+            "type":"char",
+            "desc":"绑定字段值改变时触发",
+		    "editor":{
+			    "type":"ruleset"
+		    }
+        },{
+            "code":"OnValueLoaded",
+            "name":"值加载事件",
+            "catalog":"Event",
+            "type":"char",
+            "desc":"数据源加载数据时触发",
+		    "editor":{
+			    "type":"ruleset"
+		    }
+        },{
+            "code":"OnLabelClick",
+            "name":"单击标题",
+            "catalog":"Event",
+            "type":"char",
+            "desc":"单击控件标题时触发",
+		    "editor":{
+			    "type":"ruleset"
+		    }
+        },{
+            "code":"OnClick",
+            "name":"链接事件",
+            "catalog":"Event",
+            "type":"char",
+            "desc":"单击控件时触发",
+		    "editor":{
+			    "type":"ruleset"
+		    }
+        },{
+            "code":"TableName",
+            "name":"实体",
+            "catalog":"Data",
+            "type":"char",
+            "desc":"控件绑定的实体",
+		    "editor":{
+			    "type":"entity"
+		    },
+            "compatible": {
+                "enhanceType": "tableName"
+            }
+        },{
+            "code":"ColumnName",
+            "name":"字段名称",
+            "catalog":"Data",
+            "type":"char",
+            "desc":"控件绑定的字段",
+		    "editor":{
+                "entityProp":"TableName",
+			    "type":"field"
+		    },
+            "compatible": {
+                "enhanceType": "columnName"
+            }
+        },{
+            "code":"ToolTip",
+            "name":"浮动提示",
+            "catalog":"Data",
+            "type":"char",
+            "desc":"鼠标悬停在控件上时显示的提示信息",
+		    "editor":{
+			    "type":"expression"
+		    }
+        }],
+        "dependencies":[{
+            "groupId":"com.toone.v3.platform",
+            "code":"vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+            "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+            "pluginCode":"JGBaseFormWidget",
+            "pluginType":"widget"
+        }]
+    }]
+}
