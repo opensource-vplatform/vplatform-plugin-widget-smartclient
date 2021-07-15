@@ -465,7 +465,9 @@ isc.JGBaseWidget.addMethods({
                 if (eventHandler && eventHandler.length > 0) {
                     for (var j = 0, l = eventHandler.length; j < l; j++) {
                         var handler = eventHandler[j];
-                        handler.apply(_this, param);
+                        if(arguments.callee.caller !== handler){
+                            handler.apply(_this, param);
+                        }
                     }
                 }
             }

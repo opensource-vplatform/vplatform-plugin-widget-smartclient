@@ -4,14 +4,6 @@
  */
 isc.ClassFactory.defineInterface("IRecordObserver");
 
-isc.IRecordObserver.addInterfaceProperties({
-
-    __loadHandler :[],
-
-    __updateHandler : []
-
-});
-
 isc.IRecordObserver.addInterfaceMethods({
 
     /**
@@ -48,12 +40,24 @@ isc.IRecordObserver.addInterfaceMethods({
             var ch = changed[i];
             if(datasource.isCurrentRecord(ch)){
                 this._handleValue(ch);
-                if(this._isChanged(ch)){
+                if(this._isChanged(ch)&&this.filterChanged(ch)){
                     this._$fireEventHandler(this.__updateHandler);
                 }
                 break;
             }
         }
+    },
+    /**
+     * 过滤更新
+     * @memberof IRecordObserver
+     * @method
+     * @instance
+     * @description 当此方法返回值为true时，才触发更新事件
+     * @param {Object} changed 更改字段信息
+     * @returns {boolean}
+     */
+    filterChanged : function(changed){
+        return true;
     },
 
     _isChanged : function(data){
@@ -91,9 +95,11 @@ isc.IRecordObserver.addInterfaceMethods({
     },
 
     _$fireEventHandler : function(handlers){
-        for(var i=0,l=handlers.length;i<l;i++){
-            var handler = handlers[i];
-            handler.apply(this,[]);
+        if(handlers){
+            for(var i=0,l=handlers.length;i<l;i++){
+                var handler = handlers[i];
+                handler.apply(this,[]);
+            }
         }
     },
 
@@ -106,14 +112,30 @@ isc.IRecordObserver.addInterfaceMethods({
         this._handleValue(data);
     },
 
+    /**
+     * 监听加载事件
+     * @memberof IRecordObserver
+     * @method
+     * @instance
+     * @param {Function} handler 事件回调
+     */
     onLoadListener : function(handler){
         if(typeof(handler)=="function"){
+            this.__loadHandler = this.__loadHandler||[];
             this.__loadHandler.push(handler);
         }
     },
 
+    /**
+     * 监听更新事件
+     * @memberof IRecordObserver
+     * @method
+     * @instance
+     * @param {Function} handler 事件回调
+     */
     onChangedListener : function(handler){
         if(typeof(handler)=="function"){
+            this.__updateHandler = this.__updateHandler||[];
             this.__updateHandler.push(handler);
         }
     },
@@ -135,6 +157,7 @@ isc.IRecordObserver.addInterfaceMethods({
      * @method
      * @instance
      * @param {Any} data 值
+     * @param {Object} record 数据源记录
      */
     setWidgetData : function(data,record){
         
@@ -145,7 +168,6 @@ isc.IRecordObserver.addInterfaceMethods({
      * @memberof IRecordObserver
      * @method
      * @instance
-     * @returns {Any}
      */
     clearWidgetData : function(){
         
