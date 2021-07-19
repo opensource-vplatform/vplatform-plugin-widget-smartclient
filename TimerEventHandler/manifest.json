@@ -4,7 +4,7 @@
     "version":"3.4.0",
     "plugins": [{
         "type": "widget",
-        "code": "JGEventManager",
+        "code": "TimerEventHandler",
         "name": "V3异步事件处理模块",
         "desc": "在控件事件触发时设置控件状态，在异步任务中再设置控件状态，应用场景：按钮控件点击事件触发时，将按钮禁用；在异步回调中再将按钮设置为使能",
         "symbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.TimerEventHandler",

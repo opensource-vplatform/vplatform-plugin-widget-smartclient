@@ -1,0 +1,1 @@
+[{"name":"JGCheckBox","key":"class:JGCheckBox","example":"isc.JGCheckBox.create({\r autoDraw : true\r});"}]

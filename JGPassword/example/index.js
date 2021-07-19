@@ -1,0 +1,1 @@
+[{"name":"JGPassword","key":"class:JGPassword","example":"isc.JGPassword.create({\r autoDraw : true\r});"}]

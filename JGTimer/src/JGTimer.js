@@ -54,7 +54,7 @@ isc.JGTimer.addMethods({
         // 定义一个变量，存储实例化对象
         var cons = this;
         if (cons.Interval > 0) { // 间隔为0,不和逻辑..屏蔽这个情况
-            var i = 1;
+            this._currentCount = 1;
             this._myInterval = setInterval(
                 (function () {
                     return (
@@ -63,11 +63,11 @@ isc.JGTimer.addMethods({
                             // 执行定时器事件
                             cons._callEvent(cons, 'TimerEvent');
                             //0表式无限执行
-                            if (cons.RunTimes != 0 && i == cons.RunTimes) {
+                            if (cons.RunTimes != 0 && cons._currentCount == cons.RunTimes) {
                                 //clearInterval(cons._myInterval);
                                 cons.stopTimer();
                             }
-                            i++;
+                            cons._currentCount++;
                         }
                     )
                 })(), this.Interval * 1000);

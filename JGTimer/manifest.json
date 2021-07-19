@@ -18,6 +18,11 @@
                 "editor": {
                     "type": "height"
                 }
+            },{
+                "code": "MultiHeight",
+                "name": "高度",
+                "type": "char",
+                "default":""
             }, {
                 "code": "RunTimes",
                 "name": "执行次数",
@@ -53,6 +58,11 @@
                 "editor": {
                     "type": "width"
                 }
+            }, {
+                "code": "MultiWidth",
+                "name": "宽度",
+                "type": "char",
+                "default": ""
             }, {
                 "code": "Interval",
                 "name": "事件间隔(秒)",

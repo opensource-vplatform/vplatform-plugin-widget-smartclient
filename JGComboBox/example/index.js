@@ -1,0 +1,1 @@
+[{"name":"JGComboBox","key":"class:JGComboBox","example":"var ds = isc.V3Datasource.create({\r\tfields:[{\r\t\tid : \"\"\r\t}]\r});\risc.JGComboBox.create({\r\tTableName: ds,\r\tautoDraw: true\r});"}]

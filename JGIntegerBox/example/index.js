@@ -1,0 +1,1 @@
+[{"name":"JGIntegerBox","key":"class:JGIntegerBox","example":"isc.JGIntegerBox.create({\r\tautoDraw: true\r});"}]

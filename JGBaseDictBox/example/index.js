@@ -1,0 +1,1 @@
+[{"name":"JGBaseDictBox","key":"class:JGBaseDictBox","example":"isc.JGBaseDictBox.create({\r\tautoDraw: true\r});"}]

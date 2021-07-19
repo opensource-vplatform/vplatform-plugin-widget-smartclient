@@ -5,7 +5,7 @@
  * @extends JGFormWidget
  */
 isc.ClassFactory.defineClass("JGBaseFormWidget", "JGFormWidget");
-isc.ClassFactory.mixInInterface("JGBaseWidget", "IRecordObserver");
+isc.ClassFactory.mixInInterface("JGBaseFormWidget", "IRecordObserver");
 
 isc.JGBaseFormWidget.addProperties({
     //锚定布局
@@ -42,7 +42,12 @@ isc.JGBaseFormWidget.addProperties({
     requiredTitleSuffix: '</div>',
     className: "JGBaseFormWidget",
     positionStyleName: "absoluteFormLayout",
-    requiredStyleName: "absoluteRequiredForm"
+    requiredStyleName: "absoluteRequiredForm",
+    VerticalAlign:"Top",
+    HorizontalAlign:"Left",
+    _v3ExpHandler: function(exp){
+        return exp;
+    }
 });
 
 isc.JGBaseFormWidget.addMethods({
@@ -182,7 +187,17 @@ isc.JGBaseFormWidget.addMethods({
     },
 
     _afterInit : function(){
-
+        if(isc.V3Datasource.isA(this.TableName)){//新二开规范控件
+            if(this.TableName&&this.TableName.addObserver){
+                this.TableName.addObserver(this);
+            }
+            if(this.bindDataSource){
+                this.bindDataSource(this.TableName);
+            }
+            this.ColumnName = this.ColumnName ? this.ColumnName:"ColumnName";
+            this.onLoadListener(this.OnValueLoaded);
+            this.onChangedListener(this.OnValueChanged);
+        }
     },
     /**
      * 显示验证错误信息
@@ -345,19 +360,9 @@ isc.JGBaseFormWidget.addMethods({
      * @returns {Boolean} 使能状态
      */
     getEnabled: function () {
-        return this.Enabled;
+        return this.isEnabled();
     },
 
-    /**
-     * 获取控件显示状态
-     * @memberof JGBaseFormWidget
-     * @method
-     * @instance
-     * @returns {Boolean} 显示状态
-     */
-    getVisible: function () {
-        return this.Visible;
-    },
     toFontStyle: function (fontStyle, type) {
         if (fontStyle.toString() == "")
             return "";
@@ -1192,6 +1197,72 @@ isc.JGBaseFormWidget.addMethods({
         }  
     },
 
+    clearWidgetBindDatas: function(cleanSeleted){
+        var datasource = this.TableName;
+        if(datasource){
+            var fields = this.getBindFields();
+            var records = cleanSeleted ? datasource.getSelectedRecords():datasource.getAllRecords();
+            var updatedRecords = [];
+            if(fields&&fields.length>0&&records&&records.length>0){
+                for(var i=0,l=records.length;i<l;i++){
+                    var record = records[i];
+                    var data = {
+                        id : record.id
+                    };
+                    for(var j=0,len=fields.length;j<len;j++){
+                        data[fields[j]] = null;
+                    }
+                    updatedRecords.push(data);
+                }
+            }
+            if(updatedRecords.length>0){
+                datasource.updateRecords(updatedRecords);
+            }
+        }
+    },
+
+    getDefaultValue: function() {
+        return this.DefaultValue;
+    },
+
+    getV3Value: function() {
+        var value = this.getWidgetData()
+        if (undefined == value || null == value) {
+            return "";
+        }
+        return value;
+    },
+
+    /**
+     * 获取控件显示状态
+     * @memberof JGBaseFormWidget
+     * @method
+     * @instance
+     * @returns {Boolean} 显示状态
+     */
+    getVisible: function() {
+        return this.isVisible();
+    },
+
+    getReadOnly: function() {
+        return this.isReadOnly();
+    },
+
+    setLabelText: function(title) {
+        this.setSimpleChineseTitle(title);
+    },
+
+    getLabelText: function() {
+        return this.getSimpleChineseTitle();
+    },
+
+    cleanSelectedControlValue: function (cleanSelected) {
+		this.clearWidgetBindDatas(cleanSelected);
+	},
+
+    setV3Focus: function() {
+        this.setControlFocus();
+    },
     /**
      * 获取v平台方法映射
      * @memberof JGBaseFormWidget
@@ -1200,9 +1271,11 @@ isc.JGBaseFormWidget.addMethods({
      * @description 平台控件属性设置规则会调用到控件实例方法，如设置控件属性值会调用控件setValue方法，当控件原生已提供setValue方法且控件属性设置需求冲突时，可通过此接口中转到另一个方法
      * @returns {Object}
      */
-    getV3MethodMap : function(){
+     getV3MethodMap : function(){
         return {
-            setValue : "setV3Value"
+            setValue : "setV3Value",
+            getValue : "getV3Value",
+            setFocus : "setV3Focus"
         }
-    }
+    },
 });

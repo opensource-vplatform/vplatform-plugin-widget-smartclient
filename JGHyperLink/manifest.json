@@ -333,7 +333,8 @@
             "type":"char",
             "desc":"鼠标悬停在控件上时显示的提示信息",
 		    "editor":{
-			    "type":"expression"
+			    "type":"expression",
+                "handleProp":"_v3ExpHandler"
 		    }
         }],
         "dependencies":[{

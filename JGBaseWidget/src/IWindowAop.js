@@ -36,7 +36,7 @@ isc.IWindowAop.addInterfaceMethods({
    * @method
    * @instance
    */
-  deforeDataLoad: function () {
+  beforeDataLoad: function () {
 
   }
 

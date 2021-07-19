@@ -219,7 +219,8 @@
                 "type": "function",
                 "desc": "单击控件时触发",
                 "editor": {
-                    "type": "ruleset"
+                    "type": "ruleset",
+                    "concurrent": false
                 }
             },
             {

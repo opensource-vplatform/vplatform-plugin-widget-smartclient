@@ -1,0 +1,1 @@
+[{"name":"JGFloatBox","key":"class:JGFloatBox","example":"isc.JGFloatBox.create({\r autoDraw : true\r});"}]

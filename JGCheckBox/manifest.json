@@ -1,0 +1,224 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGCheckBox",
+    "version": "3.11.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGCheckBox",
+        "name": "V平台布尔控件",
+        "icon": "./JGCheckBox.png",
+        "desc": "",
+        "defineUrl": "./dist/index.js",
+        "docUrl": "./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "properties": [{
+            "code": "DefaultValue",
+            "name": "默认值",
+            "type": "char"
+        }, {
+            "code": "LabelBackColor",
+            "name": "标签背景色",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "color"
+            }
+        }, {
+            "code": "Code",
+            "name": "控件编号",
+            "type": "char",
+            "required": true,
+            "editor": {
+                "type": "code",
+                "prefix": "JGCheckBox"
+            }
+        }, {
+            "code": "Top",
+            "name": "上边距",
+            "type": "integer",
+            "required": true,
+            "editor": {
+                "type": "top"
+            }
+        }, {
+            "code": "Enabled",
+            "name": "使能",
+            "type": "boolean",
+            "default": true,
+            "editor": {
+                "type": "boolean"
+            }
+        }, {
+            "code": "Height",
+            "name": "高度",
+            "type": "integer",
+            "default": 26,
+            "editor": {
+                "type": "height"
+            }
+        }, {
+            "code": "ReadOnly",
+            "name": "只读",
+            "type": "boolean",
+            "default": false,
+            "editor": {
+                "type": "boolean"
+            }
+        },{
+            "code": "TabIndex",
+            "name": "界面顺序号",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            }
+        }, {
+            "code": "LabelTextAlign",
+            "name": "标签对齐方式",
+            "type": "char",
+            "default": "left",
+            "compatible": {
+                "enhanceType": "alignment"
+            }
+        }, {
+            "code": "Visible",
+            "name": "显示",
+            "type": "boolean",
+            "default": true,
+            "editor": {
+                "type": "boolean"
+            }
+        }, {
+            "code": "Dock",
+            "name": "泊靠",
+            "type": "char"
+        }, {
+            "code": "LabelVisible",
+            "name": "显示标题",
+            "type": "boolean",
+            "default": true,
+            "editor": {
+                "type": "boolean"
+            }
+        }, {
+            "code": "ValueBackColor",
+            "name": "值背景色",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "color"
+            }
+        }, {
+            "code": "LabelWidth",
+            "name": "标签宽度",
+            "type": "integer",
+            "default": 94,
+            "editor": {
+                "type": "integer"
+            }
+        }, {
+            "code": "Width",
+            "name": "宽度",
+            "type": "integer",
+            "default": 235,
+            "editor": {
+                "type": "width"
+            }
+        }, {
+            "code": "LabelForeColor",
+            "name": "标签前景色",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "color"
+            }
+        }, {
+            "code": "LabelFontStyle",
+            "name": "标签字体",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "font"
+            }
+        }, {
+            "code": "IsMust",
+            "name": "必填",
+            "type": "boolean",
+            "default": false,
+            "editor": {
+                "type": "boolean"
+            }
+        }, {
+            "code": "Left",
+            "name": "左边距",
+            "type": "integer",
+            "editor": {
+                "type": "left"
+            }
+        }, {
+            "code": "LabelText",
+            "name": "标题",
+            "type": "char",
+            "default": "布尔",
+            "compatible": {
+                "enhanceType": "language"
+            }
+        }, {
+            "code": "ToolTip",
+            "name": "浮动提示",
+            "type": "char",
+            "editor":{
+                "type":"expression",
+                "handleProp":"_v3ExpHandler"
+            },
+            "compatible": {
+                "enhanceType": "expLanguage"
+            }
+        }, {
+            "code": "OnLabelClick",
+            "name": "单击标题",
+            "type": "char",
+            "editor": {
+                "type": "ruleset"
+            }
+        }, {
+            "code": "OnValueChanged",
+            "name": "值改变事件",
+            "type": "char",
+            "editor": {
+                "type": "ruleset"
+            }
+        }, {
+            "code": "OnValueLoaded",
+            "name": "值加载事件",
+            "type": "char",
+            "editor": {
+                "type": "ruleset"
+            }
+        }, {
+            "code": "TableName",
+            "name": "表名",
+            "type": "char",
+            "editor":{
+                "type":"entity"
+            },
+            "compatible": {
+                "enhanceType": "tableName"
+            }
+        }, {
+            "code": "ColumnName",
+            "name": "字段名称",
+            "type": "char",
+            "editor":{
+                "type":"field",
+                "entityProp":"TableName"
+            },
+            "compatible": {
+                "enhanceType": "columnName",
+                "valueType":"boolean"
+            }
+        }],
+        "dependencies": [{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+            "pluginCode": "JGBaseFormWidget",
+            "pluginType": "widget"
+        }]
+    }]
+}

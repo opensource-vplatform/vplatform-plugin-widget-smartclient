@@ -1,0 +1,1 @@
+[{"name":"JGCheckBoxGroup","key":"class:JGCheckBoxGroup","example":"isc.JGCheckBoxGroup.create({\r\tautoDraw: true\r});"}]

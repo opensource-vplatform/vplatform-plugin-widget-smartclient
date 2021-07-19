@@ -1,0 +1,1 @@
+[{"name":"JGLongTextBox","key":"class:JGLongTextBox","example":"isc.JGLongTextBox.create({\r autoDraw : true\r});"}]

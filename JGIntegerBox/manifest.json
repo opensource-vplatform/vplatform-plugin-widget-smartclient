@@ -1,0 +1,324 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGIntegerBox",
+    "version": "3.9.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGIntegerBox",
+        "name": "整数控件",
+        "icon": "./JGIntegerBox.png",
+        "desc": "",
+        "defineUrl": "./dist/index.js",
+        "docUrl": "./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "properties": [{
+            "code": "ValueBackColor",
+            "name": "值背景色",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "color"
+            },
+            "default": ""
+        }, {
+            "code": "Left",
+            "name": "左边距",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 0
+        }, {
+            "code": "LabelTextAlign",
+            "name": "标签对齐方式",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "alignment"
+            },
+            "default": "left"
+        }, {
+            "code": "TabIndex",
+            "name": "界面顺序号",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 17
+        }, {
+            "code": "ReadOnly",
+            "name": "只读",
+            "type": "boolean",
+            "editor": {
+                "type": "boolean"
+            },
+            "default": false
+        }, {
+            "code": "Code",
+            "name": "控件名称",
+            "type": "char",
+            "default": "JGIntegerBox1"
+        }, {
+            "code": "ValueFontStyle",
+            "name": "值字体",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "font"
+            }
+        }, {
+            "code": "Height",
+            "name": "高度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 26
+        }, {
+            "code": "DisplayFormat",
+            "name": "显示格式",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "displayFormat"
+            },
+            "default": {
+                "numType": "0",
+                "displayFormat": "",
+                "Index": "0"
+            }
+        }, {
+            "code": "Visible",
+            "name": "显示",
+            "type": "boolean",
+            "editor": {
+                "type": "boolean"
+            },
+            "default": true
+        }, {
+            "code": "PercentHeight",
+            "name": "百分比高度",
+            "type": "char",
+            "default": "1.6%"
+        }, {
+            "code": "Top",
+            "name": "上边距",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 0
+        }, {
+            "code": "Enabled",
+            "name": "使能",
+            "type": "boolean",
+            "editor": {
+                "type": "boolean"
+            },
+            "default": true
+        }, {
+            "code": "LabelBackColor",
+            "name": "标签背景色",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "color"
+            },
+            "default": ""
+        }, {
+            "code": "LabelVisible",
+            "name": "显示标签",
+            "type": "boolean",
+            "editor": {
+                "type": "boolean"
+            },
+            "default": true
+        }, {
+            "code": "IsMust",
+            "name": "必填",
+            "type": "boolean",
+            "editor": {
+                "type": "boolean"
+            },
+            "default": false
+        }, {
+            "code": "PercentWidth",
+            "name": "百分比宽度",
+            "type": "char",
+            "default": "12.6%"
+        }, {
+            "code": "Width",
+            "name": "宽度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 235
+        }, {
+            "code": "LabelWidth",
+            "name": "标签宽度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 94
+        }, {
+            "code": "LabelForeColor",
+            "name": "标签前景色",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "color"
+            },
+            "default": ""
+        }, {
+            "code": "ValueTextAlign",
+            "name": "值对齐方式",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "alignment"
+            },
+            "default": "left"
+        }, {
+            "code": "LabelFontStyle",
+            "name": "标签字体",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "font"
+            }
+        }, {
+            "code": "MaxLength",
+            "name": "最大位数",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 11
+        }, {
+            "code": "ValueForeColor",
+            "name": "值前景色",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "color"
+            },
+            "default": ""
+        }, {
+            "code": "Dock",
+            "name": "泊靠",
+            "type": "char",
+            "default": "None"
+        }, {
+            "code": "DefaultValue",
+            "name": "默认值",
+            "type": "char",
+            "default": ""
+        }, {
+            "code": "LabelText",
+            "name": "标题",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "language"
+            }
+        }, {
+            "code": "Placeholder",
+            "name": "提醒文字",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "language",
+                "target": "Placeholder"
+            },
+            "default": ""
+        }, {
+            "code": "ToolTip",
+            "name": "浮动提示",
+            "type": "char",
+            "editor": {
+                "type": "expression",
+                "handleProp": "_v3ExpHandler"
+            },
+            "compatible": {
+                "enhanceType": "expLanguage"
+            },
+            "default": ""
+        }, {
+            "code": "OnLabelClick",
+            "name": "单击标题",
+            "type": "char",
+            "editor": {
+                "type": "ruleset"
+            },
+            "default": ""
+        }, {
+            "code": "OnValueChanged",
+            "name": "值改变事件",
+            "type": "char",
+            "editor": {
+                "type": "ruleset"
+            },
+            "default": ""
+        }, {
+            "code": "OnEnter",
+            "name": "获取焦点",
+            "type": "char",
+            "editor": {
+                "type": "ruleset"
+            },
+            "default": ""
+        }, {
+            "code": "OnValueLoaded",
+            "name": "值加载事件",
+            "type": "char",
+            "editor": {
+                "type": "ruleset"
+            },
+            "default": ""
+        }, {
+            "code": "OnLeave",
+            "name": "焦点移开",
+            "type": "char",
+            "editor": {
+                "type": "ruleset"
+            },
+            "default": ""
+        }, {
+            "code": "OnKeyDown",
+            "name": "键盘按下",
+            "type": "char",
+            "editor": {
+                "type": "ruleset"
+            },
+            "default": ""
+        }, {
+            "code": "TableName",
+            "name": "表名",
+            "type": "char",
+            "editor": {
+                "type": "entity"
+            },
+            "compatible": {
+                "enhanceType": "tableName"
+            },
+            "default": ""
+        }, {
+            "code": "ColumnName",
+            "name": "字段名称",
+            "type": "char",
+            "editor": {
+                "type": "field",
+                "entityProp": "TableName"
+            },
+            "compatible": {
+                "enhanceType": "columnName",
+                "valueType": "integer"
+            },
+            "default": "ColumnName"
+        }],
+        "dependencies": [{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+            "pluginCode": "JGBaseFormWidget",
+            "pluginType": "widget"
+        },{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGFormatHelper",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGFormatHelper",
+            "pluginCode": "JGFormatHelper",
+            "pluginType": "widget"
+        }]
+    }]
+}

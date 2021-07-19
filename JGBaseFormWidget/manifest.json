@@ -18,6 +18,12 @@
             "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGFormWidget",
             "pluginCode":"JGFormWidget",
             "pluginType":"widget"
+        },{
+            "groupId":"com.toone.v3.platform",
+            "code":"vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+            "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+            "pluginCode":"JGBaseWidget",
+            "pluginType":"widget"
         }]
     }]
 }

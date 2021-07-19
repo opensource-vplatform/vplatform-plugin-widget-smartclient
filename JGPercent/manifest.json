@@ -1,0 +1,147 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGPercent",
+    "version": "3.6.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGPercent",
+        "name": "百分比控件",
+        "icon": "./JGPercent.png",
+        "desc": "",
+        "defineUrl": "./dist/index.js",
+        "docUrl": "./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "properties": [{
+            "code": "Code",
+            "name": "控件名称",
+            "type": "char",
+            "default": "JGPercent1",
+            "editor":{
+                "type": "code",
+                "prefix": "JGPercent"
+            }
+        }, {
+            "code": "Visible",
+            "name": "显示",
+            "type": "boolean",
+            "editor": {
+                "type": "boolean"
+            },
+            "default": true
+        }, {
+            "code": "ValueFontStyle",
+            "name": "字体",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "font"
+            }
+        }, {
+            "code": "FontColor",
+            "name": "字体颜色",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "color"
+            },
+            "default": ""
+        }, {
+            "code": "Top",
+            "name": "上边距",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 0
+        }, {
+            "code": "PercentWidth",
+            "name": "百分比宽度",
+            "type": "char",
+            "default": "10.7%"
+        }, {
+            "code": "Left",
+            "name": "左边距",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 0
+        }, {
+            "code": "FrontColor",
+            "name": "比例颜色",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "color"
+            },
+            "default": "red-line"
+        }, {
+            "code": "Height",
+            "name": "高度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 22
+        }, {
+            "code": "Width",
+            "name": "宽度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 200
+        }, {
+            "code": "PercentHeight",
+            "name": "百分比高度",
+            "type": "char",
+            "default": "1.3%"
+        }, {
+            "code": "Dock",
+            "name": "泊靠",
+            "type": "char",
+            "default": "None"
+        }, {
+            "code": "OnClick",
+            "name": "单击事件",
+            "type": "char",
+            "editor": {
+                "type": "ruleset"
+            },
+            "default": ""
+        }, {
+            "code": "TableName",
+            "name": "表名",
+            "type": "char",
+            "editor": {
+                "type": "entity"
+            },
+            "compatible": {
+                "enhanceType": "tableName"
+            },
+            "default": ""
+        }, {
+            "code": "ColumnName",
+            "name": "字段名称",
+            "type": "char",
+            "editor": {
+                "type": "field",
+                "entityProp": "TableName"
+            },
+            "compatible": {
+                "enhanceType": "columnName"
+            },
+            "default": "ColumnName"
+        }],
+        "dependencies": [{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+            "pluginCode": "JGBaseWidget",
+            "pluginType": "widget"
+        },{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+            "pluginCode": "JGStyleHelper",
+            "pluginType": "widget"
+        }]
+    }]
+}

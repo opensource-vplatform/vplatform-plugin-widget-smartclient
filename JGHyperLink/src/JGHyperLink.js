@@ -88,24 +88,7 @@ isc.JGHyperLink.addProperties({
 
 
 isc.JGHyperLink.addMethods({
-    _afterInit : function(){
-        this.ColumnName = this.ColumnName ? this.ColumnName:"ColumnName"
-        var typeOf = typeof(this.TableName);
-        if(this.TableName==null||typeOf=="undefined"||typeOf=="string"){
-            this.TableName = isc.V3Datasource.create({
-                fields:[{
-                    type : "text",
-                    name : this.ColumnName
-                }]
-            });
-        }
-        if(this.TableName){
-            this.bindDataSource(this.TableName);
-            this.TableName.addObserver(this);
-        }
-        this.onLoadListener(this.OnValueLoaded);
-        this.onChangedListener(this.OnValueChanged);
-    },
+    
     _initProperties: function (properties) {
         this.TitleWidth = this.LabelWidth;
         this.TitleVisible = this.LabelVisible;

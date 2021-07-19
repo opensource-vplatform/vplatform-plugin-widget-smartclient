@@ -1,0 +1,1 @@
+[{"name":"JGRadioGroup","key":"class:JGRadioGroup","example":"isc.JGRadioGroup.create({\r\tautoDraw: true\r});"}]
