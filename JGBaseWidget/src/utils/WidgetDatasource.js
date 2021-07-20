@@ -5,7 +5,13 @@
 isc.ClassFactory.defineClass("WidgetDatasource");
 isc.WidgetDatasource.addClassMethods({
 
-    _getDatasource: function(widget,datasource){
+    /**
+     * 获取控件绑定数据源
+     * @param {Object} widget 控件实例
+     * @param {V3Datasource=} datasource 数据源实例
+     * @returns {V3Datasource}
+     */
+    getDatasource: function(widget,datasource){
         if (undefined == datasource || null == datasource){
             datasource = widget.TableName
         }
@@ -14,7 +20,13 @@ isc.WidgetDatasource.addClassMethods({
         }
     },
 
-    _getFields: function(widget,fields){
+    /**
+     * 获取控件绑定字段
+     * @param {Object} widget 控件实例
+     * @param {Array=} fields 绑定字段
+     * @returns {Array}
+     */
+    getFields: function(widget,fields){
         if (undefined == fields || null == fields){
             if(!widget.getBindFields){
                 throw Error("控件未提供getBindFields接口，无法绑定更新回调！控件类型："+widget.getClassName());
@@ -38,9 +50,9 @@ isc.WidgetDatasource.addClassMethods({
      * @param {Function} handler 回调
      */
     addBindDatasourceCurrentRecordUpdateEventHandler: function(widget,datasource, fields, handler){
-        datasource = isc.WidgetDatasource._getDatasource(widget,datasource);
+        datasource = isc.WidgetDatasource.getDatasource(widget,datasource);
 		if(datasource){
-            fields = isc.WidgetDatasource._getFields(widget,fields);
+            fields = isc.WidgetDatasource.getFields(widget,fields);
             var observer = isc.CurrentRecordObserver.create({
                 fields : fields,
                 setValueHandler: handler
@@ -60,9 +72,9 @@ isc.WidgetDatasource.addClassMethods({
      * @param {Function} handler 回调
      */
     addBindDatasourceCurrentRecordClearEventHandler: function(widget, datasource, fields, handler){
-        datasource = isc.WidgetDatasource._getDatasource(widget,datasource);
+        datasource = isc.WidgetDatasource.getDatasource(widget,datasource);
 		if(datasource){
-            fields = isc.WidgetDatasource._getFields(widget,fields);
+            fields = isc.WidgetDatasource.getFields(widget,fields);
             var observer = isc.CurrentRecordObserver.create({
                 fields : fields,
                 clearValueHandler: handler
@@ -79,7 +91,7 @@ isc.WidgetDatasource.addClassMethods({
     clearValue: function(widget,cleanSeleted){
         var datasource = widget.TableName;
         if(datasource){
-            var fields = isc.WidgetDatasource._getFields(widget);
+            var fields = isc.WidgetDatasource.getFields(widget);
             var records = cleanSeleted ? datasource.getSelectedRecords():datasource.getAllRecords();
             var updatedRecords = [];
             if(fields&&fields.length>0&&records&&records.length>0){
@@ -106,8 +118,8 @@ isc.WidgetDatasource.addClassMethods({
 	 * @param {String} value 控件值
 	 */
 	setSingleValue: function(widget, value) {
-		var datasource = isc.WidgetDatasource._getDatasource(widget);
-		var fields = isc.WidgetDatasource._getFields(widget);
+		var datasource = isc.WidgetDatasource.getDatasource(widget);
+		var fields = isc.WidgetDatasource.getFields(widget);
 		if (fields.length > 1)
 			throw new Error("接口调用错误，控件【" + widget.getClassName() + "】绑定了多个字段！");
 		var field = fields[0];

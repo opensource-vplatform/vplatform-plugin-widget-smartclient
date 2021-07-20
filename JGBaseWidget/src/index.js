@@ -7,3 +7,4 @@ import "./observer/CurrentRecordObserver";
 import "./observer/IDatasourceObserver";
 import "./utils/WidgetDatasource";
 import "./utils/DataBindingUtil";
+import "./utils/DatasourceUtil";
