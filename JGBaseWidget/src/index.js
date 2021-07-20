@@ -1,5 +1,9 @@
 import "./IV3BaseWidget";
 import "./IV3RectAdapter";
 import "./IWindowAop";
-import "./IRecordObserver";
 import "./JGBaseWidget";
+import "./observer/IRecordObserver";
+import "./observer/CurrentRecordObserver";
+import "./observer/IDatasourceObserver";
+import "./utils/WidgetDatasource";
+import "./utils/DataBindingUtil";

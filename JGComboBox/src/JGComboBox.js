@@ -449,5 +449,11 @@ isc.JGComboBox.addMethods({
 		if (data){
 			this.setWidgetData(data);
 		}
-    }
+    },
+
+	getV3MethodMap: function(){
+		var ret = this.Super("getV3MethodMap",arguments)||{};
+		ret.setEnabled = "setItemEnabled";
+		return ret;
+	}
 });

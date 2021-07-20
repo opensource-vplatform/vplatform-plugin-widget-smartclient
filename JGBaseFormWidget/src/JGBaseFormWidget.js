@@ -199,6 +199,7 @@ isc.JGBaseFormWidget.addMethods({
             this.onChangedListener(this.OnValueChanged);
         }
     },
+    
     /**
      * 显示验证错误信息
      * @memberof JGBaseFormWidget
