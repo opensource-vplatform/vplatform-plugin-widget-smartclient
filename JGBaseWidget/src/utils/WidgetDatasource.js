@@ -45,8 +45,8 @@ isc.WidgetDatasource.addClassMethods({
      * @method
      * @instance
      * @param {Object} widget 控件实例
-     * @param {V3Datasource} datasource 数据源实例
-     * @param {Array} fields 绑定字段
+     * @param {V3Datasource=} datasource 数据源实例
+     * @param {Array=} fields 绑定字段
      * @param {Function} handler 回调
      */
     addBindDatasourceCurrentRecordUpdateEventHandler: function(widget,datasource, fields, handler){
@@ -67,8 +67,8 @@ isc.WidgetDatasource.addClassMethods({
      * @method
      * @instance
      * @param {Object} widget 控件实例
-     * @param {V3Datasource} datasource 数据源实例
-     * @param {Array} fields 绑定字段
+     * @param {V3Datasource=} datasource 数据源实例
+     * @param {Array=} fields 绑定字段
      * @param {Function} handler 回调
      */
     addBindDatasourceCurrentRecordClearEventHandler: function(widget, datasource, fields, handler){
@@ -132,6 +132,33 @@ isc.WidgetDatasource.addClassMethods({
         record[field] = value;
         datasource.updateRecords([ record ]);
 	},
+
+    /**
+	 * 获取单值控件的值
+	 * 
+	 * @param {Object} widget 控件实例
+	 * @return {String} 控件值
+	 */
+    getSingleValue: function(widget){
+        var datasource = isc.WidgetDatasource.getDatasource(widget);
+		var fields = isc.WidgetDatasource.getFields(widget);
+		var value = null;
+		if (datasource == null || fields.length < 1) {
+            var methodName = "getValue";
+            if(widget.getV3MethodMap){
+                var map = widget.getV3MethodMap();
+                methodName = map[methodName] ? map[methodName]:methodName;
+            }
+			value = widget[methodName]();
+		} else {
+			var currentRecord = datasource.getCurrentRecord();
+			if (currentRecord) {
+				var field = fields[0];
+				value = currentRecord[field];
+			}
+		}
+		return value;
+    },
 
     /**
 	 * 获取单值控件的默认值
