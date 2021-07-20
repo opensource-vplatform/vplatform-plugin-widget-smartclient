@@ -69,5 +69,75 @@ isc.WidgetDatasource.addClassMethods({
             });
             datasource.addObserver(observer);
         }
+    },
+
+    /**
+     * 清空数据源字段值
+     * @param {Object} widget 控件实例
+     * @param {Boolean} cleanSeleted 是否只清空选中记录
+     */
+    clearValue: function(widget,cleanSeleted){
+        var datasource = widget.TableName;
+        if(datasource){
+            var fields = isc.WidgetDatasource._getFields(widget);
+            var records = cleanSeleted ? datasource.getSelectedRecords():datasource.getAllRecords();
+            var updatedRecords = [];
+            if(fields&&fields.length>0&&records&&records.length>0){
+                for(var i=0,l=records.length;i<l;i++){
+                    var record = records[i];
+                    var data = {
+                        id : record.id
+                    };
+                    for(var j=0,len=fields.length;j<len;j++){
+                        data[fields[j]] = null;
+                    }
+                    updatedRecords.push(data);
+                }
+            }
+            if(updatedRecords.length>0){
+                datasource.updateRecords(updatedRecords);
+            }
+        }
+    },
+
+    /**
+	 * 设置单值控件的值
+	 * @param {Object} widget 控件实例
+	 * @param {String} value 控件值
+	 */
+	setSingleValue: function(widget, value) {
+		var datasource = isc.WidgetDatasource._getDatasource(widget);
+		var fields = isc.WidgetDatasource._getFields(widget);
+		if (fields.length > 1)
+			throw new Error("接口调用错误，控件【" + widget.getClassName() + "】绑定了多个字段！");
+		var field = fields[0];
+        var record = datasource.getCurrentRecord();
+        if (!record) {
+            record = datasource.createRecord();
+            datasource.insertRecords([ record ]);
+            record = datasource.getRecordById(record.id);
+        }
+        record[field] = value;
+        datasource.updateRecords([ record ]);
+	},
+
+    /**
+	 * 获取单值控件的默认值
+	 * 
+	 * @param {Object} widget 控件实例
+	 */
+    getSingleColumnWidgetDefaultValue: function(widget){
+        var defaultValueScript = widget.DefaultValue;
+		if (defaultValueScript) {
+			return defaultValueScript;
+		}
+		if (undefined == defaultValueScript || null == defaultValueScript) {
+			return "";
+		} else {
+			var columnName = widget.ColumnName;
+			var reMap = {};
+			reMap[columnName] = defaultValueScript
+			return reMap;
+		}
     }
 });
