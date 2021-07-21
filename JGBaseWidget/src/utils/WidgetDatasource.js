@@ -156,7 +156,7 @@ isc.WidgetDatasource.addClassMethods({
      * @param {V3Datasource} datasource 数据源实例
      * @param {Function} handler 事件回调
      */
-	addBindDatasourceFetchEventHandler = function(widget, datasource, handler) {
+	addBindDatasourceFetchEventHandler: function(widget, datasource, handler) {
         isc.WidgetDatasource._addDatasourceEventHandler(widget,datasource,"fetchHandler",handler);
 	},
     
@@ -169,7 +169,7 @@ isc.WidgetDatasource.addClassMethods({
      * @param {V3Datasource} datasource 数据源实例
      * @param {Function} handler 事件回调
      */
-	addBindDatasourceFetchedEventHandler = function(widget, datasource, handler) {
+	addBindDatasourceFetchedEventHandler: function(widget, datasource, handler) {
 		isc.WidgetDatasource._addDatasourceEventHandler(widget,datasource,"fetchedHandler",handler);
 	},
 
@@ -182,7 +182,7 @@ isc.WidgetDatasource.addClassMethods({
      * @param {V3Datasource} datasource 数据源实例
      * @param {Function} handler 事件回调
      */
-    addBindDatasourceInsertEventHandler = function(widget, datasource, handler) {
+    addBindDatasourceInsertEventHandler: function(widget, datasource, handler) {
 		isc.WidgetDatasource._addDatasourceEventHandler(widget,datasource,"insertHandler",handler);
 	},
 
