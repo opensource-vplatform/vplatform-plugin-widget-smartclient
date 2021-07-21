@@ -1,11 +1,9 @@
 /**
  * 表单类控件基类
  * @class JGBaseFormWidget
- * @mixes IRecordObserver
  * @extends JGFormWidget
  */
 isc.ClassFactory.defineClass("JGBaseFormWidget", "JGFormWidget");
-isc.ClassFactory.mixInInterface("JGBaseFormWidget", "IRecordObserver");
 
 isc.JGBaseFormWidget.addProperties({
     //锚定布局
@@ -188,18 +186,13 @@ isc.JGBaseFormWidget.addMethods({
 
     _afterInit : function(){
         if(isc.V3Datasource.isA(this.TableName)){//新二开规范控件
-            if(this.TableName&&this.TableName.addObserver){
-                this.TableName.addObserver(this);
-            }
             if(this.bindDataSource){
                 this.bindDataSource(this.TableName);
             }
             this.ColumnName = this.ColumnName ? this.ColumnName:"ColumnName";
-            this.onLoadListener(this.OnValueLoaded);
-            this.onChangedListener(this.OnValueChanged);
         }
     },
-    
+
     /**
      * 显示验证错误信息
      * @memberof JGBaseFormWidget
@@ -1114,125 +1107,22 @@ isc.JGBaseFormWidget.addMethods({
             parentElement = parentElement.parentElement;
         }
     },
-    _getVM : function() {
-        var ds = this.TableName;
-        var id = isc.JGV3ValuesManager.genId(ds.ID, this.scopeId, this.code);
-        return isc.JGV3ValuesManager.getById(id, ds);
-    },
-    getBindFields : function(){
-        return [this.ColumnName];
-    },
-    _filterData : function(fields, record) {
-        var rs = {};
-        if(record){
-            for (var i = 0, l = fields.length; i < l; i++) {
-                var field = fields[i];
-                rs[field] = record[field];
-            }
-            rs.id = record.id;
-        }
-        return rs
-    },
-    setWidgetData : function(val,record){
-        var vm = this._getVM();
-        var fields = this.getBindFields();
-        if(vm.setFieldCodes){
-            vm.setFieldCodes([].concat(fields));
-        }
-        var oldValues = vm.getValues();
-        var newValues = {};
-        if (oldValues)
-            Object.assign(newValues, oldValues);
-        for (var key in newValues){
-            if (newValues.hasOwnProperty(key) && (key != "id" && fields.indexOf(key) == -1)){
-                delete newValues[key];
-            }
-        }
-        var recordData = this._filterData(fields, record);
-        for (var key in recordData){
-            if (recordData.hasOwnProperty(key)){
-                newValues[key] = recordData[key];
-            }
-        }
-        vm.editRecord(newValues);
-    },
-    clearWidgetData : function(){
-        var vm = this._getVM();
-        vm.clearValues();
-    },
-    getWidgetData : function(){
-        var vm = this._getVM();
-        var values = vm.getValues();
-        var fields = this.getBindFields();
-        if(fields.length==1){
-            return values[fields[0]];
-        }else{
-            var result = {};
-            for(var i=0,l=fields.length;i<l;i++){
-                var field = fields[i];
-                result[field] = values[field];
-            }
-            return result;
-        }
-    },
-    setV3Value : function(val){
-        var ds = this.TableName;
-        if(ds){
-            var fields = this.getBindFields();
-            var current = ds.getCurrentRecord();
-            var changed = {};
-            if(!current){
-                current = ds.createRecord();
-                ds.insertRecords([current]);
-            }
-            changed.id = current.id;
-            if(fields.length==1){
-                changed[fields[0]] = val;
-            }else if(fields.length>1){
-                for(var i=0,l=fields.length;i<l;i++){
-                    var field = fields[i];
-                    changed[field] = val[field];
-                }
-            }
-            ds.updateRecords([changed]); 
-        }  
-    },
-
-    clearWidgetBindDatas: function(cleanSeleted){
-        var datasource = this.TableName;
-        if(datasource){
-            var fields = this.getBindFields();
-            var records = cleanSeleted ? datasource.getSelectedRecords():datasource.getAllRecords();
-            var updatedRecords = [];
-            if(fields&&fields.length>0&&records&&records.length>0){
-                for(var i=0,l=records.length;i<l;i++){
-                    var record = records[i];
-                    var data = {
-                        id : record.id
-                    };
-                    for(var j=0,len=fields.length;j<len;j++){
-                        data[fields[j]] = null;
-                    }
-                    updatedRecords.push(data);
-                }
-            }
-            if(updatedRecords.length>0){
-                datasource.updateRecords(updatedRecords);
-            }
-        }
-    },
 
     getDefaultValue: function() {
         return this.DefaultValue;
     },
 
     getV3Value: function() {
-        var value = this.getWidgetData()
-        if (undefined == value || null == value) {
-            return "";
-        }
-        return value;
+        var value = isc.WidgetDatasource.getSingleValue(this);
+		if (undefined == value || null == value) {
+			return "";
+		}
+		return value;
     },
+
+    setV3Value: function(value) {
+		isc.WidgetDatasource.setSingleValue(this, value);
+	},
 
     /**
      * 获取控件显示状态
