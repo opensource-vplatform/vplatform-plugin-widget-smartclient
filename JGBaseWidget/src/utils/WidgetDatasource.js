@@ -25,6 +25,18 @@ isc.WidgetDatasource.addClassMethods({
     },
 
     /**
+     * 获取控件绑定数据源
+     * @memberof WidgetDatasource
+     * @method
+     * @static
+     * @param {Object} widget 控件实例
+     * @returns {V3Datasource}
+     */
+    getBindDatasource: function(widget){
+        return isc.WidgetDatasource.getDatasource(widget);
+    },
+
+    /**
      * 获取控件绑定字段
      * @memberof WidgetDatasource
      * @method
