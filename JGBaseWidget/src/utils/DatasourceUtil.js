@@ -7,6 +7,9 @@ isc.DatasourceUtil.addClassMethods({
 
     /**
      * 添加数据源当前行事件回调
+     * @memberof DatasourceUtil
+     * @method
+     * @static
      * @param {Object} widget 控件实例
      * @param {Function} handler 事件回调
      */
@@ -22,6 +25,9 @@ isc.DatasourceUtil.addClassMethods({
 
     /**
      * 添加数据源更新事件回调
+     * @memberof DatasourceUtil
+     * @method
+     * @static
      * @param {Object} widget 控件实例
      * @param {Function} handler 事件回调
      */
@@ -36,6 +42,9 @@ isc.DatasourceUtil.addClassMethods({
 
     /**
      * 添加数据源字段更新事件
+     * @memberof DatasourceUtil
+     * @method
+     * @static
      * @param {Object} widget 控件实例
      * @param {Array=} fields 控件绑定字段
      * @param {Function} handler 事件回调
@@ -69,6 +78,9 @@ isc.DatasourceUtil.addClassMethods({
 
     /**
      * 添加数据源删除事件回调
+     * @memberof DatasourceUtil
+     * @method
+     * @static
      * @param {Object} widget 控件实例
      * @param {Function} handler 事件回调
      */
@@ -83,6 +95,9 @@ isc.DatasourceUtil.addClassMethods({
 
     /**
      * 添加数据源加载事件回调
+     * @memberof DatasourceUtil
+     * @method
+     * @static
      * @param {Object} widget 控件实例
      * @param {Function} handler 事件回调
      */
@@ -97,6 +112,9 @@ isc.DatasourceUtil.addClassMethods({
 
     /**
      * 添加数据源新增事件回调
+     * @memberof DatasourceUtil
+     * @method
+     * @static
      * @param {Object} widget 控件实例
      * @param {Function} handler 事件回调
      */
@@ -107,16 +125,6 @@ isc.DatasourceUtil.addClassMethods({
         datasource.on(datasource.Events.INSERT, null, function () {
             handler.apply(datasource, arguments);
         });
-    },
-
-    /**
-     * 绑定控件回调
-     * @param {Object} widget 控件实例
-     * @param {String} eventName 事件名称
-     * @param {Function} handler 事件回调
-     */
-    bindEvent: function (widget, eventName, handler) {
-        widget.on(eventName, handler);
     }
 
 });

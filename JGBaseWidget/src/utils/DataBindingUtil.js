@@ -47,7 +47,7 @@ isc.DataBindingUtil.addClassMethods({
      * 设置控件值
      * @memberof DataBindingUtil
      * @method
-     * @instance
+     * @static
      * @param {Object} widget 控件实例
      * @param {Object} record 数据源记录
      */
@@ -83,11 +83,24 @@ isc.DataBindingUtil.addClassMethods({
      * 清空控件值
      * @memberof DataBindingUtil
      * @method
-     * @instance
+     * @static
      * @param {Object} widget 控件实例
      */
     clearWidgetValue: function(widget){
         var vm = isc.DataBindingUtil._getVM(widget);
 		vm.clearValues();
+    },
+
+    /**
+     * 绑定控件事件
+     * @memberof DataBindingUtil
+     * @method
+     * @static
+     * @param {Object} widget 控件实例
+     * @param {String} eventName 事件名称
+     * @param {Function} handler 事件回调
+     */
+    bindEvent: function (widget, eventName, handler) {
+        widget.on(eventName, handler);
     }
 });

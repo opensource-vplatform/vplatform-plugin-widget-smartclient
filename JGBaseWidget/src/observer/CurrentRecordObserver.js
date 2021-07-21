@@ -36,6 +36,9 @@ isc.CurrentRecordObserver.addMethods({
 
     /**
      * 数据源数据变化时触发
+     * @memberof CurrentRecordObserver
+     * @method
+     * @instance
      * @param {String} eventName 事件名称
      * @param {Array} args 
      */
