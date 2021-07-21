@@ -7,6 +7,9 @@ isc.WidgetDatasource.addClassMethods({
 
     /**
      * 获取控件绑定数据源
+     * @memberof WidgetDatasource
+     * @method
+     * @static
      * @param {Object} widget 控件实例
      * @param {V3Datasource=} datasource 数据源实例
      * @returns {V3Datasource}
@@ -23,6 +26,9 @@ isc.WidgetDatasource.addClassMethods({
 
     /**
      * 获取控件绑定字段
+     * @memberof WidgetDatasource
+     * @method
+     * @static
      * @param {Object} widget 控件实例
      * @param {Array=} fields 绑定字段
      * @returns {Array}
@@ -44,7 +50,7 @@ isc.WidgetDatasource.addClassMethods({
      * 添加控件值更新操作回调
      * @memberof WidgetDatasource
      * @method
-     * @instance
+     * @static
      * @param {Object} widget 控件实例
      * @param {V3Datasource=} datasource 数据源实例
      * @param {Array=} fields 绑定字段
@@ -66,7 +72,7 @@ isc.WidgetDatasource.addClassMethods({
      * 添加控件值清空操作回调
      * @memberof WidgetDatasource
      * @method
-     * @instance
+     * @static
      * @param {Object} widget 控件实例
      * @param {V3Datasource=} datasource 数据源实例
      * @param {Array=} fields 绑定字段
@@ -85,39 +91,132 @@ isc.WidgetDatasource.addClassMethods({
     },
 
     /**
+     * 添加数据源事件回调
+     * @private
+     * @param {Object} widget 控件实例
+     * @param {V3Datasource} datasource 数据源实例
+     * @param {String} eventName 回调名称
+     * @param {Function} handler 事件回调
+     */
+    _addDatasourceEventHandler: function(widget, datasource,eventName, handler){
+        datasource = isc.WidgetDatasource.getDatasource(widget,datasource);
+        if(datasource){
+            var params = {};
+            params[eventName] = handler;
+            var observer = isc.DatasourceObserver.create(params);
+            datasource.addObserver(observer);
+        }
+    },
+
+    /**
+     * 添加数据源当前行切换事件回调
+     * @memberof WidgetDatasource
+     * @method
+     * @static
+     * @param {Object} widget 控件实例
+     * @param {V3Datasource} datasource 数据源实例
+     * @param {Function} handler 事件回调
+     */
+    addBindDatasourceCurrentEventHandler: function(widget, datasource, handler) {
+		isc.WidgetDatasource._addDatasourceEventHandler(widget,datasource,"currentHandler",handler);
+	},
+
+    /**
+     * 添加数据源选中记录变更事件回调
+     * @memberof WidgetDatasource
+     * @method
+     * @static
+     * @param {Object} widget 控件实例
+     * @param {V3Datasource} datasource 数据源实例
+     * @param {Function} handler 事件回调
+     */
+	addBindDatasourceSelectEventHandler: function(widget, datasource, handler) {
+		isc.WidgetDatasource._addDatasourceEventHandler(widget,datasource,"selectHandler",handler);
+	},
+
+    /**
+     * 添加数据源加载事件回调
+     * @memberof WidgetDatasource
+     * @method
+     * @static
+     * @param {Object} widget 控件实例
+     * @param {V3Datasource} datasource 数据源实例
+     * @param {Function} handler 事件回调
+     */
+    addBindDatasourceLoadEventHandler: function(widget, datasource, handler) {
+        isc.WidgetDatasource._addDatasourceEventHandler(widget,datasource,"loadHandler",handler);
+	},
+
+    /**
+     * 添加数据源数据加载前事件回调
+     * @memberof WidgetDatasource
+     * @method
+     * @static
+     * @param {Object} widget 控件实例
+     * @param {V3Datasource} datasource 数据源实例
+     * @param {Function} handler 事件回调
+     */
+	addBindDatasourceFetchEventHandler = function(widget, datasource, handler) {
+        isc.WidgetDatasource._addDatasourceEventHandler(widget,datasource,"fetchHandler",handler);
+	},
+    
+	/**
+     * 添加数据源数据加载后事件回调
+     * @memberof WidgetDatasource
+     * @method
+     * @static
+     * @param {Object} widget 控件实例
+     * @param {V3Datasource} datasource 数据源实例
+     * @param {Function} handler 事件回调
+     */
+	addBindDatasourceFetchedEventHandler = function(widget, datasource, handler) {
+		isc.WidgetDatasource._addDatasourceEventHandler(widget,datasource,"fetchedHandler",handler);
+	},
+
+    /**
+     * 添加数据源新增事件回调
+     * @memberof WidgetDatasource
+     * @method
+     * @static
+     * @param {Object} widget 控件实例
+     * @param {V3Datasource} datasource 数据源实例
+     * @param {Function} handler 事件回调
+     */
+    addBindDatasourceInsertEventHandler = function(widget, datasource, handler) {
+		isc.WidgetDatasource._addDatasourceEventHandler(widget,datasource,"insertHandler",handler);
+	},
+
+    /**
      * 添加数据源更新事件回调
+     * @memberof WidgetDatasource
+     * @method
+     * @static
      * @param {Object} widget 控件实例
      * @param {String} datasource 数据源实例
      * @param {Function} handler 事件回调
      */
     addBindDatasourceUpdateEventHandler: function(widget, datasource, handler) {
-        datasource = isc.WidgetDatasource.getDatasource(widget,datasource);
-        if(datasource){
-            var observer = isc.DatasourceObserver.create({
-                updateHandler: handler
-            });
-            datasource.addObserver(observer);
-        }
+        isc.WidgetDatasource._addDatasourceEventHandler(widget,datasource,"updateHandler",handler);
 	},
 
     /**
      * 添加数据源删除事件回调
+     * @memberof WidgetDatasource
+     * @method
+     * @static
      * @param {Object} widget 控件实例
      * @param {String} datasource 数据源实例
      * @param {Function} handler 事件回调
      */
 	addBindDatasourceDeleteEventHandler: function(widget, datasource, handler) {
-        datasource = isc.WidgetDatasource.getDatasource(widget,datasource);
-        if(datasource){
-            var observer = isc.DatasourceObserver.create({
-                deleteHandler: handler
-            });
-            datasource.addObserver(observer);
-        }
+        isc.WidgetDatasource._addDatasourceEventHandler(widget,datasource,"deleteHandler",handler);
 	},
 
     /**
      * 清空数据源字段值
+     * @memberof WidgetDatasource
+     * @method
+     * @static
      * @param {Object} widget 控件实例
      * @param {Boolean} cleanSeleted 是否只清空选中记录
      */
@@ -147,6 +246,9 @@ isc.WidgetDatasource.addClassMethods({
 
     /**
 	 * 设置单值控件的值
+     * @memberof WidgetDatasource
+     * @method
+     * @static
 	 * @param {Object} widget 控件实例
 	 * @param {String} value 控件值
 	 */
@@ -171,6 +273,9 @@ isc.WidgetDatasource.addClassMethods({
 
     /**
      * 设置控件的多个值
+     * @memberof WidgetDatasource
+     * @method
+     * @static
      * @param {Object} widget 控件实例
      * @param {Object} record 控件值
      */
@@ -197,7 +302,9 @@ isc.WidgetDatasource.addClassMethods({
 
     /**
 	 * 获取单值控件的值
-	 * 
+	 * @memberof WidgetDatasource
+     * @method
+     * @static
 	 * @param {Object} widget 控件实例
 	 * @return {String} 控件值
 	 */
@@ -224,7 +331,9 @@ isc.WidgetDatasource.addClassMethods({
 
     /**
 	 * 获取单值控件的默认值
-	 * 
+	 * @memberof WidgetDatasource
+     * @method
+     * @static
 	 * @param {Object} widget 控件实例
 	 */
     getSingleColumnWidgetDefaultValue: function(widget){
