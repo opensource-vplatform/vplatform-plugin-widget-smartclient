@@ -18,6 +18,7 @@ isc.WidgetDatasource.addClassMethods({
 		if (undefined == datasource || null == datasource){
 			return;
         }
+        return datasource;
     },
 
     /**
@@ -33,7 +34,7 @@ isc.WidgetDatasource.addClassMethods({
             }
             fields = widget.getBindFields();
         }
-		if (Array.isArray(fields)){
+		if (!Array.isArray(fields)){
 			fields = [ fields ];
         }
         return fields;
@@ -129,9 +130,38 @@ isc.WidgetDatasource.addClassMethods({
             datasource.insertRecords([ record ]);
             record = datasource.getRecordById(record.id);
         }
+        record = {
+            id : record.id
+        }; 
         record[field] = value;
         datasource.updateRecords([ record ]);
 	},
+
+    /**
+     * 设置控件的多个值
+     * @param {Object} widget 控件实例
+     * @param {Object} record 控件值
+     */
+    setSingleRecordMultiValue: function(widget,record){
+        var datasource = isc.WidgetDatasource.getDatasource(widget);
+		var currentRecord = datasource.getCurrentRecord();
+		if (!currentRecord) {
+			currentRecord = datasource.createRecord();
+			datasource.insertRecords({
+				"records" : [ currentRecord ]
+			});
+			currentRecord = datasource.getRecordById(currentRecord.id);
+		}
+        var values = {
+            id: currentRecord.id
+        };
+		for ( var key in record) {
+            if(record.hasOwnProperty(key)){
+                values[key] = record[key];
+            }
+		}
+		datasource.updateRecords( [ values ]);
+    },
 
     /**
 	 * 获取单值控件的值
