@@ -4,6 +4,7 @@ import "./IWindowAop";
 import "./JGBaseWidget";
 import "./observer/IRecordObserver";
 import "./observer/CurrentRecordObserver";
+import "./observer/DatasourceObserver";
 import "./observer/IDatasourceObserver";
 import "./utils/WidgetDatasource";
 import "./utils/DataBindingUtil";
