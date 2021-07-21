@@ -85,6 +85,38 @@ isc.WidgetDatasource.addClassMethods({
     },
 
     /**
+     * 添加数据源更新事件回调
+     * @param {Object} widget 控件实例
+     * @param {String} datasource 数据源实例
+     * @param {Function} handler 事件回调
+     */
+    addBindDatasourceUpdateEventHandler: function(widget, datasource, handler) {
+        datasource = isc.WidgetDatasource.getDatasource(widget,datasource);
+        if(datasource){
+            var observer = isc.DatasourceObserver.create({
+                updateHandler: handler
+            });
+            datasource.addObserver(observer);
+        }
+	},
+
+    /**
+     * 添加数据源删除事件回调
+     * @param {Object} widget 控件实例
+     * @param {String} datasource 数据源实例
+     * @param {Function} handler 事件回调
+     */
+	addBindDatasourceDeleteEventHandler: function(widget, datasource, handler) {
+        datasource = isc.WidgetDatasource.getDatasource(widget,datasource);
+        if(datasource){
+            var observer = isc.DatasourceObserver.create({
+                deleteHandler: handler
+            });
+            datasource.addObserver(observer);
+        }
+	},
+
+    /**
      * 清空数据源字段值
      * @param {Object} widget 控件实例
      * @param {Boolean} cleanSeleted 是否只清空选中记录
