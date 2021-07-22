@@ -233,9 +233,8 @@ isc.MenuUtil.addClassMethods({
      * @static
      * @param {Object} widget 控件实例
      * @param {Function} expressionHandler 表达式处理器
-     * @param {Function} rulesetHandler 方法处理器
      */
-    getMenuDataByRuleSet: function(widget,expressionHandler,rulesetHandler) {
+    getMenuDataByRuleSet: function(widget,expressionHandler) {
 		var params = widget.Param && widget.Param.invokeParams;
 		var backVal = {};
 		for (var i = 0, num = params.length; i < num; i++) {
@@ -252,7 +251,7 @@ isc.MenuUtil.addClassMethods({
 			} else if (param["paramType"] == "returnEntity") {
 			}
 		}
-        if(!rulesetHandler){
+        /*if(!rulesetHandler){
             throw Error("未传入方法处理器！");
         }
         if(!widget.setDataToMenu){
@@ -265,7 +264,7 @@ isc.MenuUtil.addClassMethods({
 					widget.setDataToMenu(data[0].submenu, data[1]);
 				}
 			}
-		});
+		});*/
 	},
 
     returnEventId: function(items) {

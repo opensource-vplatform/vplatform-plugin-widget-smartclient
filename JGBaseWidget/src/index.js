@@ -10,4 +10,5 @@ import "./utils/WidgetDatasource";
 import "./utils/DataBindingUtil";
 import "./utils/DatasourceUtil";
 import "./utils/Environment";
+import "./utils/FileUtil";
 import "./utils/MenuUtil";
