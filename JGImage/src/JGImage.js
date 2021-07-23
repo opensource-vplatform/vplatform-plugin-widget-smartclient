@@ -167,7 +167,7 @@ isc.JGImage.addMethods({
                     this._imgUrl = url;
                     this._imgObj = new Image();
                     this._imgObj.onload = function () {
-                        if (_self._imgUrl === this.src) {
+                        if (_self._imgUrl === this.src && _self.img) {//兼容：页面未完全打开就被关掉Task20210603031
                             _self.fitImageSize(this.width, this.height);
                             _self.img.setSrc(url);
 
