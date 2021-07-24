@@ -38,6 +38,17 @@ isc.IWindowAop.addInterfaceMethods({
    */
   beforeDataLoad: function () {
 
+  },
+
+   /**
+   * 数据加载后切面
+   * @abstract
+   * @memberof IWindowAop
+   * @method
+   * @instance
+   */
+  afterDataLoad: function(){
+
   }
 
 });

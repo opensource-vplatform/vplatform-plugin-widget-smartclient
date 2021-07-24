@@ -81,7 +81,46 @@ isc.JGBaseDictBox.addMethods({
 			type: "V3BaseDictBoxItems",
 			isAbsoluteForm: true
 		})];
+		this._initEventAndDataBinding();
 	},
+
+	_filterData: function(fields,record){
+		var rs = {};
+		for(var i=0,l=fields.length;i<l;i++){
+			var field = fields[i];
+			if(record.hasOwnProperty(field)){
+				rs[field] = record[field];
+			}
+		}
+		rs.id = record.id;
+		return rs;
+	},
+
+	_initEventAndDataBinding: function(){
+        var _this = this;
+        isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(this, null, null, function(record) {
+			//复制已有的数据，然后再添加/修改数据，最后同步到vm，不然出现数据被清空的情况
+			var oldValues = _this.getValues();
+			var newValues = {};
+			if(oldValues){
+				Object.assign(newValues, oldValues);
+			}
+			var fields = _this.getBindFields();
+			var recordData = _this._filterData(fields,record);
+			for(var key in recordData){
+				if(recordData.hasOwnProperty(key)){
+					newValues[key] = recordData[key];
+				}
+			}
+			_this.setValues(newValues);
+		});
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(this, null, null, function() {
+			isc.DataBindingUtil.clearWidgetValue(_this);
+		});
+        isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+		isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, null, this.OnValueChanged);
+    },
+
 	/*
 	 **验证提示信息
 	 */
@@ -122,14 +161,14 @@ isc.JGBaseDictBox.addMethods({
 		var refield = this.ColumnName;
 		var record = {}
 		record[refield] = value;
-		this.setWidgetData(widgetId, record);
+		isc.WidgetDatasource.setSingleRecordMultiValue(this, record);
 	},
 
 	setIDColumnName: function (value) {
 		var refield = this.IDColumnName;
 		var record = {}
 		record[refield] = value;
-		this.setWidgetData(widgetId, record);
+		isc.WidgetDatasource.setSingleRecordMultiValue(this, record);
 	},
 
 	getIDColumnName: function () {
@@ -141,7 +180,7 @@ isc.JGBaseDictBox.addMethods({
 	},
 
 	getVal: function (columnName) {
-		var record = this.getWidgetData();
+		var record = widgetDatasource.getSingleValue(this, columnName);
 		if (record) {
 			var value = record[columnName];
 			if (undefined == value || null == value)
@@ -160,50 +199,39 @@ isc.JGBaseDictBox.addMethods({
 	},
 
 	setV3Value: function (value) {
-		var record = this.getWidgetData() || {};
+		var record = {};
 		record[this.IDColumnName] = value;
-		this.setWidgetData(record);
+		isc.WidgetDatasource.setSingleRecordMultiValue(this, record);
+	},
+
+	getDefaultValue: function() {
+		var retMap = {};
+		var retValue = null;
+		var retText = null;
+		var data = this.DropDownSource;
+		if (data) {
+			if (typeof data !== "object")
+				data = isc.JSON.decode(data);
+			var constData = data.uiData;
+			if (constData) {
+				for (var i = 0; i < constData.length; i++) {
+					var data = constData[i];
+					if (data["default"] == true) {
+						retValue = data["id"];
+						retText = data["text"];
+						break;
+					}
+				}
+			}
+			retMap[widget.IDColumnName] = retValue;
+			retMap[widget.ColumnName] = retText;
+		}
+		return retMap;
 	},
 
 	setReadOnly: function (state) {
 		this._$readOnly = state;
 		this.Super("setReadOnly", arguments);
-	},
-
-	getReadOnly: function () {
-		return this.isReadOnly();
-	},
-
-	setEnabled: function (state) {
-		this.setItemEnabled(state);
-	},
-
-	getVisible: function () {
-		return this.isVisible();
-	},
-
-	cleanSelectedControlValue: function (cleanSelected) {
-		this.clearWidgetBindDatas(cleanSelected);
-	},
-
-	setLabelText: function (title) {
-		this.setSimpleChineseTitle(title);
-	},
-
-	getLabelText: function () {
-		return this.getSimpleChineseTitle();
-	},
-
-	setV3Focus: function () {
-		this.setControlFocus();
-	},
-
-	getV3MethodMap: function () {
-		return {
-			setFocus: "setV3Focus",
-			setValue: "setV3Value",
-			getValue: "getV3IdValue"
-		};
 	}
 
 });

@@ -1,10 +1,8 @@
 /**
  * 链接文本
  * @class JGHyperLink
- * @mixes IRecordObserver
  */
 isc.ClassFactory.defineClass("JGHyperLink", "JGBaseFormWidget");
-isc.ClassFactory.mixInInterface("JGHyperLink", "IRecordObserver");
 
 // 定义v3ui控件属性
 isc.JGHyperLink.addProperties({
@@ -95,20 +93,22 @@ isc.JGHyperLink.addMethods({
         this.items = [isc.addProperties(properties, {
             type: "V3HyperLinkItem",
             isAbsoluteForm: true,
-        })]
+        })];
+        this._initEventAndDataBinding();
+    },
+    _initEventAndDataBinding: function(){
+        var _this = this;
+        isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(this, null, null, function(record) {
+			isc.DataBindingUtil.setWidgetValue(_this,record);
+		});
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(this, null, null, function() {
+			isc.DataBindingUtil.clearWidgetValue(_this);
+		});
+        isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+		isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, null, this.OnValueChanged);
     },
     parentReadOnly: function (newState) {
         this.setReadOnly(newState)
-    },
-    setLabelText : function(title) {
-		this.setSimpleChineseTitle(title);
-	},
-
-	getLabelText : function() {
-		return this.getSimpleChineseTitle();
-	},
-
-    getValue : function(){
-        return this.getWidgetData();
     }
+    
 });

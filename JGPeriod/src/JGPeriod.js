@@ -60,6 +60,21 @@ isc.JGPeriod.addMethods({
 			type: "V3PeriodItem",
 			isAbsoluteForm: true,
 		})]
+		this._initEventAndDataBind();
+	},
+	_initEventAndDataBind: function(){
+        var _this = this;
+        isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(_this, null, null, function(record) {
+			isc.DataBindingUtil.setWidgetValue(_this,record);
+		});
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(_this, null, null, function() {
+			isc.DataBindingUtil.clearWidgetValue(_this);
+		});
+        isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+		isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, null, this.OnValueChanged);
+    },
+	getBindFields: function(){
+		return [this.ColumnName];
 	},
 	setPeriodType: function (periodType) {
 		if (!this.isDisabled()) {

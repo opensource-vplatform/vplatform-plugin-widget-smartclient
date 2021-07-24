@@ -55,6 +55,21 @@ isc.JGLongDateTimePicker.addMethods({
 			type: "V3LongDateTimeItem",
 			isAbsoluteForm: true,
 		})]
+		this._initEventAndDataBinding();
+	},
+	_initEventAndDataBinding: function(){
+		var _this = this;
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(this, null, null, function(record) {
+            isc.DataBindingUtil.setWidgetValue(_this, record);
+        });
+        isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(this, null, null, function() {
+            isc.DataBindingUtil.clearWidgetValue(_this);
+        });
+		isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+        isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, null, this.OnValueChanged);
+	},
+	getBindFields: function(){
+		return [this.ColumnName];
 	},
 	setMinDate: function (date) {
 		// 判断日期有效性

@@ -42,7 +42,20 @@ isc.JGCheckBox.addMethods({
         this.items = [isc.addProperties(properties, {
             type: "V3CheckBoxItems",
             isAbsoluteForm: true,
-        })]
+        })];
+        this._initEventAndDataBinding();
+    },
+
+    _initEventAndDataBinding: function(){
+        var _this = this;
+        isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(this, null, null, function(record) {
+			isc.DataBindingUtil.setWidgetValue(_this,record);
+		});
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(this, null, null, function() {
+			isc.DataBindingUtil.clearWidgetValue(_this);
+		});
+        isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+		isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, null, this.OnValueChanged);
     },
 
     /**
@@ -67,11 +80,17 @@ isc.JGCheckBox.addMethods({
     },
 
     getDefaultValue: function () {
-        return this.DefaultValue||false;
+        var value = isc.WidgetDatasource.getSingleColumnWidgetDefaultValue(this);
+        if ("" == value) {
+            var reMap = {};
+            reMap[this.ColumnName] = false;
+            return reMap;
+        }
+        return value;
     },
 
     getV3Value: function () {
-        var value = this.getWidgetData();
+        var value = isc.WidgetDatasource.getSingleValue(this);
         if (undefined == value || null == value) {
             return false;
         }
@@ -84,35 +103,8 @@ isc.JGCheckBox.addMethods({
 		return value;
     },
 
-    setEnabled : function(state){
-        this.setItemEnabled(state);
-    },
-
-    getVisible: function(){
-        return this.isVisible();
-    },
-
-    setReadOnly: function(state){
-        this.setItemReadOnly(state);
-    },
-
-    getReadOnly: function(){
-        return this.isReadOnly();
-    },
-
-    getLabelText: function(){
-        return this.getSimpleChineseTitle();
-    },
-
-    cleanSelectedControlValue: function(cleanSelected){
-        this.clearWidgetBindDatas(cleanSelected);
-    },
-
-    getV3MethodMap : function(){
-        return {
-            setValue : "setV3Value",
-            getValue : "getV3Value"
-        };
+    getBindFields: function(){
+        return [this.ColumnName];
     }
 
 });

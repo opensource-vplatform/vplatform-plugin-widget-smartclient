@@ -302,6 +302,10 @@ isc.JGBaseFormWidget.addMethods({
         this.Enabled = this.items[0].Enabled = enabled;
         this.setDisabled(!enabled);
     },
+
+    setV3Enabled: function(state){
+        this.setItemEnabled && this.setItemEnabled(state);
+    },
     /**
      * 设置表单项使能
      * @memberof JGBaseFormWidget
@@ -700,6 +704,9 @@ isc.JGBaseFormWidget.addMethods({
         }
     },
 
+    setV3ReadOnly:function(state){
+        this.setItemReadOnly && this.setItemReadOnly(state);
+    },
 
     parentDisabled: function (newState) {
         if (this.disabled)
@@ -1109,7 +1116,15 @@ isc.JGBaseFormWidget.addMethods({
     },
 
     getDefaultValue: function() {
-        return this.DefaultValue;
+        var defVal = this.DefaultValue;
+        if(defVal&&this._v3ExpHandler){
+            defVal = this._v3ExpHandler(defVal);
+        }
+        return defVal;
+    },
+
+    getBindFields: function(){
+        return [this.ColumnName];
     },
 
     getV3Value: function() {
@@ -1148,7 +1163,7 @@ isc.JGBaseFormWidget.addMethods({
     },
 
     cleanSelectedControlValue: function (cleanSelected) {
-		this.clearWidgetBindDatas(cleanSelected);
+		isc.WidgetDatasource.clearValue(thsi, cleanSelected);
 	},
 
     setV3Focus: function() {
@@ -1166,7 +1181,9 @@ isc.JGBaseFormWidget.addMethods({
         return {
             setValue : "setV3Value",
             getValue : "getV3Value",
-            setFocus : "setV3Focus"
+            setFocus : "setV3Focus",
+            setEnabled: "setV3Enabled",
+            setReadOnly: "setV3ReadOnly"
         }
     },
 });

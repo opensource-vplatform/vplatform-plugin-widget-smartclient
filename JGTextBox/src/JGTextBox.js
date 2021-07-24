@@ -73,6 +73,18 @@ isc.JGTextBox.addMethods({
             mask: _valueFormat,
             maskBackUp: _valueFormat, //用于处理从只读到非只读时，重新获取对应的信息
         })]
+        this._initEventAndDataBind();
+    },
+    _initEventAndDataBind: function(){
+        var _this = this;
+        isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(_this, null, null, function(record) {
+			isc.DataBindingUtil.setWidgetValue(_this,record);
+		});
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(_this, null, null, function() {
+			isc.DataBindingUtil.clearWidgetValue(_this);
+		});
+        isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+		isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, null, this.OnValueChanged);
     },
     _decodeValueFormat: function (valFormat) {
         if (!(valFormat && valFormat !== ""))
@@ -165,60 +177,5 @@ isc.JGTextBox.addMethods({
     destroy: function () {
         isc.EventHandler.clearWidgetRef(this.ID);
         this.Super("destroy", arguments);
-    },
-
-    getV3Value: function () {
-        var value = this.getWidgetData();
-        if (undefined == value || null == value) {
-            return "";
-        }
-        return value;
-    },
-    getDefaultValue: function () {
-        var defVal = this.DefaultValue;
-        if(defVal&&this._v3ExpHandler){
-            defVal = this._v3ExpHandler(defVal);
-        }
-        return defVal;
-    },
-
-    setReadOnly: function (readonly) {
-        this.setItemReadOnly(readonly);
-    },
-
-    getReadOnly: function () {
-        return this.isReadOnly();
-    },
-
-    setEnabled: function (enable) {
-        this.setItemEnabled(enable);
-    },
-
-    getVisible: function () {
-        return this.isVisible();
-    },
-
-    setLabelText: function (title) {
-        this.setSimpleChineseTitle(title);
-    },
-
-    getLabelText: function () {
-        return this.getSimpleChineseTitle();
-    },
-
-    setV3Focus: function () {
-        this.setControlFocus();
-    },
-
-    cleanSelectedControlValue: function(cleanSelected){
-        this.clearWidgetBindDatas(cleanSelected);
-    },
-
-    getV3MethodMap : function(){
-        return {
-            setFocus : "setV3Focus",
-            setValue : "setV3Value",
-            getValue : "getV3Value"
-        };
     }
 });

@@ -40,7 +40,15 @@
             "type": "integer",
             "default":26,
             "editor": {
-                "type": "height"
+                "type": "integer"
+            }
+        },{
+            "code": "MultiHeight",
+            "name": "高度",
+            "type": "char",
+            "default":"26px",
+            "editor": {
+                "type": "text"
             }
         }, {
             "code": "IsMust",
@@ -171,9 +179,15 @@
             "code": "ValueTextAlign",
             "name": "值对齐方式",
             "type": "char",
+            "default":"left",
             "compatible": {
                 "enhanceType": "alignment"
             }
+        }, {
+            "code": "VerticalAlign",
+            "name": "垂直对齐方式",
+            "type": "char",
+            "default":"Top"
         }, {
             "code": "Visible",
             "name": "显示",
@@ -189,6 +203,14 @@
             "default":235,
             "editor": {
                 "type": "integer"
+            }
+        }, {
+            "code": "MultiWidth",
+            "name": "宽度",
+            "type": "char",
+            "default":"235px",
+            "editor": {
+                "type": "text"
             }
         }, {
             "code": "DefaultValue",

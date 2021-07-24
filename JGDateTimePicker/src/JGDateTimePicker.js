@@ -51,9 +51,22 @@ isc.JGDateTimePicker.addMethods({
 			type: "V3DateTimeItem",
 			isAbsoluteForm: true,
 		})]
-
+		this._initEventAndDataBinding();
 		//		        
 	},
+
+	_initEventAndDataBinding: function(){
+		var _this = this;
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(this, null, null, function(record) {
+            isc.DataBindingUtil.setWidgetValue(_this, record);
+        });
+        isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(this, null, null, function() {
+            isc.DataBindingUtil.clearWidgetValue(_this);
+        });
+		isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+        isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, null, this.OnValueChanged);
+	},
+
 	setMinDate: function (date) {
 		// 判断日期有效性
 		var _date = new Date(date);
@@ -131,13 +144,6 @@ isc.JGDateTimePicker.addMethods({
         	this.setClassName(classArr.join(" "));
         }
         this.setItemReadOnly(state);
-    },
-
-	getV3MethodMap : function(){
-        return {
-            setFocus : "setV3Focus",
-            setValue : "setV3Value",
-            getValue : "getV3Value"
-        };
     }
+	
 });

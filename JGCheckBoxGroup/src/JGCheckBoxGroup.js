@@ -54,7 +54,28 @@ isc.JGCheckBoxGroup.addMethods({
 				return _this.getDropDownSource();
 			}
 		})];
+		this._initEventAndDataBinding();
 		this._observerDropdownSource();
+	},
+
+	_initEventAndDataBinding: function(){
+		var _this = this;
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(this, null, null, function(record) {
+			isc.DataBindingUtil.setWidgetValue(_this, record);
+			if(_this.hasErrors()&&_this.values && _this.values[_this.IDColumnName] && _this.values[_this.IDColumnName] != ""){
+            	_this.clearErrors();
+                _this.redraw();
+            }
+		});
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(this, null, null, function() {
+			isc.DataBindingUtil.clearWidgetValue(_this);
+			if(_this.hasErrors()&&_this.values && _this.values[_this.IDColumnName] && _this.values[_this.IDColumnName] != ""){
+            	_this.clearErrors();
+                _this.redraw();
+            }
+		});
+		isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+		isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, [this.IDColumnName], this.OnValueChanged);
 	},
 
 	_observerDropdownSource: function(){
@@ -77,7 +98,7 @@ isc.JGCheckBoxGroup.addMethods({
 						_this.dropdownSourceHandler();
 					});
 					//DB新增
-					datasource.on(datasource.Events.UPDATE,null,function(){
+					datasource.on(datasource.Events.INSERT,null,function(){
 						_this.dropdownSourceHandler();
 					});
 					//DB删除
@@ -112,22 +133,6 @@ isc.JGCheckBoxGroup.addMethods({
 		}
 	},
 
-	setWidgetData: function(){
-		this.Super("setWidgetData",arguments);
-		if(this.hasErrors()&&this.values && this.values[widget.IDColumnName] && this.values[widget.IDColumnName] != ""){
-			this.clearErrors();
-			this.redraw();
-		}
-	},
-
-	clearWidgetData: function(){
-		this.Super("clearWidgetData",arguments);
-		if(this.hasErrors()&&this.values && this.values[widget.IDColumnName] && this.values[widget.IDColumnName] != ""){
-			this.clearErrors();
-			this.redraw();
-		}
-	},
-
 	/**
 	 * 提供获取备选项数据源的接口
 	 */
@@ -151,27 +156,16 @@ isc.JGCheckBoxGroup.addMethods({
 	},
 
 	getV3Value: function() {
-		var record = this.getWidgetData();
-		if (record) {
-			return record[this.IDColumnName];
-		} else {
+		var value = isc.WidgetDatasource.getSingleValue(this, this.IDColumnName);
+		if (undefined == value || null == value)
 			return "";
-		}
+		return value;
 	},
 
 	setV3Value: function(propertyValue) {
-		var ds = this.TableName;
-        if(ds){
-            var current = ds.getCurrentRecord();
-            var changed = {};
-            if(!current){
-                current = ds.createRecord();
-                ds.insertRecords([current]);
-            }
-            changed.id = current.id;
-			changed[this.IDColumnName] = propertyValue;
-            ds.updateRecords([changed]); 
-        }
+		var record = {}
+		record[this.IDColumnName] = propertyValue;
+		isc.WidgetDatasource.setSingleRecordMultiValue(this, record);
 	},
 	
 	getSelectedItmesNum: function() {
@@ -216,9 +210,8 @@ isc.JGCheckBoxGroup.addMethods({
 		return retMap;
 	},
 
-	getDefaultValue: function(fieldCode) {
-		var retMap = this._getDefaultValue();
-		return retMap[fieldCode];
+	getDefaultValue: function() {
+		return this._getDefaultValue();
 	},
 
 	getConstData: function(dataSourceSetting) {
@@ -251,17 +244,14 @@ isc.JGCheckBoxGroup.addMethods({
 	setDefaultRecord: function() {
 		var data = this._getDefaultValue();
 		if (data){
-			this.setWidgetData(data);
+			isc.WidgetDatasource.setSingleRecordMultiValue(data);
 		}
     },
 	
     getText: function() {
-        var record = this.getWidgetData();
-        if (record) {
-            return record[this.ColumnName];
-        } else {
-            return "";
-        }
+        var datasource = isc.WidgetDatasource.getDatasource(this);
+        var record = datasource.getCurrentRecord();
+        return record[this.ColumnName];
     },
 
 	getV3MethodMap: function(){

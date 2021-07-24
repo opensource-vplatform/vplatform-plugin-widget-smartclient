@@ -44,12 +44,25 @@ isc.JGLongTextBox.addMethods({
         if (this.WidgetStyle == "JGLongTextBox") {
             this.WidgetStyle = "JGForm";
         }
-
         this.items = [isc.addProperties(properties, {
             type: "V3LongTextItem",
             isAbsoluteForm: true,
         })]
+        this._initEventAndDataBinding();
     },
+
+    _initEventAndDataBinding: function(){
+        var _this = this;
+        isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(this, null, null, function(record) {
+			isc.DataBindingUtil.setWidgetValue(_this,record);
+		});
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(this, null, null, function() {
+			isc.DataBindingUtil.clearWidgetValue(_this);
+		});
+        isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+		isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, null, this.OnValueChanged);
+    },
+
     /**
      * 获取长文本的配置信息
      */
@@ -57,56 +70,8 @@ isc.JGLongTextBox.addMethods({
         return this.LongTextBoxOptions;
     },
 
-    getDefaultValue : function() {
-		return this.DefaultValue;
-	},
-
-    setEnabled : function(state) {
-		this.setItemEnabled(state);
-	},
-
-    getVisible : function() {
-		return this.isVisible();
-	},
-
-    setReadOnly : function(state) {
-		this.setItemReadOnly(state);
-	},
-
-	getReadOnly : function() {
-		return this.isReadOnly();
-	},
-	
-	setLabelText : function(title) {
-		this.setSimpleChineseTitle(title);
-	},
-
-	getLabelText : function() {
-		return this.getSimpleChineseTitle();
-	},
-
-    setV3Focus: function () {
-        this.setControlFocus();
-    },
-
-    getV3Value: function(){
-        var value = this.getWidgetData();
-        if (undefined == value || null == value) {
-            return "";
-        }
-        return value;
-    },
-
-    cleanSelectedControlValue: function(cleanSelected){
-        this.clearWidgetBindDatas(cleanSelected);
-    },
-
-    getV3MethodMap : function(){
-        return {
-            setFocus : "setV3Focus",
-            setValue : "setV3Value",
-            getValue : "getV3Value"
-        };
+    getBindFields: function(){
+        return [this.ColumnName];
     }
 
 });

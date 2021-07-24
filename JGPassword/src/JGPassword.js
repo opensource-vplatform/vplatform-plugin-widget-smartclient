@@ -9,7 +9,6 @@
  * });
  */
 isc.ClassFactory.defineClass("JGPassword", "JGBaseFormWidget");
-isc.ClassFactory.mixInInterface("JGPassword", "IRecordObserver");
 
 // 定义v3ui控件属性
 isc.JGPassword.addProperties({
@@ -114,7 +113,7 @@ isc.JGPassword.addMethods({
 
     _initProperties: function (properties) {
         this.TitleWidth = properties.LabelWidth;
-		this.TitleVisible = properties.LabelVisible;
+        this.TitleVisible = properties.LabelVisible;
         if (this.WidgetStyle == "JGPassword") {
             this.WidgetStyle = "JGForm";
         }
@@ -122,57 +121,23 @@ isc.JGPassword.addMethods({
             type: "V3PasswordItems",
             isAbsoluteForm: true,
         })]
+        this._initEventAndDataBinding();
     },
 
-    getBindFields : function(){
+    _initEventAndDataBinding: function () {
+        var _this = this;
+        isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(this, null, null, function (record) {
+            isc.DataBindingUtil.setWidgetValue(_this, record);
+        });
+        isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(this, null, null, function () {
+            isc.DataBindingUtil.clearWidgetValue(_this);
+        });
+        isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, null, this.OnValueChanged);
+        isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+    },
+
+    getBindFields: function () {
         return [this.ColumnName];
-    },
-
-    getV3Value: function () {
-        var value = this.getWidgetData();
-        if (undefined == value || null == value) {
-            return "";
-        }
-        return value;
-    },
-
-    getEnabled: function(){
-        return !this.isDisabled();
-    },
-
-    getDefaultValue: function () {
-        return this.DefaultValue;
-    },
-
-    getVisible: function () {
-        return this.isVisible();
-    },
-
-    getReadOnly: function(){
-        return this.isReadOnly();
-    },
-
-    setLabelText: function(title){
-        this.setSimpleChineseTitle(title);
-    },
-
-    getLabelText : function () {
-		return this.getSimpleChineseTitle();
-	},
-
-    setV3Focus: function () {
-        this.setControlFocus();
-    },
-
-    cleanSelectedControlValue: function(cleanSelected){
-        this.clearWidgetBindDatas(cleanSelected);
-    },
-
-    getV3MethodMap : function(){
-        return {
-            setFocus : "setV3Focus",
-            setValue : "setV3Value",
-            getValue : "getV3Value"
-        };
     }
+
 });

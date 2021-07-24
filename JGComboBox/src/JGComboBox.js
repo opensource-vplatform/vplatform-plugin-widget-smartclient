@@ -80,7 +80,19 @@ isc.JGComboBox.addMethods({
 				return _this.getDropDownSource();
 			}
 		})]
+		this._initEventAndDataBinding();
 		this._observerDropdownSource();
+	},
+	_initEventAndDataBinding: function(){
+		var _this = this;
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(this, null, null, function(record) {
+			isc.DataBindingUtil.setWidgetValue(_this, record);
+		});
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(this, null, null, function() {
+			isc.DataBindingUtil.clearWidgetValue(_this);
+		});
+		isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+		isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, [this.IDColumnName], this.OnValueChanged);
 	},
 	_observerDropdownSource: function(){
 		var dropDownSource = this.getDropDownSource();
@@ -102,7 +114,7 @@ isc.JGComboBox.addMethods({
 						_this.dropdownSourceHandler();
 					});
 					//DB新增
-					datasource.on(datasource.Events.UPDATE,null,function(){
+					datasource.on(datasource.Events.INSERT,null,function(){
 						_this.dropdownSourceHandler();
 					});
 					//DB删除
@@ -336,52 +348,39 @@ isc.JGComboBox.addMethods({
 			var	curEleVal = valFieldItem && valFieldItem.getElementValue();
 			return curEleVal;
 		} else {
-			var record = this.getWidgetData();
-			if (record) {
-				return record[this.IDColumnName];
-			} else {
+			var refField = this.IDColumnName;
+			var value = isc.WidgetDatasource.getSingleValue(this, refField);
+			if (undefined == value || null == value) {
 				return "";
 			}
+			return value;
 		}
 	},
 
 	setV3Value: function(propertyValue) {
-		var refield = this.getIDColumnName();
-		var record = {};
+		var refield = this.IDColumnName;
+		var record = {}
 		record[refield] = propertyValue;
+
 		// 处理当设置了Key值无法显示正确的显示值
 		var isAutomaticPrompt = this.AutomaticPrompt;
 		if ((isAutomaticPrompt + "").toLowerCase() !== "true") {
-			var _displayField = this.getColumnName();
-			var _displayVal = this.items && this.items[1] && this.items[1].mapValueToDisplay(propertyValue);
+			var _displayField = this.ColumnName,
+				_displayVal = this.items && this.items[1] && this.items[1].mapValueToDisplay(propertyValue);
+
 			if (_displayVal + "" !== "null" && _displayVal + "" !== "undefined")
 				record[_displayField] = _displayVal;
 		}
-		var ds = this.TableName;
-        if(ds){
-            var fields = [this.IDColumnName];
-            var current = ds.getCurrentRecord();
-            var changed = {};
-            if(!current){
-                current = ds.createRecord();
-                ds.insertRecords([current]);
-            }
-            changed.id = current.id;
-			for(var i=0,l=fields.length;i<l;i++){
-				var field = fields[i];
-				changed[field] = record[field];
-			}
-            ds.updateRecords([changed]); 
-        }
+		isc.WidgetDatasource.setSingleRecordMultiValue(this, record);
 	},
 
 	getText: function() {
-        var record = this.getWidgetData();
-        if (record) {
-            return record[this.ColumnName];
-        } else {
-            return "";
-        }
+        var refField = this.ColumnName;
+		var value = isc.WidgetDatasource.getSingleValue(this, refField);
+		if (undefined == value || null == value) {
+			return "";
+		}
+		return value;
     },
 
 	_getDefaultValue: function(){
@@ -412,9 +411,8 @@ isc.JGComboBox.addMethods({
 		return retMap;
 	},
 
-	getDefaultValue: function(fieldCode) {
-		var retMap = this._getDefaultValue();
-		return retMap[fieldCode];
+	getDefaultValue: function() {
+		return this._getDefaultValue();
 	},
 
 	getConstData: function(dataSourceSetting) {
@@ -447,7 +445,7 @@ isc.JGComboBox.addMethods({
 	setDefaultRecord: function() {
 		var data = this._getDefaultValue();
 		if (data){
-			this.setWidgetData(data);
+			isc.WidgetDatasource.setSingleRecordMultiValue(this, data);
 		}
     },
 

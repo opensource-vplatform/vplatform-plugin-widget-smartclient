@@ -145,59 +145,32 @@ isc.JGFloatBox.addMethods({
             type: "V3FloatBoxItems",
             isAbsoluteForm: true,
         })];
-
         this.items = items;
+        this._initEventAndDataBinding();
     },
 
-    getDefaultValue : function () {
-		return this.DefaultValue;
-	},
+    _initEventAndDataBinding: function(){
+        var _this = this;
+        isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(this, null, null, function(record) {
+			isc.DataBindingUtil.setWidgetValue(_this,record);
+		});
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(this, null, null, function() {
+			isc.DataBindingUtil.clearWidgetValue(_this);
+		});
+        isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+		isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, null, this.OnValueChanged);
+    },
 
-    getV3Value : function () {
-		var value = this.getWidgetData();
+    getBindFields: function(){
+        return [this.ColumnName];
+    },
+
+    getV3Value: function () {
+		var value = isc.WidgetDatasource.getSingleValue(this);
 		if (undefined == value || null == value) {
 			return null;
 		}
 		return value;
-	},
-
-    setEnabled : function(state) {
-		this.setItemEnabled(state);
-	},
-
-    getVisible : function () {
-		return this.isVisible();
-	},
-
-    setReadOnly : function (state) {
-		this.setItemReadOnly(state);
-	},
-
-    getReadOnly : function () {
-		return this.isReadOnly();
-	},
-	
-    setLabelText : function (title) {
-		this.setSimpleChineseTitle(title);
-	},
-
-	getLabelText : function () {
-		return this.getSimpleChineseTitle();
-	},
-
-    setV3Focus: function () {
-        this.setControlFocus();
-    },
-
-    cleanSelectedControlValue: function(cleanSelected){
-        this.clearWidgetBindDatas(cleanSelected);
-    },
-
-    getV3MethodMap : function(){
-        return {
-            setFocus : "setV3Focus",
-            setValue : "setV3Value",
-            getValue : "getV3Value"
-        };
-    }
+	}
+    
 });

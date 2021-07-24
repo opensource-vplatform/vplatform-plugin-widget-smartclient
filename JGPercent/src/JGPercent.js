@@ -142,7 +142,7 @@ isc.JGPercent.addMethods({
 			showTitle: false,
 			skinImgDir: '[APP]/itop/common/images/progressbar/',
 			title: _title,
-			click: this._referEvent(this, 'click'),
+			click: this._referEvent(this, 'OnClick'),
 			horizontalItems: [{
 					name: "h_start",
 					size: 0
@@ -187,6 +187,15 @@ isc.JGPercent.addMethods({
 		// 必须添加到本控件的内部SC画布中，否则无法支持SC的父子控件层次关系
 		this.addChild(this._progressBar);
 		this.addChild(this._label);
+		this._initBindData();
+	},
+
+	_initBindData: function(){
+		var _this = this;
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(this, null, null, function(record) {
+			var value = isc.WidgetDatasource.getSingleValue(_this);
+			_this.setValue(value);
+		});
 	},
 
 	/**
@@ -248,19 +257,15 @@ isc.JGPercent.addMethods({
 	},
 
 	getV3Value: function() {
-		if(this.TableName){
-			var record = this.TableName.getCurrentRecord();
-			var value = record ? record[this.ColumnName]:null;
-			if (undefined == value || null == value) {
-				return "";
-			}
-			return value;
+		var value = isc.WidgetDatasource.getSingleValue(this);
+		if (undefined == value || null == value) {
+			return "";
 		}
-		return "";
+		return value;
 	},
 
 	setV3Value: function(value) {
-		this.setWidgetData(value);
+		iscWidgetDatasource.setSingleValue(this, value);
 	},
 
 	getVisible: function() {
@@ -268,7 +273,7 @@ isc.JGPercent.addMethods({
 	},
 
 	getDefaultValue: function() {
-		return this.DefaultValue;
+		return isc.WidgetDatasource.getSingleColumnWidgetDefaultValue(this);
 	},
 
 	getV3MethodMap: function(){

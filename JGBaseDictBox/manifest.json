@@ -331,6 +331,18 @@
                 "enhanceType": "columnName"
             },
             "default": "ColumnName"
+        }, {
+            "code": "IDColumnName",
+            "name": "字段名称",
+            "type": "char",
+            "editor": {
+                "type": "field",
+                "entityProp": "TableName"
+            },
+            "compatible": {
+                "enhanceType": "columnName"
+            },
+            "default": "IDColumnName"
         }],
         "dependencies": [{
             "groupId": "com.toone.v3.platform",

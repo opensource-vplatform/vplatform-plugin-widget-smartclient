@@ -61,8 +61,35 @@ isc.JGRadioGroup.addMethods({
 			type: "V3RadioGroupItems",
 			isAbsoluteForm: true
 		})];
+		this._initEventAndDataBinding();
 		this._observerDropdownSource();
 	},
+
+	_initEventAndDataBinding: function(){
+		var _this = this;
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(this, null, null, function(record) {
+			isc.DataBindingUtil.setWidgetValue(_this, record);
+			if(_this.hasErrors()&&_this.values && _this.values[_this.IDColumnName] && _this.values[_this.IDColumnName] != ""){
+            	_this.clearErrors();
+                _this.redraw();
+            }
+		});
+		isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(this, null, null, function() {
+			isc.DataBindingUtil.clearWidgetValue(_this);
+			// 特殊处理value清除不干净导致控件下次无法触发值改变
+            var groupBoxItem = _this.getItems().last();
+            var vRadioGroupItem = groupBoxItem && groupBoxItem.items && groupBoxItem.items[0];
+            if (vRadioGroupItem)
+                vRadioGroupItem.setValue(null);
+            if(_this.hasErrors()&&_this.values && _this.values[_this.IDColumnName] && _this.values[_this.IDColumnName] != ""){
+            	_this.clearErrors();
+                _this.redraw();
+            }
+		});
+		isc.DatasourceUtil.addDatasourceLoadEventHandler(this, this.OnValueLoaded);
+		isc.DatasourceUtil.addDatasourceFieldUpdateEventHandler(this, [this.IDColumnName], this.OnValueChanged);
+	},
+
 	_observerDropdownSource: function(){
 		var dropDownSource = this.getDropDownSource();
         if (typeof dropDownSource !== "object") {
@@ -83,7 +110,7 @@ isc.JGRadioGroup.addMethods({
 						_this.dropdownSourceHandler();
 					});
 					//DB新增
-					datasource.on(datasource.Events.UPDATE,null,function(){
+					datasource.on(datasource.Events.INSERT,null,function(){
 						_this.dropdownSourceHandler();
 					});
 					//DB删除
@@ -121,24 +148,6 @@ isc.JGRadioGroup.addMethods({
 	getBindFields: function(){
 		return [this.IDColumnName,this.ColumnName];
 	},
-	setWidgetData: function(){
-		this.Super("setWidgetData",arguments);
-		if(this.hasErrors()&&this.values && this.values[this.IDColumnName] && this.values[this.IDColumnName] != ""){
-			this.clearErrors();
-			this.redraw();
-		}
-	},
-	clearWidgetData: function(){
-		this.Super("clearWidgetData",arguments);
-		var groupBoxItem = this.getItems().last();
-		var vRadioGroupItem = groupBoxItem && groupBoxItem.items && groupBoxItem.items[0];
-		if (vRadioGroupItem)
-			vRadioGroupItem.setValue(null);
-		if(this.hasErrors()&&this.values && this.values[this.IDColumnName] && this.values[this.IDColumnName] != ""){
-			this.clearErrors();
-			this.redraw();
-		}
-	},
 	/**
      * 提供获取备选项数据源的接口
      */
@@ -162,29 +171,12 @@ isc.JGRadioGroup.addMethods({
     },
 
     setV3Value: function(val) {
-        var ds = this.TableName;
-        if(ds){
-            var fields = [this.IDColumnName];
-            var current = ds.getCurrentRecord();
-            var changed = {};
-            if(!current){
-                current = ds.createRecord();
-                ds.insertRecords([current]);
-            }
-            changed.id = current.id;
-            if(fields.length==1){
-                changed[fields[0]] = val;
-            }else if(fields.length>1){
-                for(var i=0,l=fields.length;i<l;i++){
-                    var field = fields[i];
-                    changed[field] = val[field];
-                }
-            }
-            ds.updateRecords([changed]); 
-        }  
+        var record = {}
+        record[this.IDColumnName] = val;
+        isc.WidgetDatasource.setSingleRecordMultiValue(this, record);
     },
 
-    getDefaultValue: function(fieldCode) {
+    getDefaultValue: function() {
         var retMap = {};
         var retValue = null;
         var retText = null;
@@ -207,7 +199,7 @@ isc.JGRadioGroup.addMethods({
         }
         retMap[this.IDColumnName] = retValue;
         retMap[this.ColumnName] = retText;
-        return retMap[fieldCode];
+        return retMap;
     },
 
     getConstData: function(dataSourceSetting) {
@@ -245,7 +237,8 @@ isc.JGRadioGroup.addMethods({
     },
 
     getV3Value: function() {
-		var record = this.getWidgetData();
+        var datasource = isc.WidgetDatasource.getDatasource(this);
+        var record = datasource.getCurrentRecord();
         if (record) {
             return record[this.IDColumnName];
         } else {
@@ -254,12 +247,9 @@ isc.JGRadioGroup.addMethods({
     },
 
     getText: function() {
-        var record = this.getWidgetData();
-        if (record) {
-            return record[this.ColumnName];
-        } else {
-            return "";
-        }
+		var datasource = isc.WidgetDatasource.getDatasource(this);
+        var record = datasource.getCurrentRecord();
+        return record[this.ColumnName];
     },
 
 	beforeDataLoad: function(){

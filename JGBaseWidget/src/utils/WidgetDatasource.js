@@ -296,9 +296,7 @@ isc.WidgetDatasource.addClassMethods({
 		var currentRecord = datasource.getCurrentRecord();
 		if (!currentRecord) {
 			currentRecord = datasource.createRecord();
-			datasource.insertRecords({
-				"records" : [ currentRecord ]
-			});
+			datasource.insertRecords([ currentRecord ]);
 			currentRecord = datasource.getRecordById(currentRecord.id);
 		}
         var values = {
