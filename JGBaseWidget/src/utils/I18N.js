@@ -14,6 +14,13 @@
             }
         }
         return title;
+    },
+
+    isUseLanguage: function(tag){
+        if(vdk&&vdk.i18n){
+            return vdk.i18n.isUseLanguage(tag);
+        }
+        return false;
     }
 
  });

@@ -41,6 +41,14 @@
             },
             "default": 26
         }, {
+            "code": "MultiHeight",
+            "name": "高度",
+            "type": "char",
+            "editor": {
+                "type": "height"
+            },
+            "default": "26px"
+        }, {
             "code": "ValueFontStyle",
             "name": "值字体",
             "type": "char",
@@ -200,6 +208,14 @@
                 "type": "integer"
             },
             "default": 235
+        },{
+            "code": "MultiWidth",
+            "name": "宽度",
+            "type": "char",
+            "editor": {
+                "type": "width"
+            },
+            "default": "235px"
         }, {
             "code": "DateDisplay",
             "name": "日期格式",

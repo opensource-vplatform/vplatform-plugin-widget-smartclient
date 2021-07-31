@@ -74,6 +74,14 @@
             "editor": {
                 "type": "height"
             }
+        },{
+            "code": "MultiHeight",
+            "name": "高度",
+            "type": "char",
+            "default": "26px",
+            "editor": {
+                "type": "height"
+            }
         }, {
             "code": "Visible",
             "name": "显示",
@@ -131,6 +139,14 @@
             "name": "宽度",
             "type": "integer",
             "default": 235,
+            "editor": {
+                "type": "width"
+            }
+        },{
+            "code": "MultiWidth",
+            "name": "宽度",
+            "type": "char",
+            "default":"235px",
             "editor": {
                 "type": "width"
             }

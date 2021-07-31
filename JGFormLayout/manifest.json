@@ -1,0 +1,182 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGFormLayout",
+    "version": "3.64.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGFormLayout",
+        "name": "",
+        "icon": "./JGFormLayout.png",
+        "desc": "",
+        "defineUrl": "./dist/index.js",
+        "docUrl": "./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "properties": [{
+            "code": "UseVirtualDB",
+            "name": "是否产生虚拟DB",
+            "type": "char"
+        }, {
+            "code": "Width",
+            "name": "宽度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 200
+        },{
+            "code": "MultiWidth",
+            "name": "宽度",
+            "type": "char",
+            "default":"200px",
+            "editor": {
+                "type": "width"
+            }
+        }, {
+            "code": "Height",
+            "name": "高度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 100
+        },{
+            "code": "MultiHeight",
+            "name": "高度",
+            "type": "char",
+            "default": "100px",
+            "editor": {
+                "type": "height"
+            }
+        }, {
+            "code": "Left",
+            "name": "左边距",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 0
+        }, {
+            "code": "Top",
+            "name": "上边距",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 0
+        }, {
+            "code": "Dock",
+            "name": "泊靠",
+            "type": "char",
+            "default": {
+                "default": "None",
+                "title": "泊靠",
+                "editor": {
+                    "type": "Select",
+                    "valueMapType": "Dock"
+                }
+            }
+        }, {
+            "code": "Anchor",
+            "name": "锚定",
+            "type": "char"
+        }, {
+            "code": "NumCols",
+            "name": "列数",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": {
+                "default": 3,
+                "title": "列",
+                "editor": {
+                    "type": "RadioGroup",
+                    "valueMapType": "NumCols"
+                }
+            }
+        }, {
+            "code": "Code",
+            "name": "编号",
+            "type": "char",
+            "default": "JGGroupPanel1"
+        }, {
+            "code": "TitleAlign",
+            "name": "标题对齐方式",
+            "type": "char"
+        }, {
+            "code": "TitleWidth",
+            "name": "标题宽度",
+            "type": "char",
+            "default": {
+                "default": "auto",
+                "title": "子控件标题",
+                "editor": {
+                    "type": "Text"
+                }
+            }
+        }, {
+            "code": "IsGroup",
+            "name": "是否显示分组",
+            "type": "boolean",
+            "editor": {
+                "type": "boolean"
+            }
+        }, {
+            "code": "GroupTitle",
+            "name": "分组标题",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "language",
+                "target": "GroupTitle"
+            },
+            "default": {
+                "default": "",
+                "title": "分组标题",
+                "editor": {
+                    "type": "Text"
+                }
+            }
+        }, {
+            "code": "ColWidths",
+            "name": "列宽设置",
+            "type": "char"
+        },{
+            "code": "_putWidgetContextProperty",
+            "name": "设置控件属性",
+            "type": "char",
+            "handler": "putWidgetContextProperty"
+        },{
+            "code": "_remoteMethodAccessor",
+            "name": "远程调用",
+            "type": "char",
+            "handler": "remoteMethodAccessor"
+        },{
+            "code": "_getCurrencyField",
+            "name": "获取金额字段",
+            "type": "char",
+            "handler": "getCurrencyField"
+        },{
+            "code": "_getParentWidget",
+            "name": "获取父控件",
+            "type": "char",
+            "handler": "getParentWidget"
+        },{
+            "code": "_eventHandler",
+            "name": "事件处理器",
+            "type": "char",
+            "handler": "eventHandler"
+        },{
+            "code": "_expressionHandler",
+            "name": "表达式处理器",
+            "type": "char",
+            "handler": "expression"
+        }],
+        "dependencies": [{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+            "pluginCode": "JGBaseFormWidget",
+            "pluginType": "widget"
+        }]
+    }]
+}

@@ -76,7 +76,13 @@ isc.JGBaseWidget.addProperties({
     //控件默认事件列表
     _defaultListener: ['mouseOver', 'mouseLeave', 'showProtoInfo', 'moveProtoInfo'],
     //控件公布事件列表
-    listener: []
+    listener: [],
+
+    VerticalAlign: "Top",
+
+    HorizontalAlign: "Left",
+
+    ContentAlignment: "Horizontal"
 
 });
 

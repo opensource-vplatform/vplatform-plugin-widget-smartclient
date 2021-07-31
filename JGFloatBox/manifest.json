@@ -87,6 +87,14 @@
                 "editor": {
                     "type": "height"
                 }
+            }, {
+                "code": "MultiHeight",
+                "name": "高度",
+                "type": "char",
+                "default": "26px",
+                "editor": {
+                    "type": "height"
+                }
             },
             {
                 "code": "DisplayFormat",
@@ -149,6 +157,14 @@
                 "name": "宽度",
                 "type": "integer",
                 "default": 235,
+                "editor": {
+                    "type": "width"
+                }
+            },{
+                "code": "MultiWidth",
+                "name": "宽度",
+                "type": "char",
+                "default":"235px",
                 "editor": {
                     "type": "width"
                 }
@@ -232,9 +248,9 @@
                 "code": "ToolTip",
                 "name": "浮动提示",
                 "type": "char",
-                "editor":{
-                    "type":"expression",
-                    "handleProp":"_v3ExpHandler"
+                "editor": {
+                    "type": "expression",
+                    "handleProp": "_v3ExpHandler"
                 },
                 "compatible": {
                     "enhanceType": "expLanguage"

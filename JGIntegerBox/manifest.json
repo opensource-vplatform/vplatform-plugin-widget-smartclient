@@ -71,6 +71,14 @@
                 "type": "integer"
             },
             "default": 26
+        },{
+            "code": "MultiHeight",
+            "name": "高度",
+            "type": "char",
+            "default": "26px",
+            "editor": {
+                "type": "height"
+            }
         }, {
             "code": "DisplayFormat",
             "name": "显示格式",
@@ -149,6 +157,14 @@
                 "type": "integer"
             },
             "default": 235
+        },{
+            "code": "MultiWidth",
+            "name": "宽度",
+            "type": "char",
+            "default":"235px",
+            "editor": {
+                "type": "width"
+            }
         }, {
             "code": "LabelWidth",
             "name": "标签宽度",

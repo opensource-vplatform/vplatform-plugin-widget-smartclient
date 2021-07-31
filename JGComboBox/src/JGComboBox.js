@@ -31,6 +31,8 @@ isc.JGComboBox.addProperties({
 		'labelclick'
 	],
 
+	ColSpan: "1",
+
 	/**
 	 * 数据值
 	 */

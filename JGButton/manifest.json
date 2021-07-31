@@ -16,12 +16,28 @@
                 "name": "高度",
                 "type": "integer",
                 "editor": {
+                    "type": "integer"
+                }
+            }, {
+                "code": "MultiHeight",
+                "name": "高度",
+                "type": "char",
+                "default": "26px",
+                "editor": {
                     "type": "height"
                 }
             }, {
                 "code": "Width",
                 "name": "宽度",
                 "type": "integer",
+                "editor": {
+                    "type": "integer"
+                }
+            }, {
+                "code": "MultiWidth",
+                "name": "宽度",
+                "type": "char",
+                "default": "59px",
                 "editor": {
                     "type": "width"
                 }
@@ -30,6 +46,7 @@
                 "code": "Top",
                 "name": "上边距",
                 "type": "integer",
+                "default": 0,
                 "editor": {
                     "type": "top"
                 }
@@ -38,6 +55,7 @@
                 "code": "Left",
                 "name": "左边距",
                 "type": "integer",
+                "default": 0,
                 "editor": {
                     "type": "left"
                 }
@@ -113,7 +131,7 @@
                 "catalog": "Layout",
                 "type": "char",
                 "desc": "设置控件系统内置主题风格",
-                "default":"defaultType",
+                "default": "defaultType",
                 "editor": {
                     "type": "select",
                     "optionType": "theme"
@@ -198,7 +216,7 @@
                 "catalog": "Other",
                 "type": "char",
                 "desc": "设置控件显示的标题",
-                "default":"按钮1",
+                "default": "按钮1",
                 "editor": {
                     "type": "text"
                 },

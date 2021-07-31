@@ -30,6 +30,18 @@ isc.IWindowAop.addInterfaceMethods({
   },
 
   /**
+   * 窗体加载事件后切面
+   * @abstract
+   * @memberof IWindowAop
+   * @method
+   * @instance
+   * 
+   */
+  windowLoaded: function(){
+
+  },
+
+  /**
    * 数据加载前切面
    * @abstract
    * @memberof IWindowAop

@@ -226,6 +226,11 @@
             },
             "default": ""
         }, {
+            "code": "ColSpan",
+            "name": "列宽",
+            "type": "char",
+            "default": "1"
+        }, {
             "code": "OnLabelClick",
             "name": "单击标题",
             "type": "char",

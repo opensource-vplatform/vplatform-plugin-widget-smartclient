@@ -19,8 +19,16 @@
             "desc":"设置控件高度",
             "default":100,
 		    "editor":{
-			    "type":"height"
+			    "type":"integer"
 		    }
+        },{
+            "code": "MultiHeight",
+            "name": "高度",
+            "type": "char",
+            "default": "100px",
+            "editor": {
+                "type": "height"
+            }
         },{
             "code":"Width",
             "name":"宽度",
@@ -29,8 +37,16 @@
             "desc":"设置控件宽度",
             "default":100,
 		    "editor":{
-			    "type":"width"
+			    "type":"integer"
 		    }
+        },{
+            "code": "MultiWidth",
+            "name": "宽度",
+            "type": "char",
+            "default":"100px",
+            "editor": {
+                "type": "width"
+            }
         },{
             "code":"Top",
             "name":"上边距",

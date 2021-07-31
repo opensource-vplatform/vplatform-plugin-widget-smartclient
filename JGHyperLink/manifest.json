@@ -60,8 +60,16 @@
             "desc":"设置控件高度",
             "default":26,
 		    "editor":{
-			    "type":"height"
+			    "type":"integer"
 		    }
+        },{
+            "code": "MultiHeight",
+            "name": "高度",
+            "type": "char",
+            "default": "26px",
+            "editor": {
+                "type": "height"
+            }
         },{
             "code":"LabelBackColor",
             "name":"标签背景色",
@@ -244,6 +252,14 @@
 		    "editor":{
 			    "type":"width"
 		    }
+        },{
+            "code": "MultiWidth",
+            "name": "宽度",
+            "type": "char",
+            "default":"235px",
+            "editor": {
+                "type": "width"
+            }
         },{
             "code":"Dock",
             "name":"泊靠",

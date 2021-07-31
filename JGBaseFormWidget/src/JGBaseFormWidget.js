@@ -1163,7 +1163,7 @@ isc.JGBaseFormWidget.addMethods({
     },
 
     cleanSelectedControlValue: function (cleanSelected) {
-		isc.WidgetDatasource.clearValue(thsi, cleanSelected);
+		isc.WidgetDatasource.clearValue(this, cleanSelected);
 	},
 
     setV3Focus: function() {

@@ -16,7 +16,7 @@ isc.WidgetDatasource.addClassMethods({
      */
     getDatasource: function(widget,datasource){
         if (undefined == datasource || null == datasource){
-            datasource = widget.TableName
+            datasource = isc.V3Datasource.isA(widget) ? widget:widget.TableName;
         }
 		if (undefined == datasource || null == datasource){
 			return;
@@ -70,7 +70,7 @@ isc.WidgetDatasource.addClassMethods({
      */
     addBindDatasourceCurrentRecordUpdateEventHandler: function(widget,datasource, fields, handler){
         datasource = isc.WidgetDatasource.getDatasource(widget,datasource);
-		if(datasource){
+		if(datasource&&datasource.addObserver){
             fields = isc.WidgetDatasource.getFields(widget,fields);
             var observer = isc.CurrentRecordObserver.create({
                 fields : fields,
@@ -92,7 +92,7 @@ isc.WidgetDatasource.addClassMethods({
      */
     addBindDatasourceCurrentRecordClearEventHandler: function(widget, datasource, fields, handler){
         datasource = isc.WidgetDatasource.getDatasource(widget,datasource);
-		if(datasource){
+		if(datasource&&datasource.addObserver){
             fields = isc.WidgetDatasource.getFields(widget,fields);
             var observer = isc.CurrentRecordObserver.create({
                 fields : fields,
@@ -112,7 +112,7 @@ isc.WidgetDatasource.addClassMethods({
      */
     _addDatasourceEventHandler: function(widget, datasource,eventName, handler){
         datasource = isc.WidgetDatasource.getDatasource(widget,datasource);
-        if(datasource){
+        if(datasource&&datasource.addObserver){
             var params = {};
             params[eventName] = handler;
             var observer = isc.DatasourceObserver.create(params);
@@ -234,7 +234,7 @@ isc.WidgetDatasource.addClassMethods({
      */
     clearValue: function(widget,cleanSeleted){
         var datasource = widget.TableName;
-        if(datasource){
+        if(datasource&&datasource.updateRecords){
             var fields = isc.WidgetDatasource.getFields(widget);
             var records = cleanSeleted ? datasource.getSelectedRecords():datasource.getAllRecords();
             var updatedRecords = [];

@@ -80,6 +80,14 @@
                 "type": "integer"
             },
             "default": 22
+        },{
+            "code": "MultiHeight",
+            "name": "高度",
+            "type": "char",
+            "default": "22px",
+            "editor": {
+                "type": "height"
+            }
         }, {
             "code": "Width",
             "name": "宽度",
@@ -88,6 +96,14 @@
                 "type": "integer"
             },
             "default": 200
+        },{
+            "code": "MultiWidth",
+            "name": "宽度",
+            "type": "char",
+            "default":"200px",
+            "editor": {
+                "type": "width"
+            }
         }, {
             "code": "PercentHeight",
             "name": "百分比高度",

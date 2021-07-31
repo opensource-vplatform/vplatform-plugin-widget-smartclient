@@ -1,0 +1,284 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGComponentContainer",
+    "version": "3.24.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGComponentContainer",
+        "name": "组件容器控件",
+        "icon": "./JGComponentContainer.png",
+        "desc": "",
+        "defineUrl": "./dist/index.js",
+        "docUrl": "./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "properties": [{
+            "code": "BorderWidth",
+            "name": "边框宽度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "compatible": {
+                "enhanceType": "borderWidth"
+            },
+            "default": "1px"
+        }, {
+            "code": "Height",
+            "name": "高度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 150
+        },{
+            "code": "MultiHeight",
+            "name": "高度",
+            "type": "char",
+            "default": "150px",
+            "editor": {
+                "type": "height"
+            }
+        }, {
+            "code": "PercentHeight",
+            "name": "百分比高度",
+            "type": "char",
+            "default": "9%"
+        }, {
+            "code": "BorderColor",
+            "name": "边框颜色",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "color"
+            },
+            "default": ""
+        }, {
+            "code": "BorderStyles",
+            "name": "边框样式",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "borderStyle"
+            },
+            "default": "solid"
+        }, {
+            "code": "HeightSet",
+            "name": "高度控制",
+            "type": "char",
+            "default": "StaticHeight"
+        }, {
+            "code": "Width",
+            "name": "宽度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 150
+        },{
+            "code": "MultiWidth",
+            "name": "宽度",
+            "type": "char",
+            "default":"150px",
+            "editor": {
+                "type": "width"
+            }
+        }, {
+            "code": "Visible",
+            "name": "显示",
+            "type": "boolean",
+            "editor": {
+                "type": "boolean"
+            },
+            "default": true
+        }, {
+            "code": "DefaultComponent",
+            "name": "默认组件",
+            "type": "char"
+        }, {
+            "code": "Left",
+            "name": "左边距",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 0
+        }, {
+            "code": "Top",
+            "name": "上边距",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 0
+        }, {
+            "code": "PercentWidth",
+            "name": "百分比宽度",
+            "type": "char",
+            "default": "8%"
+        }, {
+            "code": "TabPageDisplayMode",
+            "name": "页签显示方式",
+            "type": "char",
+            "default": "Auto"
+        }, {
+            "code": "Code",
+            "name": "名称",
+            "type": "char",
+            "default": "JGComponentContainer1"
+        }, {
+            "code": "TabIndex",
+            "name": "界面顺序号",
+            "type": "char",
+            "default": "31"
+        }, {
+            "code": "StaticLayoutSize",
+            "name": "宽度固定",
+            "type": "boolean",
+            "editor": {
+                "type": "boolean"
+            },
+            "default": true
+        }, {
+            "code": "Dock",
+            "name": "泊靠",
+            "type": "char",
+            "default": "None"
+        }, {
+            "code": "ImageValue",
+            "name": "背景图片",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "resource"
+            },
+            "default": ""
+        }, {
+            "code": "TableName",
+            "name": "表名",
+            "type": "char",
+            "required": false,
+            "editor": {
+                "type": "entity"
+            },
+            "compatible": {
+                "enhanceType": "tableName"
+            },
+            "default": ""
+        }, {
+            "code": "DataSourceType",
+            "name": "数据源类型",
+            "type": "char",
+            "default": "Static"
+        }, {
+            "code": "TabHeaderStyle",
+            "name": "页签风格",
+            "type": "char",
+            "default": "Default"
+        }, {
+            "code": "ParamsMapping",
+            "name": "参数映射",
+            "type": "char",
+            "default": ""
+        },{
+            "code": "getWindowRelationByCondition",
+            "name": "获取窗体容器",
+            "type": "char",
+            "handler": "windowRelation.getByCondition"
+        },{
+            "code": "getWindowRelation",
+            "name": "获取窗体容器",
+            "type": "char",
+            "handler": "windowRelation.get"
+        },{
+            "code": "destroyWindowRelation",
+            "name": "销毁窗体容器",
+            "type": "char",
+            "handler": "windowRelation.destroy"
+        },{
+            "code": "redirectBrowser",
+            "name": "重定向",
+            "type": "char",
+            "handler": "browser.redirect"
+        },{
+            "code": "updateWindowRelation",
+            "name": "更新窗体容器信息",
+            "type": "char",
+            "handler": "windowRelation.update"
+        },{
+            "code": "getEventHandler",
+            "name": "获取事件处理器",
+            "type": "char",
+            "handler": "eventHandler"
+        },{
+            "code": "_openWindowByRecord",
+            "name": "根据实体记录渲染窗体",
+            "type": "char",
+            "handler": "window.openWindowByRecord"
+        },{
+            "code": "_onWidgetEvent",
+            "name": "绑定控件事件",
+            "type": "char",
+            "handler": "on"
+        },{
+            "code": "_componentRenderHandler",
+            "name": "执行构件渲染方法",
+            "type": "char",
+            "handler": "componentRender"
+        },{
+            "code": "_componentActionHandler",
+            "name": "执行构件Action方法",
+            "type": "char",
+            "handler": "componentAction"
+        },{
+            "code": "_getInstanceHandler",
+            "name": "获取指定实例方法",
+            "type": "char",
+            "handler": "instanceHandler"
+        },{
+            "code": "_getContainerParent",
+            "name": "获取父容器",
+            "type": "char",
+            "handler": "containerParent"
+        },{
+            "code": "_registerContainer",
+            "name": "注册容器信息",
+            "type": "char",
+            "handler": "registerContainer"
+        },{
+            "code": "_handleComponentPackInfo",
+            "name": "处理构件包信息",
+            "type": "char",
+            "handler": "handleComponentPackInfo"
+        },{
+            "code": "_handleWindowMapping",
+            "name": "处理窗体映射",
+            "type": "char",
+            "handler": "handleWindowMapping"
+        },{
+            "code": "_getWidgetContextProperty",
+            "name": "从控件上下文获取属性值",
+            "type": "char",
+            "handler": "getWidgetContextProperty"
+        },{
+            "code": "_putWidgetContextProperty",
+            "name": "设置控件上下文属性值",
+            "type": "char",
+            "handler": "putWidgetContextProperty"
+        },{
+            "code": "_addToComponentContainer",
+            "name": "打开窗体到组件容器",
+            "type": "char",
+            "handler": "addToComponentContainer"
+        }],
+        "dependencies": [{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+            "pluginCode": "JGBaseWidget",
+            "pluginType": "widget"
+        },{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+            "pluginCode": "JGStyleHelper",
+            "pluginType": "widget"
+        }]
+    }]
+}

@@ -185,9 +185,10 @@ isc.MenuUtil.addClassMethods({
      * @method
      * @static
      * @param {Array} items 菜单项
+     * @param {String} ctype 菜单类型
      * @returns {Array}
      */
-    toMenuData: function (items) {
+    toMenuData: function (items,ctype) {
         if (items.length == 0) {
             return;
         } else {

@@ -5,6 +5,13 @@
 isc.ClassFactory.defineClass("DatasourceUtil");
 isc.DatasourceUtil.addClassMethods({
 
+    _checkDatasource: function(datasource){
+        if (undefined == datasource || null == datasource || typeof(datasource)=='string') {
+            return false;
+        }
+        return true;
+    },
+
     /**
      * 添加数据源当前行事件回调
      * @memberof DatasourceUtil
@@ -15,7 +22,7 @@ isc.DatasourceUtil.addClassMethods({
      */
     addDatasourceCurrentEventHandler: function (widget, handler) {
         var datasource = isc.WidgetDatasource.getDatasource(widget);
-        if (undefined == datasource || null == datasource) {
+        if (!this._checkDatasource(datasource)) {
             return;
         }
         datasource.on(datasource.Events.CURRENT, null, function () {
@@ -33,8 +40,9 @@ isc.DatasourceUtil.addClassMethods({
      */
     addDatasourceUpdateEventHandler: function (widget, handler) {
         var datasource = isc.WidgetDatasource.getDatasource(widget);
-        if (undefined == datasource || null == datasource)
+        if (!this._checkDatasource(datasource)) {
             return;
+        }
         datasource.on(datasource.Events.UPDATE, null, function () {
             handler.apply(datasource, arguments);
         });
@@ -51,8 +59,9 @@ isc.DatasourceUtil.addClassMethods({
      */
     addDatasourceFieldUpdateEventHandler: function (widget, fields, handler) {
         var datasource = isc.WidgetDatasource.getDatasource(widget);
-        if (undefined == datasource || null == datasource)
+        if (!this._checkDatasource(datasource)) {
             return;
+        }
         var fields = isc.WidgetDatasource.getFields(widget, fields);
         if (undefined == fields || null == fields)
             return;
@@ -86,8 +95,9 @@ isc.DatasourceUtil.addClassMethods({
      */
     addDatasourceDeleteEventHandler: function (widget, handler) {
         var datasource = isc.WidgetDatasource.getDatasource(widget);
-        if (undefined == datasource || null == datasource)
+        if (!this._checkDatasource(datasource)) {
             return;
+        }
         datasource.on(datasource.Events.DELETE, null, function () {
             handler.apply(datasource, arguments);
         });
@@ -103,8 +113,9 @@ isc.DatasourceUtil.addClassMethods({
      */
     addDatasourceLoadEventHandler: function (widget, handler) {
         var datasource = isc.WidgetDatasource.getDatasource(widget);
-        if (undefined == datasource || null == datasource)
+        if (!this._checkDatasource(datasource)) {
             return;
+        }
         datasource.on(datasource.Events.LOAD, null, function () {
             handler.apply(datasource, arguments);
         });
@@ -120,8 +131,9 @@ isc.DatasourceUtil.addClassMethods({
      */
     addDatasourceInsertEventHandler: function (widget, handler) {
         var datasource = isc.WidgetDatasource.getDatasource(widget);
-        if (undefined == datasource || null == datasource)
+        if (!this._checkDatasource(datasource)) {
             return;
+        }
         datasource.on(datasource.Events.INSERT, null, function () {
             handler.apply(datasource, arguments);
         });
