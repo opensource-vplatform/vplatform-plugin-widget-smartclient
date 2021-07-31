@@ -106,7 +106,7 @@ isc.JGImage.addMethods({
         return window && window._$basePath ? window._$basePath + path : path; //原型工具中，静态图片路径处理
     },
     _initWidget: function () {
-        if(this.TableName){
+        if(this.TableName && typeof(this.TableName) != "string"){
             //将控件绑定到数据源
             this.TableName.addObserver(this);
         }

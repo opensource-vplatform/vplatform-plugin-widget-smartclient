@@ -158,6 +158,7 @@
             "catalog":"Data",
             "type":"char",
             "desc":"控件绑定的实体",
+            "required":false,
 		    "editor":{
 			    "type":"entity"
 		    }
@@ -166,6 +167,7 @@
             "name":"字段名称",
             "catalog":"Data",
             "type":"char",
+            "required":false,
             "desc":"控件绑定的字段",
 		    "editor":{
                 "entityProp":"TableName",
