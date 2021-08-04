@@ -112,7 +112,7 @@ isc.JGBaseWidget.addMethods({
         this._fieldEvent = {};
 
         // 初始化本控件的内置画布，如布局位置相关信息
-        this._initCanvas();
+        this._initCanvas(arguments);
 
         this.Super("init", arguments);
 
