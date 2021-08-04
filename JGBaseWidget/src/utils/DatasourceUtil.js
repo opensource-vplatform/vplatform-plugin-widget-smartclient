@@ -5,8 +5,8 @@
 isc.ClassFactory.defineClass("DatasourceUtil");
 isc.DatasourceUtil.addClassMethods({
 
-    _checkDatasource: function(datasource){
-        if (undefined == datasource || null == datasource || typeof(datasource)=='string') {
+    _checkDatasource: function (datasource) {
+        if (undefined == datasource || null == datasource || typeof (datasource) == 'string') {
             return false;
         }
         return true;
@@ -25,9 +25,11 @@ isc.DatasourceUtil.addClassMethods({
         if (!this._checkDatasource(datasource)) {
             return;
         }
-        datasource.on(datasource.Events.CURRENT, null, function () {
-            handler.apply(datasource, arguments);
-        });
+        if (widget && handler) {
+            datasource.on(datasource.Events.CURRENT, null, function () {
+                handler.apply(datasource, arguments);
+            });
+        }
     },
 
     /**
@@ -43,9 +45,11 @@ isc.DatasourceUtil.addClassMethods({
         if (!this._checkDatasource(datasource)) {
             return;
         }
-        datasource.on(datasource.Events.UPDATE, null, function () {
-            handler.apply(datasource, arguments);
-        });
+        if (widget && handler) {
+            datasource.on(datasource.Events.UPDATE, null, function () {
+                handler.apply(datasource, arguments);
+            });
+        }
     },
 
     /**
@@ -65,24 +69,26 @@ isc.DatasourceUtil.addClassMethods({
         var fields = isc.WidgetDatasource.getFields(widget, fields);
         if (undefined == fields || null == fields)
             return;
-        datasource.on(datasource.Events.UPDATE, null, function (params) {
-            var result = params.resultSet;
-            var isChanged = false;
-            for (var i = 0, l = result.length; i < l; i++) {
-                var record = result[i];
-                for (var i = 0; i < fields.length; i++) {
-                    var field = fields[i];
-                    if (record.hasOwnProperty(field)) {
-                        isChanged = true;
-                        break;
-                    }
+        if (widget && handler) {
+            datasource.on(datasource.Events.UPDATE, null, function (params) {
+                var result = params.resultSet;
+                var isChanged = false;
+                for (var i = 0, l = result.length; i < l; i++) {
+                    var record = result[i];
+                    for (var i = 0; i < fields.length; i++) {
+                        var field = fields[i];
+                        if (record.hasOwnProperty(field)) {
+                            isChanged = true;
+                            break;
+                        }
 
+                    }
                 }
-            }
-            if (isChanged) {
-                handler(params);
-            }
-        });
+                if (isChanged) {
+                    handler(params);
+                }
+            });
+        }
     },
 
     /**
@@ -98,9 +104,11 @@ isc.DatasourceUtil.addClassMethods({
         if (!this._checkDatasource(datasource)) {
             return;
         }
-        datasource.on(datasource.Events.DELETE, null, function () {
-            handler.apply(datasource, arguments);
-        });
+        if (widget && handler) {
+            datasource.on(datasource.Events.DELETE, null, function () {
+                handler.apply(datasource, arguments);
+            });
+        }
     },
 
     /**
@@ -116,9 +124,11 @@ isc.DatasourceUtil.addClassMethods({
         if (!this._checkDatasource(datasource)) {
             return;
         }
-        datasource.on(datasource.Events.LOAD, null, function () {
-            handler.apply(datasource, arguments);
-        });
+        if (widget && handler) {
+            datasource.on(datasource.Events.LOAD, null, function () {
+                handler.apply(datasource, arguments);
+            });
+        }
     },
 
     /**
@@ -134,9 +144,11 @@ isc.DatasourceUtil.addClassMethods({
         if (!this._checkDatasource(datasource)) {
             return;
         }
-        datasource.on(datasource.Events.INSERT, null, function () {
-            handler.apply(datasource, arguments);
-        });
+        if (widget && handler) {
+            datasource.on(datasource.Events.INSERT, null, function () {
+                handler.apply(datasource, arguments);
+            });
+        }
     }
 
 });

@@ -3,9 +3,209 @@
  * @class JGBaseDictBox
  * @extends JGBaseFormWidget
  * @example
- * isc.JGBaseDictBox.create({
- * 	autoDraw: true
- * });
+ * var ds = isc.V3Datasource.create({
+	fields:[{
+		name: "id",
+		primaryKey:true,
+		type: "text",
+		title: "主键id"
+	},{
+		name: "a",
+		type: "text",
+		title: "字段a"
+	},{
+		name: "b",
+		type: "text",
+		title: "字段b"
+	}]
+});
+var info = isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton3",
+    SimpleChineseTitle: "事件信息",
+    Height: 88,
+    Width: 390,
+    Top: 122,
+    Left: 485
+});
+var ipt = isc.JGBaseDictBox.create({
+    autoDraw: true,
+    Code: "JGBaseDictBox311",
+	SimpleChineseTitle:" 使能",
+    Top: 80,
+    Left: 485,
+	Width:235,
+	Height:26,
+	Enabled:true,
+	Visible:true,
+	LabelWidth:94,
+	OnValueChanged: function () {
+		info.setSimpleChineseTitle("值改变事件触发！");
+	},
+	OnValueLoaded: function () {
+		info.setSimpleChineseTitle("值加载事件触发！");
+	},
+	OnEnter: function () {
+		info.setSimpleChineseTitle("焦点获取事件触发！");
+	},
+	OnLeave: function () {
+		info.setSimpleChineseTitle("焦点离开事件触发！");
+	},
+	OpenModuleAction: function () {
+		info.setSimpleChineseTitle("链接事件触发！");
+	},
+	OnLabelClick: function () {
+		info.setSimpleChineseTitle("标题点击事件触发！");
+	},
+	TableName:ds,
+	IDColumnName:"a",
+	ColumnName: "b"
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton2111",
+    SimpleChineseTitle: "使能",
+    Width: 59,
+    Top: 80,
+    Left: 816,
+	OnClick:function(){
+		ipt.setEnabled(true);
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton221",
+    SimpleChineseTitle: "禁用",
+    Width: 59,
+    Top: 80,
+    Left: 741,
+    OnClick: function () {
+		ipt.setEnabled(false);
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton22",
+    SimpleChineseTitle: "只读",
+    Width: 59,
+    Top: 48,
+    Left: 741,
+    OnClick: function () {
+		ipt1.setReadOnly(true);
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton211",
+    SimpleChineseTitle: "编辑",
+    Width: 59,
+    Top: 48,
+    Left: 816,
+    OnClick: function () {
+		ipt1.setReadOnly(false);
+	}
+});
+var ipt1 = isc.JGBaseDictBox.create({
+    autoDraw: true,
+    Code: "JGBaseDictBox31",
+    SimpleChineseTitle: "只读",
+    Top: 48,
+    Left: 485,
+	Width:235,
+	Height:26,
+	Enabled:true,
+	Visible:true,
+	LabelWidth:94
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton21",
+    SimpleChineseTitle: "隐藏",
+    Width: 59,
+    Top: 16,
+    Left: 816,
+    OnClick: function () {
+		ipt2.setVisible(false);
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton2",
+    SimpleChineseTitle: " 显示 ",
+    Width: 59,
+    Top: 16,
+    Left: 741,
+	OnClick:function(){
+		ipt2.setVisible(true);
+	}
+});
+var ipt2 = isc.JGBaseDictBox.create({
+    autoDraw: true,
+    Code: " JGBaseDictBox3 ",
+    SimpleChineseTitle: " 显示 ",
+    Top: 16,
+    Left: 485,
+	Width:235,
+	Height:26,
+	Enabled:true,
+	Visible:true,
+	LabelWidth:94
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: " JGButton1 ",
+    SimpleChineseTitle: "改值",
+    Width: 59,
+    Top: 90,
+    Left: 282,
+	OnClick:function(){
+		var record = ds.getCurrentRecord();
+        if (!record) {
+            record = ds.createRecord();
+            datasource.insertRecords([ record ]);
+            record = datasource.getRecordById(record.id);
+        }
+        record = {
+            id : record.id
+        }; 
+        record.a = "aa";
+		record.b = "bb";
+        ds.updateRecords([ record ]);
+	}
+});
+isc.JGBaseDictBox.create({
+    autoDraw: true,
+    Code: " JGBaseDictBox2 ",
+    SimpleChineseTitle: " 弹出选择 ",
+    Top: 91,
+    Left: 19,
+	Width:235,
+	Height:26,
+	Enabled:true,
+	Visible:true,
+	LabelWidth:94,
+	TableName:ds,
+	IDColumnName:"a",
+	ColumnName:"b"
+});
+isc.JGBaseDictBox.create({
+    autoDraw: true,
+    Code: "JGBaseDictBox1",
+    SimpleChineseTitle: "弹出选择",
+    Width: 325,
+    Height: 50,
+    Top: 16,
+    Left: 19,
+	Enabled:true,
+	Visible:true,
+    LabelWidth:150,
+	Placeholder:"提醒文字"
+});
+ds.load([{
+	id : "1",
+	a : "a",
+	b : "b"
+}]);
  */
 isc.ClassFactory.defineClass("JGBaseDictBox", "JGBaseFormWidget");
 

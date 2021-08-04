@@ -5,16 +5,171 @@
  * @extends JGBaseWidget
  * @example
  * var btn = isc.JGButton.create({
- *  SimpleChineseTitle : "test",
- *  Top : 50,
- *  Left : 50,
- *  autoDraw: true,
- *  Height : 50,
- *  Width : 150
- * });
- * btn.on("OnClick",function(){
- *  alert("clicked!");
- * });
+    autoDraw: true,
+    Code: "JGButton1111111",
+    SimpleChineseTitle: "属性设置-提醒文字：1111",
+    Width: "195",
+    Top: "35",
+    Left: "777",
+	RemindText:"我是提醒文字1",
+	OnClick:function(){
+		btn.setRemindText("1111");
+	}
+});
+var btn1 = isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton111111",
+    SimpleChineseTitle: "属性设置-标题：test",
+    Width: "146",
+    Top: "3",
+    Left: "777",
+	OnClick:function(){
+		btn1.setSimpleChineseTitle("test");
+	}
+});
+var btn2 = isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton11111",
+    SimpleChineseTitle: "属性设置-使能：true",
+    Width: "146",
+    Top: "99",
+    Left: "625",
+	OnClick:function(){
+		aim.setEnabled(true);
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton1111",
+    SimpleChineseTitle: "属性设置-使能：false",
+    Width: "146",
+    Top: "67",
+    Left: "625",
+	OnClick:function(){
+		aim.setEnabled(false);
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton111",
+    SimpleChineseTitle: "属性设置-显示：true",
+    Width: 146,
+    Top: 35,
+    Left: 625,
+	OnClick:function(){
+		aim.setVisible(true);
+	}
+});
+var aim = isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton12",
+    SimpleChineseTitle: "目标",
+    Height: 102,
+    Width: 188,
+    Top: 142,
+    Left: 625
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton11",
+    SimpleChineseTitle: "属性设置-显示：false",
+    Width: 146,
+    Top: "3",
+    Left: 625,
+	OnClick:function(){
+		aim.setVisible(false);
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton10",
+    SimpleChineseTitle: "使能：true",
+	Enabled: true,
+    Width: 89,
+    Top: 229,
+    Left: 357
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton9",
+    SimpleChineseTitle: "使能:false",
+    Width: 82,
+    Top: 229,
+    Left: 249,
+	Enabled: false
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton8",
+    SimpleChineseTitle: "提醒文字",
+    Width: 77,
+    Top: 16,
+    Left: 357,
+	RemindText: "提醒文字"
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton6",
+    SimpleChineseTitle: "宽：150，高：50",
+    Height: 50,
+    Width: 150,
+    Top: 124,
+    Left: 40
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton5",
+    SimpleChineseTitle: "Left:40",
+    Width: 67,
+    Top: 204,
+    Left: 40
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton4",
+    SimpleChineseTitle: "Top:300",
+    Width: 75,
+    Top: 300,
+    Left: 40
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton3",
+    SimpleChineseTitle: "显示：false",
+    Width: 92,
+    Top: 73,
+    Left: 40,
+	Visible: false
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton21",
+    SimpleChineseTitle: "点击事件",
+    Width: 77,
+    Top: 16,
+    Left: 249,
+	OnClick:function(){
+		alert('clicked!');
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton2",
+    SimpleChineseTitle: "绿色主题",
+    Width: 77,
+    Top: 15,
+    Left: 141,
+	Theme:"greenType"
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton1",
+    SimpleChineseTitle: "浮动提示",
+    Width: 77,
+    Top: 16,
+    Left: 40,
+	ToolTip:"\"阿斯顿发的说法\""
+});
  */
 isc.ClassFactory.defineClass("JGButton", "JGBaseWidget");
 isc.ClassFactory.mixInInterface("JGButton", "JGStyleHelper");

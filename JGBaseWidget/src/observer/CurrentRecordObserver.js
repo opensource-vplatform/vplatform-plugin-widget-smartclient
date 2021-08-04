@@ -70,7 +70,7 @@ isc.CurrentRecordObserver.addMethods({
         for (var i = 0, l = changed.length; i < l; i++) {
             var ch = changed[i];
             if (datasource.isCurrentRecord(ch)) {
-                this._handleValue(ch);
+                this._handleValue(ch,datasource);
                 break;
             }
         }
@@ -89,9 +89,9 @@ isc.CurrentRecordObserver.addMethods({
         return false;
     },
 
-    _handleValue: function (data) {
+    _handleValue: function (data,datasource) {
         if(this._isChanged(data)){
-            this._fireHandler(this.setValueHandler,[data]);
+            this._fireHandler(this.setValueHandler,[data,datasource]);
         }
     },
 
@@ -107,7 +107,8 @@ isc.CurrentRecordObserver.addMethods({
 
     _currentAction: function (params) {
         var data = params.currentRecord;
-        this._handleValue(data);
+        var datasource = params.datasource;
+        this._handleValue(data,datasource);
     },
 
 

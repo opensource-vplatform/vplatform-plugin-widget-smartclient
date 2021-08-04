@@ -43,6 +43,8 @@ isc.JGFormLayout.addMethods({
 	},
 	init: function () {
 		var ret = this.Super("init", arguments);
+		this.initDataBinding();
+		this.initEvent();
 		return ret;
 	},
 	/**
@@ -339,7 +341,7 @@ isc.JGFormLayout.addMethods({
 		}
 		this.registerItemEventHandler(handler);
 		widget.registerV3ExpressionHandler(this._expressionHandler);
-		var fields = widget.fields;
+		/*var fields = widget.fields;
 		if (fields && fields.length > 0) {
 			for (var i = 0, l = fields.length; i < l; i++) {
 				var field = fields[i];
@@ -349,21 +351,318 @@ isc.JGFormLayout.addMethods({
 					fieldAction.initEvent(field.Code);
 				}
 			}
-		}
+		}*/
 		widget.fields.forEach(function (item) {
 			if (item.type == "JGRadioGroup") {
-				JGRadioGroup.setValueMap(widgetCode, item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
+				this.setValueMapJGRadioGroup(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
 			} else if (item.type === 'JGComboBox') {
-				JGComboBox.setValueMap(widgetCode, item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
+				this.setValueMapJGComboBox(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
 			} else if (item.type === 'JGCheckBoxGroup') {
-				JGCheckBoxGroup.setValueMap(widgetCode, item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
+				this.setValueMapJGCheckBoxGroup(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
 			} else if (item.type === 'JGBaseDictBox') {
 				if (item.DropDownSource) {
 					item.DropDownSource = JSON.parse(item.DropDownSource);
-					JGBaseDictBox.setValueMap(widgetCode, item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
+					this.setValueMapJGBaseDictBox(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
 				}
 			}
 			item._validators = item.validators;
 		})
+	},
+
+	/**
+	 * 获取默认值
+	 */
+	getDefaultValue: function (field) {
+		var defValue = null;
+		var widget = this;
+		var items = widget.getItemsByFields(field);
+		if (items) {
+			for (var i = 0, l = items.length; i < l; i++) {
+				var item = items[i];
+				defValue = this.getWidgetDefaultValue(item, widget);
+			}
+		} else {
+			var item = widget.getItemByCode(field);
+			if (item) {
+				defValue = this.getWidgetDefaultValue(item, widget);
+			}
+		}
+		return defValue;
+	},
+
+	getWidgetDefaultValue: function (item, widget) {
+		var defValue;
+		var exp = item.getV3DefaultValue ? item.getV3DefaultValue() : item.DefaultValue;
+		if (item.type == "JGCheckBox" && exp != null) {
+			exp = typeof (item.DefaultValue) == "string" ? item.DefaultValue : "" + item.DefaultValue;
+		}
+		if (exp == null || exp == "") {
+			defValue = "";
+			if (widget.type === "JGQueryConditionPanel" && item.type != "JGCheckBox") {
+				defValue = null;
+			}
+		} else if (typeof (exp) == "object") {
+			defValue = exp;
+		} else {
+			defValue = this._expressionHandler(exp);
+		}
+		return defValue;
+	},
+
+	/**
+	 * 修改只读属性
+	 */
+	setItemReadOnly: function (itemCode, isReadonly) {
+		var widget = this;
+		if (widget.canEditReadOnly === false) { //窗体只读且不允许修改
+			return;
+		}
+		var item = this.getV3Item(itemCode);
+		item.ReadOnly = isReadonly;
+		item.validators = isReadonly || !item.Enabled ? null : item._validators ? item._validators : item.IsMust ? [{
+			type: "required"
+		}] : null;
+		//		if(item.type == "JGPassword" && !item._ReadOnly){
+		//			isReadonly ? item.hide() : item.show();
+		//			return;
+		//		}
+		if (item.type == "JGBaseDictBox") {
+			isReadonly = isReadonly || !item.Enabled;
+		}
+		item.setCanEdit(!isReadonly);
+		item.redraw();
+	},
+
+	/**
+	 * 修改使能属性
+	 */
+	setItemEnabled: function (itemCode, isEnable) {
+		var item = this.getV3Item(itemCode);
+		//放在开头是避免赋值Enabled或者setDisabled影响了readonly，其实isReadOnly里的逻辑不应该把使能和只读混一起的
+		var readonly = item.isReadOnly();
+		item.Enabled = isEnable;
+		item.validators = isEnable && !item.ReadOnly ? item._validators ? item._validators : item.IsMust ? [{
+			type: "required"
+		}] : null : null;
+		//    	if(item.type == "JGBaseDictBox"){
+		//    		var enabled = !item.ReadOnly && isEnable;//使能和只读不一样的属性，不能混一起
+		//    		item.setDisabled(!isEnable);
+		//    	}else{
+		//    		item.setDisabled(!isEnable);
+		//    	}
+		item.setDisabled(!isEnable);
+
+		if (isEnable && item.ReadOnly != readonly) { //兼容处理：使能属性配置为false，初始化时会把只读变成true
+			item.setCanEdit(!item.ReadOnly);
+		}
+		item.redraw();
+	},
+
+	/**
+	 * 修改显示属性
+	 */
+	setItemVisible: function (itemCode, isShow) {
+		var item = this.getV3Item(itemCode);
+		if ((item.type == "JGButton" || item.type == "JGPassword") && item._ReadOnly) {
+			return;
+		}
+		item.Visible = isShow;
+		if (isShow) {
+			item.show();
+		} else {
+			item.hide();
+		}
+		if (this.type == "JGQueryConditionPanel") {
+			if (this.setItemVisible) { //Task20200527029
+				this.setItemVisible(item, isShow);
+			}
+			if (this.setFooterBtnCol) {
+				this.setFooterBtnCol();
+			}
+			if (this.formLayout && this.formLayout.redraw) {
+				this.formLayout.redraw()
+			}
+		}
+	},
+
+	getItemReadOnly: function (itemCode) {
+		var item = this.getV3Item(itemCode);
+		return item.isReadOnly();
+	},
+
+	getItemEnabled: function (itemCode) {
+		var item = this.getV3Item(itemCode);
+		return !item.isDisabled();
+	},
+
+	getItemVisible: function (itemCode) {
+		var item = this.getV3Item(itemCode);
+		return item.isVisible();
+	},
+
+	setItemIsMust: function (itemCode, isMust) {
+		var item = this.getV3Item(itemCode);
+		item.IsMust = isMust;
+		item.setRequired(isMust);
+		if (!isMust) {
+			item.validate();
+		}
+	},
+
+	getVisible: function () {
+		return this.getVisible();
+	},
+
+	getV3Item: function (itemCode) {
+		return this.getItemByCode(itemCode);
+	},
+	/**
+	 * 初始化数据绑定
+	 */
+	initDataBinding: function () {
+		var widget = this;
+		var dsList = widget.getMultiDataSourceInfo();
+		if (dsList) {
+			for (var dsName in dsList) {
+				var fields = dsList[dsName].fields;
+				var observer = isc.CurrentRecordObserver.create({
+					fields: fields,
+					setValueHandler: (function (_fields) {
+						return function (record,datasource) {
+							var dsName = datasource.dsName;
+							var prefix = dsName + widget.multiDsSpecialChar;
+							var oldVals = widget.getValues();
+							var id;
+							if (oldVals && oldVals.id) {
+								id = oldVals.id;
+							} else {
+								var record = datasource.createRecord();
+								id = record.id;
+								widget.dataSource.addData(record, null, {});
+							}
+							var data = {};
+							if (oldVals) {
+								Object.assign(data, oldVals);
+							}
+							data.id = id;
+							data[prefix + "id"] = record.id;
+							for (var i = 0, l = _fields.length; i < l; i++) {
+								var fieldCode = _fields[i];
+								if (fieldCode.indexOf(widget.multiDsSpecialChar) != -1) {
+									fieldCode = fieldCode.split(widget.multiDsSpecialChar)[0];
+								}
+								data[prefix + fieldCode] = record.get(fieldCode);
+							}
+							widget.setValues(data);
+						}
+					})(fields),
+					clearValueHandler: (function (_dsName, _fields) {
+						return function () {
+							var data = widget.values;
+							if (data) {
+								try {
+									for (var i = 0, l = _fields.length; i < l; i++) {
+										var fieldCode = _fields[i];
+										if (fieldCode.indexOf(widget.multiDsSpecialChar) != -1) {
+											delete data[fieldCode];
+										} else {
+											delete data[_dsName + widget.multiDsSpecialChar + fieldCode];
+										}
+									}
+								} catch (e) {}
+								widget.setValues(data);
+							}
+						}
+					})(dsName, fields)
+				});
+				var ds = isc.JGDataSourceManager.get(this,dsName);
+				ds.addObserver(observer);
+			}
+		} else {
+			var dsNames = vmManager.getDatasourceNamesByWidgetCode({
+				widgetCode: widgetCode
+			});
+			var fields = [];
+			var items = widget.getItems();
+			if (items && items.length > 0) {
+				for (var i = 0, l = items.length; i < l; i++) {
+					var item = items[i];
+					if (item && item.getBindFields) {
+						var fieldCodes = item.getBindFields();
+						if (fieldCodes && fieldCodes.length > 0) {
+							for (var j = 0, len = fieldCodes.length; j < len; j++) {
+								var fieldCode = fieldCodes[j];
+								if (fieldCode && fieldCode.length > 0 && fields.indexOf(fieldCode) == -1) {
+									fields.push(fieldCode);
+								}
+							}
+						}
+					}
+				}
+			}
+			var observer = new CurrentRecordObserver(dsNames[0], widgetCode, {}, fields);
+			observer.setWidgetValueHandler(function (record) {
+				var data = {
+					id: record.id
+				};
+				for (var i = 0, l = fields.length; i < l; i++) {
+					var fieldCode = fields[i];
+					data[fieldCode] = record.get(fieldCode);
+				}
+				widget.setValues(data);
+			});
+			observer.clearWidgetValueHandler(function () {
+				widget.clearValues();
+			});
+			observerManager.addObserver({
+				observer: observer
+			});
+		}
+
+
+		var _newDS = dataSource;
+		var dsList = widget.getMultiDataSourceInfo();
+		if (dsList) {
+			var newDsName = [];
+			var newFields = [];
+			for (var dsName in dsList) {
+				var dsObj = dsList[dsName].datasource;
+				dsObj = dsManager.lookup({
+					datasourceName: dsName
+				});
+				if (dsObj) {
+					dsList[dsName].datasource = dsObj;
+					var fields = dsObj.getMetadata().getFields();
+					newDsName.push(dsName);
+					for (var i = 0, len = fields.length; i < len; i++) {
+						var field = fields[i];
+						var newField = {
+							code: dsName + widget.multiDsSpecialChar + field.getCode(),
+							defaultValue: field.getDefaultValue(),
+							expression: field.getDefaultValue(),
+							length: field.getLength(),
+							name: field.getName(),
+							precision: field.getPrecision(),
+							type: field.getType()
+						};
+						newFields.push(newField)
+					}
+				}
+			}
+			var metadataJson = {
+				model: [{
+					datasourceName: newDsName.join(widget.multiDsSpecialChar),
+					fields: newFields
+				}]
+			};
+			var meatadata = metadataFactory.unSerialize(metadataJson);
+			var multiDB = new SmartClientMultiDB({
+				metadata: meatadata,
+				multiDsSpecialChar: widget.multiDsSpecialChar,
+				dataList: dsList
+			});
+			_newDS = multiDB._db;
+		}
+		widget.bindDataSource(_newDS);
 	}
 });

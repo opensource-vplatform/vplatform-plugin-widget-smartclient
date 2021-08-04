@@ -5,9 +5,219 @@
  * @mixes JGFormatHelper
  * @mixes IWindowAop
  * @example
- * isc.JGIntegerBox.create({
- * 	autoDraw: true
- * });
+ * var ds = isc.V3Datasource.create({
+	fields:[{
+		name: "id",
+		primaryKey:true,
+		type: "text",
+		title: "主键id"
+	},{
+		name: "a",
+		type: "integer",
+		title: "字段a"
+	}]
+});
+//创建临时数据源
+var createTempDS = function(fieldCode){
+	return isc.V3Datasource.create({
+		fields:[{
+			name: "id",
+			primaryKey:true,
+			type: "text",
+			title: "主键id"
+		},{
+			name: fieldCode,
+			type: "integer",
+			title: "字段"
+		}]
+	});
+}
+
+var info = isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton2",
+    SimpleChineseTitle: "事件信息",
+    Height: 89,
+    Width: 390,
+    Top: 120,
+    Left: 470
+});
+var ipt = isc.JGIntegerBox.create({
+    autoDraw: true,
+    Code: "JGIntegerBox42",
+    SimpleChineseTitle: "使能",
+    Top: 80,
+    Left: 470,
+	Width:235,
+	Height:26,
+	LabelWidth:94,
+	Visible:true,
+	Enabled:true,
+    OnValueChanged:function(){
+		info.setSimpleChineseTitle("值改变事件触发！");
+	},
+	OnValueLoaded:function(){
+		info.setSimpleChineseTitle("值加载事件触发！");
+	},
+	OnLabelClick:function(){
+		info.setSimpleChineseTitle("标题点击事件触发！");
+	},
+	OnKeyDown:function(){
+		info.setSimpleChineseTitle("键盘按下事件触发！");
+	},
+	OnEnter:function(){
+		info.setSimpleChineseTitle("获取焦点事件触发！");
+	},
+	OnLeave:function(){
+		info.setSimpleChineseTitle("失去焦点事件触发！");
+	},
+	TableName:ds,
+	ColumnName: "a"
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton13",
+    SimpleChineseTitle: "使能",
+    Width: 59,
+    Top: 79,
+    Left: 724,
+    OnClick:function(){
+		ipt.setEnabled(true);
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton112",
+    SimpleChineseTitle: "禁用",
+    Width: 59,
+    Top: 80,
+    Left: 801,
+    OnClick:function(){
+		ipt.setEnabled(false);
+	}
+});
+var ipt1 = isc.JGIntegerBox.create({
+    autoDraw: true,
+    Code: "JGIntegerBox41",
+    SimpleChineseTitle: "只读",
+    Top: 48,
+    Left: 470,
+	Width:235,
+	Height:26,
+	LabelWidth:94,
+	Visible:true,
+	Enabled:true
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton12",
+    SimpleChineseTitle: "只读",
+    Width: 59,
+    Top: 47,
+    Left: 724,
+    OnClick:function(){
+		ipt1.setReadOnly(true);
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton111",
+    SimpleChineseTitle: "编辑",
+    Width: 59,
+    Top: 48,
+    Left: 801,
+    OnClick:function(){
+		ipt1.setReadOnly(false);
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton11",
+    SimpleChineseTitle: "隐藏",
+    Width: 59,
+    Top: 16,
+    Left: 801,
+    OnClick:function(){
+		ipt2.setVisible(false);
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton1",
+    SimpleChineseTitle: "显示",
+    Width: 59,
+    Top: 15,
+    Left: 724,
+    OnClick:function(){
+		ipt2.setVisible(true);
+	}
+});
+var ipt2 = isc.JGIntegerBox.create({
+    autoDraw: true,
+    Code: "JGIntegerBox4",
+    SimpleChineseTitle: "显示",
+    Top: 16,
+    Left: 470,
+	Width:235,
+	Height:26,
+	LabelWidth:94,
+	Visible:true,
+	Enabled:true
+});
+var ipt3 = isc.JGIntegerBox.create({
+    autoDraw: true,
+    Code: "JGIntegerBox3",
+    SimpleChineseTitle: "整数",
+    Top: 120,
+    Left: 14,
+    OnLabelClick:function(){
+		info.setSimpleChineseTitle("标题点击事件触发！");
+	},
+	DefaultValue:1111,
+	Width:235,
+	Height:26,
+	LabelWidth:94,
+	Visible:true,
+	Enabled:true,
+	TableName:createTempDS("ColumnName"),
+	ColumnName:"ColumnName"
+});
+
+ipt3.setV3Value(ipt3.getDefaultValue());
+
+isc.JGIntegerBox.create({
+    autoDraw: true,
+    Code: "JGIntegerBox2",
+    SimpleChineseTitle: "整数",
+    Top: 73,
+    Left: 14,
+	Width:235,
+	Height:26,
+	LabelWidth:94,
+	Visible:true,
+	Enabled:true,
+    LabelVisible:false
+});
+isc.JGIntegerBox.create({
+    autoDraw: true,
+    Code: "JGIntegerBox1",
+    SimpleChineseTitle: "整数",
+    Width: 364,
+	Height:50,
+	Top:16,
+	Left:14,
+	LabelWidth:94,
+	Visible:true,
+	Enabled:true,
+	LabelWidth:150,
+	ValueTextAlign:"Right",
+	ToolTip: "\"浮动提示\"",
+	Placeholder: "提醒文字"
+});
+ds.load([{
+	id : "1",
+	a : 222
+}]);
  */
 isc.ClassFactory.defineClass("JGIntegerBox", "JGBaseFormWidget");
 isc.ClassFactory.mixInInterface("JGIntegerBox", "JGFormatHelper");

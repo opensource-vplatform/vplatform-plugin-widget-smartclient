@@ -68,7 +68,7 @@ isc.JGBaseFormWidget.addMethods({
             this.styleName += " " + this.requiredStyleName;
         }
         this.canEdit = !this.ReadOnly;
-        this.autoDraw = false;
+        this.autoDraw = properties.autoDraw ? true:false;
         this.left = this.Left;
         this.top = this.Top;
         //统一处理显示隐藏的问题
