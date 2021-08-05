@@ -4,12 +4,189 @@
  * @mixes IRecordObserver
  * @extends JGBaseWidget
  * @example
- * isc.JGImage.create({
- *  ToolTip : "tip",
- *  Width:200,
- *  autoDraw: true,
- *  Height:200
- * });
+ * var ds = isc.V3Datasource.create({
+	fields:[{
+		name: "id",
+		primaryKey:true,
+		type: "text",
+		title: "主键id"
+	},{
+		name: "a",
+		type: "text",
+		title: "字段a"
+	}]
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton1122",
+    SimpleChineseTitle: "鼠标状态",
+    Width: 86,
+    Top: 20,
+    Left: 727,
+});
+isc.JGImage.create({
+    autoDraw: true,
+    Code: "JGImage1112",
+    Height: 150,
+    Width: 150,
+    Top: 52,
+    Left: 727,
+	ImageValue: "http://vstore-developer.yindangu.com/v3/itop/common/images/defaultImg.png",
+    OnClick: function () {}
+});
+isc.JGImage.create({
+    autoDraw: true,
+    Code: "JGImage1111111",
+    Height: 150,
+    Width: 299,
+    Top: 280,
+    Left: 400,
+    OnClick: function () {},
+    TableName: ds,
+    ColumnName: "a",
+    Placeholder: "test",
+    ImagePosition: "fill"
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton112111",
+    SimpleChineseTitle: "提醒文字:test",
+    Width: 127,
+    Top: 233,
+    Left: 227
+});
+isc.JGImage.create({
+    autoDraw: true,
+    Code: "JGImage111111",
+    Height: 150,
+    Width: 150,
+    Top: 280,
+    Left: 227,
+	ImageValue: "http://vstore-developer.yindangu.com/v3/itop/common/images/defaultImg.png",
+    OnClick: function () {},
+    Placeholder: "test",
+    ImagePosition: "fill"
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton11211",
+    SimpleChineseTitle: "浮动提示:111111",
+    Width: 127,
+    Top: 233,
+    Left: 21
+});
+isc.JGImage.create({
+    autoDraw: true,
+    Code: "JGImage11111",
+    Height: 150,
+    Width: 150,
+    Top: 280,
+    Left: 21,
+	ImageValue: "http://vstore-developer.yindangu.com/v3/itop/common/images/defaultImg.png",
+    OnClick: function () {},
+    ToolTip: "\"111111\"",
+    ImagePosition: "fill"
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton1121",
+    SimpleChineseTitle: "图片拉伸",
+    Width: 86,
+    Top: 233,
+    Left: 761
+});
+isc.JGImage.create({
+    autoDraw: true,
+    Code: "JGImage1111",
+    Height: 150,
+    Width: 150,
+    Top: 280,
+    Left: 761,
+	ImageValue: "http://vstore-developer.yindangu.com/v3/itop/common/images/defaultImg.png",
+    OnClick: function () {},
+    ImagePosition: "fill"
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton112",
+    SimpleChineseTitle: "鼠标状态",
+    Width: 86,
+    Top: 20,
+    Left: 549
+});
+isc.JGImage.create({
+    autoDraw: true,
+    Code: "JGImage111",
+    Height: 150,
+    Width: 150,
+    Top: 52,
+    Left: 549,
+	ImageValue: "http://vstore-developer.yindangu.com/v3/itop/common/images/defaultImg.png",
+    ImageMouse: "Hand",
+	OnClick: function () {}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton111",
+    SimpleChineseTitle: "默认隐藏，点击切换",
+    Width: 139,
+    Top: 20,
+    Left: 363,
+    OnClick: function () {
+		img.setVisible(!img.isVisible());
+	}
+});
+var img = isc.JGImage.create({
+    autoDraw: true,
+    Code: "JGImage12",
+    Height: 150,
+    Width: 150,
+    Top: 52,
+    Left: 363,
+	ImageValue: "http://vstore-developer.yindangu.com/v3/itop/common/images/defaultImg.png",
+    Visible:false
+});
+var info = isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton11",
+    SimpleChineseTitle: "点击事件",
+    Width: 86,
+    Top: 20,
+    Left: 188
+});
+isc.JGImage.create({
+    autoDraw: true,
+    Code: "JGImage11",
+    Height: 150,
+    Width: 150,
+    Top: 52,
+    Left: 188,
+	ImageValue: "http://vstore-developer.yindangu.com/v3/itop/common/images/defaultImg.png",
+    OnClick: function () {
+		info.setSimpleChineseTitle("点击事件触发！");
+	}
+});
+isc.JGButton.create({
+    autoDraw: true,
+    Code: "JGButton1",
+    SimpleChineseTitle: "宽高：150",
+    Width: 86,
+    Top: 20,
+    Left: 21
+});
+isc.JGImage.create({
+    autoDraw: true,
+    Code: "JGImage1",
+    Height: 150,
+    Width: 150,
+    Top: 52,
+    Left: 21,
+	ImageValue: "http://vstore-developer.yindangu.com/v3/itop/common/images/defaultImg.png"
+});
+ds.load([{
+	id : "1",
+	a : "222"
+}]);
  */
 isc.ClassFactory.defineClass("JGImage", "JGBaseWidget");
 isc.ClassFactory.mixInInterface("JGBaseWidget", "IRecordObserver");

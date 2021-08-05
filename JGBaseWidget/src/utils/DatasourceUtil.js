@@ -32,6 +32,26 @@ isc.DatasourceUtil.addClassMethods({
         }
     },
 
+     /**
+     * 添加数据源选中行事件回调
+     * @memberof DatasourceUtil
+     * @method
+     * @static
+     * @param {Object} widget 控件实例
+     * @param {Function} handler 事件回调
+     */
+    addDatasourceSelectEventHandler: function(widget, handle){
+        var datasource = isc.WidgetDatasource.getDatasource(widget);
+        if (!this._checkDatasource(datasource)) {
+            return;
+        }
+        if (widget && handler) {
+            datasource.on(datasource.Events.SELECT, null, function () {
+                handler.apply(datasource, arguments);
+            });
+        }
+    },
+
     /**
      * 添加数据源更新事件回调
      * @memberof DatasourceUtil
