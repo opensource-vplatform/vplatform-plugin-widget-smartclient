@@ -80,6 +80,12 @@
                 }
             },
             {
+                "code": "ColSpan",
+                "name": "列",
+                "type": "char",
+                "default":"1"
+            },
+            {
                 "code": "LabelForeColor",
                 "name": "标签字体颜色",
                 "type": "char",
