@@ -40,7 +40,7 @@ isc.DatasourceUtil.addClassMethods({
      * @param {Object} widget 控件实例
      * @param {Function} handler 事件回调
      */
-    addDatasourceSelectEventHandler: function(widget, handle){
+    addDatasourceSelectEventHandler: function(widget, handler){
         var datasource = isc.WidgetDatasource.getDatasource(widget);
         if (!this._checkDatasource(datasource)) {
             return;

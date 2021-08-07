@@ -170,6 +170,11 @@
             "name": "表达式处理器",
             "type": "char",
             "handler": "expression"
+        },{
+            "code": "_createDropdownSourceObserver",
+            "name": "下拉数据源观察者",
+            "type": "char",
+            "handler": "DropdownSourceObserver"
         }],
         "dependencies": [{
             "groupId": "com.toone.v3.platform",

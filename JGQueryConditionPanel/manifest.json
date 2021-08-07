@@ -1,0 +1,233 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGQueryConditionPanel",
+    "version": "1.21.0",
+    "plugins": [{
+        "type": "widget",
+        "code": "JGQueryConditionPanel",
+        "name": "",
+        "icon": "./JGQueryConditionPanel.png",
+        "desc": "",
+        "defineUrl": "./dist/index.js",
+        "docUrl": "./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "properties": [{
+            "code": "Code",
+            "name": "控件名称",
+            "type": "char",
+            "editor": {
+                "type": "code",
+                "prefix": null
+            },
+            "compatible": {
+                "enhanceType": "code"
+            },
+            "default": "JGQueryConditionPanel1"
+        }, {
+            "code": "Height",
+            "name": "高度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 40
+        }, {
+            "code": "Width",
+            "name": "宽度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 500
+        }, {
+            "code": "Top",
+            "name": "上边距",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 0
+        }, {
+            "code": "Left",
+            "name": "左边距",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 0
+        }, {
+            "code": "PercentWidth",
+            "name": "百分比宽度",
+            "type": "char",
+            "default": "52.1%"
+        }, {
+            "code": "PercentHeight",
+            "name": "百分比高度",
+            "type": "char",
+            "default": "45.8%"
+        }, {
+            "code": "TabIndex",
+            "name": "界面顺序号",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 0
+        }, {
+            "code": "Visible",
+            "name": "显示",
+            "type": "boolean",
+            "editor": {
+                "type": "boolean"
+            },
+            "default": {
+                "default": true,
+                "title": "显示",
+                "editor": {
+                    "type": "Boolean"
+                }
+            }
+        }, {
+            "code": "Dock",
+            "name": "泊靠",
+            "type": "char",
+            "default": "None"
+        }, {
+            "code": "StaticLayoutSize",
+            "name": "高度固定",
+            "type": "boolean",
+            "editor": {
+                "type": "boolean"
+            },
+            "default": true
+        }, {
+            "code": "Anchor",
+            "name": "锚定",
+            "type": "char"
+        }, {
+            "code": "ItemLabelWidth ",
+            "name": "标题宽度",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            }
+        }, {
+            "code": "ColumnCount",
+            "name": "设置布局列数",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": {
+                "default": 3,
+                "title": "列数",
+                "editor": {
+                    "type": "Select",
+                    "valueMap": {
+                        "2": 2,
+                        "3": 3,
+                        "4": 4
+                    }
+                }
+            }
+        }, {
+            "code": "DefaultRow",
+            "name": "默认显示行数",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 4
+        }, {
+            "code": "RowCount",
+            "name": "行数",
+            "type": "integer",
+            "editor": {
+                "type": "integer"
+            },
+            "default": 4
+        }, {
+            "code": "TableName",
+            "name": "实体",
+            "type": "char",
+            "editor": {
+                "type": "entity"
+            },
+            "compatible": {
+                "enhanceType": "tableName"
+            },
+            "default": ""
+        }, {
+            "code": "TriggerType",
+            "name": "查询触发方式",
+            "type": "char",
+            "default": "QueryButtonClick"
+        }, {
+            "code": "SearchBoxEnabled",
+            "name": "快速搜索",
+            "type": "boolean",
+            "editor": {
+                "type": "boolean"
+            },
+            "default": true
+        }, {
+            "code": "ClearButtonText",
+            "name": "清除按钮文本",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "language",
+                "target": "ClearButtonText"
+            },
+            "default": "清空查询"
+        }, {
+            "code": "QueryButtonText",
+            "name": "查询按钮文本",
+            "type": "char",
+            "compatible": {
+                "enhanceType": "language",
+                "target": "QueryButtonText"
+            },
+            "default": {
+                "default": "查询",
+                "title": "查询按钮文本",
+                "editor": {
+                    "type": "Text"
+                }
+            }
+        }, {
+            "code": "OnConditionChanged ",
+            "name": "查询条件改变事件",
+            "type": "char",
+            "editor": {
+                "type": "ruleset"
+            }
+        }, {
+            "code": "ConditionDataSource",
+            "name": "查询条件数据配置",
+            "type": "char",
+            "default": ""
+        },{
+            "code": "_getWidgetContextProperty",
+            "name": "获取控件属性",
+            "type": "char",
+            "handler": "getWidgetContextProperty"
+        },{
+            "code": "_eventHandler",
+            "name": "事件处理器",
+            "type": "char",
+            "handler": "eventHandler"
+        },{
+            "code": "_getCurrencyField",
+            "name": "获取金额字段",
+            "type": "char",
+            "handler": "getCurrencyField"
+        }],
+        "dependencies": [{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+            "pluginCode": "JGBaseFormWidget",
+            "pluginType": "widget"
+        }]
+    }]
+}
