@@ -1,0 +1,113 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGGroupPanel",
+    "version": "3.10.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGGroupPanel",
+            "name": "面板排列",
+            "icon": "./JGGroupPanel.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "Code",
+                    "name": "名称",
+                    "type": "char",
+                    "default": "JGGroupPanel1"
+                },
+                {
+                    "code": "ContentAlignment",
+                    "name": "内容排列",
+                    "type": "char",
+                    "default": "Horizontal"
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "GroupTitle",
+                    "name": "分组标题",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "language",
+                        "target": "GroupTitle"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "HorizontalAlign",
+                    "name": "水平位置",
+                    "type": "char",
+                    "default": "Left"
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "MultiHeight",
+                    "name": "高度",
+                    "type": "char",
+                    "default": "100px"
+                },
+                {
+                    "code": "MultiWidth",
+                    "name": "宽度",
+                    "type": "char",
+                    "default": "200px"
+                },
+                {
+                    "code": "NumCols",
+                    "name": "列数",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 3
+                },
+                {
+                    "code": "VerticalAlign",
+                    "name": "垂直位置",
+                    "type": "char",
+                    "default": "Top"
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code":"getChildrenHandler",
+                    "name":"获取事件处理器",
+                    "type":"char",
+                    "handler":"widgetChildren"
+                },
+                {
+                    "code":"getParentHandler",
+                    "name":"获取事件处理器",
+                    "type":"char",
+                    "handler":"widgetParent"
+                }
+            ],
+            "dependencies": [
+               
+            ]
+        }
+    ]
+}
