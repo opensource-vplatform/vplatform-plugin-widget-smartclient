@@ -1,0 +1,411 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGAttachment",
+    "version": "3.12.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGAttachment",
+            "name": "V平台文件控件",
+            "icon": "./JGAttachment.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "RequireJS",
+                    "name": "引入静态js资源",
+                    "type": "char"
+                },
+                {
+                    "code": "FileNameColumn",
+                    "name": "文件名字段",
+                    "type": "char",
+                    "default": ""
+                },
+                {           
+                    "code": "ColSpan",
+                    "name": "列宽",
+                    "type": "char",
+                    "default": "1"
+                },
+                {
+                    "code": "Appearance",
+                    "name": "模式",
+                    "type": "char",
+                    "default": "Folded"
+                },
+                {
+                    "code": "FileSizeColumn",
+                    "name": "文件大小字段",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 26
+                },
+                {
+                    "code": "TabIndex",
+                    "name": "界面顺序号",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 19
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Enabled",
+                    "name": "使能",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "ValueTextAlign",
+                    "name": "值对齐方式",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "alignment"
+                    },
+                    "default": "left"
+                },
+                {
+                    "code": "LabelBackColor",
+                    "name": "标签背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "FileSize",
+                    "name": "允许上传文件大小(MB)",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 3
+                },
+                {
+                    "code": "MaxCount",
+                    "name": "允许上传文件个数",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 1
+                },
+                {
+                    "code": "LabelFontStyle",
+                    "name": "标签字体",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "font"
+                    }
+                },
+                {
+                    "code": "LabelForeColor",
+                    "name": "标签前景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Code",
+                    "name": "控件名称",
+                    "type": "char",
+                    "default": "JGAttachment1"
+                },
+                {
+                    "code": "FileType",
+                    "name": "允许上传文件类型",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "fileType"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比高度",
+                    "type": "char",
+                    "default": "1.6%"
+                },
+                {
+                    "code": "IsMust",
+                    "name": "必填",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": false
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 294
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "LabelVisible",
+                    "name": "显示标题",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "ValueForeColor",
+                    "name": "值前景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "ReadOnly",
+                    "name": "只读",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": false
+                },
+                {
+                    "code": "LabelWidth",
+                    "name": "标签宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 94
+                },
+                {
+                    "code": "LabelTextAlign",
+                    "name": "标签对齐方式",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "alignment"
+                    },
+                    "default": "left"
+                },
+                {
+                    "code": "ValueBackColor",
+                    "name": "值背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "ValueFontStyle",
+                    "name": "值字体",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "font"
+                    }
+                },
+                {
+                    "code": "ShowUploadList",
+                    "name": "显示上传列表",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "LabelText",
+                    "name": "标题",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "language"
+                    }
+                },
+                {
+                    "code": "Placeholder",
+                    "name": "提醒文字",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "language",
+                        "target": "Placeholder"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "ToolTip",
+                    "name": "浮动提示",
+                    "type": "char",
+                    "editor": {
+                        "type": "expression",
+                        "handleProp": "_v3ExpHandler"
+                    },
+                    "compatible": {
+                        "enhanceType": "expLanguage"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnFileSelected",
+                    "name": "文件已选择",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnLeave",
+                    "name": "失去焦点",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    }
+                },
+                {
+                    "code": "OnUploadCompleted",
+                    "name": "文件已上传",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnLabelClick",
+                    "name": "单击标题",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code":"_remoteMethodAccessor",
+                    "name":"远程调用服务端接口",
+                    "handler":"remoteMethodAccessor",
+                    "visible":false,
+                    "type":"char"
+                },
+                {
+                    "code":"_expHandler",
+                    "name":"执行表达式",
+                    "handler":"expression",
+                    "visible":false,
+                    "type":"char"
+                },
+                {
+                    "code": "OnEnter",
+                    "name": "获取焦点",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    }
+                },
+                {
+                    "code": "OnFileDeleted",
+                    "name": "文件已删除",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "TableName",
+                    "name": "表名",
+                    "type": "char",
+                    "editor": {
+                        "type": "entity"
+                    },
+                    "compatible": {
+                        "enhanceType": "tableName"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "ColumnName",
+                    "name": "文件标识字段",
+                    "type": "char",
+                    "editor": {
+                        "type": "field",
+                        "entityProp": "TableName"
+                    },
+                    "compatible": {
+                        "enhanceType": "columnName"
+                    },
+                    "default": "ColumnName"
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginCode": "JGBaseFormWidget",
+                    "pluginType": "widget"
+                }
+            ]
+        }
+    ]
+}
