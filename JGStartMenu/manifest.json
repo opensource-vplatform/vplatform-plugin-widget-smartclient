@@ -1,0 +1,344 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGStartMenu",
+    "version": "3.8.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGStartMenu",
+            "name": "V平台开始菜单控件",
+            "icon": "./JGStartMenu.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "Code",
+                    "name": "名称",
+                    "type": "char",
+                    "default": "JGStartMenu1"
+                },
+                {
+                    "code": "FontStyleSize",
+                    "name": "字体大小",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "BindMenu",
+                    "name": "绑定菜单",
+                    "type": "char"
+                },
+                {
+                    "code": "FontStyle",
+                    "name": "字体样式",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "font"
+                    }
+                },
+                {
+                    "code": "BackColor",
+                    "name": "背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "StaticLayoutSize",
+                    "name": "宽度固定",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "LabelText",
+                    "name": "标题",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "language"
+                    }
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 24
+                },
+                {
+                    "code": "ComponentContainer",
+                    "name": "组件容器",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "ComponentOpenWay",
+                    "name": "组件打开方式",
+                    "type": "char",
+                    "default": "NewWindow"
+                },
+                {
+                    "code": "IsShowMenuArrow",
+                    "name": "显示菜单箭头",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "MenuDesigner",
+                    "name": "菜单设计",
+                    "type": "char",
+                    "default": "(集合)"
+                },
+                {
+                    "code": "MenuDataSourceType",
+                    "name": "菜单数据源类型",
+                    "type": "char",
+                    "default": "Control"
+                },
+                {
+                    "code": "SpecifiedWindowName",
+                    "name": "指定窗口名称",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "ForeColor",
+                    "name": "字体颜色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "ImageValue",
+                    "name": "背景图片",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "resource"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 87
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "9.1%"
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "_expHandler",
+                    "name": "执行表达式",
+                    "handler": "expression",
+                    "visible": false,
+                    "type": "char"
+                },
+                {
+                    "code": "_eventCaller",
+                    "name": "事件回调",
+                    "handler": "eventCaller",
+                    "visible": false,
+                    "type": "char"
+                },
+                {
+                    "code": "_serverExpression",
+                    "name": "服务解析器",
+                    "handler": "serverExpression",
+                    "visible": false,
+                    "type": "char"
+                },
+                {
+                    "code": "_menuAction",
+                    "name": "服务解析器",
+                    "handler": "menuAction",
+                    "visible": false,
+                    "type": "char"
+                },
+                {
+                    "code": "_putWidgetContextProperty",
+                    "name": "控件属性获取",
+                    "handler": "putWidgetContextProperty",
+                    "visible": false,
+                    "type": "char"
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": {
+                        "default": true,
+                        "title": "显示",
+                        "editor": {
+                            "type": "Boolean"
+                        }
+                    }
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比高度",
+                    "type": "char",
+                    "default": "5.3%"
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "TableName",
+                    "name": "表名",
+                    "type": "char",
+                    "required": false,
+                    "editor": {
+                        "type": "entity"
+                    },
+                    "compatible": {
+                        "enhanceType": "tableName",
+                        "storeType":"menu"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "menuDate",
+                    "name": "菜单数据",
+                    "type": "char",
+                    "compatible": {
+                        "target": "menuDate"
+                    },
+                    "editor": {
+                        "type": "children",
+                        "define": {
+                            "code": "JGStartMenuItem",
+                            "type": "widget",
+                            "properties": [
+                                {
+                                    "code": "ImageValue",
+                                    "name": "背景图片",
+                                    "type": "char",
+                                    "compatible": {
+                                        "enhanceType": "resource"
+                                    },
+                                    "default": ""
+                                },
+                                {
+                                    "code": "IsExpand",
+                                    "name": "是否扩张",
+                                    "type": "boolean",
+                                    "editor": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                {
+                                    "code": "Code",
+                                    "name": "控件名称",
+                                    "type": "char"
+                                },
+                                {
+                                    "code": "LabelText",
+                                    "name": "标题",
+                                    "type": "char",
+                                    "compatible": {
+                                        "enhanceType": "language"
+                                    }
+                                },
+                                {
+                                    "code": "Text",
+                                    "name": "文本",
+                                    "type": "char"
+                                },
+                                {
+                                    "code": "Visible",
+                                    "name": "显示",
+                                    "type": "boolean",
+                                    "editor": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                {
+                                    "code": "OnClick",
+                                    "name": "单击事件",
+                                    "type": "char",
+                                    "editor": {
+                                        "type": "ruleset"
+                                    }
+                                },
+                                {
+                                    "code": "JGStartMenuItem",
+                                    "type": "widget",
+                                    "editor": {
+                                        "type": "widgetSelect",
+                                        "childTypes": ["JGStartMenuItem"]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginCode": "JGBaseFormWidget",
+                    "pluginType": "widget"
+                },
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGMenuWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGMenuWidget",
+                    "pluginCode": "JGMenuWidget",
+                    "pluginType": "widget"
+                },
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+                    "pluginCode": "JGStyleHelper",
+                    "pluginType": "widget"
+                }
+            ]
+        }
+    ]
+}
