@@ -1,0 +1,202 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGLabel",
+    "version": "3.12.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGLabel",
+            "name": "V平台标签控件",
+            "icon": "./JGLabel.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "3.6%"
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 68
+                },
+                {
+                    "code": "TextAlign",
+                    "name": "对齐方式",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "alignment"
+                    },
+                    "default": "left"
+                },
+                {
+                    "code": "ForeColor",
+                    "name": "字体颜色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 24
+                },
+                {
+                    "code": "BackColor",
+                    "name": "背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比高度",
+                    "type": "char",
+                    "default": "1.4%"
+                },
+                {
+                    "code": "FontStyle",
+                    "name": "字体样式",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "font"
+                    }
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Code",
+                    "name": "名称",
+                    "type": "char",
+                    "default": "JGLabel1"
+                },
+                {
+                    "code": "StaticLayoutSize",
+                    "name": "宽度固定",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "LabelText",
+                    "name": "标题",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "language"
+                    }
+                },
+                {
+                    "code": "MultiWidth",
+                    "name": "宽度",
+                    "type": "char",
+                    "default": "68px"
+                },
+                {
+                    "code": "MultiHeight",
+                    "name": "高度",
+                    "type": "char",
+                    "default": "24px"
+                },
+                {
+                    "code": "ToolTip",
+                    "name": "浮动提示",
+                    "type": "char",
+                    "editor": {
+                        "type": "expression",
+                        "handleProp": "_v3ExpHandler"
+                    },
+                    "compatible": {
+                        "enhanceType": "expLanguage"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnClick",
+                    "name": "单击事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "MultiWidth",
+                    "name": "多宽度",
+                    "type": "char",
+                    "default": "68px"
+                },
+                {
+                    "code": "MultiHeight",
+                    "name": "多高度",
+                    "type": "char",
+                    "default": "24px"
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+                    "pluginCode": "JGStyleHelper",
+                    "pluginType": "widget"
+                },
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginCode": "JGBaseWidget",
+                    "pluginType": "widget"
+                }
+            ]
+        }
+    ]
+}
