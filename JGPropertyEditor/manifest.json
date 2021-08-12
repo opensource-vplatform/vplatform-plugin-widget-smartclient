@@ -1,0 +1,287 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGPropertyEditor",
+    "version": "3.81.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGPropertyEditor",
+            "name": "属性编辑器",
+            "icon": "./JGPropertyEditor.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "UseVirtualDB",
+                    "name": "是否产生虚拟DB",
+                    "type": "char"
+                },
+                {
+                    "code": "TabIndex",
+                    "name": "界面顺序号",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 43
+                },
+                {
+                    "code": "ReadOnly",
+                    "name": "只读",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": false
+                },
+                {
+                    "code": "LabelForeColor",
+                    "name": "标题前景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "LabelFontStyle",
+                    "name": "属性名字体",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "font"
+                    }
+                },
+                {
+                    "code": "ValueFontStyle",
+                    "name": "属性值字体",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "font"
+                    }
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 273
+                },
+                {
+                    "code": "TitleBackColor",
+                    "name": "标题背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "TitleFontStyle",
+                    "name": "标题字体",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "font"
+                    }
+                },
+                {
+                    "code": "TitleForeColor",
+                    "name": "标题前景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "TitleVisible",
+                    "name": "显示标题",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Code",
+                    "name": "控件名称",
+                    "type": "char",
+                    "default": "JGPropertyEditor1"
+                },
+                {
+                    "code": "LabelVisible",
+                    "name": "显示标题",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    }
+                },
+                {
+                    "code": "ValueBackColor",
+                    "name": "属性值背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "ValueForeColor",
+                    "name": "属性值前景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "LabelBackColor",
+                    "name": "标题背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "控件名称",
+                    "type": "char",
+                    "default": "10.5%"
+                },
+                {
+                    "code": "BackColor",
+                    "name": "背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 195
+                },
+                {
+                    "code": "TableName",
+                    "name": "表名",
+                    "type": "char",
+                    "required": false,
+                    "editor": {
+                        "type": "entity"
+                    },
+                    "compatible": {
+                        "enhanceType": "tableName"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "LabelForeColor",
+                    "name": "属性名前景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "控件名称",
+                    "type": "char",
+                    "default": "16.4%"
+                },
+                {
+                    "code": "LabelBackColor",
+                    "name": "属性名背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "LabelText",
+                    "name": "标题",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "language"
+                    }
+                },
+                {
+                    "code": "_lookup",
+                    "name": "根据数据源名称获取数据源实例",
+                    "type": "char",
+                    "handler": "entity"
+                },
+                {
+                    "code": "_getDropDownData",
+                    "name": "获取下拉数据",
+                    "type": "char",
+                    "handler": "getDropDownData"
+                },
+                {
+                    "code": "putWidgetContextProperty",
+                    "name": "设置属性",
+                    "type": "char",
+                    "handler": "putWidgetContextProperty"
+                },
+                {
+                    "code": "Alias",
+                    "name": "别名",
+                    "type": "char",
+                    "default": "属性编辑器"
+                },
+                {
+                    "code": "_exeExpression",
+                    "name": "执行表达式",
+                    "type": "char",
+                    "handler": "expression"
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginCode": "JGBaseWidget",
+                    "pluginType": "widget"
+                }
+            ]
+        }
+    ]
+}
