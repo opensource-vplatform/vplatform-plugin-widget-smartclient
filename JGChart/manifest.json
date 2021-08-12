@@ -1,0 +1,269 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGChart",
+    "version": "3.8.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGChart",
+            "name": "图表",
+            "icon": "./JGChart.png",
+            "desc": "图表泛可直观展示统计信息属性（时间性、数量性等），对知识挖掘和信息直观生动感受起关键作用的图形结构。先绑定实体，后确定显示的字段。适用于直观显示数据数量的情况下。",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "StoreType",
+                    "name": "数据类型",
+                    "type": "char"
+                },
+                {
+                    "code": "Anchor",
+                    "name": "锚定",
+                    "type": "char"
+                },
+                {
+                    "code": "Code",
+                    "name": "控件名称",
+                    "type": "char",
+                    "default": "JGChart1"
+                },
+                {
+                    "code": "StaticLayoutSize",
+                    "name": "宽度固定",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Name",
+                    "name": "名称",
+                    "type": "char"
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 462
+                },
+                {
+                    "code": "TagData",
+                    "name": "备注",
+                    "type": "char"
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 213
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "47.3%"
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "48.1%"
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": {
+                        "default": true,
+                        "title": "显示",
+                        "editor": {
+                            "type": "Boolean"
+                        }
+                    }
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "TabIndex",
+                    "name": "序列 ",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 5
+                },
+                {
+                    "code": "Zvalue",
+                    "name": "z轴值",
+                    "type": "char"
+                },
+                {
+                    "code": "KeyDown",
+                    "name": "键盘按下",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    }
+                },
+                {
+                    "code": "Xvalue",
+                    "name": "x轴值",
+                    "type": "char"
+                },
+                {
+                    "code": "Series",
+                    "name": "图表系列",
+                    "type": "char"
+                },
+                {
+                    "code": "Padding",
+                    "name": "间距",
+                    "type": "char"
+                },
+                {
+                    "code": "MultiWidth",
+                    "name": "宽度",
+                    "type": "char",
+                    "default": "462px"
+                },
+                {
+                    "code": "MultiHeight",
+                    "name": "高度",
+                    "type": "char",
+                    "default": "213px"
+                },
+                {
+                    "code": "GraphSettings",
+                    "name": "图表设计",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "jsObject"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "ToolTipSource",
+                    "name": "浮动提示",
+                    "type": "char"
+                },
+                {
+                    "code": "Columns",
+                    "name": "列定义",
+                    "type": "char"
+                },
+                {
+                    "code": "GraphSettingsEditor",
+                    "name": "删除",
+                    "type": "char"
+                },
+                {
+                    "code": "ToolTip",
+                    "name": "浮动提示",
+                    "type": "char",
+                    "editor": {
+                        "type": "expression",
+                        "handleProp": "_v3ExpHandler"
+                    },
+                    "compatible": {
+                        "enhanceType": "expLanguage"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnChartClick",
+                    "name": "图形单击",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Enter",
+                    "name": "获取焦点事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    }
+                },
+                {
+                    "code": "Leave",
+                    "name": "失去焦点",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    }
+                },
+                {
+                    "code": "TableName",
+                    "name": "表名",
+                    "type": "char",
+                    "editor": {
+                        "type": "entity"
+                    },
+                    "compatible": {
+                        "enhanceType": "tableName"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Alias",
+                    "name": "别名",
+                    "type": "char",
+                    "default": "图表"
+                }
+            
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginCode": "JGBaseWidget",
+                    "pluginType": "widget"
+                },
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGFormatHelper",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGFormatHelper",
+                    "pluginCode": "JGFormatHelper",
+                    "pluginType": "widget"
+                }
+            ]
+        }
+    ]
+}
