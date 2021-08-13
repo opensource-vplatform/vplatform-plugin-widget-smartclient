@@ -93,6 +93,12 @@
                     "default": 0
                 },
                 {
+                    "code":"Alias",
+                    "name":"别名",
+                    "type": "char",
+                    "default":"组合"
+                },
+                {
                     "code":"getChildrenHandler",
                     "name":"获取事件处理器",
                     "type":"char",

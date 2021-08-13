@@ -453,24 +453,19 @@ isc.JGButtonGroup.addMethods({
         isc.WidgetDatasource.addBindDatasourceDeleteEventHandler(this, null, function(params) {
             _widget.setMenus(_widget);
         });
-        isc.WidgetDatasource.addBindDatasourceUpdateEventHandler(this, null, function(params) {
-        	if(params.resultSet.datas && params.resultSet.datas.length > 0){
-        		var changedData = [];
-        		for(var i = 0 ; i < params.resultSet.datas.length; i ++){
-        			changedData.push({
-        				changedColumn : params.resultSet.datas[i].changedData,
-        				data : params.resultSet.datas[i].__recordData__
-        			})
-        		}
-        		if(changedData.length > 0){
-        			_widget.updateButtonState(changedData);
-        		}
-        		
-        	}else{
-        		_widget.setMenus(_widget.code);
-        	}
-            
-        });
+		isc.WidgetDatasource.addBindDatasourceUpdateEventHandler(this, null, function(params) {
+			if (params.resultSet && 0 < params.resultSet.length) {
+				for (var changedData = [], i = 0; i < params.resultSet.length; i++){
+					var data = params.resultSet[i];
+					changedData.push({
+						changedColumn: data,
+						data: params.datasource.getRecordById(data.id)
+					});
+				}
+				0 < changedData.length && _widget.updateButtonState(changedData)
+			} else
+			_widget.setMenus(_widget.code)
+		});
 
 
         _widget.on("menuClick", function() {
@@ -934,9 +929,10 @@ isc.JGButtonGroup.addMethods({
 				mappings[data.menuItemCode] = data;
 				indexs[data.menuItemCode] = data.orderNo;
 			}
+			var _this=this;
 			var replaceData = function (datas, mps, indexs) {
 				if (datas && datas.length > 0) {
-					this.arrSort(datas, indexs, "id");
+					_this.arrSort(datas, indexs, "id");
 					for (var i = 0, len = datas.length; i < len; i++) {
 						var data = datas[i];
 						var id = data.id;
@@ -1051,7 +1047,7 @@ setMenus : function(widgetId) {
 		var items = datasource.getAllRecords();
 		var designerMenuDatas = this.DesignerMenuDatas;
 		if(designerMenuDatas){//窗体设计器修改的数据
-			processorUtils.cloneProps({
+			this._cloneProps({
 				DesignerMenuDatas:designerMenuDatas
 			}, {
 				DesignerMenuDatas:items
@@ -1180,14 +1176,13 @@ emptyMenus: function(widgetID) {
 	}
 },
 
-getV3Show : function(widgetIds) {
-	thsi.showItem(widgetIds);
-	this.enabled(widgetIds)
+getV3Show : function(widgetId, widgetIds) {
+	
 },
 
-getV3Hide : function() {
-	this.hideItem(this);
-	this.disabled(this);
+getV3Hide : function(widgetId) {
+	this.hideItem(widgetIds);
+	this.disabled(widgetIds);
 },
 
 readonly : function(widgetId) {

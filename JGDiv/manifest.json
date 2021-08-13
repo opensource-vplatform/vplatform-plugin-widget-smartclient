@@ -129,6 +129,29 @@
                     }
                 },
                 {
+                    "code":"Alias",
+                    "name":"别名",
+                    "type": "char",
+                    "default":"自定义Div"
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "catalog": "Layout",
+                    "type": "boolean",
+                    "desc": "确定该控件是否显示",
+                    "default": true,
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "access": {
+                        "webDesigner": {
+                            "readable": true,
+                            "writable": true
+                        }
+                    }
+                },
+                {
                     "code":"getWidgetContextProperty",
                     "name":"获取事件处理器",
                     "type":"char",
@@ -147,7 +170,7 @@
                     "handler":"handleComponentPackInfo"
                 },
                 {
-                    "code":"window.renderToVuiContainer",
+                    "code":"windowrenderToVuiContainer",
                     "name":"获取事件处理器",
                     "type":"char",
                     "handler":"window.renderToVuiContainer"
@@ -157,6 +180,12 @@
                     "name":"创建v平台包装的Vue实例",
                     "type":"char",
                     "handler":"vPlatformVue"
+                },
+                {
+                    "code":"handleWindowMapping",
+                    "name":"获取事件处理器",
+                    "type":"char",
+                    "handler":"handleWindowMapping"
                 }
             ],
             "dependencies": [

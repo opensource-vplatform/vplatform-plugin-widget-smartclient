@@ -52,6 +52,12 @@
                     "editor": {
                         "type": "boolean"
                     },
+                    "access": {
+                        "webDesigner": {
+                            "readable": true,
+                            "writable": true
+                        }
+                    },
                     "default": true
                 },
                 {
@@ -77,6 +83,12 @@
                         "type": "integer"
                     },
                     "default": 263
+                },
+                {
+                    "code":"Alias",
+                    "name":"别名",
+                    "type": "char",
+                    "default":"图片播放"
                 },
                 {
                     "code": "TabIndex",
@@ -157,6 +169,14 @@
                     "name": "图片布局方式",
                     "type": "char",
                     "default": "Zoom"
+                },
+                {
+                    "code":"SwiInterval",
+                    "default": "5",
+                    "name": "播放间隔(秒)",
+                    "editor": {
+                        "type": "Text"
+                    }
                 },
                 {
                     "code": "OnClick",

@@ -89,6 +89,12 @@
                     "default": true
                 },
                 {
+                    "code":"Alias",
+                    "name":"别名",
+                    "type": "char",
+                    "default":"网页"
+                },
+                {
                     "code": "Top",
                     "name": "上边距",
                     "type": "integer",

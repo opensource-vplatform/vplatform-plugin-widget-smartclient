@@ -188,6 +188,12 @@
                     "default": ""
                 },
                 {
+                    "code":"SimpleChineseTitle",
+                    "name":"别名",
+                    "type": "char",
+                    "default":"文本"
+                },
+                {
                     "code": "LabelText",
                     "name": "标题栏文本",
                     "type": "char",
