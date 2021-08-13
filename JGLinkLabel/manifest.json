@@ -1,143 +1,239 @@
 {
     "groupId": "com.toone.v3.platform",
     "code": "widget-smartclient-JGLinkLabel",
-    "version": "3.15.0",
-    "plugins": [{
-        "type": "widget",
-        "code": "JGLinkLabel",
-        "name": "V平台链接标签控件",
-        "icon": "./JGLinkLabel.png",
-        "desc": "",
-        "defineUrl": "./dist/index.js",
-        "docUrl": "./doc/index.js",
-        "exampleUrl": "./example/index.js",
-        "properties": [{
-                "code": "Target",
-                "name": "调整目标",
-                "catalog": "GroupLayout",
-                "type": "char",
-                "desc": "在何处打开链接地址",
-                "default": "1",
-                "editor": {
-                    "type": "select",
-                    "options": [{
-                        "value": "1",
-                        "label": "1列"
-                    }, {
-                        "value": "2",
-                        "label": "2列"
-                    }, {
-                        "value": "3",
-                        "label": "3列"
-                    }, {
-                        "value": "4",
-                        "label": "4列"
-                    }]
-                }
-            }, {
-                "code": "Height",
-                "name": "高度",
-                "type": "integer",
-                "editor": {
-                    "type": "height"
-                }
-            }, {
-                "code": "RunTimes",
-                "name": "执行次数",
-                "type": "integer",
-                "default": 0,
-                "editor": {
-                    "type": "integer"
-                }
-            }, {
-                "code": "Startup",
-                "name": "启动",
-                "type": "boolean",
-                "desc": "是否启动定时器",
-                "default": false,
-                "editor": {
-                    "type": "boolean"
-                }
-            },
-            {
-                "code": "Code",
-                "name": "控件编码",
-                "catalog": "Other",
-                "type": "char",
-                "desc": "在设计器中用来表示该控件唯一编码。",
-                "editor": {
-                    "type": "code",
-                    "prefix": "JGTimer"
-                }
-            }, {
-                "code": "Width",
-                "name": "宽度",
-                "type": "integer",
-                "editor": {
-                    "type": "width"
-                }
-            }, {
-                "code": "Interval",
-                "name": "事件间隔(秒)",
-                "type": "integer",
-                "desc": "定时事件执行的频率",
-                "default": 10,
-                "editor": {
-                    "type": "integer"
-                }
-            },
-            {
-                "code": "LabelText",
-                "name": "标题",
-                "catalog": "Other",
-                "type": "char",
-                "desc": "设置控件显示的标题",
-                "editor": {
-                    "type": "text"
+    "version": "3.10.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGLinkLabel",
+            "name": "链接标签",
+            "icon": "./JGLinkLabel.png",
+            "desc": "为控件提供运行时信息或说明性文字，并提供链接页面跳转功能。",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "Target",
+                    "name": "跳转目标",
+                    "type": "char",
+                    "default": "_Blank"
                 },
-                "compatible": {
-                    "enhanceType": "language"
+                {
+                    "code": "LabelText",
+                    "name": "标题",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "language"
+                    }
+                },
+                {
+                    "code": "Enabled",
+                    "name": "使能",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "TextAlign",
+                    "name": "对齐方式",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "alignment"
+                    },
+                    "default": "left"
+                },
+                {
+                    "code": "TabIndex",
+                    "name": "界面顺序号",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 34
+                },
+                {
+                    "code": "Code",
+                    "name": "控件编号",
+                    "type": "char",
+                    "default": "JGLinkLabel1"
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 68
+                },
+                {
+                    "code": "ForeColor",
+                    "name": "前景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "WebParam",
+                    "name": "链接参数",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 24
+                },
+                {
+                    "code": "BackColor",
+                    "name": "背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比高度",
+                    "type": "char",
+                    "default": "1.4%"
+                },
+                {
+                    "code": "FontStyle",
+                    "name": "字体",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "font"
+                    }
+                },
+                {
+                    "code": "WebURL",
+                    "name": "链接地址",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "ToolTip",
+                    "name": "浮动提示",
+                    "type": "char",
+                    "editor": {
+                        "type": "expression",
+                        "handleProp": "_v3ExpHandler"
+                    },
+                    "compatible": {
+                        "enhanceType": "expLanguage"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "3.6%"
+                },
+                {
+                    "code": "StaticLayoutSize",
+                    "name": "宽度固定",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code":"MultiWidth",
+                    "name": "宽度",
+                    "type": "char",
+                    "default":"68px"
+                },
+                {
+                    "code":"MultiHeight",
+                    "name": "高度",
+                    "type": "char",
+                    "default":"24px"
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "OnClick",
+                    "name": "单击事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    }
+                },
+                {
+                    "code": "_expressionHandler",
+                    "name": "计算表达式结果",
+                    "type": "char",
+                    "visible":false,
+                    "handler": "expression"
+                },
+                {
+                    "code": "Alias",
+                    "name": "别名",
+                    "type": "char",
+                    "default": "链接标签"
+                } 
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginCode": "JGBaseFormWidget",
+                    "pluginType": "widget"
+                },
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+                    "pluginCode": "JGStyleHelper",
+                    "pluginType": "widget"
                 }
-            },
-            {
-                "code": "Top",
-                "name": "上边距",
-                "type": "integer",
-                "editor": {
-                    "type": "top"
-                }
-            },
-            {
-                "code": "Left",
-                "name": "左边距",
-                "type": "integer",
-                "editor": {
-                    "type": "left"
-                }
-            },
-            {
-                "code": "TimerEvent",
-                "name": "定时事件",
-                "catalog": "Event",
-                "type": "function",
-                "desc": "定时器定时触发的事件",
-                "editor": {
-                    "type": "ruleset"
-                }
-            }
-        ],
-        "dependencies": [{
-            "groupId": "com.toone.v3.platform",
-            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
-            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
-            "pluginCode": "JGBaseWidget",
-            "pluginType": "widget"
-        },{
-            "groupId": "com.toone.v3.platform",
-            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
-            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
-            "pluginCode": "JGStyleHelper",
-            "pluginType": "widget"
-        }]
-    }]
+          
+            ]
+        }
+    ]
 }

@@ -1,0 +1,170 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGReport",
+    "version": "3.22.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGReport",
+            "name": "报表控件",
+            "icon": "./JGReport.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "RequireJS",
+                    "name": "扩展js",
+                    "type": "char"
+                },
+                {
+                    "code": "Code",
+                    "name": "名称",
+                    "type": "char",
+                    "default": "JGReport1"
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "12.7%"
+                },
+                {
+                    "code": "TabIndex",
+                    "name": "界面顺序号",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "ReportSelector",
+                    "name": "报表 ",
+                    "type": "char"
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 147
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "8.8%"
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 237
+                },
+                {
+                    "code": "IsShowToolbar",
+                    "name": "IsShowToolbar",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "StaticLayoutSize",
+                    "name": "宽度固定",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "ReadOnly",
+                    "name": "只读",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code":"remoteMethodAccessor",
+                    "name":"获取事件处理器",
+                    "type":"char",
+                    "handler":"remoteMethodAccessor"
+                },
+                {
+                    "code":"executeWindowRoute",
+                    "name":"获取事件处理器",
+                    "type":"char",
+                    "handler":"executeWindowRoute"
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginCode": "JGBaseWidget",
+                    "pluginType": "widget"
+                },
+                {
+                    "groupId":"com.toone.v3.platform",
+                    "code":"vjs.framework.extension.platform.custom.resource.spreadjs",
+                    "pluginSymbolicName":"vjs.framework.extension.platform.custom.resource.spreadjs",
+                    "pluginCode":"spreadjs",
+                    "pluginType":"widget"
+                },
+                {
+                    "groupId":"com.toone.v3.platform",
+                    "code":"vjs.framework.extension.platform.plugin.ui.smartclient.ISCPluginBridges",
+                    "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.ISCPluginBridges",
+                    "pluginCode":"ISCPluginBridges",
+                    "pluginType":"widget"
+                }
+    
+            ]
+        }
+    ]
+}
