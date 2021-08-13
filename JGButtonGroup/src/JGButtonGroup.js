@@ -982,7 +982,7 @@ arrSort : function (target, indexs, key) {
 	});
 },
 
-setDataToMenu : function (widgetID, items, itemsList) {
+setDataToMenu : function (items, itemsList) {
 	if (this._toolStrip && this._toolStrip.menuBar) {
 		var members = this._toolStrip.menuBar.getMembers();
 		for (var i = 0, num = members.length; i < num; i++) {
@@ -1103,7 +1103,7 @@ setMenus : function(widgetId) {
 		var list = isc.MenuUtil.toMenuData(dynItems);
 		if (list && list[0] && list[1])
 			//widgetRenderer.executeWidgetRenderAction(widgetId, "setDataToMenu", list[0], list[1]);
-			this.setDataToMenu(widgetId,list[0],list[1]);
+			this.setDataToMenu(list[0],list[1]);
 		
 	}
 },
@@ -1180,13 +1180,14 @@ emptyMenus: function(widgetID) {
 	}
 },
 
-getV3Show : function(widgetId, widgetIds) {
-	
+getV3Show : function(widgetIds) {
+	thsi.showItem(widgetIds);
+	this.enabled(widgetIds)
 },
 
-getV3Hide : function(widgetId) {
-	this.hideItem(widgetIds);
-	this.disabled(widgetIds);
+getV3Hide : function() {
+	this.hideItem(this);
+	this.disabled(this);
 },
 
 readonly : function(widgetId) {
