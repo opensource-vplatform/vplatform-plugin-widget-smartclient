@@ -63,10 +63,10 @@ isc.JGLabel.addMethods({
     _initWidget: function () {
         //add by dengb
 		//当有点击事件，添加上小手样式
-		if (this.OnClick && this.OnClick.toString() != '') {
-			this.Cursor = 'hand';
-			this.LinkSty = 'linkClick';
-		}
+		if (this._$OnClick && this._$OnClick.toString() != '') {
+            this.Cursor = 'hand';
+            this.LinkSty = 'linkClick';
+        }
 
         this.Super("initWidget", arguments);
         var widget = this;
