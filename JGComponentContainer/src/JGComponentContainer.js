@@ -1666,7 +1666,7 @@ isc.JGComponentContainer.addMethods({
 						var widgetCode = _this.code;
 						var func = [];
 						var scopeId = _this.scopeId;
-						for(var i = records.length-1; i >= 0; i--){
+						for(var i=0,l = records.length; i < l; i++){
 							var record = records[i];
 							var call = func.length > 0 ? func[func.length - 1] : addAfterDefaultFunc;
 							var fun = (function(_widgetCode, _record, _paramsMapping, _entityCode, _call){
@@ -1687,7 +1687,7 @@ isc.JGComponentContainer.addMethods({
 							var widgetCode = _this.code;
 							var func = [];
 							var scopeId = _this.scopeId;
-							for(var i = records.length-1; i >= 0; i--){
+							for(var i=0,l = records.length; i < l; i++){
 								var record = records[i];
 								var call = func.length > 0 ? func[func.length - 1] : addAfterDefaultFunc;
 								var fun = (function(_widgetCode, _record, _paramsMapping, _entityCode, _call){
