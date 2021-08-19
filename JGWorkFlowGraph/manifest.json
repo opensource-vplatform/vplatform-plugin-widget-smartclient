@@ -1,0 +1,318 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGWorkFlowGraph",
+    "version": "3.10.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGWorkFlowGraph",
+            "name": "流程图",
+            "icon": "./JGWorkFlowGraph.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "NoneSelected",
+                    "name": "内部事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "compatible": {
+                        "enhanceType": "innerEvent",
+                        "defaultValue": "SelectWorkFlowProcess"
+                    }
+                },
+                {
+                    "code": "insertEdge",
+                    "name": "内部事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "compatible": {
+                        "enhanceType": "innerEvent",
+                        "defaultValue": "AddFlowEdge"
+                    }
+                },
+                {
+                    "code": "SelectedWF",
+                    "name": "内部事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "compatible": {
+                        "enhanceType": "innerEvent",
+                        "defaultValue": "ModifyPropertyEditorVmmapping"
+                    }
+                },
+                {
+                    "code": "OnActivitySelected",
+                    "name": "内部事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    }
+                },
+                {
+                    "code": "ActivityDrop",
+                    "name": "内部事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "compatible": {
+                        "enhanceType": "innerEvent",
+                        "defaultValue": "AddActivity"
+                    }
+                },
+                {
+                    "code": "CopyActivity",
+                    "name": "内部事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "compatible": {
+                        "enhanceType": "innerEvent",
+                        "defaultValue": "CopyActivityRule"
+                    }
+                },
+                {
+                    "code":"SelectAction",
+                    "name":"选择动作",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "compatible": {
+                        "enhanceType": "innerEvent",
+                        "defaultValue": "SelectActivityRule"
+                    }
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 532
+                },
+                {
+                    "code": "ValueFontStyle",
+                    "name": "活动名称字体",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "font"
+                    }
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比",
+                    "type": "char",
+                    "default": "32%"
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "ValueTextAlign",
+                    "name": "活动名称对齐方式",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "alignment"
+                    },
+                    "default": "left"
+                },
+                {
+                    "code": "GraphXML",
+                    "name": "流程图形",
+                    "type": "char"
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比",
+                    "type": "char",
+                    "default": "41.1%"
+                },
+                {
+                    "code": "RelaJGActivityPanel",
+                    "name": "关联活动面板",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "ProcessFileXML",
+                    "name": "流程数据",
+                    "type": "char"
+                },
+                {
+                    "code": "Code",
+                    "name": "控件名称",
+                    "type": "char",
+                    "default": "JGWorkFlowGraph1"
+                },
+                {
+                    "code": "RelaJGPropertyEditor",
+                    "name": "关联属性编辑器",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "ValueBackColor",
+                    "name": "背景颜色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    }
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code":"MultiWidth",
+                    "name": "宽度",
+                    "type": "char",
+                    "default":"766px"
+                },
+                {
+                    "code":"MultiHeight",
+                    "name": "高度",
+                    "type": "char",
+                    "default":"532px"
+                },
+                {
+                    "code": "ReadOnly",
+                    "name": "只读",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": false
+                },
+                {
+                    "code": "ProcessSetting",
+                    "name": "流程设置",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 766
+                },
+                {
+                    "code": "ImageValue",
+                    "name": "选择图片",
+                    "type": "char"
+                },
+                {
+                    "code": "TabIndex",
+                    "name": "界面顺序号",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 43
+                },
+                {
+                    "code": "createDatasourceFromJson",
+                    "name": "json转换",
+                    "type":"char",
+                    "handler": "createDatasourceFromJson"
+                },
+                {
+                    "code": "TableName",
+                    "name": "表名",
+                    "type": "char",
+                    "editor": {
+                        "type": "entity"
+                    },
+                    "compatible": {
+                        "storeType":"workFlowGraph",
+                        "enhanceType": "tableName"
+                    }
+                }, {
+                    "code": "GraphFieldName",
+                    "name": "字段名称",
+                    "type": "char",
+                    "editor": {
+                        "type": "field",
+                        "entityProp": "TableName"
+                    },
+                    "compatible": {
+                        "enhanceType": "columnName"
+                    }
+                }, {
+                    "code": "ProcessFieldName",
+                    "name": "字段名称",
+                    "type": "char",
+                    "editor": {
+                        "type": "field",
+                        "entityProp": "TableName"
+                    },
+                    "compatible": {
+                        "enhanceType": "columnName"
+                    }
+                },
+                {
+                    "code": "Alias",
+                    "name": "别名",
+                    "type": "char",
+                    "default": "活动面板"
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginCode": "JGBaseWidget",
+                    "pluginType": "widget"
+                },
+                {
+                    "groupId":"com.toone.v3.platform",
+                    "code":"vjs.framework.extension.thirdlib.smartclient.mxClient",
+                    "pluginSymbolicName":"vjs.framework.extension.thirdlib.smartclient.mxClient",
+                    "pluginCode":"mxClient",
+                    "pluginType":"widget"
+                }
+            ]
+        }
+    ]
+}

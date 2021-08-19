@@ -1,0 +1,215 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGSteps",
+    "version": "3.3.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGSteps",
+            "name": "V平台步骤条控件",
+            "icon": "./JGSteps.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 40
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 330
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "TabIndex",
+                    "name": "界面顺序号",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 8
+                },
+                {
+                    "code": "ToolTip",
+                    "name": "浮动提示",
+                    "type": "char"
+                },
+                {
+                    "code": "LabelText",
+                    "name": "标题",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "language"
+                    }
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Enabled",
+                    "name": "使能",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    }
+                },
+                {
+                    "code": "FontStyle",
+                    "name": "字体样式",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "font"
+                    }
+                },
+                {
+                    "code": "BackColor",
+                    "name": "背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    }
+                },
+                {
+                    "code": "StaticLayoutSize",
+                    "name": "宽度固定",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    }
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "ForeColor",
+                    "name": "字体颜色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    }
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "17.7%"
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比高度",
+                    "type": "char",
+                    "default": "2.4%"
+                },
+                {
+                    "code": "Code",
+                    "name": "名称",
+                    "type": "char",
+                    "default": "JGSteps1"
+                },
+                {
+                    "code": "Direction",
+                    "name": "方向",
+                    "type": "char",
+                    "default": "Horizontal"
+                },
+                {
+                    "code": "IconOnClick",
+                    "name": "图标点击事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    }
+                },
+                {
+                    "code": "TitleOnClick",
+                    "name": "标题点击事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    }
+                },
+                {
+                    "code": "DescOnClick",
+                    "name": "描述点击事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    }
+                },
+                {
+                    "code":"_expHandler",
+                    "name":"执行表达式",
+                    "handler":"expression",
+                    "visible":false,
+                    "type":"char"
+                },
+                {
+                    "code":"_eventCaller",
+                    "name":"事件回调",
+                    "handler":"eventCaller",
+                    "visible":false,
+                    "type":"char"
+                },
+                {
+                    "code":"_lookup",
+                    "name":"根据数据源名称获取数据源实例",
+                    "type":"char",
+                    "handler":"entity"
+                },
+                {
+                    "code":"_eventHandler",
+                    "name":"事件触发",
+                    "type":"char",
+                    "handler":"eventHandler"
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginCode": "JGBaseFormWidget",
+                    "pluginType": "widget"
+                }
+            ]
+        }
+    ]
+}

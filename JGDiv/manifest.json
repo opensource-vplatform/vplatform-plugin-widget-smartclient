@@ -1,0 +1,216 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGDiv",
+    "version": "3.25.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGDiv",
+            "name": "自定义窗体",
+            "icon": "./JGDiv.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "Code",
+                    "name": "控件名称",
+                    "type": "char",
+                    "editor": {
+                        "type": "code",
+                        "prefix": null
+                    },
+                    "compatible": {
+                        "enhanceType": "code"
+                    },
+                    "default": "JGDiv1"
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 60
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 120
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "12.5%"
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比高度",
+                    "type": "char",
+                    "default": "13.3%"
+                },
+                {
+                    "code": "EntityCodes",
+                    "name": "表名",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "entityCodes"
+                    }
+                },
+                {
+                    "code": "Anchor",
+                    "name": "锚定",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "anchor"
+                    },
+                    "default": "Top, Left"
+                },
+                {
+                    "code": "Css",
+                    "name": "样式",
+                    "type": "char"
+                },
+                {
+                    "code": "ModuleCss",
+                    "name": "模块化样式",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "cssStyle"
+                    }
+                },
+                {
+                    "code": "JavaScript",
+                    "name": "脚本",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "script"
+                    }
+                },
+                {
+                    "code": "ModuleJavaScript",
+                    "name": "模块化脚本",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "moduleScript"
+                    }
+                },
+                {
+                    "code": "WidgetTemplate",
+                    "name": "脚本模板",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "widgetTemplate"
+                    }
+                },
+                {
+                    "code":"Alias",
+                    "name":"别名",
+                    "type": "char",
+                    "default":"自定义Div"
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "catalog": "Layout",
+                    "type": "boolean",
+                    "desc": "确定该控件是否显示",
+                    "default": true,
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "access": {
+                        "webDesigner": {
+                            "readable": true,
+                            "writable": true
+                        }
+                    }
+                },
+                {
+                    "code":"getWidgetContextProperty",
+                    "name":"获取事件处理器",
+                    "type":"char",
+                    "handler":"getWidgetContextProperty"
+                },
+                {
+                    "code":"handleComponentPackInfo",
+                    "name":"获取事件处理器",
+                    "type":"char",
+                    "handler":"handleComponentPackInfo"
+                },
+                {
+                    "code":"handleComponentPackInfo",
+                    "name":"获取事件处理器",
+                    "type":"char",
+                    "handler":"handleComponentPackInfo"
+                },
+                {
+                    "code":"windowrenderToVuiContainer",
+                    "name":"获取事件处理器",
+                    "type":"char",
+                    "handler":"window.renderToVuiContainer"
+                },
+                {
+                    "code":"_createVPlatformVue",
+                    "name":"创建v平台包装的Vue实例",
+                    "type":"char",
+                    "handler":"vPlatformVue"
+                },
+                {
+                    "code":"handleWindowMapping",
+                    "name":"获取事件处理器",
+                    "type":"char",
+                    "handler":"handleWindowMapping"
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginCode": "JGBaseWidget",
+                    "pluginType": "widget"
+                },
+                {
+                    "groupId":"com.toone.v3.platform",
+                    "code":"vjs.framework.extension.platform.plugin.script.vue",
+                    "pluginSymbolicName":"vjs.framework.extension.platform.plugin.script.vue",
+                    "pluginCode":"vue",
+                    "pluginType":"widget"
+                },
+                {
+                    "groupId":"com.toone.v3.platform",
+                    "code":"vjs.framework.extension.platform.plugin.ui.vue.default.resource",
+                    "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.vue.default.resource",
+                    "pluginCode":"vueDefaultResource",
+                    "pluginType":"widget"
+                }
+            ]
+        }
+    ]
+}

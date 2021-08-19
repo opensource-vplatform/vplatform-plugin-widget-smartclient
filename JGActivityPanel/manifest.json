@@ -1,0 +1,169 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGActivityPanel",
+    "version": "3.6.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGActivityPanel",
+            "name": "活动面板",
+            "icon": "./JGActivityPanel.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "OnAddFlowActivity",
+                    "name": "内部事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "compatible": {
+                        "enhanceType": "innerEvent",
+                        "defaultValue": "InitDropDownControlDataSource"
+                    }
+                },
+                {
+                    "code": "ActivitySetting",
+                    "name": "活动设置",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "高度百分比",
+                    "type": "char",
+                    "default": "3.6%"
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "TabIndex",
+                    "name": "界面顺序号",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 5
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "宽度百分比",
+                    "type": "char",
+                    "default": "16%"
+                },
+                {
+                    "code": "BackColor",
+                    "name": "背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 299
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "ImageValue",
+                    "name": "背景图片",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "resource"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Code",
+                    "name": "控件名称",
+                    "type": "char",
+                    "default": "JGActivityPanel1"
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 60
+                },
+                {
+                    "code":"MultiWidth",
+                    "name": "宽度",
+                    "type": "char",
+                    "default":"299px"
+                },
+                {
+                    "code":"MultiHeight",
+                    "name": "高度",
+                    "type": "char",
+                    "default":"60px"
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "elementdrop",
+                    "name": "下拉数据",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "getWidgetContextProperty",
+                    "name": "获取元素属性",
+                    "type": "char",
+                    "handler":"getWidgetContextProperty"
+                },
+                {
+                    "code": "Alias",
+                    "name": "别名",
+                    "type": "char",
+                    "default": "活动面板"
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginCode": "JGBaseWidget",
+                    "pluginType": "widget"
+                }
+            ]
+        }
+    ]
+}

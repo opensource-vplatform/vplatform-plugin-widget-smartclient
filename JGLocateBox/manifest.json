@@ -1,0 +1,261 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGLocateBox",
+    "version": "3.11.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGLocateBox",
+            "name": "检索控件",
+            "icon": "./JGLocateBox.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": {
+                        "default": true,
+                        "title": "显示",
+                        "editor": {
+                            "type": "Boolean"
+                        }
+                    }
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 220
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 28
+                },
+                {
+                    "code": "Code",
+                    "name": "控件名称",
+                    "type": "char",
+                    "default": "JGLocateBox1"
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "22.9%"
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比高度",
+                    "type": "char",
+                    "default": "6.2%"
+                },
+                {
+                    "code": "TabIndex",
+                    "name": "界面顺序号",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 10
+                },
+                {
+                    "code": "ValueFontStyle",
+                    "name": "值字体",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "font"
+                    }
+                },
+                {
+                    "code": "ValueForeColor",
+                    "name": "值前景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "ValueBackColor",
+                    "name": "值背景色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "Enabled",
+                    "name": "使能",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": {
+                        "default": true,
+                        "title": "使能",
+                        "editor": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                {
+                    "code": "ValueTextAlign",
+                    "name": "值对齐方式",
+                    "type": "char",
+                    "default": "Left"
+                },
+                {
+                    "code":"Alias",
+                    "name":"别名",
+                    "type": "char",
+                    "default":"检索"
+                },
+                {
+                    "code": "StaticLayoutSize",
+                    "name": "宽度固定",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "Hint",
+                    "name": "标题",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "language"
+                    }
+                },
+                {
+                    "code": "ToolTip",
+                    "name": "浮动提示",
+                    "type": "char",
+                    "editor": {
+                        "type": "expression",
+                        "handleProp": "_v3ExpHandler"
+                    },
+                    "compatible": {
+                        "enhanceType": "expLanguage"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnClick",
+                    "name": "检索事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnKeyDown",
+                    "name": "键盘按下",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnEnter",
+                    "name": "获取焦点",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnLeave",
+                    "name": "失去焦点",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "TableName",
+                    "name": "表名",
+                    "type": "char",
+                    "editor": {
+                        "type": "entity"
+                    },
+                    "compatible": {
+                        "enhanceType": "tableName"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "ColumnName",
+                    "name": "字段名称",
+                    "type": "char",
+                    "editor": {
+                        "type": "field",
+                        "entityProp": "TableName"
+                    },
+                    "compatible": {
+                        "enhanceType": "columnName"
+                    },
+                    "default": "ColumnName"
+                },{
+                    "code": "_expressionHandler",
+                    "name": "获取表达式结果",
+                    "type": "char",
+                    "handler": "expression"
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginCode": "JGBaseFormWidget",
+                    "pluginType": "widget"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,265 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGCalendar",
+    "version": "3.12.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGCalendar",
+            "name": "V平台日历控件",
+            "icon": "./JGCalendar.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "RequireJS",
+                    "name": "扩展js",
+                    "type": "char"
+                },
+                {
+                    "code": "Code",
+                    "name": "控件名称",
+                    "type": "char",
+                    "default": "JGCalendar1"
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 594
+                },
+                {
+                    "code": "LabelText",
+                    "name": "标题",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "language"
+                    }
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比高度",
+                    "type": "char",
+                    "default": "35.7%"
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "42.9%"
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 800
+                },
+                {
+                    "code": "StaticLayoutSize",
+                    "name": "宽度固定",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "IsMulSelect",
+                    "name": "是否多选",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": false
+                },
+                {
+                    "code": "AlwaysShowMoreLink",
+                    "name": "始终显示更多链接",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": false
+                },
+                {
+                    "code": "OnScheduleClick",
+                    "name": "选择日程事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnMoreClick",
+                    "name": "日程更多事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnDateClick",
+                    "name": "选择日期事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnMonthClick",
+                    "name": "月份切换事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "TableName",
+                    "name": "表名",
+                    "type": "char",
+                    "editor": {
+                        "type": "entity"
+                    },
+                    "compatible": {
+                        "enhanceType": "tableName",
+                        "storeType": "set"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "NameField",
+                    "name": "标题字段",
+                    "type": "char",
+                    "editor": {
+                        "type": "field",
+                        "entityProp":"TableName"
+                    },
+                    "compatible": {
+                        "enhanceType": "columnName"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "DescriptionField",
+                    "name": "描述字段",
+                    "type": "char",
+                    "editor": {
+                        "type": "field",
+                        "entityProp":"TableName"
+                    },
+                    "compatible": {
+                        "enhanceType": "columnName"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "StartDateField",
+                    "name": "开始日期字段",
+                    "type": "char",
+                    "editor": {
+                        "type": "field",
+                        "entityProp":"TableName"
+                    },
+                    "compatible": {
+                        "enhanceType": "columnName"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "EndDateField",
+                    "name": "结束日期字段",
+                    "type": "char",
+                    "editor": {
+                        "type": "field",
+                        "entityProp":"TableName"
+                    },
+                    "compatible": {
+                        "enhanceType": "columnName"
+                    },
+                    "default": ""
+                },
+                {
+                    "code":"_eventHandler",
+                    "name":"事件触发",
+                    "type":"char",
+                    "handler":"eventHandler"
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginCode": "JGBaseFormWidget",
+                    "pluginType": "widget"
+                },
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.vendor.smartclient.calendar",
+                    "pluginSymbolicName": "vjs.framework.extension.vendor.smartclient.calendar",
+                    "pluginCode": "calendar",
+                    "pluginType": "widget"
+                },
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGFormItemView",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGFormItemView",
+                    "pluginCode": "JGFormItemView",
+                    "pluginType": "widget"
+                },
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+                    "pluginCode": "JGStyleHelper",
+                    "pluginType": "widget"
+                }
+            ]
+        }
+    ]
+}

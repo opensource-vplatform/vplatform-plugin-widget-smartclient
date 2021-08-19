@@ -1,0 +1,136 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGWebBrowser",
+    "version": "3.5.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGWebBrowser",
+            "name": "网页控件",
+            "icon": "./JGWebBrowser.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "StaticLayoutSize",
+                    "name": "StaticLayoutSize",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Code",
+                    "name": "名称",
+                    "type": "char",
+                    "default": "JGWebBrowser1"
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 250
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 250
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "WebParam",
+                    "name": "参数",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "WebURL",
+                    "name": "URL",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比高度",
+                    "type": "char",
+                    "default": "15%"
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "13.4%"
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code":"Alias",
+                    "name":"别名",
+                    "type": "char",
+                    "default":"网页"
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "windowVariantHandler",
+                    "name": "获取窗体变量",
+                    "type": "char",
+                    "handler":"windowVariant"
+                },
+                {
+                    "code": "fieldValueHandler",
+                    "name": "获取字段值",
+                    "type": "char",
+                    "handler":"fieldValue"
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginCode": "JGBaseWidget",
+                    "pluginType": "widget"
+                }
+            ]
+        }
+    ]
+}

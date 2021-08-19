@@ -4,4 +4,5 @@
 */doc/index.js
 */example/index.js
 package-lock.json
+*/node_modules/
 .vscode

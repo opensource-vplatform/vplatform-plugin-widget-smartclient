@@ -1,0 +1,218 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGRichTextEditor",
+    "version": "3.7.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGRichTextEditor",
+            "name": "V平台富文本编辑控件",
+            "icon": "./JGRichTextEditor.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "StoreType",
+                    "name": "数据类型",
+                    "type": "char"
+                },
+                {
+                    "code": "Width",
+                    "name": "宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 353
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "PlainText",
+                    "name": "纯文本",
+                    "type": "char"
+                },
+                {
+                    "code": "PercentWidth",
+                    "name": "百分比宽度",
+                    "type": "char",
+                    "default": "18.9%"
+                },
+                {
+                    "code": "Left",
+                    "name": "左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "StaticLayoutSize",
+                    "name": "文字换行",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "DefaultValue",
+                    "name": "默认值",
+                    "type": "char",
+                    "default": ""
+                },
+                {
+                    "code": "PercentHeight",
+                    "name": "百分比高度",
+                    "type": "char",
+                    "default": "24.5%"
+                },
+                {
+                    "code": "Anchor",
+                    "name": "锚定",
+                    "type": "char"
+                },
+                {
+                    "code": "Code",
+                    "name": "控件名称",
+                    "type": "char",
+                    "default": "JGRichTextEditor1"
+                },
+                {
+                    "code": "Top",
+                    "name": "上边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "Visible",
+                    "name": "显示",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": {
+                        "default": true,
+                        "title": "显示",
+                        "editor": {
+                            "type": "Boolean"
+                        }
+                    }
+                },
+                {
+                    "code": "Height",
+                    "name": "高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 407
+                },
+                {
+                    "code": "TabIndex",
+                    "name": "界面顺序号",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 42
+                },
+                {
+                    "code": "OnValueChanged",
+                    "name": "值改变事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnValueLoaded",
+                    "name": "值加载事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnEnter",
+                    "name": "获取焦点",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnLeave",
+                    "name": "失去焦点",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnKeyDown",
+                    "name": "键盘按下",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "TableName",
+                    "name": "表名",
+                    "type": "char",
+                    "editor": {
+                        "type": "entity"
+                    },
+                    "compatible": {
+                        "enhanceType": "tableName"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "ColumnName",
+                    "name": "字段名称",
+                    "type": "char",
+                    "editor": {
+                        "type": "field",
+                        "entityProp": "TableName"
+                    },
+                    "compatible": {
+                        "enhanceType": "columnName"
+                    },
+                    "default": "ColumnName"
+                },
+                {
+                    "code": "_eventHandler",
+                    "name": "事件句柄",
+                    "type": "char",
+                    "handler": "eventHandler"
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
+                    "pluginCode": "JGBaseFormWidget",
+                    "pluginType": "widget"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,239 @@
+{
+    "groupId": "com.toone.v3.platform",
+    "code": "widget-smartclient-JGImagePlay",
+    "version": "3.8.0",
+    "plugins": [
+        {
+            "type": "widget",
+            "code": "JGImagePlay",
+            "name": "图片播放控件",
+            "icon": "./JGImagePlay.png",
+            "desc": "",
+            "defineUrl": "./dist/index.js",
+            "docUrl": "./doc/index.js",
+            "exampleUrl": "./example/index.js",
+            "properties": [
+                {
+                    "code": "ImageField",
+                    "name": "字段名称",
+                    "type": "char",
+                    "editor": {
+                        "type": "field",
+                        "entityProp": "TableName"
+                    },
+                    "compatible": {
+                        "enhanceType": "columnName"
+                    },
+                    "default": "ImageField"
+                },
+                {
+                    "code": "ImageNameField",
+                    "name": "字段名称",
+                    "type": "char",
+                    "editor": {
+                        "type": "field",
+                        "entityProp": "TableName"
+                    },
+                    "compatible": {
+                        "enhanceType": "columnName"
+                    },
+                    "default": "ImageNameField"
+                },
+                {
+                    "code": "Code",
+                    "name":"编码",
+                    "type": "char",
+                    "default": "JGImagePlay1"
+                },
+                {
+                    "code": "Visible",
+                    "name":"是否可见",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "access": {
+                        "webDesigner": {
+                            "readable": true,
+                            "writable": true
+                        }
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Top",
+                    "name":"高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "PercentHeight",
+                    "name":"百分比高度",
+                    "type": "char",
+                    "default": "37.8%"
+                },
+                {
+                    "code": "Width",
+                    "name":"宽度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 263
+                },
+                {
+                    "code":"Alias",
+                    "name":"别名",
+                    "type": "char",
+                    "default":"图片播放"
+                },
+                {
+                    "code": "TabIndex",
+                    "name":"界面顺序号",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 6
+                },
+                {
+                    "code": "Left",
+                    "name":"左边距",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 0
+                },
+                {
+                    "code": "PercentWidth",
+                    "name":"百分比宽度",
+                    "type": "char",
+                    "default": "27.4%"
+                },
+                {
+                    "code": "Height",
+                    "name":"高度",
+                    "type": "integer",
+                    "editor": {
+                        "type": "integer"
+                    },
+                    "default": 170
+                },
+                {
+                    "code": "StaticLayoutSize",
+                    "name": "宽度固定",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "Dock",
+                    "name": "泊靠",
+                    "type": "char",
+                    "default": "None"
+                },
+                {
+                    "code": "DescFont",
+                    "name": "描述字体",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "font"
+                    }
+                },
+                {
+                    "code": "PaginationVisible",
+                    "name": "显示页码",
+                    "type": "boolean",
+                    "editor": {
+                        "type": "boolean"
+                    },
+                    "default": true
+                },
+                {
+                    "code": "DescForeColor",
+                    "name": "描述文字字体色",
+                    "type": "char",
+                    "compatible": {
+                        "enhanceType": "color"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "ImageLayout",
+                    "name": "图片布局方式",
+                    "type": "char",
+                    "default": "Zoom"
+                },
+                {
+                    "code":"SwiInterval",
+                    "default": "5",
+                    "name": "播放间隔(秒)",
+                    "editor": {
+                        "type": "Text"
+                    }
+                },
+                {
+                    "code": "OnClick",
+                    "name": "链接事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnImageChanged",
+                    "name": "切换事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "OnDescClick",
+                    "name": "描述点击事件",
+                    "type": "char",
+                    "editor": {
+                        "type": "ruleset"
+                    },
+                    "default": ""
+                },
+                {
+                    "code": "TableName",
+                    "name": "表名",
+                    "type": "char",
+                    "editor": {
+                        "type": "entity"
+                    },
+                    "compatible": {
+                        "enhanceType": "tableName"
+                    },
+                    "default": ""
+                }
+            ],
+            "dependencies": [
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                    "pluginCode": "JGBaseWidget",
+                    "pluginType": "widget"
+                },
+                {
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGImageHelper",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGImageHelper",
+                    "pluginCode": "JGImageHelper",
+                    "pluginType": "widget"
+                }
+            ]
+        }
+    ]
+}
