@@ -1,30 +1,4 @@
-import "./items/IV3FormItem";
-import "./items/IV3LocalStorage";
-import "./items/JGAttachmentFormItem";
-import "./items/JGBaseDictBoxFormItem";
-import "./items/JGButtonFormItem";
-import "./items/JGCheckBoxFormItem";
-import "./items/JGCheckBoxGroupFormItem";
-import "./items/JGComBoxFormItem";
-import "./items/JGDateRangePickerFormItem";
-import "./items/JGDateTimePickerFormItem";
-import "./items/JGFloatBoxFormItem";
-import "./items/JGFloatRangeBoxFormItem";
-import "./items/JGHyperLinkFormItem";
-import "./items/JGImageFormItem";
-import "./items/JGIntegerBoxFormItem";
-import "./items/JGLabelFormItem";
-import "./items/JGLinkLabelFormItem";
-import "./items/JGLongDateTimePickerFormItem";
-import "./items/JGLongTextBoxFormItem";
-import "./items/JGPasswordFormItem";
-import "./items/JGPercentFormItem";
-import "./items/JGPeriodFormItem";
-import "./items/JGPeriodRangeFormItem";
-import "./items/JGRadioGroupFormItem";
-import "./items/JGRichTextEditorFormItem";
-import "./items/JGRichTextViewerFormItem";
-import "./items/JGTextBoxFormItem";
+
 
 isc.ClassFactory.defineClass("JGFormLayout", "JGFormWidget");
 isc.JGFormLayout.addProperties({
@@ -42,6 +16,10 @@ isc.JGFormLayout.addMethods({
 		return false;
 	},
 	init: function () {
+		if(!this.ID){
+			//去除此逻辑，会引发条件状态设置中条件值为实体字段失效
+			this.ID = this.Code + "_" + (new Date).getTime();
+		}
 		var ret = this.Super("init", arguments);
 		this.initDataBinding();
 		this.initEvent();
@@ -110,38 +88,6 @@ isc.JGFormLayout.addMethods({
 		if (item && typeof (item.firePlatformEventAfter) == "function") {
 			item.firePlatformEventAfter(eventName);
 		}
-	},
-	/**
-	 * 获取最大标题长度
-	 * @param	{Object}	params
-	 * {
-	 * 		"calculateLength"	{Function}	计算长度函数，参数1：标题(String)
-	 * 		"property"			{Object}	控件属性,
-	 * 		"fieldName"			{String}	字段标识，默认fields
-	 * }
-	 * @return {Number}	最大标题长度
-	 * */
-	getMaxTitleLength: function (params) {
-		var maxLength = 0;
-		var fieldWidgets = params.property.fields;
-		if (params.fieldName) {
-			fieldWidgets = params.property[params.fieldName];
-		}
-		params.property._$isAutoTitleWidth = true;
-		if (fieldWidgets && fieldWidgets.length > 0) {
-			MaxTitleLengthFunc = params.calculateLength;
-			for (var i = 0, len = fieldWidgets.length; i < len; i++) {
-				var fieldWidget = fieldWidgets[i];
-				if (fieldWidget.type == "JGLabel") {
-					continue;
-				}
-				var titleLen = params.calculateLength(fieldWidget.SimpleChineseTitle);
-				if (titleLen > maxLength) {
-					maxLength = titleLen;
-				}
-			}
-		}
-		return maxLength;
 	},
 	updateProperty: function (parmas) {
 		if (!parmas || !parmas.propertys || !parmas.widget) {
@@ -280,6 +226,7 @@ isc.JGFormLayout.addMethods({
 					var items = _this.getItems();
 					if (items && items.length > 0) {
 						var resultSet = params.resultSet;
+						var datasource = params.datasource;
 						for (var i = 0, l = items.length; i < l; i++) {
 							var item = items[i];
 							if (!item.getValueChangeFields) continue;
@@ -291,7 +238,7 @@ isc.JGFormLayout.addMethods({
 										var changedData = resultSet[k];
 										if (changedData) {
 											for (var key in changedData) {
-												if (ds.dbName + item.form.multiDsSpecialChar + key === item.name || ds.dbName + item.form.multiDsSpecialChar + key === item.EndColumnName) {
+												if (datasource.dbName + item.form.multiDsSpecialChar + key === item.name || ds.dbName + item.form.multiDsSpecialChar + key === item.EndColumnName) {
 													founded = true;
 													break;
 												}
@@ -313,6 +260,7 @@ isc.JGFormLayout.addMethods({
 					var items = _this.getItems();
 					if (items && items.length > 0) {
 						for (var i = 0, l = items.length; i < l; i++) {
+							var item = items[i];
 							_this._eventHandler(item.Code, "OnValueLoaded")();
 						}
 					}
@@ -340,29 +288,28 @@ isc.JGFormLayout.addMethods({
 			hd();
 		}
 		this.registerItemEventHandler(handler);
-		widget.registerV3ExpressionHandler(this._expressionHandler);
-		/*var fields = widget.fields;
+		this.registerV3ExpressionHandler(this._expressionHandler);
+		var fields = this.fields;
 		if (fields && fields.length > 0) {
 			for (var i = 0, l = fields.length; i < l; i++) {
 				var field = fields[i];
 				var type = field.type;
-				var fieldAction = exports[type];
-				if (fieldAction && fieldAction.initEvent) {
-					fieldAction.initEvent(field.Code);
+				if(this["initEvent"+type]){
+					this["initEvent"+type](field.Code);
 				}
 			}
-		}*/
-		widget.fields.forEach(function (item) {
+		}
+		this.fields.forEach(function (item) {
 			if (item.type == "JGRadioGroup") {
-				this.setValueMapJGRadioGroup(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
+				_this.setValueMapJGRadioGroup(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
 			} else if (item.type === 'JGComboBox') {
-				this.setValueMapJGComboBox(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
+				_this.setValueMapJGComboBox(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
 			} else if (item.type === 'JGCheckBoxGroup') {
-				this.setValueMapJGCheckBoxGroup(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
+				_this.setValueMapJGCheckBoxGroup(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
 			} else if (item.type === 'JGBaseDictBox') {
 				if (item.DropDownSource) {
 					item.DropDownSource = JSON.parse(item.DropDownSource);
-					this.setValueMapJGBaseDictBox(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
+					_this.setValueMapJGBaseDictBox(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
 				}
 			}
 			item._validators = item.validators;
@@ -407,30 +354,6 @@ isc.JGFormLayout.addMethods({
 			defValue = this._expressionHandler(exp);
 		}
 		return defValue;
-	},
-
-	/**
-	 * 修改只读属性
-	 */
-	setItemReadOnly: function (itemCode, isReadonly) {
-		var widget = this;
-		if (widget.canEditReadOnly === false) { //窗体只读且不允许修改
-			return;
-		}
-		var item = this.getV3Item(itemCode);
-		item.ReadOnly = isReadonly;
-		item.validators = isReadonly || !item.Enabled ? null : item._validators ? item._validators : item.IsMust ? [{
-			type: "required"
-		}] : null;
-		//		if(item.type == "JGPassword" && !item._ReadOnly){
-		//			isReadonly ? item.hide() : item.show();
-		//			return;
-		//		}
-		if (item.type == "JGBaseDictBox") {
-			isReadonly = isReadonly || !item.Enabled;
-		}
-		item.setCanEdit(!isReadonly);
-		item.redraw();
 	},
 
 	/**
@@ -495,20 +418,6 @@ isc.JGFormLayout.addMethods({
 		return !item.isDisabled();
 	},
 
-	getItemVisible: function (itemCode) {
-		var item = this.getV3Item(itemCode);
-		return item.isVisible();
-	},
-
-	setItemIsMust: function (itemCode, isMust) {
-		var item = this.getV3Item(itemCode);
-		item.IsMust = isMust;
-		item.setRequired(isMust);
-		if (!isMust) {
-			item.validate();
-		}
-	},
-
 	getVisible: function () {
 		return this.getVisible();
 	},
@@ -529,7 +438,7 @@ isc.JGFormLayout.addMethods({
 					fields: fields,
 					setValueHandler: (function (_fields) {
 						return function (record,datasource) {
-							var dsName = datasource.dsName;
+							var dsName = datasource.dbName;
 							var prefix = dsName + widget.multiDsSpecialChar;
 							var oldVals = widget.getValues();
 							var id;
@@ -551,7 +460,7 @@ isc.JGFormLayout.addMethods({
 								if (fieldCode.indexOf(widget.multiDsSpecialChar) != -1) {
 									fieldCode = fieldCode.split(widget.multiDsSpecialChar)[0];
 								}
-								data[prefix + fieldCode] = record.get(fieldCode);
+								data[prefix + fieldCode] = record[fieldCode];
 							}
 							widget.setValues(data);
 						}
@@ -617,6 +526,7 @@ isc.JGFormLayout.addMethods({
 			});
 			widget.TableName.addObserver(observer);
 		}
+		this.bindWidgetToDatasource(this.TableName);
 	},
 
 	bindWidgetToDatasource: function(dataSource){
@@ -632,35 +542,38 @@ isc.JGFormLayout.addMethods({
 					 dsList[dsName].datasource = dsObj;
 					 var fields = dsObj.getFields();
 					 newDsName.push(dsName);
-					 for (var i = 0, len = fields.length; i < len; i++) {
-						 var field = fields[i];
-						 var newField = {
-							 name: dsName + this.multiDsSpecialChar + field.name,
-							 title: field.title,
-							 type: field.type
-						 };
-						 newFields.push(newField)
+					 for(var fieldName in fields){
+						if(fields.hasOwnProperty(fieldName)){
+							var field = fields[fieldName];
+							var newField = {
+								name: dsName + this.multiDsSpecialChar + field.name,
+								title: field.title,
+								type: field.type
+							};
+							newFields.push(newField)
+						}
 					 }
 				 }
 			 }
-			 var metadataJson = {
-				 model: [{
-					 datasourceName: newDsName.join(widget.multiDsSpecialChar),
-					 fields: newFields
-				 }]
-			 };
-			 var meatadata = metadataFactory.unSerialize(metadataJson);
-			 var multiDB = new SmartClientMultiDB({
-				 metadata: meatadata,
-				 multiDsSpecialChar: widget.multiDsSpecialChar,
-				 dataList: dsList
+			 newFields.push({
+				 name : "id",
+				 title: "主键",
+				 primaryKey: true,
+				 type : "text"
 			 });
-			 _newDS = multiDB._db;
+			 _newDS = isc.V3MultiDatasource.create({
+				dbName:newDsName.join(this.multiDsSpecialChar),
+				scopeId:this.scopeId,
+				clientOnly: true,
+				fields:newFields,
+				multiDsSpecialChar: this.multiDsSpecialChar,
+				dataList: dsList
+			 });
 		 }
-		 widget.bindDataSource(_newDS);
+		 this.bindDataSource(_newDS);
 	},
 
-	initEvent: function () {
+	/*initEvent: function () {
 		var widget = this;
 		var dsInfo = widget.multiDataSourceInfo;
 		var ds = null;
@@ -740,96 +653,44 @@ isc.JGFormLayout.addMethods({
 		}
 		//处理表单项值改变事件
 		
-		var handler = scopeManager.createScopeHandler({
-			handler: function (itemCode, eventCode, args) {
-				//触发表单项额外事件
-				if(widget.existItemExtraEvent(itemCode, eventCode)){
-					widget.fireItemExtraEvent(itemCode, eventCode, args);
-				}
-				var success = typeof(args[0]) == "function" ? args[0] : null;
-				var fail = typeof(args[1]) == "function" ? args[1] : null;
-				var hd = eventCode == "OnKeyDown" ? keydownHandler.handleKeyDown(itemCode, eventCode) : eventManager.fireEvent(itemCode, eventCode, success, fail);
-				hd();
+		var handler = function (itemCode, eventCode, args) {
+			//触发表单项额外事件
+			if(widget.existItemExtraEvent(itemCode, eventCode)){
+				widget.fireItemExtraEvent(itemCode, eventCode, args);
 			}
-		});
+			var success = typeof(args[0]) == "function" ? args[0] : null;
+			var fail = typeof(args[1]) == "function" ? args[1] : null;
+			var hd = widget._eventHandler(itemCode, eventCode, success, fail);
+			hd();
+		}
 		widget.registerItemEventHandler(handler);
-		handler = scopeManager.createScopeHandler({
-			handler: function (exp) {
-				var ctx = new ExpContext();
-				return exp == null || exp == "" ? "" : expEngine.execute({
-					expression: exp,
-					context: ctx
-				});
-				
-			}
-		});
-		widget.registerV3ExpressionHandler(handler);
+		widget.registerV3ExpressionHandler(this._expressionHandler);
 		var fields = widget.fields;
 		if(fields&&fields.length>0){
 			for(var i=0,l=fields.length;i<l;i++){
 				var field = fields[i];
 				var type = field.type;
-				var fieldAction = exports[type];
-				if(fieldAction&&fieldAction.initEvent){
-					fieldAction.initEvent(field.Code);
+				if(this["initEvent"+type]){
+					this["initEvent"+type](field.Code);
 				}
 			}
 		}
 		widget.fields.forEach(function(item){
     		if(item.type == "JGRadioGroup"){
-    			JGRadioGroup.setValueMap(widgetCode,item.Code,item.DropDownSource,item.IDColumnName,item.ColumnName);
+				widget.setValueMapJGRadioGroup(item.Code,item.DropDownSource,item.IDColumnName,item.ColumnName);
     		}else if(item.type === 'JGComboBox'){
-    			JGComboBox.setValueMap(widgetCode,item.Code,item.DropDownSource,item.IDColumnName,item.ColumnName);
+				widget.setValueMapJGComboBox(item.Code,item.DropDownSource,item.IDColumnName,item.ColumnName);
     		}else if(item.type === 'JGCheckBoxGroup'){
-    			JGCheckBoxGroup.setValueMap(widgetCode,item.Code,item.DropDownSource,item.IDColumnName,item.ColumnName);
+				widget.setValueMapJGCheckBoxGroup(item.Code,item.DropDownSource,item.IDColumnName,item.ColumnName);
     		}else if(item.type === 'JGBaseDictBox'){
     			if(item.DropDownSource){
     				item.DropDownSource = JSON.parse(item.DropDownSource);
-    				JGBaseDictBox.setValueMap(widgetCode,item.Code,item.DropDownSource,item.IDColumnName,item.ColumnName);
+					widget.setValueMapJGBaseDictBox(item.Code,item.DropDownSource,item.IDColumnName,item.ColumnName);
     			}
     		}
     		item._validators = item.validators;
     	})
-	},
-
-	/**
-	 * 获取默认值
-	 */
-	getDefaultValue: function(field) {
-		var defValue = null;
-		var items = this.getItemsByFields(field);
-		if (items) {
-			for (var i = 0, l = items.length; i < l; i++) {
-				var item = items[i];
-				defValue = this.getWidgetDefaultValue(item);
-			}
-		}else{
-			var item = this.getItemByCode(field);
-			if(item){
-				defValue = this.getWidgetDefaultValue(item);
-			}
-		}
-		return defValue;
-	},
-
-	getWidgetDefaultValue: function(item){
-		var defValue;
-		var exp = item.getV3DefaultValue ? item.getV3DefaultValue() : item.DefaultValue;
-		if(item.type == "JGCheckBox" && exp != null){
-			exp = typeof(item.DefaultValue) == "string" ? item.DefaultValue : "" + item.DefaultValue;
-		}
-		if(exp == null || exp == ""){
-			defValue = "";
-			if(this.type === "JGQueryConditionPanel" && item.type != "JGCheckBox"){
-				defValue = null;
-			}
-		}else if(typeof(exp) == "object"){
-			defValue = exp;
-		}else{
-			defValue = this._expressionHandler(exp);
-		}
-		return defValue;
-	},
+	},*/
 
 	/**
      * 修改只读属性
@@ -848,48 +709,6 @@ isc.JGFormLayout.addMethods({
 		item.redraw();
     },
 
-	getV3Item: function(itemCode){
-		var item = this.getItemByCode(itemCode);
-		return item;
-	},
-
-	/**
-     * 修改显示属性
-     */
-	setItemVisible: function(itemCode, isShow){
-    	var item = this.getV3Item(itemCode);
-    	if((item.type == "JGButton" || item.type == "JGPassword" ) && item._ReadOnly){
-    		return;
-    	}
-    	item.Visible = isShow;
-		if(isShow){
-			item.show();
-		}else{
-			item.hide();
-		}
-		if(this.type == "JGQueryConditionPanel"){
-			if(this.setItemVisible){//Task20200527029
-				this.setItemVisible(item,isShow);
-			}
-			if(this.setFooterBtnCol){
-				this.setFooterBtnCol();
-			}
-			if(this.formLayout && this.formLayout.redraw){
-				this.formLayout.redraw()
-			}
-		}
-    },
-
-	getItemReadOnly: function (itemCode) {
-    	var item = this.getV3Item(itemCode);
-		return item.isReadOnly();
-	},
-
-	getItemEnabled: function (itemCode) {
-		var item = this.getV3Item(itemCode);
-		return !item.isDisabled();
-	},
-
 	getItemVisible: function (itemCode) {
 		var item = this.getV3Item(itemCode);
 		return item.isVisible();
@@ -905,28 +724,39 @@ isc.JGFormLayout.addMethods({
 	}
 });
 
-import "./actions/JGAttachmentAction";
-import "./actions/JGBaseDictBoxAction";
-import "./actions/JGButtonAction";
-import "./actions/JGCheckBoxAction";
-import "./actions/JGCheckBoxGroupAction";
-import "./actions/JGComboBoxAction";
-import "./actions/JGDateRangePickerAction";
-import "./actions/JGDateTimePickerAction";
-import "./actions/JGFloatBoxAction";
-import "./actions/JGFloatRangeBoxAction";
-import "./actions/JGHyperLinkAction";
-import "./actions/JGImageAction";
-import "./actions/JGIntegerBoxAction";
-import "./actions/JGLabelAction";
-import "./actions/JGLinkLabelAction";
-import "./actions/JGLongDateTimePickerAction";
-import "./actions/JGLongTextBoxAction";
-import "./actions/JGPasswordAction";
-import "./actions/JGPercentAction";
-import "./actions/JGPeriodAction";
-import "./actions/JGPeriodRangeAction";
-import "./actions/JGRadioGroupAction";
-import "./actions/JGRichTextEditorAction";
-import "./actions/JGRichTextViewerAction";
-import "./actions/JGTextBoxAction";
+isc.JGFormLayout.addClassMethods({
+
+	/**
+	 * 获取最大标题长度
+	 * @param	{Object}	params
+	 * {
+	 * 		"calculateLength"	{Function}	计算长度函数，参数1：标题(String)
+	 * 		"property"			{Object}	控件属性,
+	 * 		"fieldName"			{String}	字段标识，默认fields
+	 * }
+	 * @return {Number}	最大标题长度
+	 * */
+	 getMaxTitleLength: function (params) {
+		var maxLength = 0;
+		var fieldWidgets = params.property.fields;
+		if (params.fieldName) {
+			fieldWidgets = params.property[params.fieldName];
+		}
+		params.property._$isAutoTitleWidth = true;
+		if (fieldWidgets && fieldWidgets.length > 0) {
+			//var MaxTitleLengthFunc = params.calculateLength;
+			for (var i = 0, len = fieldWidgets.length; i < len; i++) {
+				var fieldWidget = fieldWidgets[i];
+				if (fieldWidget.type == "JGLabel") {
+					continue;
+				}
+				var titleLen = params.calculateLength(fieldWidget.SimpleChineseTitle);
+				if (titleLen > maxLength) {
+					maxLength = titleLen;
+				}
+			}
+		}
+		return maxLength;
+	}
+
+});

@@ -15,6 +15,7 @@ isc.TabSet.addMethods({
  */
 isc.ClassFactory.defineClass("JGComponentContainer", "JGBaseWidget");
 isc.ClassFactory.mixInInterface("JGComponentContainer", "JGStyleHelper");
+isc.ClassFactory.mixInInterface("JGComponentContainer", "IWindowAop");
 
 isc.JGComponentContainer.addClassProperties({
 	//当前组件容器所有待执行的任务id列表
@@ -77,8 +78,8 @@ isc.JGComponentContainer.addProperties({
 	 */
 	displayType: '',
 	_tabbarHeigh: 23,
-	width: this.Width,
-	height: this.Height,
+	width: 600,
+	height: 50,
 	_funcOnClick: null,
 	isLoading: false, //页签数据是否加载中，用于判断是否触发页签切换事件
 	fireCurrentRecord: true, //加载数据第一次当前行改变不用触发
@@ -1623,7 +1624,7 @@ isc.JGComponentContainer.addMethods({
     },
     
     genKey: function(entityCode, scopeId, recordId){
-    	return entityCode + scopeId + recordId;
+    	return this.Code + entityCode + scopeId + recordId;
     },
 
 	_initEventAndDataBinding: function(){
@@ -1673,7 +1674,7 @@ isc.JGComponentContainer.addMethods({
 									_this.openWindowByRecord(_widgetCode, _record, _paramsMapping, _entityCode, _call);
 								}
 							})(widgetCode, record, paramsMapping, entityCode, call);
-							_this.addTask(scopeId,fun, genKey(entityCode,scopeId,record.id), isc.JGComponentContainer.ACTIVE.OPEN);
+							_this.addTask(scopeId,fun, _this.genKey(entityCode,scopeId,record.id), isc.JGComponentContainer.ACTIVE.OPEN);
 						}
 						_this.nextTask();
 					}
@@ -1831,7 +1832,7 @@ isc.JGComponentContainer.addMethods({
 									recordId : recordId
 								});
 							}
-							func = eventManager.fireEvent(widget.code, "OnSelectedChanged")
+							func = widget.getEventHandler(widget.code, "OnSelectedChanged")
 							func && func.apply(widget,currentRecord);
 						}
 					}
@@ -1901,19 +1902,22 @@ isc.JGComponentContainer.addMethods({
             }
         }
 
-        //建立窗体与组件容器关系
-        var info = _this._componentRenderHandler("getParentContainerInfo");
+        //往组件容器中增加 注册打开窗体信息的相关接口。
+        this.initComponent(this);
+        this.onInited(this.getEventHandler(widgetId, "OnContainerInited"));
+    },
+	beforeDataLoad: function(){
+		//建立窗体与组件容器关系
+        var info = this._componentRenderHandler("getParentContainerInfo");
         var windowCode = this.windowCode;
         var property = {
             windowCode: windowCode,
             scopeId: info.scopeId,
             type: "ComponentContainer"
         }
-		this._registerContainer(this.getCanvasName(), this.getCanvasName(), property);
-        //往组件容器中增加 注册打开窗体信息的相关接口。
-        this.initComponent(this);
-        this.onInited(this.getEventHandler(widgetId, "OnContainerInited"));
-    },
+		var windowWidget = this._getWidgetContextProperty(windowCode,"widgetObj");
+		this._registerContainer(windowWidget.getCanvasName(), this.getCanvasName(), property);
+	},
 	/**
      * 初始化组件容器中用来保存打开窗体信息的接口。
      * @param {Object} component 组件容器对象
@@ -2056,7 +2060,7 @@ isc.JGComponentContainer.addMethods({
 		return null;
 	},
 
-	exists: function (info) {
+	v3Exists: function (info) {
 		return this.existByComponentId(info);
 	},
 
@@ -2065,7 +2069,7 @@ isc.JGComponentContainer.addMethods({
    		this._setHeight(value);
 	},
 
-	reloadV3SingleTab = function (componentCode, containerId, title, otherInfo, url, isTitle, isComponent) {
+	reloadV3SingleTab : function (componentCode, containerId, title, otherInfo, url, isTitle, isComponent) {
 		return this.reloadSingleTab(containerId, url, isTitle, isComponent);
 	},
 
@@ -2161,14 +2165,19 @@ isc.JGComponentContainer.addMethods({
 	 * 添加新页签
 	 */
 	add: function (cfg) {
-		this._addToComponentContainer(cfg);
+		this._addToComponentContainer(this.code,cfg);
 	},
 
 	getV3MethodMap: function(){
 		return {
 			"setHeight":"setV3Height",
-			"reloadSingleTab":"reloadV3SingleTab"
+			"reloadSingleTab":"reloadV3SingleTab",
+			"exists": "v3Exists"
 		}
+	},
+
+	getBindFields: function(){
+		return [];
 	}
 
 });

@@ -7,19 +7,6 @@ isc.JGFormLayout.addMethods({
 	initEventJGAttachment: function (itemCode) {
 		this.initUIEventJGAttachment(itemCode);
 	},
-
-	getReadOnlyJGAttachment: function (itemCode) {
-		var item = this.getItemByCode(itemCode);
-		return item.ReadOnly;
-	},
-	//TODO
-	cleanSelectedControlValueJGAttachment: function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
-	},
-	getEnabledJGAttachment: function (itemCode) {
-		var item = this.getItemByCode(itemCode);
-		return item.Enabled;
-	},
 	getLabelTextJGAttachment: function (itemCode) {
 		var item = this.getItemByCode(itemCode);
 		return item.SimpleChineseTitle;
@@ -27,21 +14,13 @@ isc.JGFormLayout.addMethods({
 	setLabelTextJGAttachment: function (itemCode, title) {
 		this.setLabelText(title, itemCode);
 	},
-
-	getVisibleJGAttachment: function (itemCode) {
-		var item = this.getItemByCode(itemCode);
-		return item.Visible;
-	},
 	getValueJGAttachment: function (itemCode) {
 		if (this.getMultiDataSourceInfo && this.getMultiDataSourceInfo()) { //多数据源走同一赋值接口
-			return this.getMultiDsValue(widgetCode, itemCode);
+			return this.getMultiDsValue(this.Code, itemCode);
 		}
 		var item = this.getItemByCode(itemCode);
-		var datasource = isc.JGDataSourceManager.get(this, item.TableName);
+		var datasource = isc.JGDataSourceManager.get(this, item.SourceTableName);
 		return isc.DatasourceUtil.getSingleValue(datasource, item.name);
-	},
-	getDefaultValueJGAttachment: function () {
-
 	},
 	setReadOnlyJGAttachment: function (itemCode, isReadonly) {
 		this.setItemReadOnly(itemCode, isReadonly);
@@ -55,11 +34,11 @@ isc.JGFormLayout.addMethods({
 	setValueJGAttachment: function (itemCode, value) {
 
 		if (this.getMultiDataSourceInfo && this.getMultiDataSourceInfo()) { //多数据源走同一赋值接口
-			this.setMultiDsValue(widgetCode, itemCode, value);
+			this.setMultiDsValue(this.Code, itemCode, value);
 			return;
 		}
 		var item = this.getItemByCode(itemCode);
-		var datasource = isc.JGDataSourceManager.get(this, item.TableName);
+		var datasource = isc.JGDataSourceManager.get(this, item.SourceTableName);
 		var record = datasource.getCurrentRecord();
 		var data = {
 			id: record.id
@@ -85,7 +64,7 @@ isc.JGFormLayout.addMethods({
 			// 单文件上传，如果文件选择后，当前实体没有记录，就增加一条新记录
 			// 主要是避免出现以下情况：选择文件--设置其他字段值(新增记录)--文件控件被触发insert和select事件
 			// --文件队列被清除
-			var datasource = isc.JGDataSourceManager.get(_this, item.TableName);
+			var datasource = isc.JGDataSourceManager.get(_this, item.SourceTableName);
 			if (!item.isMultiUpload()) {
 				var currentRow = datasource.getCurrentRecord();
 				if (!currentRow) {
@@ -124,7 +103,7 @@ isc.JGFormLayout.addMethods({
 					fileNameColumnName = refFields.fileNameField;
 					fileSizeColumnName = refFields.fileSizeField;
 				} //获取绑定数据源对象
-				var datasource = isc.JGDataSourceManager.get(_this, item.TableName);
+				var datasource = isc.JGDataSourceManager.get(_this, item.SourceTableName);
 				if (undefined != datasource) {
 					var updateRecord = [];
 					var records = datasource.getAllRecords();
@@ -200,7 +179,7 @@ isc.JGFormLayout.addMethods({
 		var fileIdField = item.ColumnName;
 		var fileNameColumn = item.FileNameColumn;
 		var fileSizeColumn = item.FileSizeColumn;
-		var tableName = item.TableName;
+		var tableName = item.SourceTableName;
 		var datasource = isc.JGDataSourceManager.get(this, tableName);
 		// 忽略 不存在的属性
 		if (fileNameColumn && !datasource.getField(fileNameColumn)) {
@@ -226,7 +205,7 @@ isc.JGFormLayout.addMethods({
 				fileSizeField: this.FileSizeColumn
 			}
 			var comp = widget;
-			var datasource = isc.JGDataSourceManager.get(_this, widget.TableName);
+			var datasource = isc.JGDataSourceManager.get(_this, widget.SourceTableName);
 			if (!comp.isMultiUpload()) {
 				var currentRow = datasource.getCurrentRecord();
 				if (!currentRow) {
@@ -245,7 +224,7 @@ isc.JGFormLayout.addMethods({
 				record[refFields.fileNameField] = value.fileName;
 			if (refFields.fileSizeField)
 				record[refFields.fileSizeField] = value.fileSize;
-			isc.WidgetDatasource.setSingleRecordMultiValue(_this, record);
+			isc.WidgetDatasource.setSingleRecordMultiValue(datasource, record);
 		}
 	},
 	/**
@@ -275,7 +254,7 @@ isc.JGFormLayout.addMethods({
 		cfg.windowCode = this.windowCode;
 		widget.importData(cfg, callback);
 	},
-	isMultiUploadJGAttachment = function (itemCode) {
+	isMultiUploadJGAttachment : function (itemCode) {
 		var item = this.getItemByCode(itemCode);
 		return item.isMultiUpload();
 	},
@@ -296,7 +275,7 @@ isc.JGFormLayout.addMethods({
 		return isc.WidgetDatasource.getSingleColumnWidgetDefaultValue(item);
 	},
 	//TODO
-	cleanSelectedControlValueJGAttachment : function (itemCode, onlyCleanSelectedRecord) {
+	cleanSelectedControlValueJGAttachment: function (itemCode, onlyCleanSelectedRecord) {
 		var item = this.getItemByCode(itemCode);
 		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
 		item.clearFileQueue();
@@ -319,64 +298,64 @@ isc.JGFormLayout.addMethods({
 			result["ids"] = {}
 		}
 		var sConfig = {
-				"isAsyn": false,
-				"componentCode": this.componentCode,
-				"windowCode": this.windowCode,
-				ruleSetCode: "CheckFileType",
-				isRuleSetCode: false,
-				commitParams: [{
-					"paramName": "InParams",
-					"paramType": "char",
-					"paramValue": files
-				}],
-				afterResponse: callback,
-				error: errorBack
-			},
-			this._remoteMethodAccessor(sConfig);
+			"isAsyn": false,
+			"componentCode": this.componentCode,
+			"windowCode": this.windowCode,
+			ruleSetCode: "CheckFileType",
+			isRuleSetCode: false,
+			commitParams: [{
+				"paramName": "InParams",
+				"paramType": "char",
+				"paramValue": files
+			}],
+			afterResponse: callback,
+			error: errorBack
+		};
+		this._remoteMethodAccessor(sConfig);
 		return result;
 	},
 	/**
 	 * 获取文件上传进度，多个进度用逗号分隔
 	 * */
 	getFileProgress: function (fileInfos) {
-		var result = {},
-			var canUpload = false;
+		var result = {};
+		var canUpload = false;
 		var callback = function (value) {
-				result["canUpload"] = true;
-				result["ids"] = value.data;
-			},
-			var errorBack = function (value) {
-				if (value.name && value.name == "NetworkException") {
-					result["message"] = "无法连接服务器";
-				} else if (value.message) {
-					result["message"] = value.message;
-				} else {
-					result["message"] = "无法连接服务器";
-				}
-				result["canUpload"] = false;
-				result["ids"] = {};
+			result["canUpload"] = true;
+			result["ids"] = value.data;
+		};
+		var errorBack = function (value) {
+			if (value.name && value.name == "NetworkException") {
+				result["message"] = "无法连接服务器";
+			} else if (value.message) {
+				result["message"] = value.message;
+			} else {
+				result["message"] = "无法连接服务器";
 			}
+			result["canUpload"] = false;
+			result["ids"] = {};
+		}
 		var sConfig = {
-				"isAsyn": false,
-				"componentCode": this.componentCode,
-				"windowCode": this.windowCode,
-				ruleSetCode: "FileUploadProgess",
-				isRuleSetCode: false,
-				commitParams: [{
-					"paramName": "InParams",
-					"paramType": "char",
-					"paramValue": fileInfos
-				}],
-				afterResponse: callback,
-				error: errorBack
-			},
-			this._remoteMethodAccessor(sConfig);
+			"isAsyn": false,
+			"componentCode": this.componentCode,
+			"windowCode": this.windowCode,
+			ruleSetCode: "FileUploadProgess",
+			isRuleSetCode: false,
+			commitParams: [{
+				"paramName": "InParams",
+				"paramType": "char",
+				"paramValue": fileInfos
+			}],
+			afterResponse: callback,
+			error: errorBack
+		};
+		this._remoteMethodAccessor(sConfig);
 		return result;
 	},
-	customRequiredValidateJGAttachment : function (itemCode) {
+	customRequiredValidateJGAttachment: function (itemCode) {
 		var item = this.getItemByCode(itemCode);
 		var refFields = this.getWidgetRefField(itemCode);
-		var datasource = isc.JGDataSourceManager.get(this,item);
+		var datasource = isc.JGDataSourceManager.get(this, item);
 		if (item.isMultiUpload()) {
 			var allRecords = datasource.getAllRecords();
 			if (allRecords && allRecords.length > 0) {
@@ -388,14 +367,14 @@ isc.JGFormLayout.addMethods({
 					}
 				}
 				return false;
-			}else {
+			} else {
 				return false;
 			}
-		}else {
+		} else {
 			var currentRow = datasource.getCurrentRecord();
 			if (currentRow && currentRow[refFields.fileIdField]) {
 				return true;
-			}else {
+			} else {
 				return false;
 			}
 		}

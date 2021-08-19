@@ -5,13 +5,19 @@
     "plugins": [{
         "type": "widget",
         "code": "JGQueryConditionPanel",
-        "name": "",
+        "name": "查询面板控件",
         "icon": "./JGQueryConditionPanel.png",
         "desc": "",
         "defineUrl": "./dist/index.js",
         "docUrl": "./doc/index.js",
         "exampleUrl": "./example/index.js",
         "properties": [{
+            "code":"Alias",
+            "name": "名称",
+            "type":"char",
+            "default":"查询条件面板",
+            "visible":false
+        },{
             "code": "Code",
             "name": "控件名称",
             "type": "char",
@@ -116,18 +122,18 @@
             "name": "设置布局列数",
             "type": "integer",
             "editor": {
-                "type": "integer"
+                "type": "Select",
+                "valueMap": {
+                    "2": 2,
+                    "3": 3,
+                    "4": 4
+                }
             },
-            "default": {
-                "default": 3,
-                "title": "列数",
-                "editor": {
-                    "type": "Select",
-                    "valueMap": {
-                        "2": 2,
-                        "3": 3,
-                        "4": 4
-                    }
+            "default": 3,
+            "access": {
+                "webDesigner": {
+                    "readable": true,
+                    "writable": true
                 }
             }
         }, {
@@ -187,15 +193,15 @@
                 "enhanceType": "language",
                 "target": "QueryButtonText"
             },
-            "default": {
-                "default": "查询",
-                "title": "查询按钮文本",
-                "editor": {
-                    "type": "Text"
+            "access":{
+                "webDesigner":{
+                    "writable":true,
+                    "readable":true
                 }
-            }
+            },
+            "default": "查询"
         }, {
-            "code": "OnConditionChanged ",
+            "code": "OnConditionChanged",
             "name": "查询条件改变事件",
             "type": "char",
             "editor": {
@@ -206,27 +212,4167 @@
             "name": "查询条件数据配置",
             "type": "char",
             "default": ""
-        },{
+        }, {
+            "code": "fields",
+            "name": "查询项",
+            "type": "char",
+            "editor": {
+                "type": "children",
+                "define": [{
+                        "code": "JGLocateBox",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGLocateBox",
+                            "visible": false
+                        },{
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "ValueTextAlign",
+                                "name": "值对齐方式",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 215,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "输入关键字搜索"
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 13
+                            },
+                            {
+                                "code": "OnKeyDown",
+                                "name": "键盘按下事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "OnEnter",
+                                "name": "焦点获取事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 220,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "VerticalAlign",
+                                "name": "垂直位置",
+                                "type": "char",
+                                "default": "Top"
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "OnLeave",
+                                "name": "焦点离开事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGLocateBox"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "32px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            },
+                            {
+                                "code": "OnClick",
+                                "name": "点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "ColumnName",
+                                "name": "字段名称",
+                                "type": "char",
+                                "default": "quickSearch",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 4,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "Alias",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "检索"
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "220px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGLocateBox"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGTextBox",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGTextBox",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "ValueTextAlign",
+                                "name": "值对齐方式",
+                                "type": "char",
+                                "default": "left"
+                            },
+                            {
+                                "code": "Placeholder",
+                                "name": "提醒文字",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "Text"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Folded",
+                                "name": "折叠",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "Boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 10,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 2
+                            },
+                            {
+                                "code": "DefaultValue",
+                                "name": "默认值",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnKeyDown",
+                                "name": "键盘按下事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "OnEnter",
+                                "name": "焦点获取事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 155,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "VerticalAlign",
+                                "name": "垂直位置",
+                                "type": "char",
+                                "default": "Top"
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "OnLeave",
+                                "name": "焦点离开事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGTextBox"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "32px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            },
+                            {
+                                "code": "PlaceholderPosition",
+                                "name": "提醒文字位置",
+                                "type": "char",
+                                "default": "Auto"
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "ColumnName",
+                                "name": "字段名称",
+                                "type": "char",
+                                "default": "biaoshi1",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 48,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "LabelVisible",
+                                "name": "显示标题",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "155px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGTextBoxFormItem"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGComboBox",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGComboBox",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "Placeholder",
+                                "name": "提醒文字",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "Text"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Folded",
+                                "name": "折叠",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "Boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 173,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "IDColumnName",
+                                "name": "标识字段名称",
+                                "type": "char",
+                                "default": "biaoshi2",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 9
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnKeyDown",
+                                "name": "键盘按下事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "OnEnter",
+                                "name": "焦点获取事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 155,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "VerticalAlign",
+                                "name": "垂直位置",
+                                "type": "char",
+                                "default": "Top"
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "OnLeave",
+                                "name": "焦点离开事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGComboBox"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "32px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            },
+                            {
+                                "code": "PlaceholderPosition",
+                                "name": "提醒文字位置",
+                                "type": "char",
+                                "default": "Auto"
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "ColumnName",
+                                "name": "字段名称",
+                                "type": "char",
+                                "default": "biaoshi2_display",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 48,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "155px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGComboBoxFormItem"
+                            },
+                            {
+                                "code": "LabelVisible",
+                                "name": "显示标题",
+                                "type": "boolean",
+                                "default": true
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGCheckBox",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGCheckBox",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "Placeholder",
+                                "name": "提醒文字",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "Text"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Folded",
+                                "name": "折叠",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "Boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 336,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 9
+                            },
+                            {
+                                "code": "DefaultValue",
+                                "name": "默认值",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 155,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "VerticalAlign",
+                                "name": "垂直位置",
+                                "type": "char",
+                                "default": "Top"
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGCheckBox"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "32px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            },
+                            {
+                                "code": "PlaceholderPosition",
+                                "name": "提醒文字位置",
+                                "type": "char",
+                                "default": "Right"
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "ColumnName",
+                                "name": "字段名称",
+                                "type": "char",
+                                "default": "com_name",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 48,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "LabelVisible",
+                                "name": "显示标题",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "155px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGCheckBoxFormItem"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGRadioGroup",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGRadioGroup",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 10,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "IDColumnName",
+                                "name": "标识字段名称",
+                                "type": "char",
+                                "default": "qici",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 9
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "RowCount",
+                                "name": "文本行数",
+                                "type": "integer",
+                                "default": "1"
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 155,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "VerticalAlign",
+                                "name": "垂直位置",
+                                "type": "char",
+                                "default": "Top"
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGRadioGroup"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "32px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "ColumnName",
+                                "name": "字段名称",
+                                "type": "char",
+                                "default": "qici_display",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 88,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "LabelVisible",
+                                "name": "显示标题",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "155px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGRadioGroupFormItem"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGCheckBoxGroup",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGCheckBoxGroup",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 173,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "IDColumnName",
+                                "name": "标识字段名称",
+                                "type": "char",
+                                "default": "pro_name",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 10
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "RowCount",
+                                "name": "文本行数",
+                                "type": "integer",
+                                "default": "1"
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 155,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "VerticalAlign",
+                                "name": "垂直位置",
+                                "type": "char",
+                                "default": "Top"
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGCheckBoxGroup"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "32px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "ColumnName",
+                                "name": "字段名称",
+                                "type": "char",
+                                "default": "pro_name_display",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 88,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "LabelVisible",
+                                "name": "显示标题",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "155px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGCheckBoxGroupFormItem"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGIntegerBox",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGIntegerBox",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "ValueTextAlign",
+                                "name": "值对齐方式",
+                                "type": "char",
+                                "default": "left"
+                            },
+                            {
+                                "code": "Placeholder",
+                                "name": "提醒文字",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "Text"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Folded",
+                                "name": "折叠",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "Boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 336,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 9
+                            },
+                            {
+                                "code": "DefaultValue",
+                                "name": "默认值",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnKeyDown",
+                                "name": "键盘按下事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "OnEnter",
+                                "name": "焦点获取事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 155,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "VerticalAlign",
+                                "name": "垂直位置",
+                                "type": "char",
+                                "default": "Top"
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "OnLeave",
+                                "name": "焦点离开事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGIntegerBox"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "32px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            },
+                            {
+                                "code": "PlaceholderPosition",
+                                "name": "提醒文字位置",
+                                "type": "char",
+                                "default": "Auto"
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "ColumnName",
+                                "name": "字段名称",
+                                "type": "char",
+                                "default": "ysje",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 88,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "LabelVisible",
+                                "name": "显示标题",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "155px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGIntegerBoxFormItem"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGFloatBox",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGFloatBox",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "ValueTextAlign",
+                                "name": "值对齐方式",
+                                "type": "char",
+                                "default": "left"
+                            },
+                            {
+                                "code": "Placeholder",
+                                "name": "提醒文字",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "Text"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Folded",
+                                "name": "折叠",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "Boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 10,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 8
+                            },
+                            {
+                                "code": "DefaultValue",
+                                "name": "默认值",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnKeyDown",
+                                "name": "键盘按下事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "OnEnter",
+                                "name": "焦点获取事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 155,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "VerticalAlign",
+                                "name": "垂直位置",
+                                "type": "char",
+                                "default": "Top"
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "OnLeave",
+                                "name": "焦点离开事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "IntegralPartLength",
+                                "name": "整数部分长度",
+                                "type": "integer",
+                                "default": 11
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGFloatBox"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "32px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            },
+                            {
+                                "code": "PlaceholderPosition",
+                                "name": "提醒文字位置",
+                                "type": "char",
+                                "default": "Auto"
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "ColumnName",
+                                "name": "字段名称",
+                                "type": "char",
+                                "default": "sjje",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 128,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "FractionalPartLength",
+                                "name": "小数部分长度",
+                                "type": "integer",
+                                "default": 11
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "155px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGFloatBoxFormItem"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGBaseDictBox",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGBaseDictBox",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "Placeholder",
+                                "name": "提醒文字",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "Text"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Folded",
+                                "name": "折叠",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "Boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 173,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "IDColumnValueSeparator",
+                                "name": "标识值分隔符",
+                                "type": "char",
+                                "default": ","
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "IDColumnName",
+                                "name": "标识字段名称",
+                                "type": "char",
+                                "default": "biaoshi11",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 10
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "ColumnValueSeparator",
+                                "name": "显示值分隔符",
+                                "type": "char",
+                                "default": ","
+                            },
+                            {
+                                "code": "DropDownSource",
+                                "name": "数据来源",
+                                "type": "char",
+                                "compatible": {
+                                    "enhanceType": "DropDownSource",
+                                    "dropdownSourceHandler": "dropdownSourceHandler"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "OnEnter",
+                                "name": "焦点获取事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 155,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "VerticalAlign",
+                                "name": "垂直位置",
+                                "type": "char",
+                                "default": "Top"
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "OnLeave",
+                                "name": "焦点离开事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGBaseDictBox"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "32px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            },
+                            {
+                                "code": "PlaceholderPosition",
+                                "name": "提醒文字位置",
+                                "type": "char",
+                                "default": "Auto"
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "ColumnName",
+                                "name": "字段名称",
+                                "type": "char",
+                                "default": "biaoshi11_display",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "IsEdit",
+                                "name": "编辑",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "boolean"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 128,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "155px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGBaseDictBoxFormItem"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGPeriod",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGPeriod",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "ValueTextAlign",
+                                "name": "值对齐方式",
+                                "type": "char",
+                                "default": "left"
+                            },
+                            {
+                                "code": "PeriodType",
+                                "name": "期次类型",
+                                "type": "char",
+                                "default": "year"
+                            },
+                            {
+                                "code": "Placeholder",
+                                "name": "提醒文字",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "Text"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Folded",
+                                "name": "折叠",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "Boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 336,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 11
+                            },
+                            {
+                                "code": "DefaultValue",
+                                "name": "默认值",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnKeyDown",
+                                "name": "键盘按下事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "OnEnter",
+                                "name": "焦点获取事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 155,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "VerticalAlign",
+                                "name": "垂直位置",
+                                "type": "char",
+                                "default": "Top"
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "OnLeave",
+                                "name": "焦点离开事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGPeriod"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "32px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            },
+                            {
+                                "code": "PlaceholderPosition",
+                                "name": "提醒文字位置",
+                                "type": "char",
+                                "default": "Auto"
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "ColumnName",
+                                "name": "字段名称",
+                                "type": "char",
+                                "default": "biaoshi21",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 128,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "155px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGPeriodFormItem"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGDateTimePicker",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGDateTimePicker",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "ValueTextAlign",
+                                "name": "值对齐方式",
+                                "type": "char",
+                                "default": "left"
+                            },
+                            {
+                                "code": "Placeholder",
+                                "name": "提醒文字",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "Text"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Folded",
+                                "name": "折叠",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "Boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 10,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 12
+                            },
+                            {
+                                "code": "DefaultValue",
+                                "name": "默认值",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "MaxDate",
+                                "name": "最大日期",
+                                "type": "char",
+                                "default": "9998-12-31"
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "MinDate",
+                                "name": "最小日期",
+                                "type": "char",
+                                "default": "1753-01-01"
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 155,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "DateDisplay",
+                                "name": "选择模式",
+                                "type": "char",
+                                "default": "date"
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "VerticalAlign",
+                                "name": "垂直位置",
+                                "type": "char",
+                                "default": "Top"
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGDateTimePicker"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "32px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            },
+                            {
+                                "code": "PlaceholderPosition",
+                                "name": "提醒文字位置",
+                                "type": "char",
+                                "default": "Auto"
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "ColumnName",
+                                "name": "字段名称",
+                                "type": "char",
+                                "default": "biaoshi22",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 168,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "155px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGDateTimePickerFormItem"
+                            },
+                            {
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "char",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGLongDateTimePicker",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGLongDateTimePicker",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "ValueTextAlign",
+                                "name": "值对齐方式",
+                                "type": "char",
+                                "default": "left"
+                            },
+                            {
+                                "code": "Placeholder",
+                                "name": "提醒文字",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "Text"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Folded",
+                                "name": "折叠",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "Boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 173,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 13
+                            },
+                            {
+                                "code": "DefaultValue",
+                                "name": "默认值",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "MaxDate",
+                                "name": "最大日期",
+                                "type": "char",
+                                "default": "9998-12-31"
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "MinDate",
+                                "name": "最小日期",
+                                "type": "char",
+                                "default": "1753-01-01"
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 155,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "VerticalAlign",
+                                "name": "垂直位置",
+                                "type": "char",
+                                "default": "Top"
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGLongDateTimePicker"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "32px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            },
+                            {
+                                "code": "PlaceholderPosition",
+                                "name": "提醒文字位置",
+                                "type": "char",
+                                "default": "Auto"
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "ColumnName",
+                                "name": "字段名称",
+                                "type": "char",
+                                "default": "biaoshi23",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 168,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "155px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGLongDateTimePickerFormItem"
+                            },
+                            {
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "char",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGDateRangePicker",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGDateRangePicker",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "ValueTextAlign",
+                                "name": "值对齐方式",
+                                "type": "char",
+                                "default": "left"
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 642,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 31
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "MaxDate",
+                                "name": "最大日期",
+                                "type": "char",
+                                "default": "9998-12-31"
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "EndColumnName",
+                                "name": "结束字段名称",
+                                "type": "char",
+                                "default": "qici_rge",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Placeholder",
+                                "name": "提醒文字",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "Text"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Folded",
+                                "name": "折叠",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "Boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "MinDate",
+                                "name": "最小日期",
+                                "type": "char",
+                                "default": "1753-01-01"
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 308,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "DateDisplay",
+                                "name": "选择模式",
+                                "type": "char",
+                                "default": "date"
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGDateRangePicker"
+                                }
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 168,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "StartColumnName",
+                                "name": "开始字段名称",
+                                "type": "char",
+                                "default": "qici",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGDateRangePickerFormItem"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGFloatRangeBox",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGFloatRangeBox",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "ValueTextAlign",
+                                "name": "值对齐方式",
+                                "type": "char",
+                                "default": "left"
+                            },
+                            {
+                                "code": "Placeholder",
+                                "name": "提醒文字",
+                                "type": "char",
+                                "default": "开始值",
+                                "editor": {
+                                    "type": "Text"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Folded",
+                                "name": "折叠",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "Boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 10,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 38
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "OnKeyDown",
+                                "name": "键盘按下事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "EndColumnName",
+                                "name": "结束字段名称",
+                                "type": "char",
+                                "default": "xiaoshu1_rge",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "OnEnter",
+                                "name": "焦点获取事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 308,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "OnLeave",
+                                "name": "焦点离开事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "IntegralPartLength",
+                                "name": "整数部分长度",
+                                "type": "integer",
+                                "default": 11
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGFloatRangeBox"
+                                }
+                            },
+                            {
+                                "code": "PlaceholderPosition",
+                                "name": "提醒文字位置",
+                                "type": "char",
+                                "default": "Auto"
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 208,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "StartColumnName",
+                                "name": "开始字段名称",
+                                "type": "char",
+                                "default": "xiaoshu1",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "FractionalPartLength",
+                                "name": "小数部分长度",
+                                "type": "integer",
+                                "default": 11
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGFloatRangeBoxFormItem"
+                            }
+                        ]
+                    },
+                    {
+                        "code": "JGPeriodRange",
+                        "properties": [{
+                            "code": "type",
+                            "name": "控件类型",
+                            "type": "char",
+                            "default": "JGPeriodRange",
+                            "visible": false
+                        },{
+                                "code": "LabelTextAlign",
+                                "name": "标题对其方式",
+                                "type": "char",
+                                "default": "right"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "ValueTextAlign",
+                                "name": "值对齐方式",
+                                "type": "char",
+                                "default": "left"
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 642,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 31
+                            },
+                            {
+                                "code": "OnValueChanged",
+                                "name": "值改变事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "MaxDate",
+                                "name": "最大日期",
+                                "type": "char",
+                                "default": "9998-12-31"
+                            },
+                            {
+                                "code": "OnValueLoaded",
+                                "name": "值加载事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "EndColumnName",
+                                "name": "结束字段名称",
+                                "type": "char",
+                                "default": "qici_rge",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "LabelWidth",
+                                "name": "标题宽度",
+                                "type": "integer",
+                                "default": 70,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Placeholder",
+                                "name": "提醒文字",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "Text"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Folded",
+                                "name": "折叠",
+                                "type": "boolean",
+                                "default": false,
+                                "editor": {
+                                    "type": "Boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "default": true,
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
+                                    }
+                                }
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 32,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "OnLabelClick",
+                                "name": "标题点击事件",
+                                "type": "char",
+                                "editor": {
+                                    "type": "ruleset"
+                                }
+                            },
+                            {
+                                "code": "MinDate",
+                                "name": "最小日期",
+                                "type": "char",
+                                "default": "1753-01-01"
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 308,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "DateDisplay",
+                                "name": "选择模式",
+                                "type": "char",
+                                "default": "date"
+                            },
+                            {
+                                "code": "ReadOnly",
+                                "name": "只读",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "Enabled",
+                                "name": "使能",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGPeriodRange"
+                                }
+                            },
+                            {
+                                "code": "TableName",
+                                "name": "表名",
+                                "type": "char",
+                                "editor": {
+                                    "type": "entity"
+                                },
+                                "compatible": {
+                                    "enhanceType": "tableName"
+                                }
+                            },
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 168,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "StartColumnName",
+                                "name": "开始字段名称",
+                                "type": "char",
+                                "default": "qici",
+                                "editor": {
+                                    "type": "field",
+                                    "entityProp": "TableName"
+                                },
+                                "compatible": {
+                                    "enhanceType": "columnName"
+                                }
+                            },
+                            {
+                                "code": "IsMust",
+                                "name": "必填",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGPeriodRangeFormItem"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }, {
             "code": "_getWidgetContextProperty",
             "name": "获取控件属性",
             "type": "char",
             "handler": "getWidgetContextProperty"
-        },{
+        }, {
             "code": "_eventHandler",
             "name": "事件处理器",
             "type": "char",
             "handler": "eventHandler"
-        },{
+        }, {
             "code": "_getCurrencyField",
             "name": "获取金额字段",
             "type": "char",
             "handler": "getCurrencyField"
+        }, {
+            "code": "_expressionHandler",
+            "name": "表达式处理器",
+            "type": "char",
+            "handler": "expression"
+        }, {
+            "code": "_createDropdownSourceObserver",
+            "name": "下拉数据源观察者",
+            "type": "char",
+            "handler": "DropdownSourceObserver"
+        }, {
+            "code": "_widgetAction",
+            "name": "控件方法",
+            "type": "char",
+            "handler": "widgetAction"
         }],
         "dependencies": [{
             "groupId": "com.toone.v3.platform",
-            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
-            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseFormWidget",
-            "pluginCode": "JGBaseFormWidget",
+            "code": "widget-smartclient-JGFormLayout",
+            "pluginSymbolicName": "vjs.framework.extension.ui.plugin.smartclient.JGFormLayout",
+            "pluginCode": "JGFormLayout",
             "pluginType": "widget"
         }]
     }]
