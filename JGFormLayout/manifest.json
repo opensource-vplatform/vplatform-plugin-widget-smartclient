@@ -12,6 +12,16 @@
         "docUrl": "./doc/index.js",
         "exampleUrl": "./example/index.js",
         "properties": [{
+            "code": "VerticalAlign",
+            "name": "处置位置",
+            "type": "char",
+            "default": "Top"
+        }, {
+            "code": "HorizontalAlign",
+            "name": "水平位置",
+            "type": "char",
+            "default": "Left"
+        },{
             "code":"Alias",
             "name": "名称",
             "type":"char",
