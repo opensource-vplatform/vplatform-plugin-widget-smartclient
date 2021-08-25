@@ -143,17 +143,12 @@
                     "default": ""
                 },
                 {
-                    "code": "TableName",
-                    "name": "表名",
+                    "code":"SimpleChineseTitle",
+                    "name":"别名",
                     "type": "char",
-                    "editor": {
-                        "type": "entity"
-                    },
-                    "compatible": {
-                        "enhanceType": "tableName"
-                    },
-                    "default": ""
+                    "default":"记录导航控件"
                 }
+               
             ],
             "dependencies": [
                 {

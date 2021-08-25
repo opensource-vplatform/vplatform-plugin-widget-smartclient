@@ -30,7 +30,7 @@ isc.JGFormLayout.addMethods({
 
 	getValueJGBaseDictBox: function (itemCode) {
 		if (this.getMultiDataSourceInfo && this.getMultiDataSourceInfo()) { //多数据源走同一赋值接口
-			return this.getMultiDsValue(widgetCode, itemCode, "IDColumnName");
+			return this.getMultiDsValue(this.Code, itemCode, "IDColumnName");
 		}
 		var item = this.getItemByCode(itemCode);
 		var datasource = isc.JGDataSourceManager.get(this, item.TableName);
@@ -47,7 +47,7 @@ isc.JGFormLayout.addMethods({
 
 	getTextJGBaseDictBox: function (itemCode) {
 		if (this.getMultiDataSourceInfo && this.getMultiDataSourceInfo()) { //多数据源走统一赋值接口
-			return this.getMulitDsText(widgetCode, itemCode, "ColumnName");
+			return this.getMulitDsText(this.Code, itemCode, "ColumnName");
 		}
 		var item = this.getItemByCode(itemCode);
 		var datasource = isc.JGDataSourceManager.get(this, item.TableName);
@@ -75,7 +75,7 @@ isc.JGFormLayout.addMethods({
 	setValueJGBaseDictBox: function (itemCode, value) {
 
 		if (this.getMultiDataSourceInfo && this.getMultiDataSourceInfo()) { //多数据源走同一赋值接口
-			this.setMultiDsValue(widgetCode, itemCode, value);
+			this.setMultiDsValue(this.Code, itemCode, value);
 			return;
 		}
 		var item = this.getItemByCode(itemCode);

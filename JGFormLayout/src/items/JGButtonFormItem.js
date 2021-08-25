@@ -11,6 +11,7 @@ isc.JGButtonFormItem.addMethods({
 	init: function () {
 		this.cellStyle = "formCell JGButtonCellFormItem";
 		var _this = this;
+		this.remindText = this.RemindText;
 		this.title = this.genTitleContent(this.SimpleChineseTitle);
 		this.tabIndex = this.TabIndex;
 		this.visible = this.Visible;
@@ -23,7 +24,6 @@ isc.JGButtonFormItem.addMethods({
 		//                this.endRow = this.EndRow;
 		this.length = this.TextLength;
 		this.icon = this.getStaticImagePath(this.ImageObject);
-		this.remindText = this.RemindText;
 		this.showIconState = false; //防止图片修改状态
 		this.canHover = true;
 		this.wrap = true;
@@ -72,7 +72,18 @@ isc.JGButtonFormItem.addMethods({
 			}
 
 			if (this.icon && this.icon != "") {
-				btnHtml.push('<img isBtn = "true" class = "' + this.iconStyle + '" src = "' + this.icon + '"></img>')
+				var iconStyle = "";
+				if(this.iconWidth){
+					iconStyle += "width:";
+					iconStyle += this.iconWidth;
+					iconStyle += "px;";
+				}
+				if(this.iconHeight){
+					iconStyle += "height:";
+					iconStyle += this.iconHeight;
+					iconStyle += "px;";
+				}
+				btnHtml.push('<img isBtn = "true" style="'+iconStyle+'" class = "' + this.iconStyle + '" src = "' + this.icon + '"></img>')
 			}
 			btnHtml.push('<span isBtn = "true" class = "' + this.contentStyle + '" style="color:' + this.ForeColor + '">' + this.title + '</span>');
 			btnHtml.push('</div>');
@@ -150,7 +161,9 @@ isc.JGButtonFormItem.addMethods({
 	//			},
 	getStaticImagePath: function (path) {
 		//		        return path ? (window && window._$basePath ? window._$basePath + path : path) : null; //原型工具中，静态图片路径处理
-		return path ? "module-operation!executeOperation?operation=FileDown&token={%22data%22:{%22isMulti%22:false,%22dataId%22:%22" + path + "%22,%22isShow%22:1" + "}}" : null;
+		//解决图标配置失效问题
+		//return path ? "module-operation!executeOperation?operation=FileDown&token={%22data%22:{%22isMulti%22:false,%22dataId%22:%22" + path + "%22,%22isShow%22:1" + "}}" : null;
+		return this.ImageValue;
 	},
 	genTitleContent: function (titleStr) {
 		return isc.isA.nonemptyString(titleStr) ? (titleStr) : isc.nbsp;

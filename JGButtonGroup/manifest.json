@@ -189,22 +189,34 @@
                     "default": "Static"
                 },
                 {
-                    "code":"getEventHandler",
-                    "name":"获取事件处理器",
-                    "type":"char",
-                    "handler":"eventCaller"
+                    "code": "getEventHandler",
+                    "name": "获取事件处理器",
+                    "type": "char",
+                    "handler": "eventCaller"
                 },
                 {
-                    "code":"_menuAction",
-                    "name":"菜单动作处理",
-                    "type":"char",
-                    "handler":"menuAction"
-            },
+                    "code": "_cloneProps",
+                    "name": "复制属性",
+                    "type": "char",
+                    "handler": "webDesign.cloneProps"
+                },
+                {
+                    "code": "Alias",
+                    "name": "别名",
+                    "type": "char",
+                    "default": "按钮组"
+                },
+                {
+                    "code": "_menuAction",
+                    "name": "菜单动作处理",
+                    "type": "char",
+                    "handler": "menuAction"
+                },
                 {
                     "code": "TableName",
                     "name": "表名",
                     "type": "char",
-					"required":false,
+                    "required": false,
                     "editor": {
                         "type": "entity"
                     },
@@ -214,18 +226,18 @@
                     }
                 },
                 {
-                    "code":"menuDate",
+                    "code": "menuDate",
                     "name": "菜单数据",
                     "type": "char",
                     "compatible": {
                         "target": "menuDate"
                     },
-                    "editor":{
-                        "type":"children",
-                        "define":{
-                            "code":"JGButtonGroupItem",
-                            "type":"widget",
-                            "properties":[
+                    "editor": {
+                        "type": "children",
+                        "define": {
+                            "code": "JGButtonGroupItem",
+                            "type": "widget",
+                            "properties": [
                                 {
                                     "code": "ButtonAction",
                                     "name": "点击事件",
@@ -233,26 +245,31 @@
                                     "compatible": {
                                         "enhanceType": "event"
                                     }
-                                }, {
+                                },
+                                {
                                     "code": "ImageValue",
                                     "name": "图标",
                                     "type": "char",
                                     "compatible": {
                                         "enhanceType": "resource"
                                     }
-                                }, {
+                                },
+                                {
                                     "code": "IsMore",
                                     "name": "是否有子类",
                                     "type": "boolean"
-                                }, {
+                                },
+                                {
                                     "code": "Name",
                                     "name": "控件名称",
                                     "type": "char"
-                                }, {
+                                },
+                                {
                                     "code": "Text",
                                     "name": "文本",
                                     "type": "char"
-                                }, {
+                                },
+                                {
                                     "code": "Visible",
                                     "name": "显示",
                                     "catalog": "Layout",
@@ -268,7 +285,8 @@
                                             "writable": true
                                         }
                                     }
-                                }, {
+                                },
+                                {
                                     "code": "LabelText",
                                     "name": "文本",
                                     "type": "char",
@@ -276,34 +294,35 @@
                                         "enhanceType": "language",
                                         "target": "LabelText"
                                     }
-                                }, 
+                                },
                                 {
-                                    "code":"title",
-                                    "name":"标题",
+                                    "code": "title",
+                                    "name": "标题",
                                     "type": "char"
                                 },
                                 {
-
-                                    "code":"parentId",
-                                    "name":"父id",
+                                    "code": "parentId",
+                                    "name": "父id",
                                     "type": "char"
                                 },
                                 {
                                     "code": "Theme",
                                     "name": "主题",
                                     "type": "char"
-                                },  {
+                                },
+                                {
                                     "code": "submenu",
                                     "name": "菜单数据",
                                     "type": "char",
                                     "compatible": {
                                         "target": "submenu"
                                     },
-                                    "editor":{
-                                        "type":"widgetSelect",
-                                        "childTypes": ["JGButtonGroupItem"]
+                                    "editor": {
+                                        "type": "widgetSelect",
+                                        "childTypes": [
+                                            "JGButtonGroupItem"
+                                        ]
                                     }
-                                    
                                 }
                             ]
                         }

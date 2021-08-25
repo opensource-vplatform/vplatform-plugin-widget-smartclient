@@ -35,6 +35,27 @@ isc.InlineButtonGroupItem.addMethods({
  */
 isc.ClassFactory.defineClass("JGQueryConditionPanel", "JGBaseWidget");
 
+isc.JGQueryConditionPanel.addClassMethods({
+
+	getMaxTitleLength: function (params) {
+		var maxLength = 0;
+		var fieldWidgets = params.property.fields
+		if (fieldWidgets && fieldWidgets.length > 0) {
+			for (var i = 0, len = fieldWidgets.length; i < len; i++) {
+				var fieldWidget = fieldWidgets[i];
+				if (fieldWidget.type != "JGLocateBox") {
+					var titleLen = params.calculateLength(fieldWidget.SimpleChineseTitle);
+					if (titleLen > maxLength) {
+						maxLength = titleLen;
+					}
+				}
+			}
+		}
+		return maxLength;
+	}
+
+});
+
 isc.JGQueryConditionPanel.addProperties({
 
 	_Canvas: null,
@@ -142,6 +163,7 @@ isc.JGQueryConditionPanel.addMethods({
 
 		this.removeHideFieldsFromFormLayout();
 
+		this.initEvent();
 	},
 	clearNotVisibleData: function () {
 		var datasourceName = this.SourceTableName;
@@ -333,7 +355,6 @@ isc.JGQueryConditionPanel.addMethods({
 		return titleLayout;
 	},
 	getHeaderLayout: function (id) {
-		var _this = this;
 		this.childWidgets = this.getHeaderControlsWidget();
 		var moreLabel = this.getMoreLabel();
 		if (this.displayMode === "expand") {
@@ -392,14 +413,14 @@ isc.JGQueryConditionPanel.addMethods({
 						_this.formLayout.show();
 						_this.panel.addMembers(_this._contentLayout);
 						_this._contentLayout.show();
-						_this.formLayoutBindDataSource(_this.dataSource);
+						_this.formLayoutBindDataSource(isc.JGDataSourceManager.get(_this,_this.SourceTableName));
 					} else {
 						_this._contentLayout.addMembers(_this.formLayout);
 						_this.formLayout.animateShow(null, null, 150, 'smoothEnd');
 						if (_this.ShowToolbar && _this.SearchBoxEnabled && !_this.titleLayout.members.contains(_this.searchBox)) {
 							_this.titleLayout.addMember(_this.searchBox);
 						}
-						_this.formLayoutBindDataSource(_this.dataSource);
+						_this.formLayoutBindDataSource(isc.JGDataSourceManager.get(_this,_this.SourceTableName));
 					}
 					_this.formLayout.setValues(formValue);
 					_this.titleLayout.setStyleName('content-h-layout-title');
@@ -450,11 +471,7 @@ isc.JGQueryConditionPanel.addMethods({
 		this.moreLabel.setContents(showMoreContent);
 		this.moreLabel.isMore = true;
 	},
-	/**
-	 * 初始化整个面板的layout
-	 * @param {是否显示尾栏的layout} showMoreLayout 
-	 * @param {*} id 
-	 */
+
 	_initContent: function (searchBox, id) {
 		var contentLayout = this._getVAndHLayout();
 
@@ -558,7 +575,7 @@ isc.JGQueryConditionPanel.addMethods({
 			}
 			_this._searchTime = setTimeout(function () {
 				_this._locateBoxCanvas.performImplicitSave(_this._locateBoxCanvas, false);
-				_this.searchFunc.fireEvent();
+				_this.searchFunc().fireEvent();
 			}, 100)
 		})
 	},
@@ -617,7 +634,7 @@ isc.JGQueryConditionPanel.addMethods({
 			//临时适配多语言
 			title: this.QueryButtonText != "查询" ? this.QueryButtonText : this._$queryBtnTitle,
 			click: function () {
-				_this.searchFunc.fireEvent();
+				_this.searchFunc().fireEvent();
 				//						return true;
 				//						if(_this._Canvas.tiles.length > 0){
 				//							_this.hideFields();
@@ -636,7 +653,7 @@ isc.JGQueryConditionPanel.addMethods({
 			click: function () {
 				_this.removeAllFunc();
 				if (_this.TriggerType != 'ConditionValueChanged') {
-					_this.searchFunc.fireEvent();
+					_this.searchFunc().fireEvent();
 				}
 			},
 			baseStyle: 'v-query-condition-panel-clear-btn',
@@ -914,6 +931,8 @@ isc.JGQueryConditionPanel.addMethods({
 			fixedColWidths: this.fixedColWidths,
 			//解决窗体设计器中，查询面板内部子控件上下无间距   --- 看起来没啥用，先屏蔽
 			//					styleName:'v-query-condition-panel-form',   
+			_eventHandler:this._eventHandler,
+			_createDropdownSourceObserver: this._createDropdownSourceObserver,
 			_initFieldLayout: function () {},
 			_itemEventHandler: function (itemCode, eventCode, args) {
 				_this._eventHandler(itemCode, eventCode)();
@@ -999,7 +1018,7 @@ isc.JGQueryConditionPanel.addMethods({
 					}
 				}
 				if (!_this.panelIsExpand) {
-					_this.searchFunc.fireEvent();
+					_this.searchFunc().fireEvent();
 				}
 			},
 			valueFrom: code,
@@ -1063,7 +1082,7 @@ isc.JGQueryConditionPanel.addMethods({
 			this.panel.removeMember(this._contentLayout);
 		}
 		if (!this.panelIsExpand) {
-			this.searchFunc.fireEvent();
+			this.searchFunc().fireEvent();
 		}
 	},
 	/**
@@ -1125,7 +1144,7 @@ isc.JGQueryConditionPanel.addMethods({
 					clearTimeout(this._time);
 				}
 				setTimeout(function () {
-					_this.searchFunc.fireEvent();
+					_this.searchFunc().fireEvent();
 				}, 100)
 			}, 0)
 		}
@@ -1262,23 +1281,6 @@ isc.JGQueryConditionPanel.addMethods({
 			}
 			widget.fields = newFields;
 		}
-	},
-
-	getMaxTitleLength: function (params) {
-		var maxLength = 0;
-		var fieldWidgets = params.property.fields
-		if (fieldWidgets && fieldWidgets.length > 0) {
-			for (var i = 0, len = fieldWidgets.length; i < len; i++) {
-				var fieldWidget = fieldWidgets[i];
-				if (fieldWidget.type != "JGLocateBox") {
-					var titleLen = params.calculateLength(fieldWidget.SimpleChineseTitle);
-					if (titleLen > maxLength) {
-						maxLength = titleLen;
-					}
-				}
-			}
-		}
-		return maxLength;
 	},
 
 	setFormat: function (field) {
@@ -1477,7 +1479,7 @@ isc.JGQueryConditionPanel.addMethods({
 		datasource.addObserver(observerFormLayout);
 	},
 
-	editV3Record = function (record, fields) {
+	editV3Record : function (record, fields) {
 		var formWidget = this.formLayout;
 		var data = {
 			id: record.id
@@ -1529,9 +1531,8 @@ isc.JGQueryConditionPanel.addMethods({
 		var callback = function (datasourceName) {
 			var record = datasourceName.resultSet[0];
 			var recordMap = record;
-			var changedData = record.changedData;
 			if (widget.FilterVisible) {
-				for (var prop in changedData) {
+				for (var prop in record) {
 					var item = null;
 					if (widget._columnNames.indexOf(prop) != -1) {
 						item = widget.getFileByColumnName(prop);
@@ -1539,10 +1540,10 @@ isc.JGQueryConditionPanel.addMethods({
 						item = widget.getFileByIDColumnName(prop);
 						if (item) {
 							var cn = item.ColumnName;
-							if (changedData.hasOwnProperty(cn)) { //标识值和显示同步修改，可以不用替换
+							if (record.hasOwnProperty(cn)) { //标识值和显示同步修改，可以不用替换
 								continue;
 							} else {
-								var displayValue = item.mapValueToDisplay(changedData[prop]);
+								var displayValue = item.mapValueToDisplay(record[prop]);
 								prop = cn;
 								recordMap[prop] = displayValue;
 							}
@@ -1562,14 +1563,15 @@ isc.JGQueryConditionPanel.addMethods({
 					clearTimeout(widget._time);
 				}
 				widget._time = setTimeout(function () {
-					widget.searchFunc.fireEvent();
+					widget.searchFunc().fireEvent();
 				}, 100)
 			}
 		}
 		var indexId = this.componentId ? this.componentId : this.scopeId;
-		var datasourceName = this.TableName.indexOf(indexId) != -1 ? this.TableName.split(indexId + "_")[this.TableName.split(indexId + "_").length - 1] : this.TableName;
+		var dsName = this.TableName.dbName;
+		var datasourceName = dsName.indexOf(indexId) != -1 ? dsName.split(indexId + "_")[dsName.split(indexId + "_").length - 1] : dsName;
 		this._tableName = datasourceName;
-		var datasource = isc.JGDataSourceManager.get(this,datasourceName);
+		var datasource = isc.JGDataSourceManager.get(this, datasourceName);
 		for (var i = 0; i < childrenFields.length; i++) {
 			if (this.headerControls && this.headerControls.includes(childrenFields[i].code)) {
 				continue;
@@ -1591,194 +1593,151 @@ isc.JGQueryConditionPanel.addMethods({
 		this.initFormLayoutHandler();
 	},
 	//原型工具可以配置实体数据，避免界面数据闪烁 要放在窗体加载前，因为窗体加载可以使用赋值规则。
-	dataLoad: function(){
-		this.resetDsRecord(widgetCode, widget, false, true);
+	dataLoad: function () {
+		this.resetDsRecord(false, true);
 		this._removeAllFunc(widget, widgetCode);
-		this.searchFunc(widget, widgetCode);
+		//this.searchFunc(widget, widgetCode);
 	},
 	/**
 	 * isLoad 初始化数据
 	 * */
-	var resetDsRecord = function (widgetCode, widget, remove, isLoad) {
-		var datasource = datasourceManager.lookup({
-			"datasourceName": widget._tableName
-		});
+	resetDsRecord: function (remove, isLoad) {
+		var datasource = isc.JGDataSourceManager.get(this, this._tableName);
 		var records = datasource && datasource.getAllRecords();
 		var oldRecord;
-		if (records && records.datas.length > 0) {
+		if (records && records.length > 0) {
 			if (isLoad) {
-				oldRecord = datasource.getRecordByIndex(records.datas.length - 1);
+				oldRecord = datasource.getRecordByIndex(records.length - 1);
 			}
 			datasource.clear();
 		}
 		if (!remove) {
 			var newRecord = datasource.createRecord();
 			if (oldRecord) {
-				var loadRecordMap = oldRecord.toMap();
+				var loadRecordMap = isc.addProperties({}, oldRecord);
 				for (var key in loadRecordMap) {
 					if (loadRecordMap.hasOwnProperty(key)) {
-						newRecord.set(key, loadRecordMap[key]);
+						newRecord[key] = loadRecordMap[key];
 					}
 				}
 			}
-			datasource.insertRecords({
-				records: [newRecord]
-			});
+			datasource.insertRecords([newRecord]);
 		}
+	},
 
-	}
-
-	var initFormLayoutHandler = function (widgetCode, widget) {
-			var widget = widget.formLayout;
-			var dsNames = widget.SourceTableName;
-			var ds = dsManager.lookup({
-				datasourceName: dsNames
-			});
-			if (ds) {
-				//处理表单项值改变事件
-				ds.on({
-					eventName: ds.Events.UPDATE,
-					handler: function (params) {
-						widget.parentObject.clearNotVisibleData()
-						//					var codes = []
-						var items = widget.getItems();
-						if (items && items.length > 0) {
-							var resultSet = params.resultSet;
-							for (var i = 0, l = items.length; i < l; i++) {
-								var item = items[i];
-								if (!item.getValueChangeFields) continue;
-								var fields = item.getValueChangeFields();
-								if (fields && fields.length > 0) {
-									var founded = false;
-									for (var j = 0, len = fields.length; j < len; j++) {
-										resultSet.iterate(function (record) {
-											var changedData = record.getChangedData();
-											if (changedData && changedData.hasOwnProperty(fields[j])) {
-												//											codes.push(item.Code);
-												founded = true;
-												return false;
-											}
-										});
-										if (founded) {
-											break;
-										}
-									}
-									if (founded) {
-										var handler = eventManager.fireEvent(item.Code, "OnValueChanged");
-										handler();
+	initFormLayoutHandler: function () {
+		var _this = this;
+		var widget = this.formLayout;
+		var dsNames = widget.SourceTableName;
+		var ds = isc.JGDataSourceManager.get(this, dsNames);
+		if (ds) {
+			//处理表单项值改变事件
+			ds.on(ds.Events.UPDATE, null, function (params) {
+				widget.parentObject.clearNotVisibleData();
+				var items = widget.getItems();
+				if (items && items.length > 0) {
+					var resultSet = params.resultSet;
+					for (var i = 0, l = items.length; i < l; i++) {
+						var item = items[i];
+						if (!item.getValueChangeFields) continue;
+						var fields = item.getValueChangeFields();
+						if (fields && fields.length > 0) {
+							var founded = false;
+							for (var j = 0, len = fields.length; j < len; j++) {
+								for (var k = 0, length = resultSet.length; k < length; k++) {
+									var changedData = resultSet[k];
+									if (changedData && changedData.hasOwnProperty(fields[j])) {
+										founded = true;
+										break;
 									}
 								}
-							}
-						}
-						//					setTimeout(function(){
-						//						for(var i = 0 ; i < codes.length; i ++){
-						//							var handler = eventManager.fireEvent(codes[i], "OnValueChanged");
-						//							handler();
-						//						}
-						//					},0)
-
-					}
-				});
-				ds.on({
-					eventName: ds.Events.LOAD,
-					handler: function (params) {
-						var metdata = params.datasource.getMetadata();
-						var fields = metdata.getFieldCodes();
-						var items = widget.getItemsByFields(fields);
-						var items = widget.getItems();
-						if (items && items.length > 0) {
-							for (var i = 0, l = items.length; i < l; i++) {
-								eventManager.fireEvent(items[i].Code, "OnValueLoaded")();
-							}
-						}
-					}
-				});
-			}
-
-			var handler = scopeManager.createScopeHandler({
-				handler: function (itemCode, eventCode, args) {
-					var hd = eventCode == "OnKeyDown" ? keydownHandler.handleKeyDown(itemCode, eventCode) : eventManager.fireEvent(itemCode, eventCode);
-					hd();
-				}
-			});
-			widget.registerItemEventHandler(handler);
-			handler = scopeManager.createScopeHandler({
-				handler: function (exp) {
-					var ctx = new ExpContext();
-					return exp == null || exp == "" ? "" : expEngine.execute({
-						expression: exp,
-						context: ctx
-					});
-				}
-			});
-			widget.registerV3ExpressionHandler(handler);
-		},
-
-		formLayoutGetDropDownSource: function () {
-			var _this = this;
-			this.formLayout.fields.forEach(function (item) {
-				if (item.type == "JGRadioGroup" || item.type === 'JGComboBox' || item.type === 'JGCheckBoxGroup' || (item.type === "JGBaseDictBox" && item.DropDownSource)) {
-					if (item.DropDownSource && typeof item.DropDownSource == "string") {
-						item.DropDownSource = JSON.parse(item.DropDownSource);
-					}
-					_this.formItemSetValueMap(_this.formLayout, _this.formLayout.widgetCode, item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
-				}
-			})
-		},
-
-		var formItemSetValueMap = function (widget, widgetId, widgetCode, dropDownSource, valueField, textField) {
-			var observer = new DropdownSourceObserver({
-				"widgetId": widgetCode,
-				"dataSource": dropDownSource,
-				"valueField": valueField,
-				"textField": textField,
-				"handler": function (valueMap, defaultValue, descInfo) {
-					var formItem = widget.getItemByCode(widgetCode);
-					if (formItem.type == "JGBaseDictBox" && (!valueMap || jsonUtil.obj2json(valueMap) == "{}")) {
-						//如果候选项数据源没有数据，则不处理，问题：导致赋值的数据丢失Task20200917098
-						formItem.ignoreValueMap = true;
-						return;
-					}
-					var scopeId = scopeManager.getWindowScope().getInstanceId();
-					if (formItem.type == 'JGCheckBoxGroup') {
-						formItem.setItems();
-					}
-					formItem.setDefaultVal ? formItem.setDefaultVal(defaultValue) : formItem.getDefaultVal(defaultValue);
-					formItem.setValueMap(valueMap);
-					if (formItem.type == "JGBaseDictBox") {
-						formItem._valueMap = valueMap;
-						formItem.setDefaultVal(defaultValue);
-						formItem.setDescInfo(descInfo);
-					}
-					scopeManager.createScopeHandler({
-						scopeId: scopeId,
-						handler: function () {
-							var ds = dsManager.lookup({
-								datasourceName: formItem.SourceTableName
-							});
-							var IDColumnName = formItem.IDColumnName;
-							//        				if(ds.getCurrentRecord()){
-							//场景：新增实体记录后，实体记录还未同步到控件，就设置了控件的数据源，导致后续数据同步无法匹配到实体，会新增一条记录
-							if (formItem.form.valuesManager && formItem.form.valuesManager.getDataSource().getCacheData().length > 0 && ds.getCurrentRecord()) {
-								var value = ds.getCurrentRecord().get(IDColumnName);
-								if (formItem.valueMap[value]) {
-									formItem.setValue(value);
-								} else if (formItem.defaultValue && formItem.valueMap[formItem.defaultValue]) {
-									formItem.setValue(formItem.defaultValue);
-								} else {
-									formItem.setValue();
-								}
-								if (formItem.changed) {
-									formItem.changed();
+								if (founded) {
+									break;
 								}
 							}
+							if (founded) {
+								var handler = _this._eventHandler(item.Code, "OnValueChanged");
+								handler();
+							}
 						}
-					})();
+					}
+				}
+			});
+			ds.on(ds.Events.LOAD, null, function (params) {
+				var items = widget.getItems();
+				if (items && items.length > 0) {
+					for (var i = 0, l = items.length; i < l; i++) {
+						_this._eventHandler(items[i].Code, "OnValueLoaded")();
+					}
 				}
 			});
 		}
 
-	_getvalue = function (prop, datasourceName, widget, widgetCode, item, recordValue, title) {
+		var handler = function (itemCode, eventCode, args) {
+			_this._eventHandler(itemCode, eventCode)();
+		}
+		widget.registerItemEventHandler(handler);
+		widget.registerV3ExpressionHandler(this._expressionHandler);
+	},
+
+	formLayoutGetDropDownSource: function () {
+		var _this = this;
+		this.formLayout.fields.forEach(function (item) {
+			if (item.type == "JGRadioGroup" || item.type === 'JGComboBox' || item.type === 'JGCheckBoxGroup' || (item.type === "JGBaseDictBox" && item.DropDownSource)) {
+				if (item.DropDownSource && typeof item.DropDownSource == "string") {
+					item.DropDownSource = JSON.parse(item.DropDownSource);
+				}
+				_this.formItemSetValueMap(_this.formLayout, item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
+			}
+		})
+	},
+
+	formItemSetValueMap: function (form, itemCode, dropDownSource, valueField, textField) {
+		var _this = this;
+		this._createDropdownSourceObserver({
+			"widgetId": itemCode,
+			"dataSource": dropDownSource,
+			"valueField": valueField,
+			"textField": textField,
+			"handler": function (valueMap, defaultValue, descInfo) {
+				var formItem = form.getItemByCode(itemCode);
+				if (formItem.type == "JGBaseDictBox" && (!valueMap || JSON.stringify(valueMap) == "{}")) {
+					//如果候选项数据源没有数据，则不处理，问题：导致赋值的数据丢失Task20200917098
+					formItem.ignoreValueMap = true;
+					return;
+				}
+				if (formItem.type == 'JGCheckBoxGroup') {
+					formItem.setItems();
+				}
+				formItem.setDefaultVal ? formItem.setDefaultVal(defaultValue) : formItem.getDefaultVal(defaultValue);
+				formItem.setValueMap(valueMap);
+				if (formItem.type == "JGBaseDictBox") {
+					formItem._valueMap = valueMap;
+					formItem.setDefaultVal(defaultValue);
+					formItem.setDescInfo(descInfo);
+				}
+				var ds = isc.JGDataSourceManager.get(_this, formItem.SourceTableName);
+				var IDColumnName = formItem.IDColumnName;
+				//if(ds.getCurrentRecord()){
+				//场景：新增实体记录后，实体记录还未同步到控件，就设置了控件的数据源，导致后续数据同步无法匹配到实体，会新增一条记录
+				if (formItem.form.valuesManager && formItem.form.valuesManager.getDataSource().getCacheData().length > 0 && ds.getCurrentRecord()) {
+					var value = ds.getCurrentRecord()[IDColumnName];
+					if (formItem.valueMap[value]) {
+						formItem.setValue(value);
+					} else if (formItem.defaultValue && formItem.valueMap[formItem.defaultValue]) {
+						formItem.setValue(formItem.defaultValue);
+					} else {
+						formItem.setValue();
+					}
+					if (formItem.changed) {
+						formItem.changed();
+					}
+				}
+			}
+		});
+	},
+
+	_getvalue: function (prop, datasourceName, widget, widgetCode, item, recordValue, title) {
 		if (item.StartColumnName && item.EndColumnName) {
 			var titleValue = "";
 			//				var title = item.title;
@@ -1830,10 +1789,10 @@ isc.JGQueryConditionPanel.addMethods({
 			var code = prop;
 			//				var value = datasourceName.resultSet.datas[0].changedData[prop];
 			var value = recordValue[prop];
-			var titleValue = getTitleValue(value, widget, code);
+			var titleValue = this.getTitleValue(value, widget, code);
 		}
 
-		var selectTile = getTileByCode(widget, code)
+		var selectTile = this.getTileByCode(widget, code)
 		if (selectTile) {
 			if (!titleValue && titleValue !== 0) {
 				widget._Canvas.removeTile(selectTile);
@@ -1850,11 +1809,12 @@ isc.JGQueryConditionPanel.addMethods({
 			var selectValueHtml = widget._genSelectValueHtml(title, code, titleValue);
 			selectTile.setContents(selectValueHtml);
 		} else {
-			_getSelectValue(title, titleValue, widget, widgetCode, code);
+			this._showSelectValue(title, titleValue, widget, widgetCode, code);
 		}
 
-	}
-	var getTitleValue = function (value, widget, code, recordValue) {
+	},
+
+	getTitleValue: function (value, widget, code, recordValue) {
 		var titleValue = "";
 		if (typeof (value) == "string") {
 			titleValue = value.split(',').join('、');
@@ -1870,86 +1830,83 @@ isc.JGQueryConditionPanel.addMethods({
 			}
 		}
 		return titleValue;
-	}
-	var getTileByCode = function (widget, code) {
+	},
+
+	getTileByCode: function (widget, code) {
 		for (var i = 0; i < widget._Canvas.tiles.length; i++) {
 			if (widget._Canvas.tiles[i].valueFrom === code) {
 				return widget._Canvas.tiles[i];
 			}
 		}
 		return null;
-	}
-	//删除某项
-	var _deleteFunc = function (widget, widgetId) {
-		var callback = scopeManager.createScopeHandler({
-			handler: function (code) {
-				var removeTile = true;
-				var datasource = datasourceManager.lookup({
-					"datasourceName": widget._tableName
-				});
-				var currentRecord = datasource.getCurrentRecord();
-				if (currentRecord) {
-					var fields = widget.fields;
-					for (var j = 0; j < fields.length; j++) {
-						if (code === fields[j].ColumnName || code === fields[j].StartColumnName || code === fields[j].EndColumnName) {
-							var defaultValue = getDefaultValue(widget, widgetId, fields[j]);
+	},
 
-							if (code === fields[j].ColumnName) {
-								var value;
-								if (defaultValue) {
-									if (typeof defaultValue == "string") {
-										value = defaultValue != "" ? defaultValue : null;
-									} else if (typeof defaultValue == "object") {
-										value = defaultValue[fields[j].ColumnName] ? defaultValue[fields[j].ColumnName] : null;
-									}
-								} else {
-									value = null;
+	//删除某项
+	_deleteFunc: function (widget, widgetId) {
+		var _this = this;
+		var callback = function (code) {
+			var removeTile = true;
+			var datasource = isc.JGDataSourceManager.get(this, widget._tableName);
+			var currentRecord = datasource.getCurrentRecord();
+			if (currentRecord) {
+				currentRecord = isc.addProperties({}, currentRecord);
+				var fields = widget.fields;
+				for (var j = 0; j < fields.length; j++) {
+					if (code === fields[j].ColumnName || code === fields[j].StartColumnName || code === fields[j].EndColumnName) {
+						var defaultValue = _this.getDefaultValue(widget, widgetId, fields[j]);
+						if (code === fields[j].ColumnName) {
+							var value;
+							if (defaultValue) {
+								if (typeof defaultValue == "string") {
+									value = defaultValue != "" ? defaultValue : null;
+								} else if (typeof defaultValue == "object") {
+									value = defaultValue[fields[j].ColumnName] ? defaultValue[fields[j].ColumnName] : null;
 								}
-								if (value != null) {
-									removeTile = false;
-								}
-								currentRecord.set(fields[j].ColumnName, value);
+							} else {
+								value = null;
 							}
-							if (code === fields[j].StartColumnName) {
-								currentRecord.set(fields[j].StartColumnName, null);
-								currentRecord.set(fields[j].EndColumnName, null);
+							if (value != null) {
+								removeTile = false;
 							}
-							if (fields[j].IDColumnName) {
-								var idValue;
-								if (defaultValue && typeof defaultValue == "object") {
-									idValue = defaultValue[fields[j].IDColumnName] ? defaultValue[fields[j].IDColumnName] : null;
-								} else {
-									idValue = null;
-								}
-								if (idValue != null) {
-									removeTile = false;
-								}
-								currentRecord.set(fields[j].IDColumnName, idValue);
-							}
-							datasource.updateRecords({
-								records: [currentRecord]
-							});
-							datasource.clearRemoveDatas();
+							currentRecord[fields[j].ColumnName] = value;
 						}
+						if (code === fields[j].StartColumnName) {
+							currentRecord[fields[j].StartColumnName] = null;
+							currentRecord[fields[j].EndColumnName] = null;
+						}
+						if (fields[j].IDColumnName) {
+							var idValue;
+							if (defaultValue && typeof defaultValue == "object") {
+								idValue = defaultValue[fields[j].IDColumnName] ? defaultValue[fields[j].IDColumnName] : null;
+							} else {
+								idValue = null;
+							}
+							if (idValue != null) {
+								removeTile = false;
+							}
+							currentRecord[fields[j].IDColumnName] = idValue;
+						}
+						datasource.updateRecords([currentRecord]);
+						datasource.clearRemoveDatas();
 					}
 				}
-				if (widget.TriggerType != 'ConditionValueChanged') {
-					eventManager.fireEvent(widgetId, "OnConditionChanged");
-				}
-				return removeTile;
 			}
-		});
+			if (widget.TriggerType != 'ConditionValueChanged') {
+				_this._eventHandler(widgetId, "OnConditionChanged");
+			}
+			return removeTile;
+		}
 		widget._deleteFunc = callback;
-	}
+	},
 
-	var getDefaultValue = function (widget, widgetId, field) {
+	getDefaultValue: function (widget, widgetId, field) {
 		var widgetCode = field.Code;
 		var datasourceFieldCode = field.IDColumnName || field.ColumnName;
-		var defaultValue = widgetAction.executeWidgetAction(widgetCode, "getDefaultValue", datasourceFieldCode);
+		var defaultValue = this._widgetAction(widgetCode, "getDefaultValue", datasourceFieldCode);
 		return defaultValue;
-	}
+	},
 
-	var getItemByCode = function (widget, code) {
+	getFieldByCode: function (widget, code) {
 		for (var i = 0; i < widget.fields.length; i++) {
 			var field = widget.fields[i];
 			if (field.ColumnName == code || field.IDColumnName == code || field.StartColumnName == code || field.EndColumnName == code) {
@@ -1957,130 +1914,102 @@ isc.JGQueryConditionPanel.addMethods({
 			}
 		}
 		return null;
-	}
+	},
 
 	//清除所有
-	var _removeAllFunc = function (widget, widgetId) {
-		var callback = scopeManager.createScopeHandler({
-			handler: function () {
-				var hasDefaultValue = false;
-				var datasource = datasourceManager.lookup({
-					"datasourceName": widget._tableName
-				});
-				var currentRecord = datasource.getCurrentRecord();
-				if (currentRecord) {
-					var fields = currentRecord.metadata.fields;
-					for (var j = 0; j < fields.length; j++) {
-						if (fields[j].code != 'id') {
-							var item = getItemByCode(widget, fields[j].code);
-							if (item) {
-								var defaultValue = null;
-								if (item.type != "JGLocateBox") { //查询面板内嵌的搜素框不能配置默认值，暂不取默认值
-									defaultValue = getDefaultValue(widget, widgetId, item);
-								}
-								if (defaultValue && defaultValue[fields[j].code]) {
-									hasDefaultValue = true;
-									currentRecord.set(fields[j].code, defaultValue[fields[j].code]);
-								} else {
-									currentRecord.set(fields[j].code, null);
-								}
+	_removeAllFunc: function (widget, widgetId) {
+		var _this = this;
+		var callback = function () {
+			var hasDefaultValue = false;
+			var datasource = isc.JGDataSourceManager.get(_this, widget._tableName);
+			var currentRecord = datasource.getCurrentRecord();
+			if (currentRecord) {
+				currentRecord = isc.addProperties({}, currentRecord);
+				var fields = datasource.getFields();
+				for (var j = 0; j < fields.length; j++) {
+					if (fields[j].code != 'id') {
+						var item = _this.getFieldByCode(widget, fields[j].code);
+						if (item) {
+							var defaultValue = null;
+							if (item.type != "JGLocateBox") { //查询面板内嵌的搜素框不能配置默认值，暂不取默认值
+								defaultValue = _this.getDefaultValue(widget, widgetId, item);
+							}
+							if (defaultValue && defaultValue[fields[j].code]) {
+								hasDefaultValue = true;
+								currentRecord[fields[j].code] = defaultValue[fields[j].code];
+							} else {
+								currentRecord[fields[j].code] = null;
 							}
 						}
 					}
-					datasource.updateRecords({
-						records: [currentRecord]
-					});
-					datasource.clearRemoveDatas();
 				}
-				//屏蔽删除逻辑，原因：查询面板子控件配置值改变事件-给自己赋值，当点击清空查询时，值改变事件比查询面板监听的clear事件触发早，如果删除记录，会导致值改变事件赋值不成功Task20210708138
-				//				if(!hasDefaultValue){
-				//					resetDsRecord(widgetId,widget,true);
-				//				}
-
+				datasource.updateRecords([currentRecord]);
+				datasource.clearRemoveDatas();
 			}
-		});
-
+		}
 		widget.removeAllFunc = callback;
-	}
+	},
 	//查询
-	var searchFunc = function (widget, widgetId) {
-		var callback = scopeManager.createScopeHandler({
-			handler: function () {
-				var datasource = datasourceManager.lookup({
-					"datasourceName": widget._tableName
-				});
-				var currentRecord = datasource.getCurrentRecord();
-				if (currentRecord) {
-					var fields = currentRecord.metadata.fields;
-					var selectValue = [];
-					if ($(widget.$q3).find('.select-wrapper')) {
-						$(widget.$q3).find('.select-wrapper').remove();
-					}
-					for (var i = 0; i < fields.length; i++) {
-						if (widget._columnNames.indexOf(fields.code) != -1) {
-							var title = fields[i].name;
-							var value = currentRecord.get(fields[i].code);
-							if (value && value != '' && fields[i].code != 'id') {
-								_getSelectValue(title, value, widget, widgetId, fields[i].code);
-							}
+	searchFunc: function () {
+		var _this = this;
+		var callback = function () {
+			var datasource = isc.JGDataSourceManager.get(_this, widget._tableName);
+			var currentRecord = datasource.getCurrentRecord();
+			if (currentRecord) {
+				var fields = datasource.getFields();
+				var selectValue = [];
+				if ($(_this.$q3).find('.select-wrapper')) {
+					$(_this.$q3).find('.select-wrapper').remove();
+				}
+				for (var i = 0; i < fields.length; i++) {
+					if (_this._columnNames.indexOf(fields.code) != -1) {
+						var title = fields[i].name;
+						var value = currentRecord[fields[i].code];
+						if (value && value != '' && fields[i].code != 'id') {
+							_this._showSelectValue(title, value, _this, _this.Code, fields[i].code);
 						}
 					}
 				}
 			}
-		});
-		var eventFire = eventManager.fireEvent(widgetId, "OnConditionChanged");
-		widget.searchFunc = {
+		}
+		var eventFire = _this._eventHandler(this.Code, "OnConditionChanged");
+		return {
 			getValue: callback,
 			fireEvent: eventFire
 		};
-	}
+	},
 
 	//已选条件?
-	var _getSelectValue = function (SimpleChineseTitle, value, widget, widgetId, code) {
+	_showSelectValue: function (SimpleChineseTitle, value, widget, widgetId, code) {
 		//var selectValueHtml = '<div class = "select-wrapper"><span class = "select-title">'+SimpleChineseTitle+'：</span><span class = "select-value" data-from = "'+code+'" title = "'+value+'">'+value+'</span></div>';
 		var selectValueHtml = widget._genSelectValueHtml(SimpleChineseTitle, code, value);
 		if ((value && value != "") || value === 0) {
-			_removeAllFunc(widget, widgetId);
-			_deleteFunc(widget, widgetId);
+			this._removeAllFunc(widget, widgetId);
+			this._deleteFunc(widget, widgetId);
 			widget.createSelectLabel(selectValueHtml, code, widget._deleteFunc, widget.removeAllFunc);
 		}
-	}
-
-	exports.getValue = function () {
-
-	}
-
-
-	exports.searchFunc = searchFunc;
-	exports.initEvent = initEvent;
-
-	exports.showHighlight = function (widgetCode) {
-		var widget = widgetContext.get(widgetCode, "widgetObj");
-		widget.showHighlight();
-	}
-
-	exports.hideHighlight = function (widgetCode) {
-		var widget = widgetContext.get(widgetCode, "widgetObj");
-		widget.hideHighlight();
-	}
-
-	exports.showItemHighlight = function (widgetCode, itemCode) {
-		var widget = widgetContext.get(widgetCode, "widgetObj");
+	},
+	showItemHighlight: function (itemCode) {
 		if (itemCode.indexOf("JGLocateBox_quickSearch") != -1) {
-			widget._locateBoxCanvas && widget._locateBoxCanvas.showHighlight();
+			this._locateBoxCanvas && this._locateBoxCanvas.showHighlight();
 		} else {
-			widget.formLayout.showItemHighlight(itemCode);
+			this.formLayout.showItemHighlight(itemCode);
 		}
-	}
+	},
 
-	exports.hideItemHighlight = function (widgetCode, itemCode) {
-		var widget = widgetContext.get(widgetCode, "widgetObj");
+	hideItemHighlight : function (itemCode) {
 		if (itemCode.indexOf("JGLocateBox_quickSearch") != -1) {
-			widget._locateBoxCanvas && widget._locateBoxCanvas.hideHighlight();
+			this._locateBoxCanvas && this._locateBoxCanvas.hideHighlight();
 		} else {
-			widget.formLayout.hideItemHighlight(itemCode);
+			this.formLayout.hideItemHighlight(itemCode);
 		}
+	},
 
+	setChildProperty: function(methodName,code,itemCode,value){
+		if(this.formLayout&&this.formLayout[methodName]){
+			this.formLayout[methodName].apply(this.formLayout,[itemCode,value])
+		}
 	}
 });
+
 isc.addGlobal("JGQueryConditionPanel", isc.JGQueryConditionPanel);

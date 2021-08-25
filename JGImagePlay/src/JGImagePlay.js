@@ -249,7 +249,7 @@ isc.JGImagePlay.addMethods({
 			_this.selectImg(id);
 		});
 		isc.WidgetDatasource.addBindDatasourceDeleteEventHandler(this, null, function (params) {
-			var delDatas = params.resultSet.datas;
+			var delDatas = params.resultSet;
 			if (!delDatas || delDatas.length <= 0)
 				return;
 			for (var index = delDatas.length - 1; index >= 0; index--) {

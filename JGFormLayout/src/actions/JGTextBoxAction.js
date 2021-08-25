@@ -3,7 +3,7 @@ isc.JGFormLayout.addMethods({
 	
 	getValueJGTextBox : function (itemCode) {
 		if(this.getMultiDataSourceInfo && this.getMultiDataSourceInfo()){//多数据源走同一赋值接口
-			return this.getMultiDsValue(itemCode);
+			return this.getMultiDsValue(this.Code,itemCode);
 		}
 		var item = this.getItemByCode(itemCode);
 		var datasource = isc.JGDataSourceManager.get(this,item.TableName);
@@ -56,7 +56,7 @@ isc.JGFormLayout.addMethods({
 	//TODO
 	setValueJGTextBox : function(itemCode, value) {
 		if(this.getMultiDataSourceInfo && this.getMultiDataSourceInfo()){//多数据源走同一赋值接口
-			this.setMultiDsValue(itemCode, value);
+			this.setMultiDsValue(this.Code,itemCode, value);
 			return;
 		}
 		var item = this.getItemByCode(itemCode);

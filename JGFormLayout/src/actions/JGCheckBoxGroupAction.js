@@ -26,7 +26,7 @@ isc.JGFormLayout.addMethods({
 
 	getValueJGCheckBoxGroup: function (itemCode) {
 		if (this.getMultiDataSourceInfo && this.getMultiDataSourceInfo()) { //多数据源走同一赋值接口
-			return this.getMultiDsValue(widgetCode, itemCode);
+			return this.getMultiDsValue(this.Code, itemCode);
 		}
 		var item = this.getItemByCode(itemCode);
 		var datasource = isc.JGDataSourceManager.get(this, item.TableName);
@@ -53,6 +53,20 @@ isc.JGFormLayout.addMethods({
 
 	setVisibleJGCheckBoxGroup: function (itemCode, isShow) {
 		this.setItemVisible(itemCode, isShow);
+	},
+	setValueJGCheckBoxGroup : function(itemCode, value) {
+		if(this.getMultiDataSourceInfo && this.getMultiDataSourceInfo()){//多数据源走同一赋值接口
+			this.setMultiDsValue(this.Code,itemCode, value);
+			return;
+		}
+		var item = this.getItemByCode(itemCode);
+		var datasource = isc.JGDataSourceManager.get(this,item.TableName);
+		var record = datasource.getCurrentRecord();
+		var data = {
+			id: record.id
+		};
+		data[item.name] = value;
+		datasource.updateRecords([data]);
 	},
 	setValueMapJGCheckBoxGroup: function (itemCode, dropDownSource, valueField, textField) {
 		var widget = this;

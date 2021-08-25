@@ -205,14 +205,13 @@ isc.JGDiv.addMethods({
 	 * 		closeback:Function//
 	 * }
 	 * */
-	openWindowToDivContainer: function(params){
+	setopenWindowToDivContainer: function(params){
 		//替换构件包映射信息
     	var newInfo = this.handleComponentPackInfo(params.componentCode,params.windowCode);
     	if(newInfo){
     		params.componentCode = newInfo.componentCode;
     		params.windowCode = newInfo.windowCode;
 		}
-		if(AppData && typeof(this.handleWindowMapping) == 'function'){
     		/* 获取窗体映射信息 */
     		var windowMappingInfo = this.handleWindowMapping(params.componentCode,params.windowCode);
     		/* 若窗体映射信息不为空的话，则表示是配置相应的映射信息，需替换 */
@@ -220,7 +219,6 @@ isc.JGDiv.addMethods({
     			params.componentCode = windowMappingInfo.componentCode;
     			params.windowCode = windowMappingInfo.windowCode;
     		}
-    	}
 		var vue = this._$getCurrentVue();
 		var containerCode = params.containerCode;
 		if(vue && containerCode){
@@ -264,7 +262,7 @@ isc.JGDiv.addMethods({
     	})
     },
 	renderWindowToVuiContainer : function(containerCode, params){
-    	this.window.renderToVuiContainer(containerCode, params);
+    	this.windowrenderToVuiContainer(this.code,containerCode)
     },
 	//打开链接地址要用
 	setfireVueEvent: function(params){
