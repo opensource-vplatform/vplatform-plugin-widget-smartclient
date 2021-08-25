@@ -2,7 +2,7 @@ isc.JGFormLayout.addMethods({
 
 	getValueJGRichTextViewer : function (itemCode) {
 		if(this.getMultiDataSourceInfo && this.getMultiDataSourceInfo()){//多数据源走同一赋值接口
-			return this.getMultiDsValue(itemCode);
+			return this.getMultiDsValue(this.Code,itemCode);
 		}
 		var item = widget.getItemByCode(itemCode);
 		var datasource = isc.JGDataSourceManager.get(this,item.TableName);
@@ -47,7 +47,7 @@ isc.JGFormLayout.addMethods({
 	
 	setValueJGRichTextViewer : function(itemCode, value) {
 		if(this.getMultiDataSourceInfo && this.getMultiDataSourceInfo()){//多数据源走同一赋值接口
-			this.setMultiDsValue(itemCode, value);
+			this.setMultiDsValue(this.Code,itemCode, value);
 			return;
 		}
 		var item = widget.getItemByCode(itemCode);

@@ -88,6 +88,13 @@ isc.JGBaseWidget.addProperties({
 
 isc.JGBaseWidget.addMethods({
     init: function () {
+        //兼容逻辑，因MultiWidth、MultiHeight在某段时间类型标记成number类型，导致逻辑出错
+		if(typeof(this.MultiWidth)=="number"){
+			this.MultiWidth += "px";
+		}
+		if(typeof(this.MultiHeight)=="number"){
+			this.MultiHeight += "px";
+		}
         this.id = isc.WidgetUtils.genWidgetRefId(this.scopeId, this.widgetId);
         var rect = [this.Width, this.Height];
         /*if(!this.isOldWindowLayoutConfig || !this.isOldWindowLayoutConfig()){//新布局

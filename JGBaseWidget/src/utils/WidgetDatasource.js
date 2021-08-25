@@ -16,7 +16,12 @@ isc.WidgetDatasource.addClassMethods({
      */
     getDatasource: function(widget,datasource){
         if (undefined == datasource || null == datasource){
-            datasource = isc.V3Datasource.isA(widget) ? widget:widget.TableName;
+            if(isc.V3Datasource.isA(widget)){
+                datasource = widget;
+            }else{
+                datasource = widget.TableName;
+                datasource = isc.V3Datasource.isA(datasource) ? datasource:isc.JGDataSourceManager.get(widget,widget.SourceTableName);
+            }
         }
 		if (undefined == datasource || null == datasource){
 			return;
