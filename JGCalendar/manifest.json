@@ -169,7 +169,8 @@
                         "enhanceType": "tableName",
                         "storeType": "set"
                     },
-                    "default": ""
+                    "default": "",
+                    "required": false
                 },
                 {
                     "code": "NameField",
