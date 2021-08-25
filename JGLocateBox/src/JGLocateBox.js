@@ -88,7 +88,7 @@ isc.JGLocateBox.addMethods({
 		this._afterInitWidget();
 	},
 	_afterInitWidget: function () {
-		this.TitleWidth=0;
+		this.titleWidth=0;
 		var _this = this;
 		this.numCols = 1;
 		isc.WidgetDatasource.addBindDatasourceCurrentRecordUpdateEventHandler(_this, null, null, function (record) {
@@ -97,13 +97,25 @@ isc.JGLocateBox.addMethods({
 		isc.WidgetDatasource.addBindDatasourceCurrentRecordClearEventHandler(_this, null, null, function () {
 			isc.DataBindingUtil.clearWidgetValue(_this);
 		});
-		var handler = function (itemCode, eventCode, args) {
-			_this[eventCode]();
-		}
+		var handler = (function (clickFunc) {
+			return function(itemCode, eventCode, args){
+				if(eventCode == "OnClick"){
+					clickFunc();
+				}else{
+					_this[eventCode]();
+				}
+			}
+		})(_this["OnClick"]);
+		_this["OnClick"] = "";
 		_this.registerItemEventHandler(handler);
 
 		_this.registerV3ExpressionHandler(this._expressionHandler);
 	},
+	_afterInit:function(){
+        this.Super("afterInit",arguments);
+        this.titleWidth=0;
+		this.numCols = 1;
+    },
 	// **
 	// 给检索的值
 	// @param {String}

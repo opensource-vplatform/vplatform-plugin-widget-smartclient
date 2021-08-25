@@ -60,10 +60,10 @@
                     "type": "char"
                 },
                 {
-                    "code":"Alias",
-                    "name":"别名",
+                    "code": "Alias",
+                    "name": "别名",
                     "type": "char",
-                    "default":"报表"
+                    "default": "报表"
                 },
                 {
                     "code": "Left",
@@ -141,16 +141,16 @@
                     "default": true
                 },
                 {
-                    "code":"remoteMethodAccessor",
-                    "name":"获取事件处理器",
-                    "type":"char",
-                    "handler":"remoteMethodAccessor"
+                    "code": "remoteMethodAccessor",
+                    "name": "获取事件处理器",
+                    "type": "char",
+                    "handler": "remoteMethodAccessor"
                 },
                 {
-                    "code":"executeWindowRoute",
-                    "name":"获取事件处理器",
-                    "type":"char",
-                    "handler":"executeWindowRoute"
+                    "code": "executeWindowRoute",
+                    "name": "获取事件处理器",
+                    "type": "char",
+                    "handler": "executeWindowRoute"
                 }
             ],
             "dependencies": [
@@ -162,21 +162,28 @@
                     "pluginType": "widget"
                 },
                 {
-                    "groupId":"com.toone.v3.platform",
-                    "code":"vjs.framework.extension.platform.custom.resource.spreadjs",
-                    "pluginSymbolicName":"vjs.framework.extension.platform.custom.resource.spreadjs",
-                    "pluginCode":"spreadjs",
-                    "pluginType":"widget"
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.custom.resource.spreadjs",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.custom.resource.spreadjs",
+                    "pluginCode": "spreadjs",
+                    "pluginType": "widget"
                 },
                 {
-                    "groupId":"com.toone.v3.platform",
-                    "code":"vjs.framework.extension.platform.plugin.ui.smartclient.ISCPluginBridges",
-                    "pluginSymbolicName":"vjs.framework.extension.platform.plugin.ui.smartclient.ISCPluginBridges",
-                    "pluginCode":"ISCPluginBridges",
-                    "pluginType":"widget"
+                    "groupId": "com.toone.v3.platform",
+                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.ISCPluginBridges",
+                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.ISCPluginBridges",
+                    "pluginCode": "ISCPluginBridges",
+                    "pluginType": "widget"
                 }
-    
             ]
+        },
+        {
+            "type": "asset",
+            "code": "JGReport-Assets",
+            "name": "报表控件静态资源",
+            "baseDir": "./assets",
+            "include": "**/**.*",
+            "serverRoot": true
         }
     ]
 }

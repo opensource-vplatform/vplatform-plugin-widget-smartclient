@@ -442,30 +442,32 @@ isc.JGButtonGroup.addMethods({
 	_afterInitWidget:function(){
 		var _widget = this;
 
-		//var datasourceName = widgetDatasource.getBindDatasourceName(widgetId);
+		if (this.BtnGrpDataSourceType != 'Static'){
+			isc.WidgetDatasource.addBindDatasourceLoadEventHandler(this, null, function(params) {
+				_widget.setMenus(_widget);
+			});
+			isc.WidgetDatasource.addBindDatasourceInsertEventHandler(this, null, function(params) {
+				_widget.setMenus(_widget);
+			});
+			isc.WidgetDatasource.addBindDatasourceDeleteEventHandler(this, null, function(params) {
+				_widget.setMenus(_widget);
+			});
+			isc.WidgetDatasource.addBindDatasourceUpdateEventHandler(this, null, function(params) {
+				if (params.resultSet && 0 < params.resultSet.length) {
+					for (var changedData = [], i = 0; i < params.resultSet.length; i++){
+						var data = params.resultSet[i];
+						changedData.push({
+							changedColumn: data,
+							data: params.datasource.getRecordById(data.id)
+						});
+					}
+					0 < changedData.length && _widget.updateButtonState(changedData)
+				} else
+				_widget.setMenus(_widget.code)
+			});
+		}
 
-        isc.WidgetDatasource.addBindDatasourceLoadEventHandler(this, null, function(params) {
-            _widget.setMenus(_widget);
-        });
-        isc.WidgetDatasource.addBindDatasourceInsertEventHandler(this, null, function(params) {
-            _widget.setMenus(_widget);
-        });
-        isc.WidgetDatasource.addBindDatasourceDeleteEventHandler(this, null, function(params) {
-            _widget.setMenus(_widget);
-        });
-		isc.WidgetDatasource.addBindDatasourceUpdateEventHandler(this, null, function(params) {
-			if (params.resultSet && 0 < params.resultSet.length) {
-				for (var changedData = [], i = 0; i < params.resultSet.length; i++){
-					var data = params.resultSet[i];
-					changedData.push({
-						changedColumn: data,
-						data: params.datasource.getRecordById(data.id)
-					});
-				}
-				0 < changedData.length && _widget.updateButtonState(changedData)
-			} else
-			_widget.setMenus(_widget.code)
-		});
+       
 
 
         _widget.on("menuClick", function() {
