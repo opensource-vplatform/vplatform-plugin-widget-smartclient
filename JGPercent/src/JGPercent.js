@@ -265,7 +265,7 @@ isc.JGPercent.addMethods({
 	},
 
 	setV3Value: function(value) {
-		iscWidgetDatasource.setSingleValue(this, value);
+		isc.WidgetDatasource.setSingleValue(this, value);
 	},
 
 	getVisible: function() {

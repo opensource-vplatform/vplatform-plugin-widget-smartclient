@@ -6,6 +6,18 @@ isc.ClassFactory.defineInterface("IWindowAop");
 
 isc.IWindowAop.addInterfaceMethods({
 
+
+  /**
+   * 数据加载前切面
+   * @abstract
+   * @memberof IWindowAop
+   * @method
+   * @instance
+   */
+  dataInitLoad: function(){
+
+  },
+
   /**
    * 数据加载切面
    * @abstract
