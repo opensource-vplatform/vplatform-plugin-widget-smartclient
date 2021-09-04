@@ -227,6 +227,24 @@
                 "default": ""
             },
             {
+                "code": "ColSpan",
+                "name": "列",
+                "type": "char",
+                "default": "1"
+            },
+            {
+                "code": "StartRow",
+                "name": "是否开始行",
+                "type": "char",
+                "default": "False"
+            },
+            {
+                "code": "EndRow",
+                "name": "是否结束行",
+                "type": "char",
+                "default": "False"
+            },
+            {
                 "code": "LabelText",
                 "name": "标题",
                 "type": "char",
