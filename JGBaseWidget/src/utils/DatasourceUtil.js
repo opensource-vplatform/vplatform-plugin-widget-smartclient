@@ -169,6 +169,15 @@ isc.DatasourceUtil.addClassMethods({
                 handler.apply(datasource, arguments);
             });
         }
-    }
+    },
+
+    getSingleValue : function(widget, field) {
+		var datasource = isc.WidgetDatasource.getDatasource(widget);
+        if (!this._checkDatasource(datasource)) {
+            return null;
+        }
+		var currentRecord = datasource.getCurrentRecord();
+		return currentRecord ? currentRecord[field]:null;
+	}
 
 });

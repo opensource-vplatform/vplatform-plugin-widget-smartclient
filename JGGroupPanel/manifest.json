@@ -111,9 +111,13 @@
                     "handler":"widgetParent"
                 }
             ],
-            "dependencies": [
-               
-            ]
+            "dependencies": [{
+                "groupId": "com.toone.v3.platform",
+                "code": "vjs.framework.extension.platform.icon.system",
+                "pluginSymbolicName": "vjs.framework.extension.platform.icon.system",
+                "pluginCode": "JGFormWidget",
+                "pluginType": "widget"
+            }]
         }
     ]
 }

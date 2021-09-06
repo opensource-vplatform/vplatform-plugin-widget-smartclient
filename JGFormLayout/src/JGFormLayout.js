@@ -1,6 +1,7 @@
 
 
 isc.ClassFactory.defineClass("JGFormLayout", "JGFormWidget");
+
 isc.JGFormLayout.addProperties({
 	lastValidateResult: true,
 	//子控件额外事件，因为注册item事件(registerItemEventHandler)只有一个函数,在JGFormLayout注册，但是每个子控件另有自己的事件，先在JGFormLayout设置切面，让子控件注入事件
@@ -89,131 +90,6 @@ isc.JGFormLayout.addMethods({
 			item.firePlatformEventAfter(eventName);
 		}
 	},
-	updateProperty: function (parmas) {
-		if (!parmas || !parmas.propertys || !parmas.widget) {
-			return;
-		}
-		var propertyMap = parmas.propertys;
-		var widget = parmas.widget;
-		var propertys = propertyMap.Properties;
-		if (propertys) {
-			for (var property in propertys) {
-				if (propertys.hasOwnProperty(property)) {
-					var val = propertys[property];
-					if ((property == "MultiWidth" || property == "MultiHeight") && typeof (val) == "number") {
-						widget[property] = val + "";
-					} else if (property == "NumCols" && typeof (val) == "string") {
-						widget[property] = Number(val);
-					} else if (property == "TitleWidth") {
-						widget[property] = propertys[property];
-						if (val == "auto") {
-							var titleWidth = this.getMaxTitleLength({
-								"calculateLength": MaxTitleLengthFunc,
-								"property": widget,
-								"fieldName": "fields" //最新标题在此处
-							});
-							widget[property] = titleWidth;
-						}
-					} else {
-						widget[property] = propertys[property];
-					}
-				}
-			}
-		}
-		var childProps = propertyMap.Widgets;
-		if (childProps) {
-			var fieldsMap = {};
-			var fields = widget.fields;
-			for (var i = 0, len = fields.length; i < len; i++) {
-				var field = fields[i];
-				fieldsMap[field.Code] = field;
-			}
-			var newFields = [];
-			var existId = [];
-			for (var i = 0, len = childProps.length; i < len; i++) {
-				var childProp = childProps[i];
-				var widgetId = childProp.WidgetCode;
-				existId.push(widgetId);
-				var sourceField = fieldsMap[widgetId];
-				newFields.push(sourceField);
-				var cp = childProp.Properties;
-				if (cp) {
-					for (var key in cp) {
-						if (cp.hasOwnProperty(key)) {
-							var val = cp[key];
-							if (key == "LabelText") {
-								sourceField.SimpleChineseTitle = val;
-							} else if ((key == "MultiWidth" || key == "MultiHeight") && typeof (val) == "number") {
-								sourceField[key] = val + "";
-							} else if (key == "NumCols" && typeof (val) == "string") {
-								sourceField[key] = Number(val);
-							} else if (key == "DefaultValue") {
-								if (Number(val) + "" == "NaN" && val != "true" && val != "false") {
-									val = "\"" + val + "\""
-								}
-								sourceField[key] = val;
-							} else {
-								sourceField[key] = val;
-							}
-						}
-					}
-				}
-			}
-			for (var i = 0, len = fields.length; i < len; i++) {
-				var field = fields[i];
-				var widgetId = field.Code;
-				if (existId.indexOf(widgetId) == -1) {
-					newFields.push(field)
-				}
-			}
-			widget.fields = newFields;
-		}
-	},
-
-	setFormat: function (field) {
-		var currencyFields = this._getCurrencyField();
-		for (var key in currencyFields) {
-			if (field.SourceTableName == key) {
-				if (field.ColumnName && currencyFields[key][field.ColumnName]) {
-					var ColumnDisplay = currencyFields[key][field.ColumnName];
-					field.DisplayFormat = {
-						displayFormat: ColumnDisplay.displayFormat ? ColumnDisplay.displayFormat : field.DisplayFormat.displayFormat,
-						numType: ColumnDisplay.displayFormat ? ColumnDisplay.numType : field.DisplayFormat.displayFormat,
-						Index: field.DisplayFormat.Index
-					}
-				}
-				if (field.StartColumnName && currencyFields[key][field.StartColumnName]) {
-					var startColumnDisplay = currencyFields[key][field.StartColumnName];
-					field.StartDisplayFormat = {
-						displayFormat: startColumnDisplay.displayFormat ? startColumnDisplay.displayFormat : field.DisplayFormat.displayFormat,
-						numType: startColumnDisplay.displayFormat ? startColumnDisplay.numType : field.DisplayFormat.displayFormat,
-						Index: field.DisplayFormat.Index
-					}
-				}
-				if (field.EndColumnName && currencyFields[key][field.EndColumnName]) {
-					var endColumnDisplay = currencyFields[key][field.EndColumnName];
-					field.EndDisplayFormat = {
-						displayFormat: endColumnDisplay.displayFormat ? endColumnDisplay.displayFormat : field.DisplayFormat.displayFormat,
-						numType: endColumnDisplay.displayFormat ? endColumnDisplay.numType : field.DisplayFormat.displayFormat,
-						Index: field.DisplayFormat.Index
-					}
-				}
-			}
-		}
-	},
-
-	processFormLayout: function (widget, infos) {
-		var fields = widget.fields;
-		if (!fields)
-			return;
-		for (var i = 0, len = fields.length; i < len; i++) {
-			var field = fields[i];
-			var info = infos[field.SourceTableName];
-			if (!info)
-				continue;
-			this.setFormat(field);
-		}
-	},
 
 	initEvent: function () {
 		var dsInfo = this.multiDataSourceInfo;
@@ -234,11 +110,12 @@ isc.JGFormLayout.addMethods({
 							if (fields && fields.length > 0) {
 								var founded = false;
 								for (var j = 0, len = fields.length; j < len; j++) {
+									var fieldName = fields[j];
 									for (var k = 0, length = resultSet.length; k < length; k++) {
 										var changedData = resultSet[k];
 										if (changedData) {
 											for (var key in changedData) {
-												if (datasource.dbName + item.form.multiDsSpecialChar + key === item.name || ds.dbName + item.form.multiDsSpecialChar + key === item.EndColumnName) {
+												if (datasource.dbName + item.form.multiDsSpecialChar + key === fieldName || ds.dbName + item.form.multiDsSpecialChar + key === item.EndColumnName) {
 													founded = true;
 													break;
 												}
@@ -308,7 +185,7 @@ isc.JGFormLayout.addMethods({
 				_this.setValueMapJGCheckBoxGroup(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
 			} else if (item.type === 'JGBaseDictBox') {
 				if (item.DropDownSource) {
-					item.DropDownSource = JSON.parse(item.DropDownSource);
+					item.DropDownSource = typeof(item.DropDownSource)=="string" ?JSON.parse(item.DropDownSource):item.DropDownSource;
 					_this.setValueMapJGBaseDictBox(item.Code, item.DropDownSource, item.IDColumnName, item.ColumnName);
 				}
 			}
@@ -431,8 +308,13 @@ isc.JGFormLayout.addMethods({
 	initDataBinding: function () {
 		var widget = this;
 		var dsList = widget.getMultiDataSourceInfo();
+		this.bindWidgetToDatasource(this.TableName);
 		if (dsList) {
 			for (var dsName in dsList) {
+				var ds = isc.JGDataSourceManager.get(this,dsName);
+				if(!ds){
+					continue;
+				}
 				var fields = dsList[dsName].fields;
 				var observer = isc.CurrentRecordObserver.create({
 					fields: fields,
@@ -484,7 +366,6 @@ isc.JGFormLayout.addMethods({
 						}
 					})(dsName, fields)
 				});
-				var ds = isc.JGDataSourceManager.get(this,dsName);
 				ds.addObserver(observer);
 			}
 		} else {
@@ -526,7 +407,6 @@ isc.JGFormLayout.addMethods({
 			});
 			widget.TableName.addObserver(observer);
 		}
-		this.bindWidgetToDatasource(this.TableName);
 	},
 
 	bindWidgetToDatasource: function(dataSource){
@@ -744,7 +624,7 @@ isc.JGFormLayout.addClassMethods({
 		}
 		params.property._$isAutoTitleWidth = true;
 		if (fieldWidgets && fieldWidgets.length > 0) {
-			//var MaxTitleLengthFunc = params.calculateLength;
+			isc.JGFormLayout.MaxTitleLengthFunc = params.calculateLength;
 			for (var i = 0, len = fieldWidgets.length; i < len; i++) {
 				var fieldWidget = fieldWidgets[i];
 				if (fieldWidget.type == "JGLabel") {
@@ -757,6 +637,131 @@ isc.JGFormLayout.addClassMethods({
 			}
 		}
 		return maxLength;
+	},
+
+	processFormLayout: function (widget, infos) {
+		var fields = widget.fields;
+		if (!fields)
+			return;
+		for (var i = 0, len = fields.length; i < len; i++) {
+			var field = fields[i];
+			var info = infos[field.SourceTableName];
+			if (!info)
+				continue;
+			isc.JGFormLayout.setFormat(field,infos);
+		}
+	},
+
+	setFormat: function (field,currencyFields) {
+		for (var key in currencyFields) {
+			if (field.SourceTableName == key) {
+				if (field.ColumnName && currencyFields[key][field.ColumnName]) {
+					var ColumnDisplay = currencyFields[key][field.ColumnName];
+					field.DisplayFormat = {
+						displayFormat: ColumnDisplay.displayFormat ? ColumnDisplay.displayFormat : field.DisplayFormat.displayFormat,
+						numType: ColumnDisplay.displayFormat ? ColumnDisplay.numType : field.DisplayFormat.displayFormat,
+						Index: field.DisplayFormat.Index
+					}
+				}
+				if (field.StartColumnName && currencyFields[key][field.StartColumnName]) {
+					var startColumnDisplay = currencyFields[key][field.StartColumnName];
+					field.StartDisplayFormat = {
+						displayFormat: startColumnDisplay.displayFormat ? startColumnDisplay.displayFormat : field.DisplayFormat.displayFormat,
+						numType: startColumnDisplay.displayFormat ? startColumnDisplay.numType : field.DisplayFormat.displayFormat,
+						Index: field.DisplayFormat.Index
+					}
+				}
+				if (field.EndColumnName && currencyFields[key][field.EndColumnName]) {
+					var endColumnDisplay = currencyFields[key][field.EndColumnName];
+					field.EndDisplayFormat = {
+						displayFormat: endColumnDisplay.displayFormat ? endColumnDisplay.displayFormat : field.DisplayFormat.displayFormat,
+						numType: endColumnDisplay.displayFormat ? endColumnDisplay.numType : field.DisplayFormat.displayFormat,
+						Index: field.DisplayFormat.Index
+					}
+				}
+			}
+		}
+	},
+
+	updateProperty: function (parmas) {
+		if (!parmas || !parmas.propertys || !parmas.widget) {
+			return;
+		}
+		var propertyMap = parmas.propertys;
+		var widget = parmas.widget;
+		var propertys = propertyMap.Properties;
+		if (propertys) {
+			for (var property in propertys) {
+				if (propertys.hasOwnProperty(property)) {
+					var val = propertys[property];
+					if ((property == "MultiWidth" || property == "MultiHeight") && typeof (val) == "number") {
+						widget[property] = val + "";
+					} else if (property == "NumCols" && typeof (val) == "string") {
+						widget[property] = Number(val);
+					} else if (property == "TitleWidth") {
+						widget[property] = propertys[property];
+						if (val == "auto") {
+							var titleWidth = isc.JGFormLayout.getMaxTitleLength({
+								"calculateLength": isc.JGFormLayout.MaxTitleLengthFunc,
+								"property": widget,
+								"fieldName": "fields" //最新标题在此处
+							});
+							widget[property] = titleWidth;
+						}
+					} else {
+						widget[property] = propertys[property];
+					}
+				}
+			}
+		}
+		var childProps = propertyMap.Widgets;
+		if (childProps) {
+			var fieldsMap = {};
+			var fields = widget.fields;
+			for (var i = 0, len = fields.length; i < len; i++) {
+				var field = fields[i];
+				fieldsMap[field.Code] = field;
+			}
+			var newFields = [];
+			var existId = [];
+			for (var i = 0, len = childProps.length; i < len; i++) {
+				var childProp = childProps[i];
+				var widgetId = childProp.WidgetCode;
+				existId.push(widgetId);
+				var sourceField = fieldsMap[widgetId];
+				newFields.push(sourceField);
+				var cp = childProp.Properties;
+				if (cp) {
+					for (var key in cp) {
+						if (cp.hasOwnProperty(key)) {
+							var val = cp[key];
+							if (key == "LabelText") {
+								sourceField.SimpleChineseTitle = val;
+							} else if ((key == "MultiWidth" || key == "MultiHeight") && typeof (val) == "number") {
+								sourceField[key] = val + "";
+							} else if (key == "NumCols" && typeof (val) == "string") {
+								sourceField[key] = Number(val);
+							} else if (key == "DefaultValue") {
+								if (Number(val) + "" == "NaN" && val != "true" && val != "false") {
+									val = "\"" + val + "\""
+								}
+								sourceField[key] = val;
+							} else {
+								sourceField[key] = val;
+							}
+						}
+					}
+				}
+			}
+			for (var i = 0, len = fields.length; i < len; i++) {
+				var field = fields[i];
+				var widgetId = field.Code;
+				if (existId.indexOf(widgetId) == -1) {
+					newFields.push(field)
+				}
+			}
+			widget.fields = newFields;
+		}
 	}
 
 });
