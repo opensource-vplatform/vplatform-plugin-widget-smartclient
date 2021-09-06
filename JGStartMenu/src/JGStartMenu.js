@@ -209,7 +209,7 @@ isc.JGStartMenu.addMethods({
 			valign: "center",
 			title: this.genTitleContent(this.SimpleChineseTitle),
 			simpleChineseTitle: this.SimpleChineseTitle,
-			width: this.Width - 30,
+			width: this.Width,// - 30,
 			height: this.Height,
 			enabled: this.Enabled,
 			tabIndex: this.TabIndex,

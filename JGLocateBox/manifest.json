@@ -20,13 +20,13 @@
                     "editor": {
                         "type": "boolean"
                     },
-                    "default": {
-                        "default": true,
-                        "title": "显示",
-                        "editor": {
-                            "type": "Boolean"
+                    "access": {
+                        "webDesigner": {
+                            "readable": true,
+                            "writable": true
                         }
-                    }
+                    },
+                    "default": true
                 },
                 {
                     "code": "Width",
@@ -124,13 +124,13 @@
                     "editor": {
                         "type": "boolean"
                     },
-                    "default": {
-                        "default": true,
-                        "title": "使能",
-                        "editor": {
-                            "type": "boolean"
+                    "access": {
+                        "webDesigner": {
+                            "readable": true,
+                            "writable": true
                         }
-                    }
+                    },
+                    "default": true
                 },
                 {
                     "code": "ValueTextAlign",
