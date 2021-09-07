@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<HTML>
+<HEAD>
+	<TITLE>同望V3报表控件</TITLE>
+	<META content="text/html; charset=utf-8" http-equiv="Content-Type">
+	 <script src="../../../../../itop/common/seajs/sea-debug.js" type="text/javascript"></script>
+	<script language='javascript' id='seajsnode' src="sea-debug.js"></script>
+    <script src="../../../../../itop/common/wooui/jquery-1.4.2.js" type="text/javascript"></script>
+</HEAD>
+
+<BODY>
+ 
+
+
+<div id="reportContainer" ></div>
+
+
+</BODY>
+
+<script type="text/javascript">
+
+var configXml = window.opener.V3Reportconfig;
+var reportData = window.opener.V3ReportData;
+ eval(" configXml =" +configXml);
+  eval(" reportData =" +reportData);
+if(window.opener){
+
+	var div = document.getElementById("reportContainer");
+	div.style.height= (configXml.size[0]-10)+ "px";
+//	div.style.width =  (configXml.size[1]-10) + "px";
+	seajs.use(['./Reportfactory'],_drawReport);
+	
+}
+
+
+
+function _drawReport(factory){
+	var reportContainer = document.getElementById("reportContainer");
+	var report = factory.getInstance(reportContainer,configXml);
+
+	//report.setDataSet(configXml,reportData); //v平台的数据格式
+
+	report.draw(configXml,reportData);
+	report.OnFilePrint();
+}
+function doCommand(cmd){
+	if(cmd.indexOf("printsetup.gif")>=0)
+		report.printSetup();
+	else if(cmd.indexOf("print.gif")>=0)
+		report.print();
+	else if(cmd.indexOf("printpreview.gif")>=0)
+		report.printPreview();
+}
+</script>
+
+</html>

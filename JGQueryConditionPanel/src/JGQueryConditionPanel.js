@@ -32,8 +32,10 @@ isc.InlineButtonGroupItem.addMethods({
 /**
  * 查询面板
  * @class JGQueryConditionPanel
+ * @mixes IWindowAop
  */
 isc.ClassFactory.defineClass("JGQueryConditionPanel", "JGBaseWidget");
+isc.ClassFactory.mixInInterface("JGQueryConditionPanel", "IWindowAop");
 
 isc.JGQueryConditionPanel.addClassMethods({
 
@@ -502,6 +504,7 @@ isc.JGQueryConditionPanel.addMethods({
 				name: 'id'
 			}],
 			height: 40,
+			dataSource : this.TableName,
 			bindDataSource: function (ds) {
 				var vm = isc.JGV3ValuesManager.getByDataSource(ds);
 				var dy = vm.getMember(this.ID);
@@ -910,6 +913,7 @@ isc.JGQueryConditionPanel.addMethods({
 	getFormLayout: function (id) {
 		var _this = this;
 		this.formLayout = isc.JGFormLayout.create({
+			scopeId: this.scopeId,
 			NumCols: this.ColumnCount,
 			Width: "100%",
 			fields: this.layoutFields,
@@ -1528,9 +1532,10 @@ isc.JGQueryConditionPanel.addMethods({
 			}
 		}
 		var widget = this;
-		var callback = function (datasourceName) {
-			var record = datasourceName.resultSet[0];
-			var recordMap = record;
+		var callback = function (params) {
+			var ds = params.datasource;
+			var record = ds.getRecordById(params.resultSet[0].id);
+			var recordMap = isc.addProperties({},record);
 			if (widget.FilterVisible) {
 				for (var prop in record) {
 					var item = null;
@@ -1555,7 +1560,7 @@ isc.JGQueryConditionPanel.addMethods({
 					if (!title && widget.locateBox && prop == widget.locateBox.ColumnName) {
 						title = widget.locateBoxTitle;
 					}
-					widget._getvalue(prop, datasourceName, widget, widgetCode, item, recordMap, title);
+					widget._getvalue(prop, params, widget, widgetCode, item, recordMap, title);
 				}
 			}
 			if (widget.TriggerType == 'ConditionValueChanged') {
@@ -1595,7 +1600,7 @@ isc.JGQueryConditionPanel.addMethods({
 	//原型工具可以配置实体数据，避免界面数据闪烁 要放在窗体加载前，因为窗体加载可以使用赋值规则。
 	dataLoad: function () {
 		this.resetDsRecord(false, true);
-		this._removeAllFunc(widget, widgetCode);
+		this._removeAllFunc(this, this.Code);
 		//this.searchFunc(widget, widgetCode);
 	},
 	/**
@@ -1737,7 +1742,7 @@ isc.JGQueryConditionPanel.addMethods({
 		});
 	},
 
-	_getvalue: function (prop, datasourceName, widget, widgetCode, item, recordValue, title) {
+	_getvalue: function (prop, params, widget, widgetCode, item, recordValue, title) {
 		if (item.StartColumnName && item.EndColumnName) {
 			var titleValue = "";
 			//				var title = item.title;
@@ -1846,7 +1851,7 @@ isc.JGQueryConditionPanel.addMethods({
 		var _this = this;
 		var callback = function (code) {
 			var removeTile = true;
-			var datasource = isc.JGDataSourceManager.get(this, widget._tableName);
+			var datasource = isc.JGDataSourceManager.get(_this, widget._tableName);
 			var currentRecord = datasource.getCurrentRecord();
 			if (currentRecord) {
 				currentRecord = isc.addProperties({}, currentRecord);
@@ -1921,29 +1926,32 @@ isc.JGQueryConditionPanel.addMethods({
 		var _this = this;
 		var callback = function () {
 			var hasDefaultValue = false;
-			var datasource = isc.JGDataSourceManager.get(_this, widget._tableName);
+			var datasource = _this._getEntity(widget._tableName);
 			var currentRecord = datasource.getCurrentRecord();
 			if (currentRecord) {
-				currentRecord = isc.addProperties({}, currentRecord);
-				var fields = datasource.getFields();
+				var metadata = datasource.getMetadata();
+				var fields = metadata.getFields();
 				for (var j = 0; j < fields.length; j++) {
-					if (fields[j].code != 'id') {
-						var item = _this.getFieldByCode(widget, fields[j].code);
+					var fieldCode = fields[j].code;
+					if (fieldCode != 'id') {
+						var item = _this.getFieldByCode(widget, fieldCode);
 						if (item) {
 							var defaultValue = null;
 							if (item.type != "JGLocateBox") { //查询面板内嵌的搜素框不能配置默认值，暂不取默认值
 								defaultValue = _this.getDefaultValue(widget, widgetId, item);
 							}
-							if (defaultValue && defaultValue[fields[j].code]) {
+							if (defaultValue && defaultValue[fieldCode]) {
 								hasDefaultValue = true;
-								currentRecord[fields[j].code] = defaultValue[fields[j].code];
+								currentRecord.set(fieldCode,defaultValue[fieldCode]);
 							} else {
-								currentRecord[fields[j].code] = null;
+								currentRecord.set(fieldCode,null);
 							}
 						}
 					}
 				}
-				datasource.updateRecords([currentRecord]);
+				datasource.updateRecords({
+					records:[currentRecord]
+				});
 				datasource.clearRemoveDatas();
 			}
 		}

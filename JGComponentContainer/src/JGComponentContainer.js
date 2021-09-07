@@ -1695,7 +1695,7 @@ isc.JGComponentContainer.addMethods({
 										_this.openWindowByRecord(_widgetCode, _record, _paramsMapping, _entityCode, _call);
 									}
 								})(widgetCode, record, paramsMapping, entityCode, call);
-								_this.addTask(scopeId,fun, _this.genKey(entityCode,scopeId,record.id), ACTIVE.OPEN);
+								_this.addTask(scopeId,fun, _this.genKey(entityCode,scopeId,record.id), isc.JGComponentContainer.ACTIVE.OPEN);
 							}
 							_this.nextTask();
 						}
@@ -1746,8 +1746,8 @@ isc.JGComponentContainer.addMethods({
 									}
 								}else if(changeData.hasOwnProperty(titleKey)){
 									var conditions = {
-										componentCode : recordMap[componentCodeKey],
-										windowCode : recordMap[windowCodeKey],
+										componentCode : recordMap[componentCodeKey] ? recordMap[componentCodeKey]:oldData[componentCodeKey],
+										windowCode : recordMap[windowCodeKey] ? recordMap[windowCodeKey]:oldData[windowCodeKey],
 										title : oldData[titleKey],
 										recordId : id
 									};
@@ -1984,7 +1984,7 @@ isc.JGComponentContainer.addMethods({
 		}
 	},
 
-	clear: function () {
+	v3Clear: function () {
 		this.clearComponent();
 	},
 
@@ -2172,7 +2172,8 @@ isc.JGComponentContainer.addMethods({
 		return {
 			"setHeight":"setV3Height",
 			"reloadSingleTab":"reloadV3SingleTab",
-			"exists": "v3Exists"
+			"exists": "v3Exists",
+			"clear": "v3Clear"
 		}
 	},
 

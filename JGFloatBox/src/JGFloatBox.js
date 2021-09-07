@@ -138,6 +138,11 @@ isc.JGFloatBox.addMethods({
     _initProperties: function (properties) {
         this.TitleWidth = properties.LabelWidth;
 		this.TitleVisible = properties.LabelVisible;
+        /* 流布局内需要使用宽度进行运算 */
+        var width = this.Width;
+        if(width && typeof(width) == "string" && (new RegExp("^[0-9]*$")).test(width)){
+            this.Width = Number(width);
+        }
         if (this.WidgetStyle == "JGFloatBox") {
             this.WidgetStyle = "JGForm";
         }

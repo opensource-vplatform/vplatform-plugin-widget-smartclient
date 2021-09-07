@@ -147,6 +147,17 @@
                     "name":"别名",
                     "type": "char",
                     "default":"记录导航控件"
+                },
+                {
+                    "code":"TableName",
+                    "name":"实体",
+                    "catalog":"Data",
+                    "type":"char",
+                    "desc":"控件绑定的实体",
+                    "required":false,
+                    "editor":{
+                        "type":"entity"
+                    }
                 }
                
             ],

@@ -9,6 +9,7 @@
 isc.ClassFactory.defineClass("JGButtonGroup", "JGMenuWidget");
 isc.ClassFactory.defineClass("JGButtonMenu", "Menu");
 isc.ClassFactory.defineClass("InlinedMenu", "HLayout");
+isc.ClassFactory.mixInInterface("JGButtonGroup", "IWindowAop");
 isc.JGButtonMenu.addProperties({
 	iconBodyStyleName: "btn-menu-main",
 	//在源码的基础上加一个“cellHeight”属性，设置行高的，子菜单也要继承设置此行高
@@ -421,7 +422,7 @@ isc.JGButtonGroup.addProperties({
 	Width: 200,
 	Height: 20,
 	Enabled: true,
-	title:'',
+	title: '',
 	TabIndex: 1,
 	BackColor: null, //背景色
 	ImageObj: null, //背景图片
@@ -436,56 +437,58 @@ isc.JGButtonGroup.addMethods({
 		if (this.BtnGrpDataSourceType == 'Static') {
 			//处理窗体设计器的数据--只对静态按钮项处理
 			this.handleDesignData(this);
-			this.setMembers(this.menuDate); 
+			this.setMembers(this.menuDate);
 		}
 	},
-	_afterInitWidget:function(){
+	_afterInitWidget: function () {
 		var _widget = this;
 
-		//var datasourceName = widgetDatasource.getBindDatasourceName(widgetId);
+		if (this.BtnGrpDataSourceType != 'Static') {
+			isc.WidgetDatasource.addBindDatasourceLoadEventHandler(this, null, function (params) {
+				_widget.setMenus(_widget);
+			});
+			isc.WidgetDatasource.addBindDatasourceInsertEventHandler(this, null, function (params) {
+				_widget.setMenus(_widget);
+			});
+			isc.WidgetDatasource.addBindDatasourceDeleteEventHandler(this, null, function (params) {
+				_widget.setMenus(_widget);
+			});
+			isc.WidgetDatasource.addBindDatasourceUpdateEventHandler(this, null, function (params) {
+				if (params.resultSet && 0 < params.resultSet.length) {
+					for (var changedData = [], i = 0; i < params.resultSet.length; i++) {
+						var data = params.resultSet[i];
+						changedData.push({
+							changedColumn: data,
+							data: params.datasource.getRecordById(data.id)
+						});
+					}
+					0 < changedData.length && _widget.updateButtonState(changedData)
+				} else
+					_widget.setMenus(_widget.code)
+			});
+		}
 
-        isc.WidgetDatasource.addBindDatasourceLoadEventHandler(this, null, function(params) {
-            _widget.setMenus(_widget);
-        });
-        isc.WidgetDatasource.addBindDatasourceInsertEventHandler(this, null, function(params) {
-            _widget.setMenus(_widget);
-        });
-        isc.WidgetDatasource.addBindDatasourceDeleteEventHandler(this, null, function(params) {
-            _widget.setMenus(_widget);
-        });
-		isc.WidgetDatasource.addBindDatasourceUpdateEventHandler(this, null, function(params) {
-			if (params.resultSet && 0 < params.resultSet.length) {
-				for (var changedData = [], i = 0; i < params.resultSet.length; i++){
-					var data = params.resultSet[i];
-					changedData.push({
-						changedColumn: data,
-						data: params.datasource.getRecordById(data.id)
-					});
-				}
-				0 < changedData.length && _widget.updateButtonState(changedData)
-			} else
-			_widget.setMenus(_widget.code)
-		});
 
 
-        _widget.on("menuClick", function() {
-           
-            var currentScopeId = _widget.scopeId;
 
-            
-            var handler = _widget.getEventHandler("OnClick");
-            return function(item) {
+		_widget.on("menuClick", function () {
 
-            	isc.MenuUtil.menuEvent(_widget,item,handler,null,null,_widget._menuAction);
-            }
-        }());
+			var currentScopeId = _widget.scopeId;
+
+
+			var handler = _widget.getEventHandler("OnClick");
+			return function (item) {
+
+				isc.MenuUtil.menuEvent(_widget, item, handler, null, null, _widget._menuAction);
+			}
+		}());
 	},
-	onDataLoad :function(){
-		if (this.MenuDataSourceType == "Rule"){
+	onDataLoad: function () {
+		if (this.MenuDataSourceType == "Rule") {
 			var _scopeId = scopeManager.getCurrentScopeId();
-                    return function() {
-                        menuDataTrans.getMenuDataByRuleSet(this);
-                    }
+			return function () {
+				menuDataTrans.getMenuDataByRuleSet(this);
+			}
 		}
 	},
 
@@ -929,7 +932,7 @@ isc.JGButtonGroup.addMethods({
 				mappings[data.menuItemCode] = data;
 				indexs[data.menuItemCode] = data.orderNo;
 			}
-			var _this=this;
+			var _this = this;
 			var replaceData = function (datas, mps, indexs) {
 				if (datas && datas.length > 0) {
 					_this.arrSort(datas, indexs, "id");
@@ -961,500 +964,548 @@ isc.JGButtonGroup.addMethods({
 	/**
  * 数组排序
  * */
-arrSort : function (target, indexs, key) {
-	target.sort(function (a, b) {
-		var ac = a[key];
-		var bc = b[key]
-		if (!ac || !bc) {
-			return 0;
-		}
-		var i = indexs.hasOwnProperty(ac) ? indexs[ac] : -1;
-		var i1 = indexs.hasOwnProperty(bc) ? indexs[bc] : -1;
-		if (i == -1 || i1 == -1) {
-			return 0;
-		} else {
-			return i - i1;
-		}
-	});
-},
+	arrSort: function (target, indexs, key) {
+		target.sort(function (a, b) {
+			var ac = a[key];
+			var bc = b[key]
+			if (!ac || !bc) {
+				return 0;
+			}
+			var i = indexs.hasOwnProperty(ac) ? indexs[ac] : -1;
+			var i1 = indexs.hasOwnProperty(bc) ? indexs[bc] : -1;
+			if (i == -1 || i1 == -1) {
+				return 0;
+			} else {
+				return i - i1;
+			}
+		});
+	},
 
-setDataToMenu : function (items, itemsList) {
-	if (this._toolStrip && this._toolStrip.menuBar) {
-		var members = this._toolStrip.menuBar.getMembers();
-		for (var i = 0, num = members.length; i < num; i++) {
-			this._toolStrip.menuBar.removeMember(members[0]);
+	setDataToMenu: function (items, itemsList) {
+		if (this._toolStrip && this._toolStrip.menuBar) {
+			var members = this._toolStrip.menuBar.getMembers();
+			for (var i = 0, num = members.length; i < num; i++) {
+				this._toolStrip.menuBar.removeMember(members[0]);
+			}
 		}
-	}
-	this.setMembers(items);
-	this.menuTable = itemsList;
-},
+		this.setMembers(items);
+		this.menuTable = itemsList;
+	},
 
-updatePropertys : function (params) {
-	var propertys = params.propertys;
-	var widget = params.widget;
-	var records = params.records;
-	if (records) {//替换菜单数据
-		if (widget.BtnGrpDataSourceType == "Dynamic") {
-			windowInit.registerHandler({
-				"eventName": windowInit.Events.AfterDataLoad,
-				"handler": (function (newRecords, tableName) {
-					return function () {
-						var ds = datasourceManager.lookup({
-							datasourceName: tableName
-						});
-						if (ds) {
-							ds.clear();
-							ds.insertRecords({
-								records: newRecords
-							});
-						}
-					}
-				})(records, widget.SourceTableName)
-			});
-			widget.menuDate = [];
-			widget.FieldMappingJson = '{"pid":"pid","menuItemCode":"menuItemCode","menuItemName":"menuItemName","isSelected":"isSelected","icourl":"icourl","appearance":"appearance","enabled":"enabled","showBorder":"showBorder","displayStyle":"displayStyle","isMore":"isMore","visible":"visible","isItem":"isItem","menuItemType":"menuItemType","openCompCode":"openCompCode","openWinCode":"openWinCode","requestParams":"requestParams","ruleSetComponentCode":"ruleSetComponentCode","ruleSetWindowCode":"ruleSetWindowCode","ruleSetCode":"ruleSetCode","ruleSetInputParam":"ruleSetInputParam","orderNo":"orderNo","theme":"theme"}';
-		}
-
-	} else {//更新属性
-		var propertyMap = params.propertys;
+	updatePropertys: function (params) {
+		var propertys = params.propertys;
 		var widget = params.widget;
-		var propertys = propertyMap.Properties;
-		if (propertys) {
-			for (var property in propertys) {
-				if (propertys.hasOwnProperty(property)) {
-					var val = propertys[property];
-					if ((property == "MultiWidth" || property == "MultiHeight") && typeof (val) == "number") {
-						widget[key] = val + "";
-					} else if (property == "RowWidthMode" && val == "PercentWidth") {
-						for (var i = 0, len = widget.fields.length; i < len; i++) {
-							var field = widget.fields[i];
-							var width = Math.floor((parseInt(field.width) / parseInt(widget.Width) * 10000) / 100) + "%";
-							field.width = width;
+		var records = params.records;
+		if (records) {//替换菜单数据
+			if (widget.BtnGrpDataSourceType == "Dynamic") {
+				windowInit.registerHandler({
+					"eventName": windowInit.Events.AfterDataLoad,
+					"handler": (function (newRecords, tableName) {
+						return function () {
+							var ds = datasourceManager.lookup({
+								datasourceName: tableName
+							});
+							if (ds) {
+								ds.clear();
+								ds.insertRecords({
+									records: newRecords
+								});
+							}
 						}
-					} else {
-						widget[property] = propertys[property];
+					})(records, widget.SourceTableName)
+				});
+				widget.menuDate = [];
+				widget.FieldMappingJson = '{"pid":"pid","menuItemCode":"menuItemCode","menuItemName":"menuItemName","isSelected":"isSelected","icourl":"icourl","appearance":"appearance","enabled":"enabled","showBorder":"showBorder","displayStyle":"displayStyle","isMore":"isMore","visible":"visible","isItem":"isItem","menuItemType":"menuItemType","openCompCode":"openCompCode","openWinCode":"openWinCode","requestParams":"requestParams","ruleSetComponentCode":"ruleSetComponentCode","ruleSetWindowCode":"ruleSetWindowCode","ruleSetCode":"ruleSetCode","ruleSetInputParam":"ruleSetInputParam","orderNo":"orderNo","theme":"theme"}';
+			}
+
+		} else {//更新属性
+			var propertyMap = params.propertys;
+			var widget = params.widget;
+			var propertys = propertyMap.Properties;
+			if (propertys) {
+				for (var property in propertys) {
+					if (propertys.hasOwnProperty(property)) {
+						var val = propertys[property];
+						if ((property == "MultiWidth" || property == "MultiHeight") && typeof (val) == "number") {
+							widget[key] = val + "";
+						} else if (property == "RowWidthMode" && val == "PercentWidth") {
+							for (var i = 0, len = widget.fields.length; i < len; i++) {
+								var field = widget.fields[i];
+								var width = Math.floor((parseInt(field.width) / parseInt(widget.Width) * 10000) / 100) + "%";
+								field.width = width;
+							}
+						} else {
+							widget[property] = propertys[property];
+						}
 					}
 				}
 			}
 		}
-	}
-},
+	},
 
-setMenus : function(widgetId) {
-	this.fireEvent("ConfigChanged");
-	var datasource = isc.WidgetDatasource.getBindDatasource(widgetId);
-	if (datasource) {
-		var items = datasource.getAllRecords();
-		var designerMenuDatas = this.DesignerMenuDatas;
-		if(designerMenuDatas){//窗体设计器修改的数据
-			this._cloneProps({
-				DesignerMenuDatas:designerMenuDatas
-			}, {
-				DesignerMenuDatas:items
-			}, {
-				DesignerMenuDatas : "menuItemCode"
-			});
+	setMenus: function (widgetId) {
+		this.fireEvent("ConfigChanged");
+		var datasource = isc.WidgetDatasource.getBindDatasource(widgetId);
+		if (datasource) {
+			var items = datasource.getAllRecords();
+			var designerMenuDatas = this.DesignerMenuDatas;
+			if (designerMenuDatas) {//窗体设计器修改的数据
+				this._cloneProps({
+					DesignerMenuDatas: designerMenuDatas
+				}, {
+					DesignerMenuDatas: items
+				}, {
+					DesignerMenuDatas: "menuItemCode"
+				});
+			}
+			// 需转换数据
+			var dynItems = this._transformDyMenuData(widgetId, items);
+			var rootPid = widgetId + 'root';
+			var addRoot = false;
+			if (!dynItems || dynItems.length === 0) {
+				this.emptyMenus(widgetId);
+				//widgetRenderer.executeWidgetRenderAction(widgetId, "setDataToMenu");
+				this.setDataToMenu(widgetId);
+				return;
+			}
+
+			for (var i = 0; i < dynItems.length; i++) {
+				if (dynItems[i].pid == '') {
+					dynItems[i].pid = rootPid;
+					addRoot = true;
+				}
+				if (dynItems[i].icourl) {
+					dynItems[i].icourl = '[{"type":"ns","source":"icon","img":"iconfont icon-' + dynItems[i].icourl + '"}]';
+				}
+				//            	if(dynItems[i].icourl.indexOf('http:') != -1 || dynItems[i].icourl.indexOf('https:') != -1){
+				//            		//网络图片
+				//                    dynItems[i].icourl = '{"type":"","source":"url","img":"'+ dynItems[i].icourl +'"}';
+				//                }else if(){
+				//                    //平台图片资源id
+				//                    const _src = "module-operation!executeOperation?operation=FileDown&token={%22data%22:{%22isMulti%22:false,%22dataId%22:%22" + dynItems[i].icourl + "%22,%22isShow%22:1"+"}}";
+				//                    dynItems[i].icourl = '{"type":"","source":"db","img":"'+ _src +'"}'
+				//                }else if(){
+				//                	//平台静态资源
+				//                	dynItems[i].icourl = '{"type":"","source":"res","img":"'+ dynItems[i].icourl +'"}'
+				//                }else{
+				//                	//图标
+				//                	dynItems[i].icourl = '{"type":"","source":"icon","img":"iconfont icon-'+ dynItems[i].icourl +'"}';
+				//                }
+			}
+			if (addRoot) {
+				dynItems.push({
+					id: rootPid,
+					pid: '',
+					visible: true
+				})
+			}
+			var list = isc.MenuUtil.toMenuData(dynItems);
+			if (list && list[0] && list[1])
+				//widgetRenderer.executeWidgetRenderAction(widgetId, "setDataToMenu", list[0], list[1]);
+				this.setDataToMenu(list[0], list[1]);
+
 		}
-		// 需转换数据
-		var dynItems = this._transformDyMenuData(widgetId, items);
-		var rootPid = widgetId + 'root';
-		var addRoot = false;
-		if(!dynItems || dynItems.length === 0){
-			this.emptyMenus(widgetId);
-			//widgetRenderer.executeWidgetRenderAction(widgetId, "setDataToMenu");
-			this.setDataToMenu(widgetId);
+	},
+
+	/*处理动态数据，转换成符合要求的数据*/
+	_transformDyMenuData: function (widgetId, datas) {
+		if (!datas || datas.length === 0)
 			return;
-		}
-		
-		for(var i = 0 ; i < dynItems.length; i ++){
-			if(dynItems[i].pid == ''){
-				dynItems[i].pid = rootPid;
-				addRoot = true;
-			}
-			if(dynItems[i].icourl){
-				dynItems[i].icourl = '[{"type":"ns","source":"icon","img":"iconfont icon-'+ dynItems[i].icourl +'"}]';
-			}
-//            	if(dynItems[i].icourl.indexOf('http:') != -1 || dynItems[i].icourl.indexOf('https:') != -1){
-//            		//网络图片
-//                    dynItems[i].icourl = '{"type":"","source":"url","img":"'+ dynItems[i].icourl +'"}';
-//                }else if(){
-//                    //平台图片资源id
-//                    const _src = "module-operation!executeOperation?operation=FileDown&token={%22data%22:{%22isMulti%22:false,%22dataId%22:%22" + dynItems[i].icourl + "%22,%22isShow%22:1"+"}}";
-//                    dynItems[i].icourl = '{"type":"","source":"db","img":"'+ _src +'"}'
-//                }else if(){
-//                	//平台静态资源
-//                	dynItems[i].icourl = '{"type":"","source":"res","img":"'+ dynItems[i].icourl +'"}'
-//                }else{
-//                	//图标
-//                	dynItems[i].icourl = '{"type":"","source":"icon","img":"iconfont icon-'+ dynItems[i].icourl +'"}';
-//                }
-		}
-		if(addRoot){
-			dynItems.push({
-				id : rootPid,
-				pid : '',
-				visible : true
-			})
-		}
-		var list = isc.MenuUtil.toMenuData(dynItems);
-		if (list && list[0] && list[1])
-			//widgetRenderer.executeWidgetRenderAction(widgetId, "setDataToMenu", list[0], list[1]);
-			this.setDataToMenu(list[0],list[1]);
-		
-	}
-},
-
-/*处理动态数据，转换成符合要求的数据*/
-_transformDyMenuData: function(widgetId, datas) {
-	if (!datas || datas.length === 0)
-		return;
 		fieldMappdingStr = this.FieldMappingJson;
 
-	if (!fieldMappdingStr || fieldMappdingStr !== "") {
-		var fieldMappding = JSON.parse(fieldMappdingStr);
+		if (!fieldMappdingStr || fieldMappdingStr !== "") {
+			var fieldMappding = JSON.parse(fieldMappdingStr);
 
-		if (!fieldMappding)
-			return;
+			if (!fieldMappding)
+				return;
 
-		var newDatas = [];
-		for (var i = 0, len = datas.length; i < len; i++) {
-			var tmpObj = datas[i];
-			//add by xiedh 2019-10-26 剔除隐藏的菜单项
-//                var visibleField = fieldMappding.visible;
-//                if(visibleField){//如果绑定了是否显示字段
-//                	if(tmpObj[visibleField] === false){
-//                		continue;
-//                	}
-//                }
-			//end
+			var newDatas = [];
+			for (var i = 0, len = datas.length; i < len; i++) {
+				var tmpObj = datas[i];
+				//add by xiedh 2019-10-26 剔除隐藏的菜单项
+				//                var visibleField = fieldMappding.visible;
+				//                if(visibleField){//如果绑定了是否显示字段
+				//                	if(tmpObj[visibleField] === false){
+				//                		continue;
+				//                	}
+				//                }
+				//end
 
-			var tmpData = {};
-			for (var tmpFieldCode in fieldMappding) {
-				var tmpFieldVal = fieldMappding[tmpFieldCode];
+				var tmpData = {};
+				for (var tmpFieldCode in fieldMappding) {
+					var tmpFieldVal = fieldMappding[tmpFieldCode];
 
-				if (!tmpFieldVal)
-					continue;
+					if (!tmpFieldVal)
+						continue;
 
-				tmpData[tmpFieldCode] = tmpObj[tmpFieldVal];
-			}
-			tmpData["openType"] = tmpObj["openType"];
-			tmpData["openWinTitle"] = tmpObj["openWinTitle"];
-			tmpData["theme"] = tmpObj["theme"];
-			if (JSON.stringify(tmpData) !== "{}") {
-				// 处理 Id， 必须
-				tmpData["id"] = tmpObj["id"];
+					tmpData[tmpFieldCode] = tmpObj[tmpFieldVal];
+				}
+				tmpData["openType"] = tmpObj["openType"];
+				tmpData["openWinTitle"] = tmpObj["openWinTitle"];
+				tmpData["theme"] = tmpObj["theme"];
+				if (JSON.stringify(tmpData) !== "{}") {
+					// 处理 Id， 必须
+					tmpData["id"] = tmpObj["id"];
 
-				newDatas.push(tmpData);
-			}
-		}
-	}
-
-	return newDatas;
-},
-
-emptyMenus: function(widgetID) {
-	// 移除所有子项
-	if (this._toolStrip && this._toolStrip.menuBar) {
-		var members = this._toolStrip.menuBar.getMembers();
-		for (var i = 0, num = members.length; i < num; i++) {
-			this._toolStrip.menuBar.removeMember(members[0]);
-		}
-	}
-	this.setMembers([]);
-	this.menuTable = {};
-
-	// 清除左右箭头
-	if (this._toolStrip && this._toolStrip.children && this._toolStrip.children.length === 3) {
-		var _toolStripChildren = this._toolStrip.children;
-
-		var _leftArrow = _toolStripChildren[1];
-		var _rightArrow = _toolStripChildren[2];
-		if (_leftArrow)
-		this._toolStrip.removeChild(_leftArrow);
-		if (_rightArrow)
-		this._toolStrip.removeChild(_rightArrow);
-	}
-},
-
-getV3Show : function(widgetId, widgetIds) {
-	
-},
-
-getV3Hide : function(widgetId) {
-	this.hideItem(widgetIds);
-	this.disabled(widgetIds);
-},
-
-readonly : function(widgetId) {
-	disabled(widgetId);
-},
-
-writable : function(widgetId) {
-	enabled(widgetId);
-},
-
-disabled : function(widgetId) {
-	return this.disabledItem(widgetId);
-},
-
-enabled : function(widgetId) {
-	return this.enabledItem(widgetId);
-},
-
-initMenu : function(widgetId, items, itemsJson) {
-	_getItems(widgetId, items, itemsJson);
-	_renderMenuItems(widgetId, items, itemsJson);
-},
-
-addMenuByIds : function(widgetId, menuIds) {
-	if (menuIds && menuIds.length > 0) {
-		var param = "\"" + menuIds.join('","') + "\"";
-		var expression = 'GetMenus(' + param + ')';
-		var result = remoteOperation.executeFormulaExpression({
-			"windowCode": scopeManager.getWindowScope().getWindowCode(),
-			"expression": expression
-		});
-		if (result && result.success == true) {
-			var menuDataJson = result.data.result;
-			if (menuDataJson) {
-				if (menuDataJson.menuDatas && menuDataJson.menuDatas != null) {
-					var items = menuDataJson.menuDatas;
-					var itemsJson = menuDataJson.menuDatasJson;
-					initMenu(widgetId, items, itemsJson);
+					newDatas.push(tmpData);
 				}
 			}
-		} else {
-			throw new Error("[JGButtonGroupAction.addMenuByIds]获取菜单数据失败，result=" + result);
 		}
-	}
-},
 
-/**
- * 添加路由信息
- */
-_addRouteInfo : function(routeId, routeStr) {
-	if (routeStr) {
-		var route = typeof(routeStr) == "string" ? jsonUtil.json2obj(routeStr) : routeStr;
-		var handler = typeof(route.handler) == "string" ? eval(route.handler) : route.handler;
-		// TODO
-		routeManager.setRouteHandler(routeId, route.handler);
-		// TODO
-		routeManager.setTransactionInfo(routeId, route.transactionInfo);
-		var outputCfg = route.outputConfig;
-		if (outputCfg) {
-			for (var type in outputCfg) {
-				// TODO
-				routeManager.setRouteOutputConfig(routeId, type, outputCfg[type]);
+		return newDatas;
+	},
+
+	emptyMenus: function (widgetID) {
+		// 移除所有子项
+		if (this._toolStrip && this._toolStrip.menuBar) {
+			var members = this._toolStrip.menuBar.getMembers();
+			for (var i = 0, num = members.length; i < num; i++) {
+				this._toolStrip.menuBar.removeMember(members[0]);
 			}
 		}
-	}
-},
+		this.setMembers([]);
+		this.menuTable = {};
 
-_addRuleInstanceInfo : function(ruleInstanceStr) {
-	if (ruleInstanceStr) {
-		var ruleInstances = typeof(ruleInstanceStr) == "string" ? jsonUtil.json2obj(ruleInstanceStr) : ruleInstanceStr;
-		if (ruleInstances && ruleInstances.length > 0) {
-			for (var i = 0, len = ruleInstances.length; i < len; i++) {
-				var ruleInstance = ruleInstances[i];
-				// TODO
-				ruleConfigManager.addRuleConfig(ruleInstance.ruleInstId, ruleInstance);
-			}
+		// 清除左右箭头
+		if (this._toolStrip && this._toolStrip.children && this._toolStrip.children.length === 3) {
+			var _toolStripChildren = this._toolStrip.children;
+
+			var _leftArrow = _toolStripChildren[1];
+			var _rightArrow = _toolStripChildren[2];
+			if (_leftArrow)
+				this._toolStrip.removeChild(_leftArrow);
+			if (_rightArrow)
+				this._toolStrip.removeChild(_rightArrow);
 		}
-	}
-},
+	},
 
-_addRouteRelationInfo : function(menuId, routeId, eventType) {
-	// TODO
-	viewEvent.putRouteRelationInfo(menuId, routeId, eventType);
-	// TODO
-	viewModel.getSysModule().on(menuId, eventType, "widget", function() {
-		// TODO
-		eventUtil.fireEvent(menuId, routeId, eventType, arguments);
-	});
-},
+	getV3Show: function (widgetId, widgetIds) {
 
-/**
- * 渲染菜单项
- */
-_renderMenuItems : function(widgetId, items, itemsJson) {
-	var widget = widgetContext.get(widgetId, "widgetObj");
-	if (widget) {
-		itemsJson = typeof(itemsJson) == "string" ? jsonUtil.json2obj(itemsJson) : itemsJson;
-		widget.setMembers(itemsJson);
-	}
-},
+	},
 
-/**
- * 构造菜单项
- */
-_getItems : function(widgetId, items) {
-	var menuItems = [];
-	if (items && items.length) {
-		for (var i = 0, len = items.length; i < len; i++) {
-			var item = items[i];
-			var params = item["parameters"];
-			var paramsJson = {};
-			if (params) {
-				paramsJson = typeof(params) == "string" ? jsonUtil.json2obj(params) : params;
-			}
-			item.parameters = paramsJson;
-			widgetContext.put(item["id"], widgetContext.WIDGET_CONTEXT_EXTWIDGETIDRELA, widgetId);
-			widgetContext.put(item["id"], widgetContext.WIDGET_CONTEXT_TYPE, "DropdownMenuItem");
-			// 绑定规则
-			var menuType = item["menuItemType"];
-			if (menuType == 1) { // 业务规则方式
-				var routeId = item.routeId;
-				var routeStr = item.RuleRoute;
-				var ruleInstanceStr = item.RuleInstance;
-				_addRouteInfo(routeId, routeStr);
-				_addRuleInstanceInfo(ruleInstanceStr);
-				_addRouteRelationInfo(item.id, routeId, "ButtonAction");
-			}
-			if (menuType == 0) { // 打开组件方式
-				_addNodeEvent(widgetId, "ButtonAction", item);
-			}
-		}
-	}
-},
+	getV3Hide: function (widgetId) {
+		this.hideItem(widgetIds);
+		this.disabled(widgetIds);
+	},
 
-/**
- * 生成图片路径
- */
-getImage : function(imageObjId) {
-	return fileUtil.getImageByName(imageObjId);
-},
+	readonly: function (widgetId) {
+		disabled(widgetId);
+	},
 
-/**
- * 菜单项绑定事件
- */
-_addNodeEvent : function(widgetId, eventType, item) {
-	var nodeId = item["id"];
-	var params = item["parameters"];
-	var nodeName = item["menuItemName"];
-	var componentId = item["componentId"];
-	var componentOpenWay = widgetProperty.get(widgetId, "ComponentOpenWay");
-	if (componentId && componentId != "") {
-		var fn;
-		switch (componentOpenWay) {
-			case 0:
-			case "NewWindow":
-				fn = getOpenNewWindowFunc(widgetId, componentId, params, nodeName);
-				break;
-			case "SpecifiedWindow":
-				fn = getSpecifiedWindowFunc(widgetId, componentId, params, nodeName);
-				break;
-			case "SpecifiedContainer":
-				fn = getSpecifiedContainerFunc(widgetId, componentId, params, nodeName);
-				break;
-			default:
-				fn = function() {};
-		}
-		// TODO
-		viewModel.getSysModule().on(item["id"], eventType, "widget", fn);
-	}
-},
+	writable: function (widgetId) {
+		enabled(widgetId);
+	},
 
-// 以新窗体方式打开组件
-getOpenNewWindowFunc : function(widgetId, componentId, params, nodeName) {
-	return (function(componentId, params, nodeName) {
-		function innerFunc() {
-			var title = nodeName;
-			var componentVariable = {};
-			componentVariable["variable"] = params;
-			// 标注打开方式为dialog
-			componentVariable["variable"]["formulaOpenMode"] = "dialog";
-			// TODO
-			viewModel.getCmpModule().callModuleEx(componentId, title, componentVariable, null, null, false, "_blank");
-		}
-		return innerFunc;
-	})(componentId, params, nodeName)
-},
+	disabled: function (widgetId) {
+		return this.disabledItem(widgetId);
+	},
 
-getSpecifiedWindowFunc : function(widgetId, componentId, params, nodeName) {
-	var specifiedWindowName = widgetProperty.get(widgetId, "SpecifiedWindowName");
-	return (function(componentId, specifiedWindowName, params, nodeName) {
-		function innerFunc() {
-			var title = nodeName;
-			specifiedWindowName = specifiedWindowName == "" ? title : specifiedWindowName;
-			var componentVariable = {};
-			componentVariable["variable"] = params;
-			// 标注打开方式为dialog
-			componentVariable["variable"]["formulaOpenMode"] = "dialog";
-			// TODO
-			viewModel.getCmpModule().callModuleEx(componentId, specifiedWindowName, componentVariable, null, null, false, specifiedWindowName);
-		}
-		return innerFunc;
-	})(componentId, specifiedWindowName, params, nodeName);
-},
+	enabled: function (widgetId) {
+		return this.enabledItem(widgetId);
+	},
 
-getSpecifiedContainerFunc : function(widgetId, componentId, params, nodeName) {
-	var destComponentContainerID = widgetProperty.get(widgetId, "ComponentContainer");
-	var tabPageDisplayMode = widgetProperty.get(destComponentContainerID, "TabPageDisplayMode");
-	return (function(componentId, destComponentContainerID, params, nodeName, tabPageDisplayMode) {
-		function innerFunc() {
-			var title = nodeName;
-			var componentVariable = {};
-			componentVariable["variable"] = params;
-			// 标注打开方式为container
-			componentVariable["variable"]["formulaOpenMode"] = "container";
-			// 将标签页的ID传入，以提供给退出事件进行关闭
-			componentVariable.variable.closeTabId = componentId;
-			if (widgetAction.executeWidgetAction(destComponentContainerID, "exists", title) && tabPageDisplayMode != "Hide") {
-				// 因为可能有数据更新了，要先刷新,刷新后再激活
-				widgetAction.executeWidgetAction(destComponentContainerID, "reloadSingleTab", componentId, viewModel.getCmpModule().getModuleUrl(componentId, componentVariable), false, true);
-				widgetAction.executeWidgetAction(destComponentContainerID, "active", title);
+	initMenu: function (widgetId, items, itemsJson) {
+		_getItems(widgetId, items, itemsJson);
+		_renderMenuItems(widgetId, items, itemsJson);
+	},
+
+	addMenuByIds: function (widgetId, menuIds) {
+		if (menuIds && menuIds.length > 0) {
+			var param = "\"" + menuIds.join('","') + "\"";
+			var expression = 'GetMenus(' + param + ')';
+			var result = remoteOperation.executeFormulaExpression({
+				"windowCode": scopeManager.getWindowScope().getWindowCode(),
+				"expression": expression
+			});
+			if (result && result.success == true) {
+				var menuDataJson = result.data.result;
+				if (menuDataJson) {
+					if (menuDataJson.menuDatas && menuDataJson.menuDatas != null) {
+						var items = menuDataJson.menuDatas;
+						var itemsJson = menuDataJson.menuDatasJson;
+						initMenu(widgetId, items, itemsJson);
+					}
+				}
 			} else {
-				widgetAction.executeWidgetAction(destComponentContainerID, "add", {
-					"id": componentId,
-					"isComponent": true,
-					"title": title,
-					"componentVariable": componentVariable,
-					// TODO
-					"url": viewModel.getCmpModule().getModuleUrl(componentId, componentVariable),
-					"selected": true
-				}, 0);
+				throw new Error("[JGButtonGroupAction.addMenuByIds]获取菜单数据失败，result=" + result);
 			}
 		}
-		return innerFunc;
-	})(componentId, destComponentContainerID, params, nodeName, tabPageDisplayMode);
-},
-getMenuDataSourceTypeEnum : function(widgetId) {
-	var widget = widgetContext.get(widgetId, "widgetObj");
-	if (widget) {
-		var val = widget.getProperty("MenuDataSourceTypeEnum");
-		if (typeof val != "undefined")
-			return val
-	}
-	return null
-},
-getBindMenu : function(widgetId) {
-	var properties = widgetContext.getAll(widgetId);
-	if (properties && properties != "" && properties.hasOwnProperty("BindMenu"))
-		return properties["BindMenu"];
-	else
+	},
+
+	/**
+	 * 添加路由信息
+	 */
+	_addRouteInfo: function (routeId, routeStr) {
+		if (routeStr) {
+			var route = typeof (routeStr) == "string" ? jsonUtil.json2obj(routeStr) : routeStr;
+			var handler = typeof (route.handler) == "string" ? eval(route.handler) : route.handler;
+			// TODO
+			routeManager.setRouteHandler(routeId, route.handler);
+			// TODO
+			routeManager.setTransactionInfo(routeId, route.transactionInfo);
+			var outputCfg = route.outputConfig;
+			if (outputCfg) {
+				for (var type in outputCfg) {
+					// TODO
+					routeManager.setRouteOutputConfig(routeId, type, outputCfg[type]);
+				}
+			}
+		}
+	},
+
+	_addRuleInstanceInfo: function (ruleInstanceStr) {
+		if (ruleInstanceStr) {
+			var ruleInstances = typeof (ruleInstanceStr) == "string" ? jsonUtil.json2obj(ruleInstanceStr) : ruleInstanceStr;
+			if (ruleInstances && ruleInstances.length > 0) {
+				for (var i = 0, len = ruleInstances.length; i < len; i++) {
+					var ruleInstance = ruleInstances[i];
+					// TODO
+					ruleConfigManager.addRuleConfig(ruleInstance.ruleInstId, ruleInstance);
+				}
+			}
+		}
+	},
+
+	_addRouteRelationInfo: function (menuId, routeId, eventType) {
+		// TODO
+		viewEvent.putRouteRelationInfo(menuId, routeId, eventType);
+		// TODO
+		viewModel.getSysModule().on(menuId, eventType, "widget", function () {
+			// TODO
+			eventUtil.fireEvent(menuId, routeId, eventType, arguments);
+		});
+	},
+
+	/**
+	 * 渲染菜单项
+	 */
+	_renderMenuItems: function (widgetId, items, itemsJson) {
+		var widget = widgetContext.get(widgetId, "widgetObj");
+		if (widget) {
+			itemsJson = typeof (itemsJson) == "string" ? jsonUtil.json2obj(itemsJson) : itemsJson;
+			widget.setMembers(itemsJson);
+		}
+	},
+
+	/**
+	 * 构造菜单项
+	 */
+	_getItems: function (widgetId, items) {
+		var menuItems = [];
+		if (items && items.length) {
+			for (var i = 0, len = items.length; i < len; i++) {
+				var item = items[i];
+				var params = item["parameters"];
+				var paramsJson = {};
+				if (params) {
+					paramsJson = typeof (params) == "string" ? jsonUtil.json2obj(params) : params;
+				}
+				item.parameters = paramsJson;
+				widgetContext.put(item["id"], widgetContext.WIDGET_CONTEXT_EXTWIDGETIDRELA, widgetId);
+				widgetContext.put(item["id"], widgetContext.WIDGET_CONTEXT_TYPE, "DropdownMenuItem");
+				// 绑定规则
+				var menuType = item["menuItemType"];
+				if (menuType == 1) { // 业务规则方式
+					var routeId = item.routeId;
+					var routeStr = item.RuleRoute;
+					var ruleInstanceStr = item.RuleInstance;
+					_addRouteInfo(routeId, routeStr);
+					_addRuleInstanceInfo(ruleInstanceStr);
+					_addRouteRelationInfo(item.id, routeId, "ButtonAction");
+				}
+				if (menuType == 0) { // 打开组件方式
+					_addNodeEvent(widgetId, "ButtonAction", item);
+				}
+			}
+		}
+	},
+
+	/**
+	 * 生成图片路径
+	 */
+	getImage: function (imageObjId) {
+		return fileUtil.getImageByName(imageObjId);
+	},
+
+	/**
+	 * 菜单项绑定事件
+	 */
+	_addNodeEvent: function (widgetId, eventType, item) {
+		var nodeId = item["id"];
+		var params = item["parameters"];
+		var nodeName = item["menuItemName"];
+		var componentId = item["componentId"];
+		var componentOpenWay = widgetProperty.get(widgetId, "ComponentOpenWay");
+		if (componentId && componentId != "") {
+			var fn;
+			switch (componentOpenWay) {
+				case 0:
+				case "NewWindow":
+					fn = getOpenNewWindowFunc(widgetId, componentId, params, nodeName);
+					break;
+				case "SpecifiedWindow":
+					fn = getSpecifiedWindowFunc(widgetId, componentId, params, nodeName);
+					break;
+				case "SpecifiedContainer":
+					fn = getSpecifiedContainerFunc(widgetId, componentId, params, nodeName);
+					break;
+				default:
+					fn = function () { };
+			}
+			// TODO
+			viewModel.getSysModule().on(item["id"], eventType, "widget", fn);
+		}
+	},
+
+	// 以新窗体方式打开组件
+	getOpenNewWindowFunc: function (widgetId, componentId, params, nodeName) {
+		return (function (componentId, params, nodeName) {
+			function innerFunc() {
+				var title = nodeName;
+				var componentVariable = {};
+				componentVariable["variable"] = params;
+				// 标注打开方式为dialog
+				componentVariable["variable"]["formulaOpenMode"] = "dialog";
+				// TODO
+				viewModel.getCmpModule().callModuleEx(componentId, title, componentVariable, null, null, false, "_blank");
+			}
+			return innerFunc;
+		})(componentId, params, nodeName)
+	},
+
+	getSpecifiedWindowFunc: function (widgetId, componentId, params, nodeName) {
+		var specifiedWindowName = widgetProperty.get(widgetId, "SpecifiedWindowName");
+		return (function (componentId, specifiedWindowName, params, nodeName) {
+			function innerFunc() {
+				var title = nodeName;
+				specifiedWindowName = specifiedWindowName == "" ? title : specifiedWindowName;
+				var componentVariable = {};
+				componentVariable["variable"] = params;
+				// 标注打开方式为dialog
+				componentVariable["variable"]["formulaOpenMode"] = "dialog";
+				// TODO
+				viewModel.getCmpModule().callModuleEx(componentId, specifiedWindowName, componentVariable, null, null, false, specifiedWindowName);
+			}
+			return innerFunc;
+		})(componentId, specifiedWindowName, params, nodeName);
+	},
+
+	getSpecifiedContainerFunc: function (widgetId, componentId, params, nodeName) {
+		var destComponentContainerID = widgetProperty.get(widgetId, "ComponentContainer");
+		var tabPageDisplayMode = widgetProperty.get(destComponentContainerID, "TabPageDisplayMode");
+		return (function (componentId, destComponentContainerID, params, nodeName, tabPageDisplayMode) {
+			function innerFunc() {
+				var title = nodeName;
+				var componentVariable = {};
+				componentVariable["variable"] = params;
+				// 标注打开方式为container
+				componentVariable["variable"]["formulaOpenMode"] = "container";
+				// 将标签页的ID传入，以提供给退出事件进行关闭
+				componentVariable.variable.closeTabId = componentId;
+				if (widgetAction.executeWidgetAction(destComponentContainerID, "exists", title) && tabPageDisplayMode != "Hide") {
+					// 因为可能有数据更新了，要先刷新,刷新后再激活
+					widgetAction.executeWidgetAction(destComponentContainerID, "reloadSingleTab", componentId, viewModel.getCmpModule().getModuleUrl(componentId, componentVariable), false, true);
+					widgetAction.executeWidgetAction(destComponentContainerID, "active", title);
+				} else {
+					widgetAction.executeWidgetAction(destComponentContainerID, "add", {
+						"id": componentId,
+						"isComponent": true,
+						"title": title,
+						"componentVariable": componentVariable,
+						// TODO
+						"url": viewModel.getCmpModule().getModuleUrl(componentId, componentVariable),
+						"selected": true
+					}, 0);
+				}
+			}
+			return innerFunc;
+		})(componentId, destComponentContainerID, params, nodeName, tabPageDisplayMode);
+	},
+	getMenuDataSourceTypeEnum: function (widgetId) {
+		var widget = widgetContext.get(widgetId, "widgetObj");
+		if (widget) {
+			var val = widget.getProperty("MenuDataSourceTypeEnum");
+			if (typeof val != "undefined")
+				return val
+		}
 		return null
-},
+	},
+	getBindMenu: function (widgetId) {
+		var properties = widgetContext.getAll(widgetId);
+		if (properties && properties != "" && properties.hasOwnProperty("BindMenu"))
+			return properties["BindMenu"];
+		else
+			return null
+	},
 
-getComponentOpenWay : function(widgetId) {
-	var properties = widgetContext.getAll(widgetId);
-	if (properties && properties != "" && properties.hasOwnProperty("ComponentOpenWay"))
-		return properties["ComponentOpenWay"];
-	else
-		return null
-},
+	getComponentOpenWay: function (widgetId) {
+		var properties = widgetContext.getAll(widgetId);
+		if (properties && properties != "" && properties.hasOwnProperty("ComponentOpenWay"))
+			return properties["ComponentOpenWay"];
+		else
+			return null
+	},
 
-getCurrentControlID : function(widgetId) {
-	return this.widgetId;
-},
-getV3MethodMap: function(){
-	return {
-		show: "getV3Show",
-		hide: "getV3Hide",
+	getCurrentControlID: function (widgetId) {
+		return this.widgetId;
+	},
+	getV3MethodMap: function () {
+		return {
+			show: "getV3Show",
+			hide: "getV3Hide",
 
+		}
+	},
+	afterDataLoad: function () {
+		if (this.BtnGrpDataSourceType == "Dynamic" && this._initMenuData) {
+			var ds = isc.WidgetDatasource.getBindDatasource(this);
+			if (ds) {
+				ds.clear();
+				ds.insertRecords(this._initMenuData);
+			}
+		}
 	}
-}
 
 })
+
+isc.JGButtonGroup.addClassMethods({
+	updatePropertys: function (params) {
+		var propertys = params.propertys;
+		var widget = params.widget;
+		var records = params.records;
+		if (records) {//替换菜单数据
+			if (widget.BtnGrpDataSourceType == "Dynamic") {
+				/* 原型配置的静态菜单 */
+				widget._initMenuData = records;
+				widget.menuDate = [];
+				widget.FieldMappingJson = '{"pid":"pid","menuItemCode":"menuItemCode","menuItemName":"menuItemName","isSelected":"isSelected","icourl":"icourl","appearance":"appearance","enabled":"enabled","showBorder":"showBorder","displayStyle":"displayStyle","isMore":"isMore","visible":"visible","isItem":"isItem","menuItemType":"menuItemType","openCompCode":"openCompCode","openWinCode":"openWinCode","requestParams":"requestParams","ruleSetComponentCode":"ruleSetComponentCode","ruleSetWindowCode":"ruleSetWindowCode","ruleSetCode":"ruleSetCode","ruleSetInputParam":"ruleSetInputParam","orderNo":"orderNo","theme":"theme"}';
+			}
+		} else {//更新属性
+			var propertyMap = params.propertys;
+			var widget = params.widget;
+			var propertys = propertyMap.Properties;
+			if (propertys) {
+				for (var property in propertys) {
+					if (propertys.hasOwnProperty(property)) {
+						var val = propertys[property];
+						if ((property == "MultiWidth" || property == "MultiHeight") && typeof (val) == "number") {
+							widget[key] = val + "";
+						} else if (property == "RowWidthMode" && val == "PercentWidth") {
+							for (var i = 0, len = widget.fields.length; i < len; i++) {
+								var field = widget.fields[i];
+								var width = Math.floor((parseInt(field.width) / parseInt(widget.Width) * 10000) / 100) + "%";
+								field.width = width;
+							}
+						} else {
+							widget[property] = propertys[property];
+						}
+					}
+				}
+			}
+		}
+	}
+});
+
 
 
 

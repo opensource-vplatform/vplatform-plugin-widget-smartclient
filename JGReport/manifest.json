@@ -1,6 +1,6 @@
 {
     "groupId": "com.toone.v3.platform",
-    "code": "widget-smartclient-JGReport",
+    "code": "widget-smartclient-JGReport-Assets",
     "version": "3.22.0",
     "plugins": [
         {
@@ -177,6 +177,13 @@
                 }
     
             ]
+        },{
+            "type": "asset",
+            "code": "JGReport-Assets",
+            "name": "报表控件静态资源",
+            "baseDir":"./assets",
+            "include":"**/**.*",
+            "serverRoot":true
         }
     ]
 }

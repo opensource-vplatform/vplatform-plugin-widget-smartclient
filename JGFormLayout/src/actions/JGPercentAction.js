@@ -29,7 +29,7 @@ isc.JGFormLayout.addMethods({
 			return this.getMultiDsValue(this.Code, itemCode);
 		}
 		var item = this.getItemByCode(itemCode);
-		var datasource = isc.JGDataSourceManager.get(this,item.TableName);
+		var datasource = isc.JGDataSourceManager.get(this,item.SourceTableName);
 		return datasourceUtil.getSingleValue(datasource, item.name);
 	},
 	
@@ -56,7 +56,7 @@ isc.JGFormLayout.addMethods({
 			return;
 		}
 		var item = this.getItemByCode(itemCode);
-		var datasource = isc.JGDataSourceManager.get(this,item.TableName);
+		var datasource = isc.JGDataSourceManager.get(this,item.SourceTableName);
 		var record = datasource.getCurrentRecord();
 		var data = {
 			id : record.id

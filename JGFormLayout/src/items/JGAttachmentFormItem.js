@@ -5,7 +5,7 @@ isc.JGAttachmentFormItem.addProperties({
 
 isc.JGAttachmentFormItem.addMethods({
 	customRequiredValidate: function () {
-		var datasource = this.form.TableName;
+		var datasource = this.form._getEntity(this.SourceTableName);
 		if (this.isMultiUpload()) {
 			var allRecords = datasource.getAllRecords();
 			if (allRecords && allRecords.length > 0) {
@@ -22,8 +22,11 @@ isc.JGAttachmentFormItem.addMethods({
 			}
 		} else {
 			var currentRow = datasource.getCurrentRecord();
-			if (currentRow && currentRow[this.ColumnName]) {
-				return true;
+			if (currentRow) {
+				var fieldName = this.ColumnName;
+				var prefix = this.SourceTableName+this.form.multiDsSpecialChar;
+				fieldName = fieldName.substring(0,prefix.length)==prefix ? fieldName.substring(prefix.length):fieldName;
+				return !!currentRow.get(fieldName);
 			} else {
 				return false;
 			}
