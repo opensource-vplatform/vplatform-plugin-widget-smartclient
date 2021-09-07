@@ -24,7 +24,7 @@ isc.JGFormLayout.addMethods({
 	},
 	getValueJGImage: function (itemCode) {
 		var item = this.getItemByCode(itemCode);
-		var datasource = isc.JGDataSourceManager.get(this, item.TableName);
+		var datasource = isc.JGDataSourceManager.get(this, item.SourceTableName);
 		return isc.DatasourceUtil.getSingleValue(datasource, item.name);
 	},
 
@@ -42,7 +42,7 @@ isc.JGFormLayout.addMethods({
 
 	setValueJGImage: function (itemCode, value) {
 		var item = this.getItemByCode(itemCode);
-		var datasource = isc.JGDataSourceManager.get(this, item.TableName);
+		var datasource = isc.JGDataSourceManager.get(this, item.SourceTableName);
 		var record = datasource.getCurrentRecord();
 		var data = {
 			id: record.id

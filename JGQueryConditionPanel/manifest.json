@@ -12,12 +12,12 @@
         "docUrl": "./doc/index.js",
         "exampleUrl": "./example/index.js",
         "properties": [{
-            "code":"Alias",
+            "code": "Alias",
             "name": "名称",
-            "type":"char",
-            "default":"查询条件面板",
-            "visible":false
-        },{
+            "type": "char",
+            "default": "查询条件面板",
+            "visible": false
+        }, {
             "code": "Code",
             "name": "控件名称",
             "type": "char",
@@ -86,11 +86,11 @@
             "editor": {
                 "type": "boolean"
             },
-            "default": {
-                "default": true,
-                "title": "显示",
-                "editor": {
-                    "type": "Boolean"
+            "default": true,
+            "access": {
+                "webDesigner": {
+                    "readable": true,
+                    "writable": true
                 }
             }
         }, {
@@ -130,6 +130,24 @@
                 }
             },
             "default": 3,
+            "access": {
+                "webDesigner": {
+                    "readable": true,
+                    "writable": true
+                }
+            }
+        }, {
+            "code": "DefaultExpand",
+            "name": "默认展开",
+            "type": "char",
+            "editor": {
+                "type": "Select",
+                "valueMap": {
+                    "True": "True",
+                    "False": "False"
+                }
+            },
+            "default": "False",
             "access": {
                 "webDesigner": {
                     "readable": true,
@@ -193,10 +211,10 @@
                 "enhanceType": "language",
                 "target": "QueryButtonText"
             },
-            "access":{
-                "webDesigner":{
-                    "writable":true,
-                    "readable":true
+            "access": {
+                "webDesigner": {
+                    "writable": true,
+                    "readable": true
                 }
             },
             "default": "查询"
@@ -221,12 +239,12 @@
                 "define": [{
                         "code": "JGLocateBox",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGLocateBox",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGLocateBox",
+                                "visible": false
+                            }, {
                                 "code": "ToolTip",
                                 "name": "浮动提示",
                                 "type": "char",
@@ -249,14 +267,20 @@
                                 "editor": {
                                     "type": "left"
                                 }
-                            },
-                            {
+                            },{
+                                "code": "Hint",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "",
+                                "compatible":{
+                                    "enhanceType":"language"
+                                }
+                            },{
                                 "code": "SimpleChineseTitle",
                                 "name": "标题",
                                 "type": "char",
                                 "default": "输入关键字搜索"
-                            },
-                            {
+                            },{
                                 "code": "HorizontalAlign",
                                 "name": "水平位置",
                                 "type": "char",
@@ -420,18 +444,26 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGLocateBox"
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGTextBox",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGTextBox",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGTextBox",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -719,18 +751,26 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGTextBoxFormItem"
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGComboBox",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGComboBox",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGComboBox",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -1019,18 +1059,26 @@
                                 "name": "显示标题",
                                 "type": "boolean",
                                 "default": true
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGCheckBox",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGCheckBox",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGCheckBox",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -1288,18 +1336,26 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGCheckBoxFormItem"
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGRadioGroup",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGRadioGroup",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGRadioGroup",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -1534,18 +1590,26 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGRadioGroupFormItem"
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGCheckBoxGroup",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGCheckBoxGroup",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGCheckBoxGroup",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -1780,18 +1844,26 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGCheckBoxGroupFormItem"
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGIntegerBox",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGIntegerBox",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGIntegerBox",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -2079,18 +2151,26 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGIntegerBoxFormItem"
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGFloatBox",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGFloatBox",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGFloatBox",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -2377,25 +2457,32 @@
                                 "editor": {
                                     "type": "width"
                                 }
-                            },
-                            {
+                            }, {
                                 "code": "editorType",
                                 "name": "",
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGFloatBoxFormItem"
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGBaseDictBox",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGBaseDictBox",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGBaseDictBox",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -2683,18 +2770,26 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGBaseDictBoxFormItem"
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGPeriod",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGPeriod",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGPeriod",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -2975,25 +3070,32 @@
                                 "editor": {
                                     "type": "width"
                                 }
-                            },
-                            {
+                            }, {
                                 "code": "editorType",
                                 "name": "",
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGPeriodFormItem"
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGDateTimePicker",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGDateTimePicker",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGDateTimePicker",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -3279,18 +3381,26 @@
                                     "displayFormat": "",
                                     "Index": "0"
                                 }
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGLongDateTimePicker",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGLongDateTimePicker",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGLongDateTimePicker",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -3570,18 +3680,26 @@
                                     "displayFormat": "",
                                     "Index": "0"
                                 }
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGDateRangePicker",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGDateRangePicker",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGDateRangePicker",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -3816,18 +3934,26 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGDateRangePickerFormItem"
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGFloatRangeBox",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGFloatRangeBox",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGFloatRangeBox",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -3847,8 +3973,7 @@
                                 "name": "值对齐方式",
                                 "type": "char",
                                 "default": "left"
-                            },
-                            {
+                            }, {
                                 "code": "Placeholder",
                                 "name": "提醒文字",
                                 "type": "char",
@@ -3862,8 +3987,12 @@
                                         "writable": true
                                     }
                                 }
-                            },
-                            {
+                            }, {
+                                "code": "PlaceholderEnd",
+                                "name": "结束提醒文字",
+                                "type": "char",
+                                "default": "结束值"
+                            }, {
                                 "code": "Folded",
                                 "name": "折叠",
                                 "type": "boolean",
@@ -4086,18 +4215,26 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGFloatRangeBoxFormItem"
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     },
                     {
                         "code": "JGPeriodRange",
                         "properties": [{
-                            "code": "type",
-                            "name": "控件类型",
-                            "type": "char",
-                            "default": "JGPeriodRange",
-                            "visible": false
-                        },{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "default": "JGPeriodRange",
+                                "visible": false
+                            }, {
                                 "code": "LabelTextAlign",
                                 "name": "标题对其方式",
                                 "type": "char",
@@ -4332,6 +4469,14 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGPeriodRangeFormItem"
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "文本",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     }
@@ -4367,12 +4512,23 @@
             "name": "控件方法",
             "type": "char",
             "handler": "widgetAction"
+        }, {
+            "code": "_getEntity",
+            "name": "获取实体",
+            "type": "char",
+            "handler": "entity"
         }],
         "dependencies": [{
             "groupId": "com.toone.v3.platform",
             "code": "widget-smartclient-JGFormLayout",
             "pluginSymbolicName": "vjs.framework.extension.ui.plugin.smartclient.JGFormLayout",
             "pluginCode": "JGFormLayout",
+            "pluginType": "widget"
+        }, {
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.icon.system",
+            "pluginSymbolicName": "vjs.framework.extension.platform.icon.system",
+            "pluginCode": "vjs.framework.extension.platform.icon.system",
             "pluginType": "widget"
         }]
     }]
