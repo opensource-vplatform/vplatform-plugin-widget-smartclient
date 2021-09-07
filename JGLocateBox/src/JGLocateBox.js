@@ -115,6 +115,7 @@ isc.JGLocateBox.addMethods({
         this.Super("afterInit",arguments);
         this.titleWidth=0;
 		this.numCols = 1;
+		this.bindDataSource(this.TableName);
     },
 	// **
 	// 给检索的值

@@ -244,6 +244,7 @@
                     "code": "TableName",
                     "name": "表名",
                     "type": "char",
+                    "required":false,
                     "editor": {
                         "type": "entity"
                     },
