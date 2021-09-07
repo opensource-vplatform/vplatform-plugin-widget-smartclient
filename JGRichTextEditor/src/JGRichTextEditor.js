@@ -177,6 +177,13 @@ isc.JGRichTextBox.addMethods({
 
 	//取此控件的打印的内容
 	getPrintInnerHTML: function () {
+		if (this.items == undefined || this.items == null || !(this.items instanceof Array)) {
+			return null;
+		}
+		if (this.items[0].editor == undefined || this.items[0].editor == null) {
+			return null;
+		}
+		
 		return this.items[0].editor.getContent();
 	},
 
@@ -184,6 +191,13 @@ isc.JGRichTextBox.addMethods({
 	 * 取值
 	 */
 	getContent: function () {
+		if (this.items == undefined || this.items == null || !(this.items instanceof Array)) {
+			return null;
+		}
+		if (this.items[0].editor == undefined || this.items[0].editor == null) {
+			return null;
+		}
+
 		return this.items[0].editor.getContent();
 	},
 
@@ -191,6 +205,13 @@ isc.JGRichTextBox.addMethods({
 	 * 取值(不含网页要素）
 	 */
 	getContentTxt: function () {
+		if (this.items == undefined || this.items == null || !(this.items instanceof Array)) {
+			return null;
+		}
+		if (this.items[0].editor == undefined || this.items[0].editor == null) {
+			return null;
+		}
+
 		return this.items[0].editor.getContentTxt();
 	},
 
@@ -198,6 +219,13 @@ isc.JGRichTextBox.addMethods({
 	 * 取值(不含网页要素）
 	 */
 	getPlainTxt: function () {
+		if (this.items == undefined || this.items == null || !(this.items instanceof Array)) {
+			return null;
+		}
+		if (this.items[0].editor == undefined || this.items[0].editor == null) {
+			return null;
+		}
+
 		return this.items[0].editor.getPlainTxt();
 	},
 
@@ -205,6 +233,13 @@ isc.JGRichTextBox.addMethods({
 	 * 取值长度(不含网页要素）
 	 */
 	getPlainTxtLength: function () {
+		if (this.items == undefined || this.items == null || !(this.items instanceof Array)) {
+			return null;
+		}
+		if (this.items[0].editor == undefined || this.items[0].editor == null) {
+			return null;
+		}
+
 		return this.items[0].editor.getContentLength(true);
 	},
 
@@ -212,6 +247,13 @@ isc.JGRichTextBox.addMethods({
 	 * 判断是否有值
 	 */
 	hasContents: function () {
+		if (this.items == undefined || this.items == null || !(this.items instanceof Array)) {
+			return null;
+		}
+		if (this.items[0].editor == undefined || this.items[0].editor == null) {
+			return null;
+		}
+
 		return this.items[0].editor.hasContents();
 	},
 
@@ -219,6 +261,13 @@ isc.JGRichTextBox.addMethods({
 	 * 封装queryCommandState
 	 */
 	queryCommandState: function (name) {
+		if (this.items == undefined || this.items == null || !(this.items instanceof Array)) {
+			return null;
+		}
+		if (this.items[0].editor == undefined || this.items[0].editor == null) {
+			return null;
+		}
+
 		return this.items[0].editor.queryCommandState(name);
 	},
 
@@ -282,6 +331,13 @@ isc.JGRichTextBox.addMethods({
 	 * 执行命令
 	 */
 	execCommand: function (cmdName, value) {
+		if (this.items == undefined || this.items == null || !(this.items instanceof Array)) {
+			return null;
+		}
+		if (this.items[0].editor == undefined || this.items[0].editor == null) {
+			return null;
+		}
+
 		return this.items[0].editor.execCommand(cmdName, value);
 	},
 	/**
