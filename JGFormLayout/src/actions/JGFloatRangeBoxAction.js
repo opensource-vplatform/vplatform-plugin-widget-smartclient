@@ -9,9 +9,10 @@ isc.JGFormLayout.addMethods({
 		var item = this.getItemByCode(itemCode);
 		return item.Enabled;
 	},
-	//TODO	
+
 	cleanSelectedControlValueJGFloatRangeBox: function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		var item = this.getItemByCode(itemCode);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord,[item.StartColumnName,item.EndColumnName]);
 	},
 
 	setIsMustJGFloatRangeBox: function (itemCode, isMust) {

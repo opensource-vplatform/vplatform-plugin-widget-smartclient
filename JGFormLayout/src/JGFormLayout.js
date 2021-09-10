@@ -611,6 +611,20 @@ isc.JGFormLayout.addMethods({
 		if(!isMust){
 			item.validate();
 		}
+	},
+	clearItemSelectValue : function(itemCode,onlyCleanSelectedRecord,fields){
+		var item = this.getItemByCode(itemCode);
+		var datasource = isc.JGDataSourceManager.get(this,item.SourceTableName);
+		var fields = fields||[item.ColumnName];
+		var fieldCodes = [];
+		for(var i=0,l=fields.length;i<l;i++){
+			var fieldCode = fields[i];
+			if(fieldCode){
+				fieldCode = fieldCode&&fieldCode.indexOf(this.multiDsSpecialChar)!=-1 ? fieldCode.split(this.multiDsSpecialChar)[1]:fieldCode;
+				fieldCodes.push(fieldCode);
+			}
+		}
+		isc.WidgetDatasource.clearDatasourceValue(datasource,fieldCodes, onlyCleanSelectedRecord);
 	}
 });
 
@@ -773,5 +787,4 @@ isc.JGFormLayout.addClassMethods({
 			widget.fields = newFields;
 		}
 	}
-
 });

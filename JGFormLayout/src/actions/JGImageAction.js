@@ -16,7 +16,7 @@ isc.JGFormLayout.addMethods({
 	},
 	//TODO
 	cleanSelectedControlValueJGImage: function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
 	},
 	getVisibleJGImage: function (itemCode) {
 		var item = this.getItemByCode(itemCode);

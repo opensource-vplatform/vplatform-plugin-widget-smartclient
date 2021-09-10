@@ -13,9 +13,9 @@ isc.JGFormLayout.addMethods({
 	setIsMustJGDateTimePicker: function (itemCode, isMust) {
 		this.setItemIsMust(itemCode, isMust);
 	},
-	//TODO
+	
 	cleanSelectedControlValueJGDateTimePicker: function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
 	},
 
 	getLabelTextJGDateTimePicker: function (itemCode) {

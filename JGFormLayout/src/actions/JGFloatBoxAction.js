@@ -44,9 +44,9 @@ isc.JGFormLayout.addMethods({
 	setEnabledJGFloatBox: function (itemCode, isEnable) {
 		this.setItemEnabled(itemCode, isEnable);
 	},
-	//TODO
+
 	cleanSelectedControlValueJGFloatBox: function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
 	},
 
 	setVisibleJGFloatBox: function (itemCode, isShow) {

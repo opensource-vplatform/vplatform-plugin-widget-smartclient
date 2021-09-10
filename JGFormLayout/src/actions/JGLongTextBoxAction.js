@@ -23,9 +23,8 @@ isc.JGFormLayout.addMethods({
 		this.setLabelText(title, itemCode);
 	},
 
-	//TODO
 	cleanSelectedControlValueJGLongTextBox: function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
 	},
 
 	getVisibleJGLongTextBox: function (itemCode) {

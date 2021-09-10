@@ -16,7 +16,7 @@ isc.JGFormLayout.addMethods({
 	},
 	//TODO
 	cleanSelectedControlValueJGPercent : function(itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
 	},
 	
 	getVisibleJGPercent : function(itemCode) {

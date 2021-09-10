@@ -7,7 +7,8 @@ isc.JGFormLayout.addMethods({
 		return this.getItemEnabled(itemCode);
 	},
 	cleanSelectedControlValueJGCheckBoxGroup: function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		var item = this.getItemByCode(itemCode);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord,[item.IDColumnName,item.ColumnName]);
 	},
 	setIsMustJGCheckBoxGroup: function (itemCode, isMust) {
 		this.setItemIsMust(itemCode, isMust);

@@ -15,7 +15,8 @@ isc.JGFormLayout.addMethods({
 	},
 
 	cleanSelectedControlValueJGPeriodRange: function (itemCode, onlyCleanSelectedRecord) {
-		widgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		var item = this.getItemByCode(itemCode);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord,[item.StartColumnName,item.EndColumnName]);
 	},
 
 	getLabelTextJGPeriodRange: function (itemCode) {

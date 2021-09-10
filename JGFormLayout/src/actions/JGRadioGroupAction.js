@@ -15,7 +15,8 @@ isc.JGFormLayout.addMethods({
 	},
 	//TODO
 	cleanSelectedControlValueJGRadioGroup : function(itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		var item = this.getItemByCode(itemCode);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord,[item.IDColumnName,item.ColumnName]);
 	},
 	
 	getLabelTextJGRadioGroup : function(itemCode) {
