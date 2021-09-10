@@ -1477,7 +1477,7 @@ isc.JGQueryConditionPanel.addMethods({
 					if (emptyRecord) { //原型工具支持配置查询面板的初始数据，如果实体存在记录，则不需要创建新记录。查询面板的记录数只能有一条，由开发系统控制
 						var newRecord = datasource.createRecord();
 						datasource.insertRecords([newRecord]);
-						_this.editV3Record(newRecord, fields);
+						_this.editV3Record(newRecord, formLayoutFields);
 					}
 				}
 
