@@ -327,9 +327,13 @@ isc.JGFormLayout.addMethods({
 							if (oldVals && oldVals.id) {
 								id = oldVals.id;
 							} else {
-								var record = datasource.createRecord();
-								id = record.id;
-								widget.dataSource.addData(record, null, {});
+								if(widget.dataSource.cacheData.length>0){
+									id = widget.dataSource.cacheData[0].id;
+								}else{
+									var rd = widget.dataSource.createRecord();
+									id = rd.id;
+									//widget.dataSource.cacheData.push(rd);
+								}
 							}
 							var data = {};
 							if (oldVals) {
@@ -339,12 +343,18 @@ isc.JGFormLayout.addMethods({
 							data[prefix + "id"] = record.id;
 							for (var i = 0, l = _fields.length; i < l; i++) {
 								var fieldCode = _fields[i];
-								if (fieldCode.indexOf(widget.multiDsSpecialChar) != -1) {
-									fieldCode = fieldCode.split(widget.multiDsSpecialChar)[0];
+								if(fieldCode!="id"&&record&&record.hasOwnProperty(fieldCode)){
+									if (fieldCode.indexOf(widget.multiDsSpecialChar) != -1) {
+										fieldCode = fieldCode.split(widget.multiDsSpecialChar)[0];
+									}
+									data[prefix + fieldCode] = record[fieldCode];
 								}
-								data[prefix + fieldCode] = record[fieldCode];
 							}
-							widget.setValues(data);
+							if(widget.dataSource.cacheData.length==0){
+								widget.dataSource.cacheData.push(data);
+							}
+							widget.valuesManager.editRecord(data);
+							//widget.setValues(data);
 						}
 					})(fields),
 					clearValueHandler: (function (_dsName, _fields) {

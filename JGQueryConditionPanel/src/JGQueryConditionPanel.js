@@ -166,6 +166,8 @@ isc.JGQueryConditionPanel.addMethods({
 		this.removeHideFieldsFromFormLayout();
 
 		this.initEvent();
+
+		this.initDataBinding();
 	},
 	clearNotVisibleData: function () {
 		var datasourceName = this.SourceTableName;
@@ -498,18 +500,20 @@ isc.JGQueryConditionPanel.addMethods({
 		this.getLocateBoxField();
 		this._locateBoxCanvas = isc.DynamicForm.create({
 			autoFocus: true,
+			scopeId : this.scopeId,
+			code: this.code,
 			styleName: 'search-box',
 			fields: [{
 				type: 'hidden',
 				name: 'id'
 			}],
 			height: 40,
-			dataSource : this.TableName,
 			bindDataSource: function (ds) {
-				var vm = isc.JGV3ValuesManager.getByDataSource(ds);
-				var dy = vm.getMember(this.ID);
-				if (!dy) {
-					vm.addMember(this);
+				var id = isc.JGV3ValuesManager.genId(ds.ID, this.scopeId, this.code+"_JGFormLayout");
+                var vm = isc.JGV3ValuesManager.getById(id, ds);
+                var dy = vm.getMember(this.ID);
+                if (!dy){
+                    vm.addMember(this);
 				}
 			},
 			showHighlight: function () {
@@ -561,7 +565,8 @@ isc.JGQueryConditionPanel.addMethods({
 				showCancelButton: true,
 				autoHide: true
 			},
-		})
+		});
+		this._locateBoxCanvas.bindDataSource(this.TableName);
 		return this._locateBoxCanvas;
 	},
 	addSearchBox: function (titleLayout, id) {
@@ -914,6 +919,7 @@ isc.JGQueryConditionPanel.addMethods({
 		var _this = this;
 		this.formLayout = isc.JGFormLayout.create({
 			scopeId: this.scopeId,
+			code : this.code + "_JGFormLayout",//确保与快速检索控件共用一个valuesManager
 			NumCols: this.ColumnCount,
 			Width: "100%",
 			fields: this.layoutFields,
@@ -1437,8 +1443,8 @@ isc.JGQueryConditionPanel.addMethods({
 				var data = {
 					id: record.id
 				};
-				for (var i = 0, l = fields.length; i < l; i++) {
-					var fieldCode = fields[i]
+				for (var i = 0, l = formLayoutFields.length; i < l; i++) {
+					var fieldCode = formLayoutFields[i]
 					data[fieldCode] = record[fieldCode];
 				}
 				if (formWidget.valuesManager) {
@@ -1463,12 +1469,10 @@ isc.JGQueryConditionPanel.addMethods({
 							delete data[fieldCode];
 						}
 					} catch (e) {}
-					if (formName == "formLayout") {
-						if (formWidget.valuesManager) {
-							formWidget.valuesManager.clearValues();
-						} else if (_this.valuesManager) {
-							_this.valuesManager.clearValues();
-						}
+					if (formWidget.valuesManager) {
+						formWidget.valuesManager.clearValues();
+					} else if (_this.valuesManager) {
+						_this.valuesManager.clearValues();
 					}
 					if (emptyRecord) { //原型工具支持配置查询面板的初始数据，如果实体存在记录，则不需要创建新记录。查询面板的记录数只能有一条，由开发系统控制
 						var newRecord = datasource.createRecord();
