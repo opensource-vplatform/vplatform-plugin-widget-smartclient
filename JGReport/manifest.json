@@ -1,6 +1,6 @@
 {
     "groupId": "com.toone.v3.platform",
-    "code": "widget-smartclient-JGReport-Assets",
+    "code": "widget-smartclient-JGReport",
     "version": "3.22.0",
     "plugins": [
         {
