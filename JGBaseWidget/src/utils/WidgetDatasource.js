@@ -333,11 +333,16 @@ isc.WidgetDatasource.addClassMethods({
      * @method
      * @static
 	 * @param {Object} widget 控件实例
+     * @param {String} field 指定字段值
 	 * @return {String} 控件值
 	 */
-    getSingleValue: function(widget){
+    getSingleValue: function(widget, field){
         var datasource = isc.WidgetDatasource.getDatasource(widget);
-		var fields = isc.WidgetDatasource.getFields(widget);
+        var fields = isc.WidgetDatasource.getFields(widget);
+        /* 优先使用指定的字段编码 */
+        if(field){
+            fields = [field];
+        }
 		var value = null;
 		if (datasource == null || fields.length < 1) {
             var methodName = "getValue";
