@@ -480,6 +480,9 @@ isc.JGTabControl.addMethods({
             }, {
                 "eventName": entityDs.Events.DELETE,
                 "handler": _this.deleteRecord(_this)
+            }, {
+                "eventName": entityDs.Events.CURRENT,
+                "handler": _this.currentRecord(_this, dynamicPageData, curTabsetObj)
             }];
             for (var i = 0, len = dsEvents.length; i < len; i++) {
                 entityDs.on(dsEvents[i]);
@@ -608,6 +611,24 @@ isc.JGTabControl.addMethods({
                 }
                 curTabsetObj.addTabs(newAddTabs, index);
             }
+        }
+    },
+    currentRecord: function(widget, dynamicPageData, curTabsetObj){
+        var _this = this;
+        return function(params){
+            var dynamicTabSetting = dynamicPageData.WindowTabSetting.dynamicTabSetting;
+            var current = params.currentRecord;
+            var iconFiledName = dynamicTabSetting.IconColumn;
+            var id = current.get(iconFiledName);
+            var tabIndex = 0;
+            var tabs = curTabsetObj.tabs;
+            for (var i = 0, len = tabs.length; i < len; i++) {
+                var tab = tabs[i];
+                if(tab.dataid == id){
+                    tabIndex = i;
+                }
+            }
+            this.tabSetObj._tabBar.selectTab(tabIndex);
         }
     },
     /**

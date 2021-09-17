@@ -1,6 +1,7 @@
 
 
 isc.ClassFactory.defineClass("JGFormLayout", "JGFormWidget");
+isc.ClassFactory.mixInInterface("JGFormLayout", "IWindowAop");
 
 isc.JGFormLayout.addProperties({
 	lastValidateResult: true,
@@ -21,10 +22,12 @@ isc.JGFormLayout.addMethods({
 			//去除此逻辑，会引发条件状态设置中条件值为实体字段失效
 			this.ID = this.Code + "_" + (new Date).getTime();
 		}
-		var ret = this.Super("init", arguments);
+		return this.Super("init", arguments);
+	},
+
+	v3InitEvent: function(){
 		this.initDataBinding();
 		this.initEvent();
-		return ret;
 	},
 	/**
 	 * 注册表单项额外事件，先触发额外事件，再触发其他事件（触发顺序可以调整）
@@ -115,7 +118,7 @@ isc.JGFormLayout.addMethods({
 										var changedData = resultSet[k];
 										if (changedData) {
 											for (var key in changedData) {
-												if (datasource.dbName + item.form.multiDsSpecialChar + key === fieldName || ds.dbName + item.form.multiDsSpecialChar + key === item.EndColumnName) {
+												if (datasource.dbName + item.form.multiDsSpecialChar + key === fieldName || datasource.dbName + item.form.multiDsSpecialChar + key === item.EndColumnName) {
 													founded = true;
 													break;
 												}
@@ -409,7 +412,7 @@ isc.JGFormLayout.addMethods({
 						var fieldCode = fields[i];
 						data[fieldCode] = record[fieldCode];
 					}
-					widget.setValues(data);
+					widget.valuesManager.editRecord(data);
 				},
 				clearValueHandler: function () {
 					widget.clearValues();

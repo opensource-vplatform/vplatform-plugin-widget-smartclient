@@ -84,6 +84,13 @@ isc.IWindowAop.addInterfaceMethods({
    */
   afterDataLoad: function(){
 
+  },
+
+  /**
+   * 初始化控件事件
+   */
+  v3InitEvent: function(){
+
   }
 
 });
