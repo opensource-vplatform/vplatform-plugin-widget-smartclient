@@ -583,7 +583,7 @@ isc.JGTabControl.addMethods({
 					type = mappingItem["paramType"] + "";
 
 				if (type === "expression") { //表达式
-                    var expressionValue = _this._expressionHandler(source);
+                    var expressionValue = this._expressionHandler(source);
 					variable[target] = expressionValue;
 				}else if(type === "entityField"){
 					variable[target] = entityFieldValue[source];
