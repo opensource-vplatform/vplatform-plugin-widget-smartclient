@@ -70,5 +70,43 @@ isc.JGFormLayout.addMethods({
 		};
 		data[item.name] = value;
 		datasource.updateRecords([data]);
+	},
+
+	setMinDateJGDateTimePicker: function(itemCode, date) {
+		// 判断日期有效性
+		var _date = new Date(date);
+		if (_date + "" === "Invalid Date")
+			return;
+		var item = this.getItemByCode(itemCode);
+		if(item){
+			item.minDate = date;
+			var _picker = item.picker;
+			if (!_picker)
+				return;
+			_picker.minDate = date;
+
+			var _centerPicker = _picker.center;
+			if (!_centerPicker)
+				return;
+			_centerPicker.minDate = date;
+		}
+	},
+	setMaxDateJGDateTimePicker: function(itemCode, date) {
+		// 判断日期有效性
+		var _date = new Date(date);
+		if (_date + "" === "Invalid Date")
+			return;
+		var item = this.getItemByCode(itemCode);
+		if (item) {
+			item.maxDate = date;
+			var _picker = item.picker;
+			if (!_picker)
+				return;
+			_picker.maxDate = date;
+			var _centerPicker = _picker.center;
+			if (!_centerPicker)
+				return;
+			_centerPicker.maxDate = date;
+		}
 	}
 });

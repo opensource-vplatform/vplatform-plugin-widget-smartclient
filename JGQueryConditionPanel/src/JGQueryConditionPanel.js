@@ -911,7 +911,7 @@ isc.JGQueryConditionPanel.addMethods({
 		//				if(lastHLayout[lastHLayout.length - 1].InputStyle.InputRelevance == "flpMoreAndQuery_item_static"){
 		//					lastHLayout.splice(lastHLayout.length - 1,1);
 		//				}
-		if (lastHLayout[lastHLayout.length - 1].colSpan == 5) {
+		if (lastHLayout[lastHLayout.length - 1].colSpan == (this.ColumnCount *2 -1)) {
 			col = this.ColumnCount * 2;
 		} else {
 			if (lastHLayout.length == this.ColumnCount) {
