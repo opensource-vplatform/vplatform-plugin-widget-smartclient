@@ -1201,7 +1201,8 @@ isc.JGWorkFlowGraph.addMethods({
     },
 
 	getDefinitionJson: function (widgetId) {
-		var datasource = this.getDataSource();
+		var dsName = this.getTableNameFormVM(this.code);
+		var datasource = this._getEntity(dsName);// this.getDataSource();//序列化需要使用平台实体
 		return isc.JSON.encode(datasource.serialize());
 	},
 

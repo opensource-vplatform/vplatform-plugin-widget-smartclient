@@ -26,6 +26,12 @@
                     }
                 },
                 {
+                    "code": "_getEntity",
+                    "name": "获取界面实体对象",
+                    "type": "char",
+                    "handler": "entity"
+                },
+                {
                     "code": "insertEdge",
                     "name": "内部事件",
                     "type": "char",

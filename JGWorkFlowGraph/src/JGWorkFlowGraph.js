@@ -1166,10 +1166,11 @@ isc.JGWorkFlowGraph.addMethods({
         return processFileXml;
     },
 
-	getDefinitionJson: function(widgetId) {
-        var datasource = isc.WidgetDatasource.getBindDatasource(widgetId);
-        return isc.JSON.encode(datasource.serialize());
-    },
+	getDefinitionJson: function(widgetId)  {
+		var dsName = this.getTableNameFormVM(this.code);
+		var datasource = this._getEntity(dsName);// this.getDataSource();//序列化需要使用平台实体
+		return isc.JSON.encode(datasource.serialize());
+	},
 
 	setDefinitionJson: function(widgetId, definitionJson) {
         var datasource = isc.WidgetDatasource.getBindDatasource(widgetId);
