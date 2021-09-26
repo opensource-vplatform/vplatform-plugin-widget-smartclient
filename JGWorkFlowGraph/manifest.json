@@ -301,7 +301,20 @@
                     "name": "别名",
                     "type": "char",
                     "default": "活动面板"
+                },
+                {
+                    "code": "getTableNameFormVM",
+                    "name": "从映射信息获取数据源编码",
+                    "type": "char",
+                    "handler": "getTableNameFormVM"
+                },
+                {
+                    "code": "_remoteOperation",
+                    "name": "执行后台操作",
+                    "type": "char",
+                    "handler": "remoteOperation"
                 }
+
             ],
             "dependencies": [
                 {
