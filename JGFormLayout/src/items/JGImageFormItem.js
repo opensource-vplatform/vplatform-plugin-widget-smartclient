@@ -26,7 +26,7 @@ isc.JGImageFormItem.addMethods({
 			this.cellStyle += " formItemNoLabel";
 		}
 		//	            this.width = this.Dock == "None" ? this.Width : "100%";
-		this.height = this.Dock == "None" ? this.Height : "100%";
+		this.height = this.Dock == "None" || this.Dock ===undefined ? this.Height : "100%";
 		this.cursor = this._handleImageMouse();
 		this.src = src;
 		this.hoverWidth = 250; // 浮动框大小设置。
