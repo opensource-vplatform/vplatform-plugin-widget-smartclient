@@ -356,8 +356,8 @@ isc.JGFormLayout.addMethods({
 							if(widget.dataSource.cacheData.length==0){
 								widget.dataSource.cacheData.push(data);
 							}
-							widget.valuesManager.editRecord(data);
-							//widget.setValues(data);
+							//widget.valuesManager.editRecord(data);
+							widget.setValues(data);//使用上面的会引发这个问题Task20210927069
 						}
 					})(fields),
 					clearValueHandler: (function (_dsName, _fields) {
