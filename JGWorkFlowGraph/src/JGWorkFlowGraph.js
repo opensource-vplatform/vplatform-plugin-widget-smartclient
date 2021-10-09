@@ -35,7 +35,7 @@ isc.JGWorkFlowGraph.addProperties({
 	/*存储未渲染之前加载的流程*/
 	_loadedGraph: null,
 	className: "JGWorkFlowGraphNormal",
-	_ProcessSetting:null
+	_ProcessSetting: null
 });
 
 
@@ -50,32 +50,66 @@ isc.JGWorkFlowGraph.addMethods({
 
 	_initEventAndDataBind: function () {
 		var _this = this;
-		isc.WidgetDatasource.addBindDatasourceUpdateEventHandler(this, null, function (params) {
+		var observer = isc.DatasourceObserver.create({
+			"updateHandler": function (datas) {
+				var oldDatas = datas.datasource.getAllRecords();
+				var _map = {};
+				var mappings = {};
+				for (var ix = 0; ix < oldDatas.length; ix++) {
+					var od = oldDatas[ix];
+					_map[od.id] = od;
+					if (od.propertyName == "name") {
+						var activityId = od.activityId;
+						if (!mappings[activityId]) {
+							mappings[activityId] = [od]
+						} else {
+							mappings[activityId].push(od);
+						}
+					}
+				}
+				var changeDatas = datas.resultSet;
+				for (var ix = 0; ix < changeDatas.length; ix++) {
+					var od = changeDatas[ix];
+					var record = _map[od.id];
+					var activityId = record.activityId;
+					var mapping = mappings[activityId];
+					if (mapping) {
+						for (var ix = 0; ix < mapping.length; ix++) {
+							var map = mapping[ix];
+							_this.changLabel(activityId, map.propertyValue)
+						}
+					}
+				}
+			}
+		})
+		var datasource = _this.getDataSource();
+		datasource.addObserver(observer);
+		isc.WidgetDatasource.addBindDatasourceUpdateEventHandler(function (params) {
 			var resultSet = params.resultSet,
-			datasource = params.datasource;
+				datasource = params.datasource;
 			var activityIds = [];
 			for (var k = 0; k < resultSet.length; k++) {
-				var activityId = resultSet[k].get("activityId");
-				if (!arrayUtil.contains(activityIds, activityId)) {
+				var activityId = resultSet[k].activityId;
+				if (activityIds.indexOf(activityId) == -1) {
 					activityIds.push(activityId);
 				}
 			}
 
 			for (var i = 0; i < activityIds.length; i++) {
 				var id = activityIds[i];
-	
+
 				var resultSet = datasource.getAllRecords();
 				var records = [];
-				for (var j = 0,l = resultSet.length; j < l; j++){
+				for (var j = 0, l = resultSet.length; j < l; j++) {
 					var record = resultSet[j];
 					if (record.activityId == id) {
 						records.push(record);
 					}
 				}
 
-				for (var n = 0, l = resultSet.length; n < l; n++){
+				for (var n = 0, l = resultSet.length; n < l; n++) {
 					var record = resultSet[n];
-					_this.changLabel(id, record.get("propertyValue"));
+					_this.changLabel(id, record.propertyValue);
 				}
 			}
 
@@ -83,23 +117,24 @@ isc.JGWorkFlowGraph.addMethods({
 	},
 
 	_afterInitWidget: function () {
-		var datasource = isc.WidgetDatasource.getBindDatasource(this);
+		var datasource = this.getDataSource();
+
 		if (datasource && datasource.markMultipleSelect) {
 			datasource.markMultipleSelect();
 
 		}
-		this.on("SelectAction", this.SelectAction());
-		this.on("SelectAction", this.OnActivitySelected());
-		this.on("NoneSelected", this.NoneSelected());
-		this.on("insertEdge", this.insertEdge());
-		this.on("SelectedWF", this.SelectedWF());
-		this.on("ActivityDrop", this.ActivityDrop());
-		this.on("CopyActivity", this.CopyActivity());
+		//this.on("SelectAction", this.SelectAction);
+		this.on("SelectAction", this.OnActivitySelected);
+		//this.on("NoneSelected", this.NoneSelected);
+		//this.on("insertEdge", this.insertEdge);
+		//this.on("SelectedWF", this.SelectedWF);
+		//this.on("ActivityDrop", this.ActivityDrop);
+		//this.on("CopyActivity", this.CopyActivity);
 
-		isc.DataBindingUtil.bindEvent(this, "deleteCell", function(idArray) {
+		isc.DataBindingUtil.bindEvent(this, "deleteCell", function (idArray) {
 			// 兼容参数为非数组的形式
 			if (Object.prototype.toString.apply(idArray) != '[object Array]') {
-				idArray = [ idArray ];
+				idArray = [idArray];
 			}
 			var recordIds = [];
 			// 此处可能会同时删除多个活动。
@@ -108,27 +143,25 @@ isc.JGWorkFlowGraph.addMethods({
 
 				var resultSet = datasource.getAllRecords();
 				var records = [];
-				for(var n=0, l = resultSet.length; n<l; n++){
-						var record = resultSet[n];
-						if(record.activityId == id){
-							records.push(record);
-						}
+				for (var n = 0, l = resultSet.length; n < l; n++) {
+					var record = resultSet[n];
+					if (record.activityId == id) {
+						records.push(record);
+					}
 				}
 				for (var j = 0; j < records.length; j++) {
 					var row = records[j];
-					recordIds.push(row.get("id"));
+					recordIds.push(row.id);
 				}
 
 			}
 			// 如果没有选中活动记录，无需删除
 			if (recordIds.length != undefined && recordIds.length > 0) {
-				datasource.removeRecordByIds({
-					"ids" : recordIds
-				});
+				datasource.removeRecordByIds(recordIds);
 			}
 		});
 	},
-	
+
 	getV3MethodMap: function () {
 		return {
 			setGraphXML: "loadWorkGraph",
@@ -731,8 +764,7 @@ isc.JGWorkFlowGraph.addMethods({
 			// if(activityPanel._lastSelectedTileRecord.commonName === '结束'){
 			// 	this.getOverCellInfo();
 			// }
-			//this._callEvent(this, 'ActivityDrop', activityPanel.widgetId, event.x + 10, event.y + 10);
-			this.ActivityDrop(activityPanel.widgetId, event.x + 10, event.y + 10);
+			this._callEvent(this, 'ActivityDrop', activityPanel.widgetId, event.x + 10, event.y + 10);
 		}
 	},
 
@@ -803,7 +835,7 @@ isc.JGWorkFlowGraph.addMethods({
 						isc.JGWorkFlowGraph.currentInstanceId = _this.getID();
 						_this._currentInstanceId = _this.getID();
 						//console && console.log('_graph SelectedWF');
-						_this.SelectedWF(_this);
+						_this._callEvent(_this, 'SelectedWF', _this);
 						//console && console.log('mxGraph Select');
 						//_this._callEvent(_this, 'NoneSelected', null, _this, _this);
 					}
@@ -826,7 +858,7 @@ isc.JGWorkFlowGraph.addMethods({
 				var consumed = evt.consumed;
 				if ((!cell || cell == null) && !consumed) {
 					//console && console.log('mxGraph Click');
-					_this.NoneSelected(null, _this, _this);
+					_this._callEvent(_this, 'NoneSelected', null, _this, _this);
 				}
 				//_this._callEvent(_this, 'NoneSelected', null, _this, _this);
 			}
@@ -852,7 +884,7 @@ isc.JGWorkFlowGraph.addMethods({
 							cellIDArray.push({ 'id': cells[i].getId(), 'isEdge': cells[i].isEdge() });
 						}
 						//console && console.log('SelectionModel CHANGE');
-						_this.SelectAction(_this, cellIDArray);
+						_this._callEvent(_this, 'SelectAction', _this, cellIDArray);
 					} // else {
 					// console && console.log('_graph NoneSelected');
 					//    _this._callEvent(_this, 'NoneSelected', null, _this, _this);
@@ -871,8 +903,8 @@ isc.JGWorkFlowGraph.addMethods({
 					var cell = evt.properties.cells[0];
 					if (cell.isEdge()) {
 						var sourceID = evt.properties.source.getId();
-						var targetID = evt.properties.target.getId()
-						_this.insertEdge(_this, cell.getId(), sourceID, targetID);
+						var targetID = evt.properties.target.getId();
+						_this._callEvent(_this, 'insertEdge', _this, cell.getId(), sourceID, targetID);
 					}
 				}
 			}
@@ -978,9 +1010,9 @@ isc.JGWorkFlowGraph.addMethods({
 					//提取选中的cell的id
 					var cellIDArray = [];
 					cellIDArray.push({ 'id': cells[i].getId(), 'sourceId': sourceCells[i].getId(), 'isEdge': cells[i].isEdge() });
-					this.CopyActivity(this, cellIDArray);
+					this._callEvent(this, 'CopyActivity', this, cellIDArray);
 					// 复制后自动选中环节
-					this.SelectAction(this, cellIDArray);
+					this._callEvent(this, 'SelectAction', this, cellIDArray);
 				}
 			}
 		}
@@ -1143,42 +1175,78 @@ isc.JGWorkFlowGraph.addMethods({
 
 		}
 		//加载完后，触发一下点空白的动作
-		this.NoneSelected(null, this, this);
+		this._callEvent(this, 'NoneSelected', null, this, this);
 	},
- 	/**
-     * 获取流程图XML
-     */
-	getGraphXML: function() {
-        return this.getGraph();
-    },
- 	/**
-     * 获取流程图XML
-     */
-    getProcessFileXML: function(widgetId) {
-        // 获取流程活动环节配置数据
-        var datasource = isc.WidgetDatasource.getBindDatasource(widgetId);
-        var processFileDatas = isc.DatasourceUtil.resultsetToMapArray(datasource.getAllRecords());
-        for (var i = 0; i < processFileDatas.length; i++) {
-            if (undefined == processFileDatas[i].activityId)
-                processFileDatas.splice(i, 1)
-        }
-        var processFileXml = this._generateProcessXml(processFileDatas);
-        return processFileXml;
-    },
+	/**
+   * 获取流程图XML
+   */
+	getGraphXML: function () {
+		return this.getGraph();
+	},
+	/**
+   * 获取流程图XML
+   */
+	getProcessFileXML: function (widgetId) {
+		// 获取流程活动环节配置数据
+		var datasource = this.getDataSource();
+		var processFileDatas = datasource.getAllRecords();
+		for (var i = 0; i < processFileDatas.length; i++) {
+			if (undefined == processFileDatas[i].activityId)
+				processFileDatas.splice(i, 1)
+		}
+		var processFileXml = this._generateProcessXml(processFileDatas);
+		return processFileXml;
+	},
 
-	getDefinitionJson: function(widgetId) {
-        var datasource = isc.WidgetDatasource.getBindDatasource(widgetId);
-        return isc.JSON.encode(datasource.serialize());
-    },
 
-	setDefinitionJson: function(widgetId, definitionJson) {
-        var datasource = isc.WidgetDatasource.getBindDatasource(widgetId);
-        datasource.clear();
+	/**
+	 * 将前台数据提交后台，并生成XML数据
+	 * 
+	 * @param processFileDatas
+	 *            活动环节DB数据
+	 */
+	_generateProcessXml: function (processFileDatas) {
+		var componentCode = this.componentCode;
+		var windowCode = this.widgetCode;
+		var params = {
+			"processFileDatas": processFileDatas,
+			"moduleId": windowCode
+		}
+		var ret = {};
+		var requestParams = {
+			"componentCode": componentCode,
+			"windowCode": windowCode,
+			"operation": "GenerateWorkFlowProcessXML",
+			"isAsync": false,
+			"params": params,
+			"success": function (result) {
+				ret = result == null ? {} : result.data.xml;
+			},
+			"error": function (result) {
+				if (window.console && window.console.warn) {
+					window.console.error("生成流程定义文件XML失败\n->" + result.message);
+				}
+				throw new Error("生成流程定义文件XML失败\n->" + result.message);
+			}
+		};
+		this._remoteOperation(requestParams);
+		return ret;
+	},
+
+	getDefinitionJson: function (widgetId) {
+		var dsName = this.getTableNameFormVM(this.code);
+		var datasource = this._getEntity(dsName);// this.getDataSource();//序列化需要使用平台实体
+		return isc.JSON.encode(datasource.serialize());
+	},
+
+	setDefinitionJson: function (widgetId, definitionJson) {
+		var datasource = this.getDataSource();
+		datasource.clear();
 		var unserializedb = this.createDatasourceFromJson(definitionJson);
-        datasource.insertRecords({
-            "records": unserializedb.getAllRecords().toArray()
-        })
-    },
+		datasource.insertRecords({
+			"records": unserializedb.getAllRecords().toArray()
+		})
+	},
 	/*
 	 * 设置线的样式
 	 *
@@ -1279,6 +1347,18 @@ isc.JGWorkFlowGraph.addMethods({
 	},
 
 	/**
+	 * 通过id选中某一个活动，并触发选中事件
+	 */
+	selectActivity: function (id) {
+		if (this._graph.getModel().getCell(id)) {
+			this._graph.setSelectionCell(this._graph.getModel().getCell(id));
+			this._callEvent(this, 'SelectAction', this, [
+				{ id: id, isEdge: false }
+			]);
+		}
+	},
+
+	/**
 	 * 删除所有的活动
 	 */
 	deleteActivitys: function () {
@@ -1365,263 +1445,281 @@ isc.JGWorkFlowGraph.addMethods({
 		//销毁sc部分控件
 		this.Super("destroy", arguments);
 	},
-	    /**
-     * 增加活动
-     */
-	addActivity: function(activity, x, y, activityName) {
-        return this.addGraph(activity, x, y, activityName);
-    },
+	/**
+ * 增加活动
+ */
+	addActivity: function (activity, x, y, activityName) {
+		return this.addGraph(activity, x, y, activityName);
+	},
 
-    /**
-     * 获取当前选择的所有活动
-     */
-    getSelectedActivitys: function() {
-        return this.getSelectedCell();
-    },
+	/**
+	 * 获取当前选择的所有活动
+	 */
+	getSelectedActivitys: function () {
+		return this.getSelectedCell();
+	},
 
-    /**
-     * 获取所有的线
-     */
-    getEdges: function() {
-        return this.getGraphChildEdges();
-    },
+	/**
+	 * 获取所有的线
+	 */
+	getEdges: function () {
+		return this.getGraphChildEdges();
+	},
 
-    /**
-     * 更新lable值
-     */
-    changeActivityLabel: function(activityId, lableName) {
-        this.changLabel(activityId, lableName);
-    },
+	/**
+	 * 更新lable值
+	 */
+	changeActivityLabel: function (activityId, lableName) {
+		this.changLabel(activityId, lableName);
+	},
 
-    /**
-     * 设置活动环节的背景图片样式
-     */
-    setGraphCellStyle: function(activityId, imgSrc) {
-        this.setCellStyle(activityId, imgSrc);
-    },
+	/**
+	 * 设置活动环节的背景图片样式
+	 */
+	setGraphCellStyle: function (activityId, imgSrc) {
+		this.setCellStyle(activityId, imgSrc);
+	},
 
-    /**
-     * 获取默认值
-     */
-	getProcessDefaultValue: function() {
+	/**
+	 * 通过id查找活动，并改变label的名字
+	 */
+	changLabel: function (id, value) {
+		if (this._graph.getModel().getCell(id))
+			this._graph.getModel().setValue(
+				this._graph.getModel().getCell(id), value);
+	},
+	/**
+	 * 获取默认值
+	 */
+	getProcessDefaultValue: function () {
 		var _ProcessSetting = this._ProcessSetting;
-        var type = "Process";
-        this._genProcessSetting();
-        if (_ProcessSetting&&_ProcessSetting[type]) {
-            var activityConfig = _ProcessSetting[type];
-            if (activityConfig != null && activityConfig && activityConfig.property) {
-                var activityData = activityConfig.property;
-                var defaultObj = {};
-                if (activityData && activityData.length > 0) {
-                    for (var i = 0, len = activityData.length; i < len; i++) {
-                        var propertyObj = activityData[i];
-                        var propertyName = propertyObj.PropertyName;
-                        var defaultValue = propertyObj.DefaultValue;
-                        defaultObj[propertyName] = defaultValue;
-                    }
-                }
-                return defaultObj;
-            }
-        } else {
-			if(window.console&&window.console.warn){
-				window.console.warn("无法根据流程获取属性编辑器信息!");
-			}
-            return null;
-        }
-    },
-
-    /**
-     * 获取默认值
-     */
-	getEdgeDefaultValue: function() {
-		var _ProcessSetting = this._ProcessSetting;
-        var type = "edge";
+		var type = "Process";
 		this._genProcessSetting();
-        if (_ProcessSetting&&_ProcessSetting[type]) {
-            var activityConfig = _ProcessSetting[type];
-            if (activityConfig && activityConfig.property) {
-                var activityData = activityConfig.property;
-                var defaultObj = {};
-                if (activityData && activityData.length > 0) {
-                    for (var i = 0, len = activityData.length; i < len; i++) {
-                        var propertyObj = activityData[i];
-                        var propertyName = propertyObj.PropertyName;
-                        var defaultValue = propertyObj.DefaultValue;
-                        defaultObj[propertyName] = defaultValue;
-                    }
-                }
-                return defaultObj;
-            }
-        } else {
-            if(window.console&&window.console.warn){
+		if (_ProcessSetting && _ProcessSetting[type]) {
+			var activityConfig = _ProcessSetting[type];
+			if (activityConfig != null && activityConfig && activityConfig.property) {
+				var activityData = activityConfig.property;
+				var defaultObj = {};
+				if (activityData && activityData.length > 0) {
+					for (var i = 0, len = activityData.length; i < len; i++) {
+						var propertyObj = activityData[i];
+						var propertyName = propertyObj.PropertyName;
+						var defaultValue = propertyObj.DefaultValue;
+						defaultObj[propertyName] = defaultValue;
+					}
+				}
+				return defaultObj;
+			}
+		} else {
+			if (window.console && window.console.warn) {
 				window.console.warn("无法根据流程获取属性编辑器信息!");
 			}
-            return null;
-        }
-    },
+			return null;
+		}
+	},
 
-    /**
-     * 获取流程所有属性信息
-     */
-    getProcessPropertyInfo: function() {
+	/**
+	 * 获取默认值
+	 */
+	getEdgeDefaultValue: function () {
 		var _ProcessSetting = this._ProcessSetting;
-        this._genProcessSetting();
-        if (!_ProcessSetting)
-            return;
-        var type = "Process";
-        var activityConfig = _ProcessSetting[type];
-        if (activityConfig && activityConfig.property) {
-            return activityConfig.property;
-        } else {
-			if (window.console&&window.console.warn){
-				window.console.warn("无法根据流程获取属性编辑器信息!");
-			}
-            return null;
-        }
-    },
-    
-    _getActivityConfig: function(type){
+		var type = "edge";
 		this._genProcessSetting();
-    	if(this._ProcessSetting){
-    		return this._ProcessSetting[type];
-    	}
-    	return null;
-    },
-
-    /**
-     * 获取流程所有属性信息
-     */
-    getProcessPropertyTypeInfo: function() {
-        var activityConfig = this._getActivityConfig("Process");
-        if (activityConfig && activityConfig.property) {
-            return activityConfig.propertyType;
-        } else {
-			if(window.console&&window.console.warn){
+		if (_ProcessSetting && _ProcessSetting[type]) {
+			var activityConfig = _ProcessSetting[type];
+			if (activityConfig && activityConfig.property) {
+				var activityData = activityConfig.property;
+				var defaultObj = {};
+				if (activityData && activityData.length > 0) {
+					for (var i = 0, len = activityData.length; i < len; i++) {
+						var propertyObj = activityData[i];
+						var propertyName = propertyObj.PropertyName;
+						var defaultValue = propertyObj.DefaultValue;
+						defaultObj[propertyName] = defaultValue;
+					}
+				}
+				return defaultObj;
+			}
+		} else {
+			if (window.console && window.console.warn) {
 				window.console.warn("无法根据流程获取属性编辑器信息!");
 			}
-            return null;
-        }
-    },
+			return null;
+		}
+	},
 
-    // 获取活动线所有信息
-    getEdgePropertyInfo: function(activityType) {
-        var activityConfig = this._getActivityConfig(activityType);
-        if (activityConfig && activityConfig.property) {
-            return activityConfig.property;
-        } else {
-			if (window.console&&window.console.warn){
+	/**
+	 * 获取流程所有属性信息
+	 */
+	getProcessPropertyInfo: function () {
+		this._genProcessSetting();
+		var _ProcessSetting = this._ProcessSetting;
+		if (!_ProcessSetting)
+			return;
+		var type = "Process";
+		var activityConfig = _ProcessSetting[type];
+		if (activityConfig && activityConfig.property) {
+			return activityConfig.property;
+		} else {
+			if (window.console && window.console.warn) {
+				window.console.warn("无法根据流程获取属性编辑器信息!");
+			}
+			return null;
+		}
+	},
+
+	_getActivityConfig: function (type) {
+		this._genProcessSetting();
+		if (this._ProcessSetting) {
+			return this._ProcessSetting[type];
+		}
+		return null;
+	},
+
+	/**
+	 * 获取流程所有属性信息
+	 */
+	getProcessPropertyTypeInfo: function () {
+		var activityConfig = this._getActivityConfig("Process");
+		if (activityConfig && activityConfig.property) {
+			return activityConfig.propertyType;
+		} else {
+			if (window.console && window.console.warn) {
+				window.console.warn("无法根据流程获取属性编辑器信息!");
+			}
+			return null;
+		}
+	},
+
+	// 获取活动线所有信息
+	getEdgePropertyInfo: function (activityType) {
+		var activityConfig = this._getActivityConfig(activityType);
+		if (activityConfig && activityConfig.property) {
+			return activityConfig.property;
+		} else {
+			if (window.console && window.console.warn) {
 				window.console.warn("无法根据流程活动线类型（" + activityType + "）获取属性信息!");
 			}
-            return null;
-        }
-    },
+			return null;
+		}
+	},
 
-    // 获取活动线所有分类信息
-    getEdgePropertyTypeInfo: function(activityType) {
-        var activityConfig = this._getActivityConfig(activityType);
-        if (activityConfig && activityConfig.property) {
-            return activityConfig.propertyType;
-        } else {
-			if (window.console&&window.console.warn){
+	// 获取活动线所有分类信息
+	getEdgePropertyTypeInfo: function (activityType) {
+		var activityConfig = this._getActivityConfig(activityType);
+		if (activityConfig && activityConfig.property) {
+			return activityConfig.propertyType;
+		} else {
+			if (window.console && window.console.warn) {
 				window.console.warn("无法根据流程活动线类型（" + activityType + "）获取属性分类信息!");
 			}
-            return null;
-        }
-    },
+			return null;
+		}
+	},
 
-    _genProcessSetting: function() {
-        // _ProcessSetting 写法有误，需每次获取新数据，不能作为全局对象
-        //var pSettingStr = widgetContext.get(widgetId, "ProcessSetting");
+	_genProcessSetting: function () {
+		// _ProcessSetting 写法有误，需每次获取新数据，不能作为全局对象
+		//var pSettingStr = widgetContext.get(widgetId, "ProcessSetting");
 		var pSettingStr = this.ProcessSetting;
-        // 兼容ProcessSetting属性配置为对象的
-        if (pSettingStr) {
-            if (typeof pSettingStr == "object") {
-               this._ProcessSetting = pSettingStr;
-            } else if (typeof pSettingStr == "string" && pSettingStr != "") {
-                var pSettring = isc.JSON.decode(pSettingStr);
-                if (pSettring && pSettring.setting && pSettring.setting.Process && pSettring.setting.edge) {
-                    this._ProcessSetting = pSettring;
-                }
-            }
-        }
-    },
+		// 兼容ProcessSetting属性配置为对象的
+		if (pSettingStr) {
+			if (typeof pSettingStr == "object") {
+				this._ProcessSetting = pSettingStr;
+			} else if (typeof pSettingStr == "string" && pSettingStr != "") {
+				var pSettring = isc.JSON.decode(pSettingStr);
+				if (pSettring && pSettring.setting && pSettring.setting.Process && pSettring.setting.edge) {
+					this._ProcessSetting = pSettring;
+				}
+			}
+		}
+	},
 
-    getRelaJGActivityPanel: function() {
-        return this.RelaJGActivityPanel;
-    },
+	getRelaJGActivityPanel: function () {
+		return this.RelaJGActivityPanel;
+	},
 
-    getRelaJGPropertyEditor: function() {
-        return this.RelaJGPropertyEditor;
-    },
+	getRelaJGPropertyEditor: function () {
+		return this.RelaJGPropertyEditor;
+	},
 
-    getProcessSetting: function() {
-        return this.ProcessSetting;
-    },
+	getProcessSetting: function () {
+		return this.ProcessSetting;
+	},
 
-    getCurActivityId: function() {
-        var activityIds = this.getSelectedActivitys();
-        var curActivityId = null;
-        if (activityIds && activityIds.length > 0) {
-            curActivityId = activityIds[0];
-        }
-        return curActivityId;
-    },
+	getCurActivityId: function () {
+		var activityIds = this.getSelectedActivitys();
+		var curActivityId = null;
+		if (activityIds && activityIds.length > 0) {
+			curActivityId = activityIds[0];
+		}
+		return curActivityId;
+	},
 
-    // 修改活动状态
-    changeActivityState: function(widgetId, activityId, state) {
-        if (_hasID(widgetId, activityId)) {
-            // 根据状态获取图片路径
-            var stateImageName = state + "Image",
-                newStateImagePath = this.getCellAttr(activityId, stateImageName);
+	// 修改活动状态
+	changeActivityState: function (widgetId, activityId, state) {
+		if (_hasID(widgetId, activityId)) {
+			// 根据状态获取图片路径
+			var stateImageName = state + "Image",
+				newStateImagePath = this.getCellAttr(activityId, stateImageName);
 
-            if (newStateImagePath && newStateImagePath != "") {
-                // 调用接口更新活动状态
-                this.setCellStyle(activityId, newStateImagePath);
-            }
-        }
-    },
+			if (newStateImagePath && newStateImagePath != "") {
+				// 调用接口更新活动状态
+				this.setCellStyle(activityId, newStateImagePath);
+			}
+		}
+	},
 
-    /**
-     * 获取流程图数据状态信息
-     */
-    getHasInsertOrDeleteData: function(widgetId) {
-        // 取数据的状态信息
-		var datasource = isc.WidgetDatasource.getBindDatasource(widgetId);
-        var insertedRecords = datasource.getInsertedRecords();
-        var deletedRecords = datasource.getDeletedRecords();
-        return (insertedRecords && insertedRecords.size() > 0) || (deletedRecords && deletedRecords.size() > 0);
-    },
+	/**
+	 * 获取流程图数据状态信息
+	 */
+	getHasInsertOrDeleteData: function (widgetId) {
+		var datasource = this.getDataSource();
+		// 取数据的状态信息
+		var insertedRecords = datasource.getInsertedRecords();
+		var deletedRecords = datasource.getDeletedRecords();
+		return (insertedRecords && insertedRecords.size() > 0) || (deletedRecords && deletedRecords.size() > 0);
+	},
 
-	loadWorkGraph:function(xml) {
-        this.loadGraph(xml);
-    },
+	loadWorkGraph: function (xml) {
+		this.loadGraph(xml);
+	},
 
-	getWorkGraph: function() {
-        return this.getGraph();
-    },
+	getWorkGraph: function () {
+		return this.getGraph();
+	},
 
-	selectGraphActivity: function(activityID) {
-        this.selectActivity(activityID);
-    },
+	selectGraphActivity: function (activityID) {
+		this.selectActivity(activityID);
+	},
 
-	getGraphAllActivityID: function() {
-        return this.getAllActivityID();
-    },
+	getGraphAllActivityID: function () {
+		return this.getAllActivityID();
+	},
 
-	getGraphCellAttr: function(activityId, name) {
-        return this.getCellAttr(activityId, name);
-    },
-	
-	setGraphCellAttr: function(activityId, name, value) {
-        this.setCellAttr(activityId, name, value);
-    },
+	getGraphCellAttr: function (activityId, name) {
+		return this.getCellAttr(activityId, name);
+	},
 
-	setGraphEdgeStyle: function(type, fromCellId, toCellId) {
-        this.setEdgeStyle(type, fromCellId, toCellId);
-    },
-	getGraphSourceIdAndTargetIdByEdgeId: function(edgeId) {
-        return this.getSourceIdAndTargetIdByEdgeId(edgeId);
-    }
+	setGraphCellAttr: function (activityId, name, value) {
+		this.setCellAttr(activityId, name, value);
+	},
+
+	setGraphEdgeStyle: function (type, fromCellId, toCellId) {
+		this.setEdgeStyle(type, fromCellId, toCellId);
+	},
+	getGraphSourceIdAndTargetIdByEdgeId: function (edgeId) {
+		return this.getSourceIdAndTargetIdByEdgeId(edgeId);
+	},
+	getDataSource: function () {
+		var dsName = this.getTableNameFormVM(this.code);
+		return isc.JGDataSourceManager.get(this, dsName);
+	},
+	setCellStyle: function (id, imgSrc) {
+		var cell = this._graph.getModel().getCell(id);
+		if (cell) {
+			this._graph.setCellStyles('image', imgSrc, [cell]);
+		}
+	}
 
 });
 

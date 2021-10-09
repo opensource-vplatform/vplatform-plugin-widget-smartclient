@@ -4207,6 +4207,15 @@
                                 }
                             },
                             {
+                                "code":"ImageValue",
+                                "name":"选择图片",
+                                "type":"char",
+                                "editor":{
+                                    "type":"resource"
+                                },
+                                "default":""
+                            },
+                            {
                                 "code": "Placeholder",
                                 "name": "提醒文字",
                                 "type": "char",
