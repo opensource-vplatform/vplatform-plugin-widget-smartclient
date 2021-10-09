@@ -13,6 +13,7 @@ isc.JGTableGroupPanel.addMethods({
 			this.tmpGroupTitle = this.GroupTitle;
 			this.GroupTitle = "";
 		}
+		this.initV3Widget();
 		this.adaptedProperty();
 		var children = this.childrenWidgets = this.layoutChildWidgets();
 		var numCols = this.NumCols;
@@ -49,7 +50,6 @@ isc.JGTableGroupPanel.addMethods({
 			});
 		}
 		this.members = members;
-		this.initV3Widget();
 		this.initGroupPanel();
 		this.adaptRectByV3();
 		this.Super("init", arguments);

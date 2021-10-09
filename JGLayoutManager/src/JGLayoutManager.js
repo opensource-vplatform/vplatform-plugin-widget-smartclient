@@ -75,6 +75,18 @@ isc.JGLayoutManager.addInterfaceMethods({
                 catalog = this.buildBorderLayoutById(layout);
                 members.push(layout);
             } else {
+                if(isc.JGLayoutManager._useNewLayout){
+                    var childrenIds = isc.WidgetContext.getChildrenIds(this.scopeId, parentId||this.widgetId);
+                    var children = [];
+                    this._forEach(childrenIds, function (childId) {
+                        var childRefId = isc.WidgetUtils.genWidgetRefId(this.scopeId, childId);
+                        var child = isc.JGWidgetManager.getWidget(childRefId);
+                        if(child){
+                            children.push(child);
+                        }
+                    },null,this);
+                    return this._newLayoutChildren(children);
+                }
                 catalog = this._catalogChildren(parentId);
                 var direction = this._getChildrenLayoutDirection(catalog);
                 this._setDockChildRect(catalog);
@@ -318,11 +330,7 @@ isc.JGLayoutManager.addInterfaceMethods({
         }
     },
 
-    /**
-     * 布局锚定控件
-     */
-    _layoutAbsoluteChildren: function (catalog) {
-        var absChildren = catalog.absLayout;
+    _layoutAbsChildren: function(absChildren){
         var contentAlign = this.getContentAlignment();
         if (contentAlign == "Vertical") {
             var topList = [],
@@ -380,6 +388,14 @@ isc.JGLayoutManager.addInterfaceMethods({
             }, 0, this);
         }
         return absChildren;
+    },
+
+    /**
+     * 布局锚定控件
+     */
+    _layoutAbsoluteChildren: function (catalog) {
+        var absChildren = catalog.absLayout;
+        return this._layoutAbsChildren(absChildren);
     },
 
     /**
@@ -879,17 +895,24 @@ isc.JGLayoutManager.addInterfaceMethods({
     },
 
     _fillAbsoulteLayoutSpacer: function (arr1, arr2, arr3) {
+        var members = [];
+        if(arr2.length>0&&arr1.length==0&&arr3.length==0){
+            members.push(isc.LayoutSpacer.create({}));
+            members = members.concat(arr2);
+            members.push(isc.LayoutSpacer.create({}));
+            return members;
+        }
         var temp = [];
         for (var i = 0, l = arguments.length; i < l; i++) {
             var item = arguments[i];
             if (item && item.length > 0) {
                 temp = temp.concat(item);
             }
-            if (i + 1 < l) {
+            if (i + 1 < l&&arguments[i+1]&&arguments[i+1].length>0||(this.componentCode=="vbase_prdbizframe"&&this.windowCode=="frameWindow")) {
+            //if(i +1 <l){
                 temp.push(isc.LayoutSpacer.create({}));
             }
         }
-        var members = [];
         for (var i = 0, l = temp.length; i < l; i++) {
             var item = temp[i];
             var cls = item.getClassName ? item.getClassName() : null;
