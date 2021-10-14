@@ -1,6 +1,7 @@
 
 
 isc.ClassFactory.defineClass("JGFormLayout", "JGFormWidget");
+isc.ClassFactory.mixInInterface("JGFormLayout", "IWindowAop");
 
 isc.JGFormLayout.addProperties({
 	lastValidateResult: true,
@@ -21,10 +22,12 @@ isc.JGFormLayout.addMethods({
 			//去除此逻辑，会引发条件状态设置中条件值为实体字段失效
 			this.ID = this.Code + "_" + (new Date).getTime();
 		}
-		var ret = this.Super("init", arguments);
+		return this.Super("init", arguments);
+	},
+
+	v3InitEvent: function(){
 		this.initDataBinding();
 		this.initEvent();
-		return ret;
 	},
 	/**
 	 * 注册表单项额外事件，先触发额外事件，再触发其他事件（触发顺序可以调整）
@@ -115,7 +118,7 @@ isc.JGFormLayout.addMethods({
 										var changedData = resultSet[k];
 										if (changedData) {
 											for (var key in changedData) {
-												if (datasource.dbName + item.form.multiDsSpecialChar + key === fieldName || ds.dbName + item.form.multiDsSpecialChar + key === item.EndColumnName) {
+												if (datasource.dbName + item.form.multiDsSpecialChar + key === fieldName || datasource.dbName + item.form.multiDsSpecialChar + key === item.EndColumnName) {
 													founded = true;
 													break;
 												}
@@ -327,9 +330,13 @@ isc.JGFormLayout.addMethods({
 							if (oldVals && oldVals.id) {
 								id = oldVals.id;
 							} else {
-								var record = datasource.createRecord();
-								id = record.id;
-								widget.dataSource.addData(record, null, {});
+								if(widget.dataSource.cacheData.length>0){
+									id = widget.dataSource.cacheData[0].id;
+								}else{
+									var rd = widget.dataSource.createRecord();
+									id = rd.id;
+									//widget.dataSource.cacheData.push(rd);
+								}
 							}
 							var data = {};
 							if (oldVals) {
@@ -339,12 +346,18 @@ isc.JGFormLayout.addMethods({
 							data[prefix + "id"] = record.id;
 							for (var i = 0, l = _fields.length; i < l; i++) {
 								var fieldCode = _fields[i];
-								if (fieldCode.indexOf(widget.multiDsSpecialChar) != -1) {
-									fieldCode = fieldCode.split(widget.multiDsSpecialChar)[0];
+								if(fieldCode!="id"&&record&&record.hasOwnProperty(fieldCode)){
+									if (fieldCode.indexOf(widget.multiDsSpecialChar) != -1) {
+										fieldCode = fieldCode.split(widget.multiDsSpecialChar)[0];
+									}
+									data[prefix + fieldCode] = record[fieldCode];
 								}
-								data[prefix + fieldCode] = record[fieldCode];
 							}
-							widget.setValues(data);
+							if(widget.dataSource.cacheData.length==0){
+								widget.dataSource.cacheData.push(data);
+							}
+							//widget.valuesManager.editRecord(data);
+							widget.setValues(data);//使用上面的会引发这个问题Task20210927069
 						}
 					})(fields),
 					clearValueHandler: (function (_dsName, _fields) {
@@ -399,7 +412,7 @@ isc.JGFormLayout.addMethods({
 						var fieldCode = fields[i];
 						data[fieldCode] = record[fieldCode];
 					}
-					widget.setValues(data);
+					widget.valuesManager.editRecord(data);
 				},
 				clearValueHandler: function () {
 					widget.clearValues();
@@ -601,6 +614,20 @@ isc.JGFormLayout.addMethods({
 		if(!isMust){
 			item.validate();
 		}
+	},
+	clearItemSelectValue : function(itemCode,onlyCleanSelectedRecord,fields){
+		var item = this.getItemByCode(itemCode);
+		var datasource = isc.JGDataSourceManager.get(this,item.SourceTableName);
+		var fields = fields||[item.ColumnName];
+		var fieldCodes = [];
+		for(var i=0,l=fields.length;i<l;i++){
+			var fieldCode = fields[i];
+			if(fieldCode){
+				fieldCode = fieldCode&&fieldCode.indexOf(this.multiDsSpecialChar)!=-1 ? fieldCode.split(this.multiDsSpecialChar)[1]:fieldCode;
+				fieldCodes.push(fieldCode);
+			}
+		}
+		isc.WidgetDatasource.clearDatasourceValue(datasource,fieldCodes, onlyCleanSelectedRecord);
 	}
 });
 
@@ -763,5 +790,4 @@ isc.JGFormLayout.addClassMethods({
 			widget.fields = newFields;
 		}
 	}
-
 });

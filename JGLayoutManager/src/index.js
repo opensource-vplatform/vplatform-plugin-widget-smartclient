@@ -1,1 +1,2 @@
 import "./JGLayoutManager";
+import "./NewLayoutSolution";

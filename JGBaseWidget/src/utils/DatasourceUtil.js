@@ -93,13 +93,13 @@ isc.DatasourceUtil.addClassMethods({
             datasource.on(datasource.Events.UPDATE, null, function (params) {
                 var result = params.resultSet;
                 var isChanged = false;
-                for (var i = 0, l = result.length; i < l; i++) {
+                loop:for (var i = 0, l = result.length; i < l; i++) {
                     var record = result[i];
-                    for (var i = 0; i < fields.length; i++) {
-                        var field = fields[i];
+                    for (var j = 0; j < fields.length; j++) {
+                        var field = fields[j];
                         if (record.hasOwnProperty(field)) {
                             isChanged = true;
-                            break;
+                            break loop;
                         }
 
                     }

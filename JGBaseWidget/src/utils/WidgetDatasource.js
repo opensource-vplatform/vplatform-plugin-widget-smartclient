@@ -235,13 +235,25 @@ isc.WidgetDatasource.addClassMethods({
      * @method
      * @static
      * @param {Object} widget 控件实例
-     * @param {Boolean} cleanSeleted 是否只清空选中记录
+     * @param {Boolean} cleanSelected 是否只清空选中记录
      */
-    clearValue: function(widget,cleanSeleted){
+    clearValue: function(widget,cleanSelected){
         var datasource = widget.TableName;
-        if(datasource&&datasource.updateRecords){
-            var fields = isc.WidgetDatasource.getFields(widget);
-            var records = cleanSeleted ? datasource.getSelectedRecords():datasource.getAllRecords();
+        var fields = isc.WidgetDatasource.getFields(widget);
+        this.clearDatasourceValue(datasource,fields,cleanSelected);
+    },
+
+    /**
+     * 清空数据源字段值
+     * @memberof WidgetDatasource
+     * @method
+     * @static
+     * @param {V3Datasource} datasource 实体实例
+     * @param {Boolean} cleanSelected 是否只清空选中记录
+     */
+    clearDatasourceValue: function(datasource,fields,cleanSelected){
+        if(datasource&&datasource.updateRecords&&fields){
+            var records = cleanSelected ? datasource.getSelectedRecords():datasource.getAllRecords();
             var updatedRecords = [];
             if(fields&&fields.length>0&&records&&records.length>0){
                 for(var i=0,l=records.length;i<l;i++){
@@ -321,11 +333,16 @@ isc.WidgetDatasource.addClassMethods({
      * @method
      * @static
 	 * @param {Object} widget 控件实例
+     * @param {String} field 指定字段值
 	 * @return {String} 控件值
 	 */
-    getSingleValue: function(widget){
+    getSingleValue: function(widget, field){
         var datasource = isc.WidgetDatasource.getDatasource(widget);
-		var fields = isc.WidgetDatasource.getFields(widget);
+        var fields = isc.WidgetDatasource.getFields(widget);
+        /* 优先使用指定的字段编码 */
+        if(field){
+            fields = [field];
+        }
 		var value = null;
 		if (datasource == null || fields.length < 1) {
             var methodName = "getValue";

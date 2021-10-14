@@ -11,7 +11,7 @@ isc.JGFormLayout.addMethods({
 	},
 	//TODO	
 	cleanSelectedControlValueJGCheckBox: function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
 	},
 
 	setIsMustJGCheckBox: function (itemCode, isMust) {

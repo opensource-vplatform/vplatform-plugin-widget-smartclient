@@ -480,6 +480,9 @@ isc.JGTabControl.addMethods({
             }, {
                 "eventName": entityDs.Events.DELETE,
                 "handler": _this.deleteRecord(_this)
+            }, {
+                "eventName": entityDs.Events.CURRENT,
+                "handler": _this.currentRecord(_this, dynamicPageData, curTabsetObj)
             }];
             for (var i = 0, len = dsEvents.length; i < len; i++) {
                 entityDs.on(dsEvents[i]);
@@ -580,7 +583,7 @@ isc.JGTabControl.addMethods({
 					type = mappingItem["paramType"] + "";
 
 				if (type === "expression") { //表达式
-                    var expressionValue = _this._expressionHandler(source);
+                    var expressionValue = this._expressionHandler(source);
 					variable[target] = expressionValue;
 				}else if(type === "entityField"){
 					variable[target] = entityFieldValue[source];
@@ -608,6 +611,22 @@ isc.JGTabControl.addMethods({
                 }
                 curTabsetObj.addTabs(newAddTabs, index);
             }
+        }
+    },
+    currentRecord: function(widget, dynamicPageData, curTabsetObj){
+        var _this = this;
+        return function(params){
+            var current = params.currentRecord;
+            var id = current.getSysId();
+            var tabIndex = 0;
+            var tabs = widget.tabSetObj && widget.tabSetObj.tabs || [];
+            for (var i = 0, len = tabs.length; i < len; i++) {
+                var tab = tabs[i];
+                if(tab.dataid == id){
+                    tabIndex = i;
+                }
+            }
+            _this.tabSetObj._tabBar.selectTab(tabIndex);
         }
     },
     /**

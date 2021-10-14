@@ -18,9 +18,9 @@ isc.JGFormLayout.addMethods({
 		var item = this.getItemByCode(itemCode);
 		return item.ReadOnly;
 	},
-	//TODO
+	
 	cleanSelectedControlValueJGTextBox : function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
 	},
 	
 	getVisibleJGTextBox : function (itemCode) {

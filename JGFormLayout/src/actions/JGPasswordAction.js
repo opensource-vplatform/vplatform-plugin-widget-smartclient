@@ -24,7 +24,7 @@ isc.JGFormLayout.addMethods({
 	},
 	//TODO
 	cleanSelectedControlValueJGPassword: function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
 	},
 
 

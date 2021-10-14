@@ -4207,6 +4207,15 @@
                                 }
                             },
                             {
+                                "code":"ImageValue",
+                                "name":"选择图片",
+                                "type":"char",
+                                "editor":{
+                                    "type":"resource"
+                                },
+                                "default":""
+                            },
+                            {
                                 "code": "Placeholder",
                                 "name": "提醒文字",
                                 "type": "char",
@@ -8220,6 +8229,18 @@
             "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGFormWidget",
             "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGFormWidget",
             "pluginCode": "JGFormWidget",
+            "pluginType": "widget"
+        },{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+            "pluginCode": "JGStyleHelper",
+            "pluginType": "widget"
+        },{
+            "groupId": "com.toone.v3.platform",
+            "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGImageHelper",
+            "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGImageHelper",
+            "pluginCode": "JGImageHelper",
             "pluginType": "widget"
         }]
     }]

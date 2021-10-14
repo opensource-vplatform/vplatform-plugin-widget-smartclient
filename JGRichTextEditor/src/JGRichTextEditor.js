@@ -157,9 +157,18 @@ isc.JGRichTextBox.addMethods({
 		isc.JGV3ValuesManager.getByDataSource(this.TableName).setValue(this.ColumnName, val); //同步JGFormItemModel
 		//如果控件不显示或者编辑器对象不存在，则先缓存数据，问题场景：控件默认不显示
 		var editor = this.items[0].editor;
-		if (!this.isVisible() || !editor) {
+		if(!editor){
 			this.items[0].initLoadDataTempValue = val;
 			return;
+		}
+		if(!this.isVisible()){/* 如果能更新编辑器的内容，则直接更新编辑器的内容 */
+			try{
+				this.items[0].editor.setContent(val);
+				return;
+			}catch(e){
+				this.items[0].initLoadDataTempValue = val;
+				return;
+			}
 		}
 		//当配置了加载时就新增数据规则，editor还没有渲染出来就set值的话，ueditor里会出错，这里捕获一下，不往外提示错误
 		try {

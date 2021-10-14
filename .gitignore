@@ -6,3 +6,4 @@
 package-lock.json
 */node_modules/
 .vscode
+JGBaseWidget/dist/index.js

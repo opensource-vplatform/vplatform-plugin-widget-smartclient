@@ -11,7 +11,7 @@ isc.JGFormLayout.addMethods({
 	},
 	//TODO
 	cleanSelectedControlValueJGButton: function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		//isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
 	},
 
 	getLabelTextJGButton: function (itemCode) {

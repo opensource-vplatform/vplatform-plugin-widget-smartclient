@@ -18,9 +18,9 @@ isc.JGFormLayout.addMethods({
 		var item = this.getItemByCode(itemCode);
 		return item.SimpleChineseTitle;
 	},
-	//TODO
+
 	cleanSelectedControlValueJGRichTextEditor : function(itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
 	},
 	
 	getVisibleJGRichTextEditor : function(itemCode) {

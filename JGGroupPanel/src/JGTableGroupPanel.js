@@ -13,12 +13,16 @@ isc.JGTableGroupPanel.addMethods({
 			this.tmpGroupTitle = this.GroupTitle;
 			this.GroupTitle = "";
 		}
+		this.initV3Widget();
 		this.adaptedProperty();
-		this.childrenWidgets = this.layoutChildWidgets();
+		var children = this.childrenWidgets = this.layoutChildWidgets();
 		var numCols = this.NumCols;
-		var children = this.layoutChildWidgets();
 		var members = new Array(numCols);
 		var perWidth = 100 % numCols == 0 ? 100 / numCols + '%' : parseFloat((100 / numCols).toFixed(2)) + '%';
+		var layoutMargin = 0;
+		if(window.v3PlatformSCSkin&&window.v3PlatformSCSkin.layoutMemberMargin){
+			layoutMargin = window.v3PlatformSCSkin.layoutMemberMargin;
+		}
 		for (var i = 0; i < numCols; i++) {
 			var width = i == numCols - 1 ? '*' : perWidth;
 			var childMembers = [];
@@ -26,7 +30,7 @@ isc.JGTableGroupPanel.addMethods({
 			do {
 				var index = multiple * numCols + i;
 				if (index < children.length) {
-					childMembers = children[index];
+					childMembers.push(children[index]);
 				} else {
 					break;
 				}
@@ -37,6 +41,7 @@ isc.JGTableGroupPanel.addMethods({
 				defaultHeight: 5,
 				canAdaptHeight: true,
 				canFocus: true,
+				membersMargin :layoutMargin,
 				adaptHeightBy: function () {
 					return 0;
 				},
@@ -45,7 +50,6 @@ isc.JGTableGroupPanel.addMethods({
 			});
 		}
 		this.members = members;
-		this.initV3Widget();
 		this.initGroupPanel();
 		this.adaptRectByV3();
 		this.Super("init", arguments);

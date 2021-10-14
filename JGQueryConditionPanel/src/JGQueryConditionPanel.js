@@ -127,6 +127,7 @@ isc.JGQueryConditionPanel.addProperties({
 	_$lessThanTitle: isc.I18N.get('小于等于', '普通窗体查询面板控件小数范围的文字'),
 	_$moreThanTitle: isc.I18N.get('大于等于', '普通窗体查询面板控件条件筛选的文字'),
 	_$booleanTitle: isc.I18N.get('是', '普通窗体查询面板控件布尔条件为true的文字'),
+	_$booleanFalseTitle: isc.I18N.get('否', '普通窗体查询面板控件布尔条件为false的文字'),
 	_$toTitle: isc.I18N.get('至', '普通窗体查询面板控件日期范围、期次范围的文字'),
 	_$beforeTitle: isc.I18N.get('以前', '普通窗体查询面板控件日期范围、期次范围的文字'),
 	_$afterTitle: isc.I18N.get('以后', '普通窗体查询面板控件日期范围、期次范围的文字'),
@@ -165,8 +166,15 @@ isc.JGQueryConditionPanel.addMethods({
 
 		this.removeHideFieldsFromFormLayout();
 
-		this.initEvent();
+		
 	},
+
+	v3InitEvent: function(){
+		this.formLayout.v3InitEvent();
+		this.initEvent();
+		this.initDataBinding();
+	},
+
 	clearNotVisibleData: function () {
 		var datasourceName = this.SourceTableName;
 		var datasource = isc.JGDataSourceManager.get(this, datasourceName);
@@ -498,18 +506,20 @@ isc.JGQueryConditionPanel.addMethods({
 		this.getLocateBoxField();
 		this._locateBoxCanvas = isc.DynamicForm.create({
 			autoFocus: true,
+			scopeId : this.scopeId,
+			code: this.code,
 			styleName: 'search-box',
 			fields: [{
 				type: 'hidden',
 				name: 'id'
 			}],
 			height: 40,
-			dataSource : this.TableName,
 			bindDataSource: function (ds) {
-				var vm = isc.JGV3ValuesManager.getByDataSource(ds);
-				var dy = vm.getMember(this.ID);
-				if (!dy) {
-					vm.addMember(this);
+				var id = isc.JGV3ValuesManager.genId(ds.ID, this.scopeId, this.code+"_JGFormLayout");
+                var vm = isc.JGV3ValuesManager.getById(id, ds);
+                var dy = vm.getMember(this.ID);
+                if (!dy){
+                    vm.addMember(this);
 				}
 			},
 			showHighlight: function () {
@@ -561,7 +571,8 @@ isc.JGQueryConditionPanel.addMethods({
 				showCancelButton: true,
 				autoHide: true
 			},
-		})
+		});
+		this._locateBoxCanvas.bindDataSource(this.TableName);
 		return this._locateBoxCanvas;
 	},
 	addSearchBox: function (titleLayout, id) {
@@ -597,6 +608,7 @@ isc.JGQueryConditionPanel.addMethods({
 			this.getShowAndHideFields(layoutItems);
 			this.addFooterBtn();
 			this.getFormLayout(id);
+			this._exposeJGFormLayoutItemMethods();
 		}
 		var layout = isc.VLayout.create({
 			autoDraw: false,
@@ -899,7 +911,7 @@ isc.JGQueryConditionPanel.addMethods({
 		//				if(lastHLayout[lastHLayout.length - 1].InputStyle.InputRelevance == "flpMoreAndQuery_item_static"){
 		//					lastHLayout.splice(lastHLayout.length - 1,1);
 		//				}
-		if (lastHLayout[lastHLayout.length - 1].colSpan == 5) {
+		if (lastHLayout[lastHLayout.length - 1].colSpan == (this.ColumnCount *2 -1)) {
 			col = this.ColumnCount * 2;
 		} else {
 			if (lastHLayout.length == this.ColumnCount) {
@@ -914,6 +926,7 @@ isc.JGQueryConditionPanel.addMethods({
 		var _this = this;
 		this.formLayout = isc.JGFormLayout.create({
 			scopeId: this.scopeId,
+			code : this.code + "_JGFormLayout",//确保与快速检索控件共用一个valuesManager
 			NumCols: this.ColumnCount,
 			Width: "100%",
 			fields: this.layoutFields,
@@ -1221,6 +1234,40 @@ isc.JGQueryConditionPanel.addMethods({
 		return html;
 	},
 
+	_exposeJGFormLayoutItemMethods: function(){
+		var fields = this.layoutFields;	
+		if(fields&&fields.length>0){
+			var fieldTypes = [];
+			for(var i=0,l=fields.length;i<l;i++){
+				var field = fields[i];
+				if(field&&field.type){
+					var type = field.type;
+					if(fieldTypes.indexOf(type)==-1){
+						fieldTypes.push(field.type);
+					}
+				}
+			}
+			var proto = isc.JGFormLayout.getPrototype();
+			for(var name in proto){
+				if(proto.hasOwnProperty(name)){
+					var val = proto[name];
+					if(typeof(val)=='function'){
+						for(var i=0,l=fieldTypes.length;i<l;i++){
+							var fieldType = fieldTypes[i];
+							if(name.substring(name.length-fieldType.length)==fieldType){
+								this[name] = (function(_this,func){
+									return function(){
+										return func.apply(_this.formLayout,arguments);
+									}
+								})(this,val);
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+
 	updateProperty: function (parmas) {
 		if (!parmas || !parmas.propertys || !parmas.widget) {
 			return;
@@ -1430,15 +1477,16 @@ isc.JGQueryConditionPanel.addMethods({
 		var _this = this;
 		var observerFormLayout = isc.CurrentRecordObserver.create({
 			fields: formLayoutFields,
-			setValueHandler: function (record) {
+			setValueHandler: function (record,datasource) {
 				var formWidget = _this.formLayout;
 				//把方法放在外面调用就会报错。。。
 				//    		editRecord(record,fields,formName,widget,formWidget);
 				var data = {
 					id: record.id
 				};
-				for (var i = 0, l = fields.length; i < l; i++) {
-					var fieldCode = fields[i]
+				record = datasource.getRecordById(record.id);
+				for (var i = 0, l = formLayoutFields.length; i < l; i++) {
+					var fieldCode = formLayoutFields[i]
 					data[fieldCode] = record[fieldCode];
 				}
 				if (formWidget.valuesManager) {
@@ -1463,17 +1511,15 @@ isc.JGQueryConditionPanel.addMethods({
 							delete data[fieldCode];
 						}
 					} catch (e) {}
-					if (formName == "formLayout") {
-						if (formWidget.valuesManager) {
-							formWidget.valuesManager.clearValues();
-						} else if (_this.valuesManager) {
-							_this.valuesManager.clearValues();
-						}
+					if (formWidget.valuesManager) {
+						formWidget.valuesManager.clearValues();
+					} else if (_this.valuesManager) {
+						_this.valuesManager.clearValues();
 					}
 					if (emptyRecord) { //原型工具支持配置查询面板的初始数据，如果实体存在记录，则不需要创建新记录。查询面板的记录数只能有一条，由开发系统控制
 						var newRecord = datasource.createRecord();
 						datasource.insertRecords([newRecord]);
-						_this.editV3Record(newRecord, fields);
+						_this.editV3Record(newRecord, formLayoutFields);
 					}
 				}
 
@@ -1607,7 +1653,8 @@ isc.JGQueryConditionPanel.addMethods({
 	 * isLoad 初始化数据
 	 * */
 	resetDsRecord: function (remove, isLoad) {
-		var datasource = isc.JGDataSourceManager.get(this, this._tableName);
+		//需获取平台实体，否则创建记录时没有默认值
+		var datasource = this._getEntity(this.SourceTableName);//isc.JGDataSourceManager.get(this, this._tableName);
 		var records = datasource && datasource.getAllRecords();
 		var oldRecord;
 		if (records && records.length > 0) {
@@ -1618,15 +1665,15 @@ isc.JGQueryConditionPanel.addMethods({
 		}
 		if (!remove) {
 			var newRecord = datasource.createRecord();
-			if (oldRecord) {
-				var loadRecordMap = isc.addProperties({}, oldRecord);
-				for (var key in loadRecordMap) {
-					if (loadRecordMap.hasOwnProperty(key)) {
-						newRecord[key] = loadRecordMap[key];
+			if(oldRecord){
+				var loadRecordMap = oldRecord.toMap();
+				for(var key in loadRecordMap){
+					if(loadRecordMap.hasOwnProperty(key)){
+						newRecord.set(key, loadRecordMap[key]);
 					}
 				}
 			}
-			datasource.insertRecords([newRecord]);
+			datasource.insertRecords({records :[newRecord]});
 		}
 	},
 
@@ -1824,7 +1871,7 @@ isc.JGQueryConditionPanel.addMethods({
 		if (typeof (value) == "string") {
 			titleValue = value.split(',').join('、');
 		} else if (typeof (value) == 'boolean') {
-			titleValue = value === true ? widget._$booleanTitle : null;
+			titleValue = value === true ? widget._$booleanTitle : widget._$booleanFalseTitle;
 		} else {
 			titleValue = value;
 		}

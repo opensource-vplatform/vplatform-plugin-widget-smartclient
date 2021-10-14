@@ -9,7 +9,8 @@ isc.JGFormLayout.addMethods({
 	},
 	//TODO
 	cleanSelectedControlValueJGComboBox: function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		var item = this.getItemByCode(itemCode);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord,[item.IDColumnName,item.ColumnName]);
 	},
 
 	setIsMustJGComboBox: function (itemCode, isMust) {

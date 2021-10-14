@@ -12,6 +12,12 @@
         "docUrl": "./doc/index.js",
         "exampleUrl": "./example/index.js",
         "properties": [{
+            "code": "Alias",
+            "name": "名称",
+            "type": "char",
+            "default": "组件容器",
+            "visible": false
+        },{
             "code": "BorderWidth",
             "name": "边框宽度",
             "type": "integer",

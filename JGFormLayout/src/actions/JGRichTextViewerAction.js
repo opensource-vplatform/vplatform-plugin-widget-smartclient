@@ -16,9 +16,9 @@ isc.JGFormLayout.addMethods({
 	getDefaultValueJGRichTextViewer : function(itemCode) {
 		return this.getDefaultValue(itemCode);
 	},
-	//TODO
+
 	cleanSelectedControlValueJGRichTextViewer : function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
 	},
 
 	setVisibleJGRichTextViewer : function (itemCode, isShow) {

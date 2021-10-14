@@ -11,6 +11,6 @@ isc.JGComboBoxFormItem.addMethods({
 		}
 	},
 	getData: function () {
-		return this.DropDownSource;
+		return this.form ? this.form.getDropDownSourceJGComboBox(this.Code):null;
 	}
 });

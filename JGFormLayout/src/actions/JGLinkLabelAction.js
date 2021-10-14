@@ -14,9 +14,9 @@ isc.JGFormLayout.addMethods({
 		var item = this.getItemByCode(itemCode);
 		return item.SimpleChineseTitle;
 	},
-	//TODO
+
 	cleanSelectedControlValueJGLinkLabel: function (itemCode, onlyCleanSelectedRecord) {
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
 	},
 
 	setLabelTextJGLinkLabel: function (itemCode, title) {

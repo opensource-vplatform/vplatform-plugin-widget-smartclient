@@ -277,7 +277,7 @@ isc.JGFormLayout.addMethods({
 	//TODO
 	cleanSelectedControlValueJGAttachment: function (itemCode, onlyCleanSelectedRecord) {
 		var item = this.getItemByCode(itemCode);
-		isc.WidgetDatasource.clearValue(itemCode, onlyCleanSelectedRecord);
+		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord,[item.ColumnName,item.FileNameColumn,item.FileSizeColumn]);
 		item.clearFileQueue();
 	},
 	checkFileType: function (files) {
