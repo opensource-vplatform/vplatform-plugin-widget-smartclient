@@ -987,7 +987,7 @@ isc.JGReport.addMethods({
 				alert("正在获取打印数据，请稍候...");
 			} else {
 				var cfg = this.htmlData;
-				printContext.print(cfg, null);
+				this.doPrint(cfg, null,"print");
 			}
 		}
 	},
@@ -1000,7 +1000,7 @@ isc.JGReport.addMethods({
 				alert("正在获取打印数据，请稍候...");
 			} else {
 				var cfg = this.htmlData;
-				printContext.selectPrint(cfg, null);
+				this.doPrint(cfg, null,"selectPrint");
 			}
 		}
 	},
@@ -1013,7 +1013,7 @@ isc.JGReport.addMethods({
 				alert("正在获取打印数据，请稍候...");
 			} else {
 				var cfg = this.htmlData;
-				printContext.preview(cfg, null);
+				this.doPrint(cfg, null,"preview");
 			}
 		}
 	},
@@ -1084,11 +1084,11 @@ isc.JGReport.addMethods({
 					cfg.datasource = datasource;
 
 					if (printType == "print") {
-						printContext.print(cfg, null);
+						this.doPrint(cfg, null,"print");
 					} else if (printType == "selectPrint") {
-						printContext.selectPrint(cfg, null);
+						this.doPrint(cfg, null,"selectPrint");
 					} else {
-						printContext.preview(cfg, null);
+						this.doPrint(cfg, null,"preview");
 					}
 				}
 			}
@@ -1108,7 +1108,7 @@ isc.JGReport.addMethods({
 		quickPrintArgs["displayText"] = displayText;
 		var _this = this;
 		quickPrintArgs["clickEvent"] = function () {
-			_this.doTooneQuickPrintClick.apply(this, [_this]);
+			_this.doTooneQuickPrintClick.apply(_this, [_this]);
 		}
 		return quickPrintArgs;
 	},
@@ -1118,7 +1118,7 @@ isc.JGReport.addMethods({
 		generalPrintArgs["displayText"] = displayText;
 		var _this = this;
 		generalPrintArgs["clickEvent"] =function () {
-			_this.doTooneGeneratePrintClick.apply(this, [_this]);
+			_this.doTooneGeneratePrintClick.apply(_this, [_this]);
 		}
 		return generalPrintArgs;
 	},
@@ -1128,7 +1128,7 @@ isc.JGReport.addMethods({
 		previewPrintArgs["displayText"] = displayText;
 		var _this = this;
 		previewPrintArgs["clickEvent"] = function () {
-			_this.doTooneQuickPrintClick.apply(this, [_this]);
+			_this.doToonePreviewPrintClick.apply(_this, [_this]);
 		}
 		return previewPrintArgs;
 	},
@@ -1138,7 +1138,7 @@ isc.JGReport.addMethods({
 		saveArgs["displayText"] = displayText;
 		var _this = this;
 		saveArgs["clickEvent"] =function () {
-			_this.doTooneReportSaveClick.apply(this, [_this, clickEventCode]);
+			_this.doTooneReportSaveClick.apply(_this, [_this, clickEventCode]);
 		}
 		return saveArgs;
 	},
@@ -1334,7 +1334,7 @@ isc.JGReport.addMethods({
 			this.tooneBeforeReport.drawInnerText(pluginID);
 		} else {
 			this.tooneBeforeReport.relicenserror(pluginID);
-			console.warn("控件" + widgetId + "授权码:" + GC.Spread.Sheets.LicenseKey);
+			console.warn("控件" + this.widgetId + "授权码:" + GC.Spread.Sheets.LicenseKey);
 		}
 		//#endregion
 	},
@@ -1429,7 +1429,7 @@ isc.JGReport.addMethods({
 		//#region 右键菜单
 
 		initContextMenu(spread);
-
+		var _this=this;
 		function initContextMenu(spread) {
 
 			spread.contextMenu.onOpenMenu = function (menuData, itemsDataForShown, hitInfo, spread) {
@@ -1440,7 +1440,7 @@ isc.JGReport.addMethods({
 				//获取所有表格
 				var tables = currentSheet.tables.all();
 				//检测是否是表格行
-				var table = this.getTable(tables, row);
+				var table = _this.getTable(tables, row);
 				if (table == null) {
 					for (var j = itemsDataForShown.size() - 1; j >= 0; j--) {
 						var itemData = itemsDataForShown[j];
@@ -1710,7 +1710,7 @@ isc.JGReport.addMethods({
 						//规则“加载数据到报表”绑定的事件（超链接单元格点击的时候，触发超链接事件）
 						var cellType = sheet.getCellType(rowIndex, colIndex);
 						if (cellType instanceof GC.Spread.Sheets.CellTypes.HyperLink) {
-							this.doHyperLinkClick(sheet, rowIndex, colIndex, value);
+							_this.doHyperLinkClick(sheet, rowIndex, colIndex, value);
 						}
 					}
 				}
@@ -3669,5 +3669,643 @@ isc.JGReport.addMethods({
 		}
 	},
 
+
+	showFrmSelectPrinter : function (printer, cfg, offset, printType) {
+		var _this=this;
+		var html = this.createFrmSelectPrinter();
+		this._createModal({
+			title: "选择打印机",
+			width: 400,
+			height: 260,
+			rendered: function (containerCode, closeFunc, setTitleFunc) {
+				$("#" + containerCode).html(html);
+
+				var srcPrinterName = cfg["printerName"];
+				var srcPrintNum = cfg["printNum"];
+				_this.getAllPrinter(printer, srcPrinterName, srcPrintNum);
+
+				$("#btnOK").click(function () {
+					var selPrinterName = $("#cmbPrinterName").val();
+					var selPrintNumVal = $("#txtPrintNum").val();
+					var selPrintNum = _this.getPrintNum(selPrintNumVal);
+					if (selPrintNum > 0) {
+						// 打印机名称
+						cfg["printerName"] = selPrinterName;
+						// 打印份数
+						cfg["printNum"] = selPrintNum;
+						//执行打印
+						_this.executePrint(printer, cfg, offset, "print");
+						//关闭页面
+						closeFunc();
+					} else {
+						alert("请输入大于0的整数。");
+					}
+				});
+
+				$("#btnCancel").click(function () {
+					closeFunc();
+				});
+			},
+			closed: function (containerCode, closeHandle) {
+				closeHandle();
+			},
+			resized: function (containerCode) {
+
+			},
+			formBorderStyle: "FixedSingle",
+			maximizeBox: false,
+			windowState: "Normal"
+		})
+	},
+
+	createFrmSelectPrinter : function () {
+		var html =
+			"<style>" +
+			"body{padding:0;margin:0}" +
+			".m-printModel {font-size:12px;}" +
+			".m-printModel ul{padding:24px;list-style:none;}" +
+			".m-printModel ul li{margin-bottom:16px;}" +
+			".m-printModel ul li:after{content:'';clear:both;display:table}" +
+			".m-printModel ul li label{text-align: right;vertical-align: middle;float: left;font-size: 12px;color: #515a6e;line-height: 32px;padding: 0 8px 0  0;box-sizing: border-box;color: #0a0a0a;width:90px;}" +
+			".m-printModel .m-inputs {box-sizing:border-box;width:240px;height:32px;line-height:1.5;padding:4px 7px;color: #515a6e;background:#fff;border:1px solid #ddd;border-radius:4px;transition: border .2s ease-in-out,background .2s ease-in-out,box-shadow .2s ease-in-out;}" +
+			".m-printModel .m-inputs:hover {border-color: #57a3f3;}" +
+			".m-printModel .m-inputs:focus {border-color: #57a3f3;outline: 0;box-shadow: 0 0 0 2px rgba(45,140,240,.2);}" +
+			".m-printModel .formItem {float:left;line-height:32px;font-weight:bold;}" +
+			".m-printModel-toolBar {padding:16px;border-top:1px solid #eee;text-align:right;}" +
+			".m-printModel-toolBar .modalBtn {display: inline-block;margin-left:4px;padding:5px 15px 6px;font-size:12px;text-align: center;border: 1px solid transparent;border-radius:4px;cursor:pointer;user-select:none;transition: color .2s linear,background-color .2s linear,border .2s linear,box-shadow .2s linear;text-decoration:none;}" +
+			".m-printModel-toolBar .modalBtn:focus {box-shadow: 0 0 0 2px rgba(45,140,240,.2);}" +
+			".m-printModel-toolBar .modalBtn-primary{color:#fff;background-color: #2d8cf0;border-color: #2d8cf0;}" +
+			".m-printModel-toolBar .modalBtn-primary:hover{background-color: #57a3f3;border-color: #57a3f3;}" +
+			".m-printModel-toolBar .modalBtn-default{color: #515a6e;background:#fff;border-color:#dcdee2;}" +
+			".m-printModel-toolBar .modalBtn-default:hover{color:#2d8cf0;border-color:#2d8cf0;}" +
+			"</style>" +
+
+			"<div class=\"m-printModel\">" +
+			"<ul>" +
+			"<li>" +
+			"<label>目标打印机：</label>" +
+			"<div class=\"formItem\">" +
+			"<select id=\"cmbPrinterName\" class=\"m-inputs\"></select>" +
+			"</div>" +
+			"</li>" +
+			"<li>" +
+			"<label>打印份数：</label>" +
+			"<div class=\"formItem\">" +
+			"<input type=\"text\" id=\"txtPrintNum\" class=\"formItem m-inputs\" value=\"1\">" +
+			"</div>" +
+			"</li>" +
+			"<li>" +
+			"<label id=\"lblMsg\"></label>" +
+			"</li>" +
+			"</ul>" +
+			"<div class=\"m-printModel-toolBar\">" +
+			"<a href=\"#\" id=\"btnCancel\" class=\"modalBtn modalBtn-default\">取消</a>" +
+			"<a href=\"#\" id=\"btnOK\" class=\"modalBtn modalBtn-primary\">确定</a>" +
+			"</div>" +
+			"</div>"
+		return html;
+	},
+
+	getAllPrinter : function (printer, srcPrinterName, srcPrintNum) {
+		var isExist = false;
+		var iPrinterCount = printer.GET_PRINTER_COUNT();
+		for (var i = 0; i < iPrinterCount; i++) {
+			var option = document.createElement('option');
+			var printName = printer.GET_PRINTER_NAME(i);
+			if (printName == srcPrinterName) {
+				isExist = true;
+			}
+			option.innerHTML = printName;
+			option.value = printName;
+			document.getElementById('cmbPrinterName').appendChild(option);
+		};
+
+		if (isExist) {
+			$("#cmbPrinterName").val(srcPrinterName);
+		}
+
+		var val = this.getPrintNum(srcPrintNum);
+		if (val > 0) {
+			$("#txtPrintNum").val(srcPrintNum);
+		} else {
+			$("#txtPrintNum").val(1);
+		}
+	},
+
+	getPrintNum : function (printNumVal) {
+		var val = -1;
+		var r = /^\+?[1-9][0-9]*$/;
+		var flag = r.test(printNumVal);
+		if (flag) {
+			var printNum = Number(printNumVal);
+			if (printNum > 0) {
+				val = printNum;
+			}
+		}
+		return val;
+	},
+
+	// 准备打印
+	doPrint : function (cfg, offset, printType) {
+		var _this=this;
+		if (offset == null) {
+			offset = {}
+			offset.offsetLeft = 0;
+			offset.offsetTop = 0;
+		}
+		var service = cfg["serviceHost"];
+		var isService = true;
+		if (service == '' || service === undefined) {
+			isService = false;
+		}
+
+		var serviceHost = _this.getServiceHost(cfg);
+		var result = _this.checkServiceHost(serviceHost);
+		if (!result) {
+			var params = {};
+			params.title = "打印服务地址检查";
+			params.msgHeader = "";
+			params.msg = "打印服务地址是非法的URL，请检查！";
+			frontEndAlerter.error(params);
+
+			return;
+		}
+
+		var printer = null;
+		//最大重试次数
+		var maxTryTimes = 300;
+		//当前重试次数
+		var curTryTimes = 0;
+		//timer轮询
+		var printerTimer = self.setInterval(function () {
+			if (printer != null) {
+				window.clearInterval(printerTimer);
+				//注册许可证信息
+				_this.registerLicenses(printer);
+				if (printType == "selectPrint") {
+					//选择打印机
+					_this.showFrmSelectPrinter(printer, cfg, offset, printType);
+				} else {
+					//执行打印
+					_this.executePrint(printer, cfg, offset, printType);
+				}
+			} else {
+				if (curTryTimes > maxTryTimes) {
+					window.clearInterval(printerTimer);
+				}
+				curTryTimes++;
+			}
+		}, 100)
+
+		// 组装打印服务地址, 加载CLodopfuncs.js 
+		var lodopFuncsUrl = serviceHost + "CLodopfuncs.js";
+		head.js(lodopFuncsUrl, function () {
+			if (typeof LODOP === "undefined" || !LODOP || !LODOP.VERSION) {
+				if (!isService) {
+					lodopFuncsUrl = "http://localhost:18000/CLodopfuncs.js";
+					head.js(lodopFuncsUrl, function () {
+						if (typeof LODOP === "undefined" || !LODOP || !LODOP.VERSION) {
+							_this.showPrinterInstallTips(serviceHost);
+						} else {
+							var isSucess = _this.checkLodopVersion(LODOP);
+							if (false == isSucess) {
+								_this.showPrinterUpdateTips(serviceHost);
+							} else {
+								printer = LODOP;
+							}
+						}
+					});
+				} else {
+					_this.showPrinterInstallTips(serviceHost);
+				}
+			} else {
+				var isSucess = _this.checkLodopVersion(LODOP);
+				if (false == isSucess) {
+					_this.showPrinterUpdateTips(serviceHost);
+				} else {
+					printer = LODOP;
+				}
+			}
+		});
+	},
+
+	// 获取打印服务地址
+	getServiceHost : function (cfg) {
+		var serviceHost = cfg["serviceHost"];
+		if (serviceHost == '' || serviceHost === undefined) {
+			serviceHost = "http://localhost:8000/";
+		}
+		//开头补全http://
+		if (serviceHost.indexOf("http://") < 0) {
+			serviceHost = "http://" + serviceHost;
+		}
+		//结尾补全/
+		var str = serviceHost.charAt(serviceHost.length - 1);
+		if (str != "/") {
+			serviceHost = serviceHost + "/";
+		}
+		cfg["serviceHost"] = serviceHost;
+		return serviceHost;
+	},
+
+	// 校验打印服务地址是否有效
+	checkServiceHost : function (url) {
+		var result = false;
+		var strRegex = "^((https|http|ftp|rtsp|mms)?://)" +
+			"?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@
+			+
+			"(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP形式的URL- 199.194.52.184
+			+
+			"|" // 允许IP和DOMAIN（域名）
+			+
+			"([0-9a-z_!~*'()-]+\.)*" // 域名- www.
+			+
+			"([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // 二级域名
+			+
+			"[a-z]{2,6})" // first level domain- .com or .museum
+			+
+			"(:[0-9]{1,4})?" // 端口- :80
+			+
+			"((/?)|" // a slash isn't required if there is no file name
+			+
+			"(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
+		var regExp = new RegExp(strRegex);
+		if (regExp.test(url)) {
+			result = true;
+		}
+
+		return result;
+	},
+
+	// 检查版本是否大于6.2.2.1， 提示用户升级打印插件
+	checkLodopVersion : function (LODOP) {
+		var version = LODOP.VERSION;
+		if (version) {
+			var srcItems = version.split(".");
+			var destItems = "6.2.2.1".split(".");
+			for (var i = 0; i < srcItems.length; i++) {
+				var srcItem = srcItems[i];
+				var destItem = "0";
+				if (i < destItems.length) {
+					destItem = destItems[i]
+				}
+
+				var srcValue = parseInt(srcItem);
+				var destValue = parseInt(destItem);
+				if (srcValue < destValue) {
+					return false;
+				}
+			}
+			return true;
+		} else {
+			return false;
+		}
+	},
+
+	// 注册许可证信息
+	registerLicenses : function (printer) {
+		printer.SET_LICENSES("同望科技股份有限公司", "227D7CB7AB0D5C4BECD8D05CDF543847", "同望科技股份有限公司", "C5E74B2EF91B7F622D4FB3966183E7CA");
+		printer.SET_LICENSES("THIRD LICENSE", "", "TOONE TECHNOLOGY Co.,LTD.", "0988934F7AD14981887653ECC0FB78D2");
+	},
+
+	// 打印提示信息
+	showPrinterAlertTips : function (serviceHost, title, btnTitle) {
+		if (!serviceHost)
+			serviceHost = "";
+
+		var obj = $("#divV3PrinterAlertTips");
+		if (obj.length > 0) {
+			obj.remove();
+		}
+		var tips = $('<div id="divV3PrinterAlertTips" style="z-index:99999999;position:fixed;top:0;left:0;right:0;height:38px;line-height:38px;padding:0 16px;background:#e6f7ff;font-size:14px;">' +
+			'<span style="color:#333;font-size:inherit;">' + serviceHost + "  " + title + '</span>' +
+			'<a href="itop/common/CLodop_Setup_for_Win32NT.exe" style="display:inline-block;font-size:inherit;border:1px solid #0079fe;border-radius:4px;background:#fff;color:#0079fe;text-decoration:none;line-height:28px;padding:0 8px;">' + btnTitle + '</a>' +
+			'</div>');
+		var tipsCloser = $('<div style="position:absolute;right:10px;font-family:微软雅黑;font-size:14px;vertical-align:middle;top:0px;font-weight:bold;color:#0079fe;cursor:pointer;width:30px;text-align:center;">X</div>');
+		tipsCloser.click(function () {
+			tips.remove();
+		});
+		tips.append(tipsCloser);
+		$('body').append(tips);
+	},
+
+	// 提示用户安装启动打印插件
+	showPrinterInstallTips : function (serviceHost) {
+		this.showPrinterAlertTips(serviceHost, "打印服务未安装启动，使用管理员权限执行安装，安装后请刷新页面。", "立即安装");
+	},
+
+	// 提示用户升级打印插件
+	showPrinterUpdateTips : function (serviceHost) {
+		this.showPrinterAlertTips(serviceHost, "打印服务需要升级，使用管理员权限执行升级，升级后请刷新页面。", "立即升级");
+	},
+
+	// 执行打印
+	executePrint : function (printer, cfg, offset, printType) {
+		var _this=this;
+		// 服务器类型
+		var serverHostType = cfg["serverHostType"];
+		// 打印机名称
+		var printerName = cfg["printerName"];
+		// 左偏移量
+		var offsetLeft = offset["offsetLeft"];
+		// 上偏移量
+		var offsetTop = offset["offsetTop"];
+		// 打印份数
+		var printNum = Number(cfg["printNum"]);
+		// 获取打印机序号
+		var printerIndex =this.getPrinterIndex(printer, printerName);
+		// 获取打印极所有纸张
+		var printerPapers = this.getPrinterPapers(printer, printerName);
+		// 打印数据源
+		var datasource = cfg["datasource"];
+		// 打印比例
+		var zoomScale = 100;
+		var map = {};
+		for (var i = 0; i < datasource.length; i++) {
+			// 获取报表数据
+			var objs = datasource[i];
+			var obj = JSON.parse(objs);
+			// 获取打印设置
+			var printSetting = JSON.parse(obj["print"]);
+			// 打印方向
+			var orient = printSetting["orient"];
+			// 打印纸张名称
+			var paperName = this.getPaperName(printSetting["paperSize"]);
+			// 打印比例
+			var zoomScaleStr = printSetting["zoomScale"];
+			if (zoomScaleStr == null || zoomScaleStr == "" || zoomScaleStr == "null")
+				zoomScale = 100;
+			else
+				zoomScale = Number(zoomScaleStr) * 100;
+			// 根据纸张方向尺寸生成关键字，用于批量打印时归类（横向，纵向）打印
+			var mapKey = orient + "_" + paperName;
+			if (map[mapKey] == null) {
+				var htmls = [];
+				htmls.push(obj);
+				map[mapKey] = htmls;
+			} else {
+				var htmls = map[mapKey];
+				htmls.push(obj);
+			}
+		}
+
+		if (Object.keys(map).length > 1 && printType == "preview") {
+			alert("打印纸张，方向不统一，无法预览");
+			return;
+		}
+
+		var printReportTimer = null;
+		//最大重试次数
+		var printReportMaxTime = 300;
+		//当前重试次数
+		var printReportCurTime = 0;
+
+		var doPrintReport = function () {
+			if (printer.webskt && printer.webskt.readyState == 1) {
+				this.clearTimeout(printReportTimer);
+				var isNewPage = false;
+				for (var key in map) {
+					//打印初始化
+					printer.PRINT_INITA(offsetTop, offsetLeft, 800, 600, "打印_" + key);
+					printer.SET_PRINTER_INDEX(printerIndex);
+					var orient = key.split("_")[0]; //打印方向横向纵向
+					var paperName = key.split("_")[1]; //打印纸张名称
+					if (printerPapers.contains(paperName)) {
+						printer.SET_PRINT_PAGESIZE(orient, 0, 0, paperName);
+					} else {
+						for (var i = 0; i < printerPapers.length; i++) {
+							var printerPaper = printerPapers[i];
+							if (printerPaper.indexOf(paperName) > -1) {
+								printer.SET_PRINT_PAGESIZE(orient, 0, 0, printerPaper);
+								break;
+							}
+						}
+					}
+
+					printer.SET_PRINT_MODE("RESELECT_PRINTER", 1); //设置是否可以重新选择打印机。
+					printer.SET_PRINT_MODE("RESELECT_PAGESIZE", 1); //设置是否可以重新选择纸张。
+					printer.SET_PRINT_MODE("RESELECT_ORIENT", 1); //设置是否可以重新选择打印方向。
+
+					//获取纸张长度（mm）
+					var paperLength = printer.GET_PRINTER_NAME(printerIndex + ":PaperLength") / 10;
+					if (orient == "2") {
+						printer.SET_SHOW_MODE("LANDSCAPE_DEFROTATED", true);
+						paperLength = printer.GET_PRINTER_NAME(printerIndex + ":PaperWidth") / 10;
+					}
+
+					var l2Margin = 0; //上个模板的右边距
+					var objs = map[key];
+					for (var j = 0; j < objs.length; j++) {
+						var obj = objs[j];
+						//页眉
+						var pageHeader = obj["pageHeader"];
+						var pageHeaderHeight = 0;
+						var pageHeaderHeightPx = obj["pageHeaderHeight"];
+						if (pageHeaderHeightPx != null) {
+							pageHeaderHeight = Number(pageHeaderHeightPx) * 0.254;
+						}
+						//页脚
+						var pageFooter = obj["pageFooter"];
+						var pageFooterHeight = 0;
+						var pageFooterHeightPx = obj["pageFooterHeight"];
+						if (pageFooterHeightPx != null) {
+							pageFooterHeight = Number(pageFooterHeightPx) * 0.254;
+						}
+						//正文
+						var html = obj["html"];
+						var printSetting = JSON.parse(obj["print"]);
+						var tMarginPx = Number(printSetting["tMargin"]); //上边距
+						var lMarginPx = Number(printSetting["lMargin"]); //左边距
+						var rMarginPx = Number(printSetting["rMargin"]); //右边距
+						var bMarginPx = Number(printSetting["bMargin"]); //下边距
+						var tMargin = tMarginPx * 0.254;
+						var lMargin = lMarginPx * 0.254;
+						var rMargin = rMarginPx * 0.254;
+						var bMargin = bMarginPx * 0.254;
+						//打印页眉
+						if (pageHeaderHeight > 0) {
+							printer.ADD_PRINT_HTM(tMargin + "mm", lMargin + "mm", "RightMargin:" + rMargin + "mm", pageHeaderHeight + "mm", pageHeader);
+							printer.SET_PRINT_STYLEA(0, "ItemType", 1);
+						}
+						//打印页脚
+						if (pageFooterHeight > 0) {
+							var topLength = paperLength - pageFooterHeight - bMargin;
+							printer.ADD_PRINT_HTM(topLength + "mm", lMargin + "mm", "RightMargin:" + rMargin + "mm", pageFooterHeight + "mm", pageFooter);
+							printer.SET_PRINT_STYLEA(0, "ItemType", 1);
+						}
+
+						//是否连打
+						var continuousPrint = obj["continuousPrint"];
+						//是否动态报表
+						var isList = obj["isList"];
+						//图片
+						var imgs = obj["imgs"];
+						imgs = JSON.parse(imgs);
+						//分割成多个table（一个table代表一个Sheet）
+						var tables = html.split("<div style=\"page-break-after:always\">&nbsp;</div>");
+						//获取上边距
+						var topValue = tMargin + pageHeaderHeight;
+						//获取下边距
+						var bottomValue = bMargin + pageFooterHeight;
+						for (var tableIndex = 0; tableIndex < tables.length; tableIndex++) {
+							var ht = tables[tableIndex];
+							if (ht != "") {
+								//每页打印行数（再分页数）
+								var childTables = ht.split("<p style=\"page-break-after:always\">&nbsp;</p>");
+								if (childTables.length <= 1) {
+									if (continuousPrint) {
+										var bLMargin = lMargin - l2Margin; //计算出本次模板距离纸张的左边距
+										_this.addImg(printer, imgs, tableIndex, topValue, lMargin);
+										printer.ADD_PRINT_TABLE(topValue + "mm", bLMargin + "mm", "RightMargin:" + rMargin + "mm", "BottomMargin:" + bottomValue + "mm", "<!DOCTYPE html>" + ht);
+										printer.SET_PRINT_STYLEA(0, "LinkedItem", -1); //模板连打
+										if (!isList) {
+											printer.SET_PRINT_STYLEA(0, "LinkNewPage", "True");
+										}
+										l2Margin = l2Margin + bLMargin;
+									} else {
+										if (false == isNewPage) {
+											printer.NEWPAGEA();
+											isNewPage = true;
+										}
+										_this.addImg(printer, imgs, tableIndex, topValue, lMargin);
+										printer.ADD_PRINT_TABLE(topValue + "mm", lMargin + "mm", "RightMargin:" + rMargin + "mm", "BottomMargin:" + bottomValue + "mm", "<!DOCTYPE html>" + ht);
+										isNewPage = false;
+									}
+								} else {
+									if (false == isNewPage) {
+										printer.NEWPAGEA();
+										isNewPage = true;
+									}
+									_this.addImg(printer, imgs, tableIndex, topValue, lMargin);
+									//每页打印行数
+									for (var n = 0; n < childTables.length; n++) {
+										var childHt = childTables[n];
+										if (childHt != "") {
+											if (false == isNewPage) {
+												printer.NEWPAGEA();
+												isNewPage = true;
+											}
+											printer.ADD_PRINT_TABLE(topValue + "mm", lMargin + "mm", "RightMargin:" + rMargin + "mm", "BottomMargin:" + bottomValue + "mm", "<!DOCTYPE html>" + childHt);
+											isNewPage = false;
+										}
+									}
+								}
+							}
+						}
+					}
+
+					if (zoomScale != 100) {
+						var printPagePercent = zoomScale + "%";
+						printer.SET_PRINT_MODE("PRINT_PAGE_PERCENT", printPagePercent);
+					}
+
+					if (printType == "print") {
+						if (printNum > 1) {
+							printer.SET_PRINT_COPIES(printNum);
+						}
+						printer.PRINT();
+					} else {
+						if ("local" != serverHostType) {
+							printer.PREVIEW("_dialog"); //远程弹窗预览
+						} else {
+							printer.PREVIEW();
+						}
+					}
+				}
+			} else {
+				if (printReportCurTime > printReportMaxTime) {
+					this.clearTimeout(printReportTimer);
+				} else {
+					printReportTimer = this.setTimeout(doPrintReport, 100);
+					printReportCurTime++;
+				}
+			}
+		}
+
+		doPrintReport();
+	},
+
+	//获取打印机序号
+	getPrinterIndex : function (printer, printerName) {
+		if (printerName != "") {
+			var count = printer.GET_PRINTER_COUNT();
+			for (var i = 0; i < count; i++) {
+				var name = printer.GET_PRINTER_NAME(i);
+				if (name == printerName) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	},
+
+	// 获取打印机所支持的所有纸张
+	getPrinterPapers : function (printer, printerName) {
+		var pageSizeList;
+		if (printerName != "") {
+			printer.SET_PRINTER_INDEXA(printerName) //设置打印机
+			pageSizeList = printer.GET_PAGESIZES_LIST(printerName, "\n"); //获取当前打印机纸张信息
+		} else {
+			pageSizeList = printer.GET_PAGESIZES_LIST(-1, "\n"); //获取默认打印机纸张信息
+		}
+		var printerPapers = pageSizeList.split("\n");
+		return printerPapers;
+	},
+
+	// 获取纸张名称
+	getPaperName : function (paperSize) {
+		var paperNames = {
+			"null": "A4",
+			"8": "A3",
+			"11": "A5",
+			"66": "A2",
+			"70": "A5"
+		}
+		var paperSize = paperNames[paperSize];
+		return paperSize;
+	},
+
+	getHost : function (path) {
+		var host = window.location.protocol + "//" + window.location.host + "/" + path;
+		return host;
+	},
+
+	addImg : function (printer, imgs, tableIndex, tMargin, lMargin) {
+		if (imgs == null) {
+			return;
+		}
+		for (var j = 0; j < imgs.length; j++) {
+			var img = imgs[j];
+			var index = img["index"];
+			if (index != tableIndex) {
+				continue;
+			}
+
+			var reportImagePrintType = img["reportImagePrintType"];
+			var topPx = img["top"];
+			var leftPx = img["left"];
+			var widthPx = img["width"];
+			var heightPx = img["height"];
+			var path = img["path"];
+
+			var top = (topPx * 0.254 + tMargin) + "mm";
+			var left = (leftPx * 0.254 + lMargin) + "mm";
+			var width = (widthPx * 0.254 + 4) + "mm";
+			var height = (heightPx * 0.254 + 4) + "mm";
+			var imgUrl = "<img border='0' src='" + this.getHost(path) + "' style='z-index:-1; position:absolute;width:" + widthPx + "px;height:" + heightPx + "px'>";
+			printer.ADD_PRINT_IMAGE(top, left, width, height, imgUrl);
+
+			if (reportImagePrintType == "FirstPage") {
+				// 不用加，分组报表时，第一页都要打印
+				//printer.SET_PRINT_STYLEA(0, "PageIndex", "First");
+			} else if (reportImagePrintType == "EachPage") {
+				printer.SET_PRINT_STYLEA(0, "PageIndex", "Odd,Even");
+				printer.SET_PRINT_STYLEA(0, "TransColor", "#FFFFFF");
+			} else if (reportImagePrintType == "LastPage") {
+				printer.SET_PRINT_STYLEA(0, "PageIndex", "Last");
+				printer.SET_PRINT_STYLEA(0, "TransColor", "#FFFFFF");
+			}
+		}
+	}
 
 });

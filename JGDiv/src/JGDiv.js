@@ -271,12 +271,46 @@ isc.JGDiv.addMethods({
     /**
      * 校验必填
      * */
-	validate: function(widgetCode,entityCodes){
-		var vue = this._$vueObj;
-    	if(vue){
-    		v3VueUtils.validate(vue,entityCodes);
-    	}
-    }
+	// validate: function(widgetCode,entityCodes){
+	// 	var vue = this._$vueObj;
+    // 	if(vue){
+    // 		v3VueUtils.validate(vue,entityCodes);
+    // 	}
+    // },
+	// validate : function(vue,entityCodes){
+	// 	if(vue&&entityCodes){
+	// 		var widgets = vue.widgets;
+	// 		if(widgets && widgets.length > 0){
+	// 			var formIds = [];
+	// 			var vueComponent = vue.vueInstance;
+	// 			if(vueComponent.$children && vueComponent.$children.length > 0){
+	// 				vueComponent = vueComponent.$children[0];
+	// 			}
+	// 			for(var i = 0,len = widgets.length;i<len;i++){
+	// 				var widget = widgets[i];
+	// 				if(widget && widget.vModelEntityName && entityCodes.indexOf(widget.vModelEntityName)!=-1 && widget.formId){
+	// 					var fId = widget.formId;
+	// 					if(formIds.indexOf(fId)==-1){
+	// 						formIds.push(fId);
+	// 					}
+	// 				}
+	// 			}
+	// 			var len = formIds.length;
+	// 			if(len > 0){
+	// 				for(var i = 0;i<len;i++){
+	// 					var refFunc = vueComponent.$refs[formIds[i]];
+	// 					if(refFunc && typeof(refFunc.validate) =="function"){
+	// 						refFunc.validate();
+	// 					}else{
+	// 						if(window.console){
+	// 							console.warn("暂无法校验表单,表单标识："+formIds[i]);
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 });
 
 

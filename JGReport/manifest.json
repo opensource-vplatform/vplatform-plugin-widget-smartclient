@@ -151,7 +151,13 @@
                     "name":"获取事件处理器",
                     "type":"char",
                     "handler":"executeWindowRoute"
-                }
+                },
+                {
+                    "code": "_createModal",
+                    "name": "创建模态窗口",
+                    "type": "char",
+                    "handler": "browser.createDialog"
+                  }
             ],
             "dependencies": [
                 {
