@@ -144,4 +144,25 @@ isc.JGPeriodRangeFormItem.addMethods({
         this.setElementValue(value);
         this.form._dataSyn();
     },
+    /**
+     * 改变期次类型
+     * */
+    setPeriodType: function(type){
+    	if(null == type || "" == type || this.PeriodType === type){
+    		return;
+    	}
+    	if(this.DisplayFormatString.hasOwnProperty(type)){
+    		this.setDateType(type);
+            this.PeriodType = type;
+            this.setElementValue();
+            if(this.form){
+                /* 查询面板已选条件需要通过数据进行删除 */
+                this.form.setValue(this.StartColumnName, null);
+                this.form.setValue(this.EndColumnName, null);
+                this.form._dataSyn(this.widgetId);
+            }
+    	}else{
+    		throw new Error("期次不支持该类型：" + type);
+    	}
+    }
 });

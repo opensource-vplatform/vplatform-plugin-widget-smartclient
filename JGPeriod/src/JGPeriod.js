@@ -77,7 +77,8 @@ isc.JGPeriod.addMethods({
 		return [this.ColumnName];
 	},
 	setPeriodType: function (periodType) {
-		if (!this.isDisabled()) {
+		if (!this.isDisabled() && this.PeriodType != periodType) {
+			this.PeriodType = periodType;
 			var _formItems = this.items.last();
 			if (_formItems) {
 				// 为了触发db重置值
@@ -94,7 +95,7 @@ isc.JGPeriod.addMethods({
 				_formItems.displayFormat = _formItems._displayFormat[periodType];
 				_formItems.picker = null;
 
-				_formItems.form._dataSyn();
+				_formItems.form._dataSyn(this.code);
 			}
 		}
 	},
