@@ -85,6 +85,9 @@ isc.JGLayoutManager.addInterfaceMethods({
         }
         if(absChildren.length>0){
             absChildren = this._layoutAbsChildren(absChildren);
+            if (this.type == "JGGroupPanel" && this.ContentAlignment == "Vertical") {
+                absChildren = this.analyzeVLayoutChild(absChildren, true);
+            }
         }
         return result.concat(absChildren);
     },

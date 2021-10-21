@@ -1904,8 +1904,11 @@ isc.JGComponentContainer.addMethods({
 
         //往组件容器中增加 注册打开窗体信息的相关接口。
         this.initComponent(this);
-        this.onInited(this.getEventHandler(widgetId, "OnContainerInited"));
-    },
+	},
+	windowInited:function(){
+		//调整事件触发时机：Task20211015042
+		this.onInited(this.getEventHandler(this.code, "OnContainerInited"));
+	},
 	beforeDataLoad: function(){
 		//建立窗体与组件容器关系
         var info = this._componentRenderHandler("getParentContainerInfo");
