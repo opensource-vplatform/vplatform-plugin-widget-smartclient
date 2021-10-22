@@ -980,40 +980,43 @@ isc.JGReport.addMethods({
 	//#region 工具栏
 
 	doTooneQuickPrintClick: function () {
+		var _this=this;
 		if (this.showType == SHOWTYPE_INPUT || this.showType == SHOWTYPE_FORMULA) {
-			this.doPrintInput(this.reportCode, "print");
+			_this.doPrintInput(this.reportCode, "print");
 		} else {
 			if (this.htmlData == null || this.htmlData == "") {
 				alert("正在获取打印数据，请稍候...");
 			} else {
 				var cfg = this.htmlData;
-				this.doPrint(cfg, null,"print");
+				_this.doPrint(cfg, null,"print");
 			}
 		}
 	},
 
 	doTooneGeneratePrintClick: function () {
+		var _this=this;
 		if (this.showType == SHOWTYPE_INPUT || this.showType == SHOWTYPE_FORMULA) {
-			this.doPrintInput(this.reportCode, "selectPrint");
+			_this.doPrintInput(this.reportCode, "selectPrint");
 		} else {
 			if (this.htmlData == null || this.htmlData == "") {
 				alert("正在获取打印数据，请稍候...");
 			} else {
 				var cfg = this.htmlData;
-				this.doPrint(cfg, null,"selectPrint");
+				_this.doPrint(cfg, null,"selectPrint");
 			}
 		}
 	},
 
 	doToonePreviewPrintClick: function () {
+		var _this=this;
 		if (this.showType == SHOWTYPE_INPUT || this.showType == SHOWTYPE_FORMULA) {
-			this.doPrintInput(this.reportCode, "preview");
+			_this.doPrintInput(this.reportCode, "preview");
 		} else {
 			if (this.htmlData == null || this.htmlData == "") {
 				alert("正在获取打印数据，请稍候...");
 			} else {
 				var cfg = this.htmlData;
-				this.doPrint(cfg, null,"preview");
+				_this.doPrint(cfg, null,"preview");
 			}
 		}
 	},
@@ -1038,7 +1041,8 @@ isc.JGReport.addMethods({
 	 * @param printType 打印方式
 	 */
 	doPrintInput: function (rptCode, printType) {
-		var spread = getSpread();
+		var _this=this;
+		var spread = this.getSpread();
 		if (!spread)
 			return;
 
@@ -1084,11 +1088,11 @@ isc.JGReport.addMethods({
 					cfg.datasource = datasource;
 
 					if (printType == "print") {
-						this.doPrint(cfg, null,"print");
+						_this.doPrint(cfg, null,"print");
 					} else if (printType == "selectPrint") {
-						this.doPrint(cfg, null,"selectPrint");
+						_this.doPrint(cfg, null,"selectPrint");
 					} else {
-						this.doPrint(cfg, null,"preview");
+						_this.doPrint(cfg, null,"preview");
 					}
 				}
 			}
@@ -1676,7 +1680,7 @@ isc.JGReport.addMethods({
 
 						var reportEntities = sheet.getDataSource().getSource();
 						var tables = sheet.tables.all();
-						this.synSelectFormEntity(sheet, reportEntities, tables, rowIndex, colIndex);
+						_this.synSelectFormEntity(sheet, reportEntities, tables, rowIndex, colIndex);
 
 						sheet.setActiveCell(rowIndex, colIndex);
 						sheet.startEdit(true);
@@ -1701,10 +1705,10 @@ isc.JGReport.addMethods({
 						if (cellType instanceof GC.Spread.Sheets.CellTypes.HyperLink) {
 							var cellValue = sheet.getCell(rowIndex, colIndex).value();
 							if (cellValue == null || cellValue == "") {
-								this.doCellClick(sheet, rowIndex, colIndex, value);
+								_this.doCellClick(sheet, rowIndex, colIndex, value);
 							}
 						} else {
-							this.doCellClick(sheet, rowIndex, colIndex, value);
+							_this.doCellClick(sheet, rowIndex, colIndex, value);
 						}
 					} else {
 						//规则“加载数据到报表”绑定的事件（超链接单元格点击的时候，触发超链接事件）
@@ -2211,7 +2215,7 @@ isc.JGReport.addMethods({
 								var tableValue = args[reportEntityCode];
 
 								var reportRecord = null;
-								var table = getTable(tables, rowIndex);
+								var table = this.getTable(tables, rowIndex);
 								if (table) {
 									reportRecord = getReportRecord(reportEntities, table, rowIndex);
 								} else {
@@ -2550,7 +2554,7 @@ isc.JGReport.addMethods({
 
 		//选中行是否是表格
 		var tables = sheet.tables.all();
-		var table = getTable(tables, selRowIndex);
+		var table = this.getTable(tables, selRowIndex);
 		if (table == null)
 			return;
 
@@ -3294,7 +3298,7 @@ isc.JGReport.addMethods({
 	},
 
 	synDeleteDataSource: function (params, registId) {
-		var spread = getSpread();
+		var spread = this.getSpread();
 		if (!spread)
 			return;
 
@@ -3348,7 +3352,7 @@ isc.JGReport.addMethods({
 	},
 
 	synSelectDataSource: function (params, registId) {
-		var spread = getSpread();
+		var spread = this.getSpread();
 		if (!spread)
 			return;
 
@@ -3470,7 +3474,7 @@ isc.JGReport.addMethods({
 				this.synSelectFormRecord(reportEntityCode, formReportEntityRelas, id);
 			}
 		} else {
-			var table = getTable(tables, selRowIndex);
+			var table = this.getTable(tables, selRowIndex);
 			if (table) {
 				var reportEntityCode = table.bindingPath();
 				var index = this.getReportRecordIndex(table, selRowIndex);
@@ -3513,10 +3517,7 @@ isc.JGReport.addMethods({
 		if (formEntity) {
 			var formRecord = formEntity.getRecordById(id);
 			try {
-				formEntity.selectRecords({
-					"records": [formRecord],
-					isSelect: true
-				});
+				formEntity.selectRecords([formRecord],true);
 			} catch (ex) {
 
 			}
@@ -3938,11 +3939,12 @@ isc.JGReport.addMethods({
 	},
 
 	// 检查版本是否大于6.2.2.1， 提示用户升级打印插件
+	// 检查LODOP.CVERSION版本是否大于4.1.4.2， 提示用户升级打印插件。为了解决Chrome浏览器94版跨域问题
 	checkLodopVersion : function (LODOP) {
-		var version = LODOP.VERSION;
+		var version = LODOP.CVERSION;
 		if (version) {
 			var srcItems = version.split(".");
-			var destItems = "6.2.2.1".split(".");
+			var destItems = "4.1.4.2".split(".");
 			for (var i = 0; i < srcItems.length; i++) {
 				var srcItem = srcItems[i];
 				var destItem = "0";
@@ -3991,12 +3993,12 @@ isc.JGReport.addMethods({
 
 	// 提示用户安装启动打印插件
 	showPrinterInstallTips : function (serviceHost) {
-		this.showPrinterAlertTips(serviceHost, "打印服务未安装启动，使用管理员权限执行安装，安装后请刷新页面。", "立即安装");
+		this.showPrinterAlertTips(serviceHost, "打印服务未安装启动，使用管理员权限执行安装，安装后请重启浏览器。", "立即安装");
 	},
 
 	// 提示用户升级打印插件
 	showPrinterUpdateTips : function (serviceHost) {
-		this.showPrinterAlertTips(serviceHost, "打印服务需要升级，使用管理员权限执行升级，升级后请刷新页面。", "立即升级");
+		this.showPrinterAlertTips(serviceHost, "打印服务需要升级，使用管理员权限执行升级，升级后请重启浏览器。", "立即升级");
 	},
 
 	// 执行打印
