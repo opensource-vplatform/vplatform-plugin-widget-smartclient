@@ -3939,11 +3939,12 @@ isc.JGReport.addMethods({
 	},
 
 	// 检查版本是否大于6.2.2.1， 提示用户升级打印插件
+	// 检查LODOP.CVERSION版本是否大于4.1.4.2， 提示用户升级打印插件。为了解决Chrome浏览器94版跨域问题
 	checkLodopVersion : function (LODOP) {
-		var version = LODOP.VERSION;
+		var version = LODOP.CVERSION;
 		if (version) {
 			var srcItems = version.split(".");
-			var destItems = "6.2.2.1".split(".");
+			var destItems = "4.1.4.2".split(".");
 			for (var i = 0; i < srcItems.length; i++) {
 				var srcItem = srcItems[i];
 				var destItem = "0";
@@ -3992,12 +3993,12 @@ isc.JGReport.addMethods({
 
 	// 提示用户安装启动打印插件
 	showPrinterInstallTips : function (serviceHost) {
-		this.showPrinterAlertTips(serviceHost, "打印服务未安装启动，使用管理员权限执行安装，安装后请刷新页面。", "立即安装");
+		this.showPrinterAlertTips(serviceHost, "打印服务未安装启动，使用管理员权限执行安装，安装后请重启浏览器。", "立即安装");
 	},
 
 	// 提示用户升级打印插件
 	showPrinterUpdateTips : function (serviceHost) {
-		this.showPrinterAlertTips(serviceHost, "打印服务需要升级，使用管理员权限执行升级，升级后请刷新页面。", "立即升级");
+		this.showPrinterAlertTips(serviceHost, "打印服务需要升级，使用管理员权限执行升级，升级后请重启浏览器。", "立即升级");
 	},
 
 	// 执行打印
