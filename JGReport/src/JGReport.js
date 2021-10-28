@@ -236,6 +236,10 @@ isc.JGReport.addMethods({
 		}
 	},
 
+	getV3draw:function(data, reportConfig){
+		this.drawReport(data, reportConfig);
+	},
+
 	//使用超级报表打印
 	//reportData：报表数据
 	//reportCfg：报表模板
@@ -1024,7 +1028,7 @@ isc.JGReport.addMethods({
 	doTooneReportSaveClick: function (widget,saveEventCode) {
 		var _this=this;
 		if (saveEventCode) {
-			widget.executeWindowRoute({
+			_this.executeWindowRoute({
 				"ruleSetCode": saveEventCode,
 				"args": null,
 				"success": function (args) { },
@@ -1142,7 +1146,7 @@ isc.JGReport.addMethods({
 		saveArgs["displayText"] = displayText;
 		var _this = this;
 		saveArgs["clickEvent"] =function () {
-			_this.doTooneReportSaveClick.apply(_this, [_this, clickEventCode]);
+			_this.doTooneReportSaveClick.apply(_this, [_this,clickEventCode]);
 		}
 		return saveArgs;
 	},
@@ -1519,7 +1523,7 @@ isc.JGReport.addMethods({
 			spread.suspendPaint();
 			try {
 				var sheet = spread.getActiveSheet();
-				this.addRecord(sheet, 1, true);
+				_this.addRecord(sheet, 1, true);
 			} catch (ex) {
 				alert(ex);
 			} finally {
@@ -1531,7 +1535,7 @@ isc.JGReport.addMethods({
 			spread.suspendPaint();
 			try {
 				var sheet = spread.getActiveSheet();
-				this.addRecord(sheet, 1, false);
+				_this.addRecord(sheet, 1, false);
 			} catch (ex) {
 				alert(ex);
 			} finally {
@@ -1543,7 +1547,7 @@ isc.JGReport.addMethods({
 			spread.suspendPaint();
 			try {
 				var sheet = spread.getActiveSheet();
-				this.deleteRecord(sheet);
+				_this.deleteRecord(sheet);
 			} catch (ex) {
 				alert(ex);
 			} finally {
@@ -1649,14 +1653,14 @@ isc.JGReport.addMethods({
 						var newValue = args.newValue;
 						var srcDirtyCells = sheet.getDirtyCells();
 						if (newValue != oldValue) {
-							editRecord(sheet, rowIndex, colIndex, newValue);
+							_this.editRecord(sheet, rowIndex, colIndex, newValue);
 							//修改受其影响的其他单元格字段的值
 							setTimeout(function () {
 									var curDirtyCells = sheet.getDirtyCells();
-									var changedDirtyCells = getChangedDirtyCells(srcDirtyCells, curDirtyCells);
+									var changedDirtyCells = _this.getChangedDirtyCells(srcDirtyCells, curDirtyCells);
 									for (var i = 0; i < changedDirtyCells.length; i++) {
 										var item = changedDirtyCells[i];
-										editRecord(sheet, item.row, item.col, item.newValue);
+										_this.editRecord(sheet, item.row, item.col, item.newValue);
 									}
 								}
 							,0);
@@ -2327,11 +2331,18 @@ isc.JGReport.addMethods({
 		for (var fieldCode in srcReportRecord) {
 			destReportRecord[fieldCode] = null;
 		}
-		var id = this.uuid;
-		destReportRecord["id"] = id;
+		this.ID_FIELD_CODE = this.genUUID();
+		destReportRecord["id"] = this.ID_FIELD_CODE;
 		this.updateReportRecordFKValue(destReportRecord, reportEntityCode, groupFieldMappings, masterRecord);
 
 		return destReportRecord;
+	},
+
+	genUUID:function() {
+		function S4() {
+			return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+		}
+		return (S4() + S4() + S4() + S4() + S4() + S4() + S4() + S4());
 	},
 
 	//设置报表实体记录外键值
@@ -2706,9 +2717,7 @@ isc.JGReport.addMethods({
 				formRecord.set(formFieldCode, value);
 				formRecords.push(formRecord);
 
-				formEntity.updateRecords({
-					"records": formRecords
-				});
+				formEntity.updateRecords(formRecords);
 
 				var reportEntities = sheet.getDataSource().getSource();
 				var reportEntity = reportEntities[reportEntityCode];
@@ -2849,11 +2858,11 @@ isc.JGReport.addMethods({
 	 * @param fieldMappings 字段映射
 	 */
 	reportRecordToFormRecord: function (formRecord, reportRecord, entityRela) {
-		var originalData = formRecord.getOriginalData();
+		var originalData = formRecord;
 		for (var formFieldCode in originalData) {
 			var reportFieldCode = this.getReportFieldCode(formFieldCode, entityRela);
-			if (reportFieldCode) {
-				formRecord.set(formFieldCode, reportRecord[reportFieldCode]);
+			if (reportFieldCode&&reportFieldCode!="id") {
+				formRecord[formFieldCode]=reportRecord[reportFieldCode];
 			}
 		}
 	},
@@ -3419,13 +3428,11 @@ isc.JGReport.addMethods({
 			var formRecord = formEntity.createRecord();
 			var reportRecord = reportRecords[i];
 			this.reportRecordToFormRecord(formRecord, reportRecord, entityRela);
+			formRecord.id=this.ID_FIELD_CODE;
 			formRecords.push(formRecord);
 		}
-
-		formEntity.insertRecords({
-			"records": formRecords,
-			"position": position
-		});
+        
+		formEntity.insertRecords(formRecords,position);
 	},
 
 	synUpdateFormEntity: function (sheet, reportEntityCode, reportRecord) {
@@ -3438,12 +3445,11 @@ isc.JGReport.addMethods({
 		var formRecords = [];
 		var id = reportRecord["id"];
 		var formRecord = formEntity.getRecordById(id);
+		formRecord = JSON.parse(JSON.stringify(formRecord));
 		this.reportRecordToFormRecord(formRecord, reportRecord, entityRela);
 		formRecords.push(formRecord);
 
-		formEntity.updateRecords({
-			"records": formRecords
-		});
+		formEntity.updateRecords(formRecords);
 	},
 
 	synDeleteFormEntity: function (sheet, allIds) {
@@ -3455,9 +3461,7 @@ isc.JGReport.addMethods({
 			var formEntity =isc.JGDataSourceManager.get(this,formEntityCode);
 
 			var ids = allIds[reportEntityCode];
-			formEntity.removeRecordByIds({
-				"ids": ids
-			});
+			formEntity.removeRecordByIds(ids);
 		}
 	},
 
@@ -3665,7 +3669,8 @@ isc.JGReport.addMethods({
 		return {
 			setToolStripItemsForTooneReport: "setV3ToolStripItemsForTooneReport",
 			show: "V3Show",
-			hide: "V3Hide"
+			hide: "V3Hide",
+			draw: "getV3draw"
 
 		}
 	},
