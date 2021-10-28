@@ -951,10 +951,14 @@ isc.JGTabControl.addMethods({
                 }
             }
         }
-        if ((this.IsDynamic + "").toLowerCase() === "true" && this.tabSetObj.tabs.length !== 0)
+        //兼容没有配置子页签报错的场景
+        if(this.tabSetObj && this.tabSetObj.tabs && this.tabSetObj.tabs.length > 0){
             this.setTabSelect();
-        else if ((this.IsDynamic + "").toLowerCase() !== "true")
-            this.setTabSelect();
+        }
+        // if ((this.IsDynamic + "").toLowerCase() === "true" && this.tabSetObj.tabs.length !== 0)
+        //     this.setTabSelect();
+        // else if ((this.IsDynamic + "").toLowerCase() !== "true")
+        //     this.setTabSelect();
         //draw完后，清空beforeDrawShowArray，beforeDrawHideArray
         this.beforeDrawShowArray = {};
         this.beforeDrawHideArray = {};

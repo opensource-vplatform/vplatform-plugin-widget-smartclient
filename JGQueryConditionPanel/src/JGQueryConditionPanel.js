@@ -170,7 +170,7 @@ isc.JGQueryConditionPanel.addMethods({
 	},
 
 	v3InitEvent: function(){
-		this.formLayout.v3InitEvent();
+		this.formLayout && this.formLayout.v3InitEvent();
 		this.initEvent();
 		this.initDataBinding();
 	},
@@ -282,10 +282,10 @@ isc.JGQueryConditionPanel.addMethods({
 		this.addChild(this.panel);
 	},
 	getItemsByFields: function (fields) {
-		return this.formLayout.getItemsByFields(fields);
+		return this.formLayout && this.formLayout.getItemsByFields(fields);
 	},
 	getItemByCode: function (itemCode) {
-		return this.formLayout.getItemByCode(itemCode);
+		return this.formLayout && this.formLayout.getItemByCode(itemCode);
 	},
 	//获取顶部状态栏内控件
 	getHeaderControlsWidget: function () {
@@ -337,7 +337,7 @@ isc.JGQueryConditionPanel.addMethods({
 	},
 	formLayoutBindDataSource: function (ds) {
 		var vm = isc.JGV3ValuesManager.getByDataSource(ds);
-		var dy = vm.getMember(this.formLayout.ID);
+		var dy = this.formLayout && vm.getMember(this.formLayout.ID);
 		if (!dy) {
 			vm.addMember(this.formLayout);
 		}
@@ -1446,7 +1446,7 @@ isc.JGQueryConditionPanel.addMethods({
 
 	formLayoutSimple: function () {
 		var formLayoutFields = [];
-		var formLayoutItems = this.formLayout.getItems();
+		var formLayoutItems = this.formLayout && this.formLayout.getItems();
 		if (formLayoutItems && formLayoutItems.length > 0) {
 			for (var i = 0, l = formLayoutItems.length; i < l; i++) {
 				var item = formLayoutItems[i];
@@ -1479,6 +1479,9 @@ isc.JGQueryConditionPanel.addMethods({
 			fields: formLayoutFields,
 			setValueHandler: function (record,datasource) {
 				var formWidget = _this.formLayout;
+				if(!formWidget){
+					return;
+				}
 				//把方法放在外面调用就会报错。。。
 				//    		editRecord(record,fields,formName,widget,formWidget);
 				var data = {
@@ -1538,7 +1541,7 @@ isc.JGQueryConditionPanel.addMethods({
 			var fieldCode = fields[i]
 			data[fieldCode] = record[fieldCode];
 		}
-		if (formWidget.valuesManager) {
+		if (formWidget && formWidget.valuesManager) {
 			formWidget.valuesManager.editRecord(data);
 		} else if (this.valuesManager) {
 			this.valuesManager.editRecord(data);
@@ -1680,7 +1683,7 @@ isc.JGQueryConditionPanel.addMethods({
 	initFormLayoutHandler: function () {
 		var _this = this;
 		var widget = this.formLayout;
-		var dsNames = widget.SourceTableName;
+		var dsNames = widget && widget.SourceTableName;
 		var ds = isc.JGDataSourceManager.get(this, dsNames);
 		if (ds) {
 			//处理表单项值改变事件
@@ -1734,7 +1737,7 @@ isc.JGQueryConditionPanel.addMethods({
 
 	formLayoutGetDropDownSource: function () {
 		var _this = this;
-		this.formLayout.fields.forEach(function (item) {
+		this.formLayout && this.formLayout.fields.forEach(function (item) {
 			if (item.type == "JGRadioGroup" || item.type === 'JGComboBox' || item.type === 'JGCheckBoxGroup' || (item.type === "JGBaseDictBox" && item.DropDownSource)) {
 				if (item.DropDownSource && typeof item.DropDownSource == "string") {
 					item.DropDownSource = JSON.parse(item.DropDownSource);
@@ -1875,10 +1878,12 @@ isc.JGQueryConditionPanel.addMethods({
 		} else {
 			titleValue = value;
 		}
-		for (var i = 0; i < widget.formLayout.items.length; i++) {
-			if (widget.formLayout.items[i].ColumnName == code && widget.formLayout.items[i].type == 'JGPeriod') {
-				titleValue = widget.formLayout.items[i].mapValueToDisplay(value);
-				break;
+		if(widget.formLayout){
+			for (var i = 0; i < widget.formLayout.items.length; i++) {
+				if (widget.formLayout.items[i].ColumnName == code && widget.formLayout.items[i].type == 'JGPeriod') {
+					titleValue = widget.formLayout.items[i].mapValueToDisplay(value);
+					break;
+				}
 			}
 		}
 		return titleValue;
@@ -2048,7 +2053,7 @@ isc.JGQueryConditionPanel.addMethods({
 		if (itemCode.indexOf("JGLocateBox_quickSearch") != -1) {
 			this._locateBoxCanvas && this._locateBoxCanvas.showHighlight();
 		} else {
-			this.formLayout.showItemHighlight(itemCode);
+			this.formLayout && this.formLayout.showItemHighlight(itemCode);
 		}
 	},
 
@@ -2056,7 +2061,7 @@ isc.JGQueryConditionPanel.addMethods({
 		if (itemCode.indexOf("JGLocateBox_quickSearch") != -1) {
 			this._locateBoxCanvas && this._locateBoxCanvas.hideHighlight();
 		} else {
-			this.formLayout.hideItemHighlight(itemCode);
+			this.formLayout && this.formLayout.hideItemHighlight(itemCode);
 		}
 	},
 

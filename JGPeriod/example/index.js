@@ -1,1 +1,1 @@
-[{"name":"JGPeriod","key":"class:JGPeriod","example":"isc.JGPeriod.create({\r\tautoDraw: true\r});"}]
+[{"name":"JGPeriod","key":"class:JGPeriod","example":"isc.JGPeriod.create({\n\tautoDraw: true\n});"}]

@@ -71,5 +71,8 @@ isc.JGFormLayout.addMethods({
 		}
 		data[item.name] = value;
 		datasource.updateRecords([data]);
+	},
+	setPeriodTypeJGPeriod:function(itemCode, type){
+		this.getItemByCode(itemCode).setPeriodType(type);
 	}
 });

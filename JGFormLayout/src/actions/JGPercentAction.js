@@ -51,7 +51,7 @@ isc.JGFormLayout.addMethods({
 	
 	setValueJGPercent : function(itemCode, value) {
 		
-		if(widget.getMultiDataSourceInfo && this.getMultiDataSourceInfo()){//多数据源走同一赋值接口
+		if(this.getMultiDataSourceInfo && this.getMultiDataSourceInfo()){//多数据源走同一赋值接口
 			this.setMultiDsValue(this.Code,itemCode, value);
 			return;
 		}
