@@ -1,8 +1,8 @@
 isc.JGFormLayout.addMethods({
 
 	getReadOnlyJGLinkLabel: function (itemCode) {
-		var item = this.getItemByCode(itemCode);
-		return item.ReadOnly;
+		// var item = this.getItemByCode(itemCode);
+		// return item.ReadOnly;
 	},
 
 	getEnabledJGLinkLabel: function (itemCode) {
@@ -16,7 +16,7 @@ isc.JGFormLayout.addMethods({
 	},
 
 	cleanSelectedControlValueJGLinkLabel: function (itemCode, onlyCleanSelectedRecord) {
-		this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
+		// this.clearItemSelectValue(itemCode, onlyCleanSelectedRecord);
 	},
 
 	setLabelTextJGLinkLabel: function (itemCode, title) {
@@ -33,13 +33,13 @@ isc.JGFormLayout.addMethods({
 	},
 
 	getValueJGLinkLabel: function (itemCode) {
-		var item = this.getItemByCode(itemCode);
-		var datasource = isc.JGDataSourceManager.get(this, item.SourceTableName);
-		return isc.DatasourceUtil.getSingleValue(datasource, item.name);
+		// var item = this.getItemByCode(itemCode);
+		// var datasource = isc.JGDataSourceManager.get(this, item.SourceTableName);
+		// return isc.DatasourceUtil.getSingleValue(datasource, item.name);
 	},
 
 	setReadOnlyJGLinkLabel: function (itemCode, isReadonly) {
-		this.setItemReadOnly(itemCode, isReadonly);
+		// this.setItemReadOnly(itemCode, isReadonly);
 	},
 
 	setEnabledJGLinkLabel: function (itemCode, isEnable) {
@@ -51,14 +51,12 @@ isc.JGFormLayout.addMethods({
 	},
 
 	setValueJGLinkLabel: function (itemCode, value) {
+		
+	},
+
+	setForeColorJGLinkLabel:function(itemCode, color){
 		var item = this.getItemByCode(itemCode);
-		var datasource = isc.JGDataSourceManager.get(this, item.SourceTableName);
-		var record = datasource.getCurrentRecord();
-		var data = {
-			id: record.id
-		};
-		data[item.name] = value;
-		datasource.updateRecords([data]);
+		item && item.setForeColor && item.setForeColor(color);
 	}
 	
 });

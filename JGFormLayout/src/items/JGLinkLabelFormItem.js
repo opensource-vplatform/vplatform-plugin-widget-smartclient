@@ -1,4 +1,5 @@
-isc.ClassFactory.defineClass("JGLinkLabelFormItem", "LinkItem");
+isc.ClassFactory.defineClass("JGLinkLabelFormItem", "V3LinkLabelItem");
+isc.ClassFactory.mixInInterface("JGLinkLabelFormItem", "JGStyleHelper");
 isc.ClassFactory.mixInInterface("JGLinkLabelFormItem", "IV3FormItem");
 
 isc.JGLinkLabelFormItem.addProperties({
@@ -6,49 +7,76 @@ isc.JGLinkLabelFormItem.addProperties({
     //            Placeholder:"placehoder"
 });
 
+
+
+var parseParam = function (param, expressionFunc) {
+    var paramType = param.ParaType;
+    var paraVariane = param.ParaVariane;
+    var paraName = param.ParaName;
+    var paramVal = "",
+        retValue = "";
+
+    switch (paramType) {
+        case "SystemVar":
+            paramVal = "@@" + paraVariane;
+            break;
+        case "ComponentVar":
+            paramVal = "@" + paraVariane;
+            break;
+        case "Field":
+            var paramVals = paraVariane.split(".");
+            for (var i = 0, len = paramVals.length; i < len; i++) {
+                paramVal += "[" + paramVals[i] + "]";
+
+                if (i === 0)
+                    paramVal += ".";
+            }
+            break;
+        default:
+            paramVal = '"' + paraVariane + '"';
+    };
+
+    paramVal = expressionFunc(paramVal);
+
+    retValue += paraName;
+    retValue += "=";
+    retValue += encodeURIComponent(paramVal);
+    return retValue;
+};
+
 isc.JGLinkLabelFormItem.addMethods({
     init: function () {
-        this.name = this.ColumnName;
-        this.tabIndex = this.TabIndex;
-        this.visible = this.Visible;
-        this.showTitle = false;
-        this.disabled = !this.Enabled;
-        this.required = this.IsMust;
-        if (!this.showTitle) {
-            this.cellStyle += " formItemNoLabel";
-        }
-        this.itemHoverHTML = this.getToolTipHandler(this.Code, this.ToolTip);
-        this.linkTitle = this.SimpleChineseTitle;
-        this.titleClick = this.getV3EventHandler(this.Code, "OnLabelClick");
-        this.keyDown = this.getV3KeyDownEventHandler(this.Code);
+        this.Super("init",arguments);
         if (this.form && this.form._putWidgetContextProperty) {
             this.form._putWidgetContextProperty(this.Code, 'widgetObj', this);
         }
-        this.Super("init", arguments);
     },
 
-    getValueChangeFields: function () {
-        return [this.name];
-    },
-
-    getBindFields: function () {
-        return this.getValueChangeFields();
-    },
-    parentReadOnly: function (readOnly) {
-        var readOnly = this.ReadOnly || readOnly;
-        this.setDisabled(readOnly);
-    },
-    isReadOnly: function () {
-        var _1 = this;
-        while (_1.parentItem != null) {
-            if (_1.canEdit != null) {
-                return !_1.canEdit
+    getWebPara: function () {
+        var param = this.WebParam;
+        var paramValue = param ? JSON.parse(param) : {};
+        var retValue = '';
+        var _expressionHandler = this.form._expressionHandler;
+        if (paramValue && paramValue.NewDataSet &&
+            paramValue.NewDataSet.dtParameter) {
+            var params = paramValue.NewDataSet.dtParameter;
+            if (params) {
+                if (params.length) {
+                    for (var i = 0, len = params.length; i < len; i++) {
+                        var param = params[i];
+                        retValue += parseParam(param, _expressionHandler);
+                        if (i + 1 < len)
+                            retValue += "&";
+                    }
+                } else {
+                    retValue += parseParam(params, _expressionHandler);
+                }
             }
-            _1 = _1.parentItem
         }
-        return _1.ReadOnly || _1._ReadOnly;
+        return retValue;
     },
-    canEditChanged: function (canEdit) {
-        this.setDisabled(!canEdit)
+    setForeColor:function(color){
+        this.ForeColor = this.parseColor(color);
+        this.form && this.form.markForRedraw();
     }
 });

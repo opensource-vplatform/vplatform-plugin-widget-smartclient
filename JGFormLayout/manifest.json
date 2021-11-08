@@ -31,7 +31,7 @@
             "code": "UseVirtualDB",
             "name": "是否产生虚拟DB",
             "type": "char"
-        }, {
+        },{
             "code": "Width",
             "name": "宽度",
             "type": "integer",
@@ -8178,6 +8178,158 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGPercentFormItem"
+                            }
+                        ]
+                    }, {
+                        "code": "JGLinkLabel",
+                        "properties": [{
+                                "code": "type",
+                                "name": "控件类型",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGLinkLabel"
+                            }, {
+                                "code": "TextAlign",
+                                "name": "标题对齐方式",
+                                "type": "char",
+                                "default": "left"
+                            },
+                            {
+                                "code": "ToolTip",
+                                "name": "浮动提示",
+                                "type": "char",
+                                "default": "",
+                                "editor": {
+                                    "type": "expression"
+                                }
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "default": 369,
+                                "editor": {
+                                    "type": "left"
+                                }
+                            },
+                            {
+                                "code": "HorizontalAlign",
+                                "name": "水平位置",
+                                "type": "char",
+                                "default": "Left"
+                            },
+                            {
+                                "code": "ColSpan",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "1"
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "default": 0
+                            },
+                            {
+                                "code": "DefaultValue",
+                                "name": "默认值",
+                                "type": "char",
+                                "default": ""
+                            },
+                            {
+                                "code": "WebURL",
+                                "name": "链接地址",
+                                "default": null,
+                                "type":"char"
+                            },
+                            {
+                                "code": "SimpleChineseTitle",
+                                "name": "标题",
+                                "type": "char",
+                                "default": "链接"
+                            },
+                            {
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "default": 24,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "default": 68,
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "EndRow",
+                                "name": "结束行",
+                                "type": "boolean",
+                                "default": "False"
+                            },
+                            {
+                                "code": "Code",
+                                "name": "编码",
+                                "type": "char",
+                                "editor": {
+                                    "type": "code",
+                                    "prefix": "JGLinkLabel"
+                                }
+                            },
+                            {
+                                "code": "MultiHeight",
+                                "name": "高度",
+                                "type": "char",
+                                "default": "24px",
+                                "editor": {
+                                    "type": "height"
+                                }
+                            }, 
+                            {
+                                "code": "Top",
+                                "name": "上边距",
+                                "type": "integer",
+                                "default": 3,
+                                "editor": {
+                                    "type": "top"
+                                }
+                            },
+                            {
+                                "code": "MultiWidth",
+                                "name": "宽度",
+                                "type": "char",
+                                "default": "68px",
+                                "editor": {
+                                    "type": "width"
+                                }
+                            },
+                            {
+                                "code": "editorType",
+                                "name": "",
+                                "type": "char",
+                                "visible": false,
+                                "default": "JGLinkLabelItem"
+                            },
+                            {
+                                "code": "ForeColor",
+                                "name": "前景色",
+                                "type": "char",
+                                "compatible": {
+                                    "enhanceType": "color"
+                                },
+                                "default": ""
+                            }, {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "default": "链接",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
                             }
                         ]
                     }
