@@ -1418,7 +1418,7 @@ isc.JGTabControl.addMethods({
             var relationWidgets = this.widgetChildren(tabPageCode, false);
             if (relationWidgets) {
                 for (var i = 0, len = relationWidgets.length; i < len; i++) {
-                    var childWidget = this.getWidgetContextProperty(relationWidgets[i]);
+                    var childWidget = this.getWidgetContextProperty(relationWidgets[i],"widgetObj");
                     if (!childWidget.getActiveChildWidgets) {
                         if (childWidget.getVisible && childWidget.getVisible() || childWidget.isVisible && childWidget.isVisible()) { //子控件显示
                             result.push(childWidget.code);
