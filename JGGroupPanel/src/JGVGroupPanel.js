@@ -18,8 +18,17 @@ isc.JGVGroupPanel.addMethods({
 		}
 		this.childrenWidgets = this.layoutChildWidgets();
 		this.adaptRectByV3();
+		this.handleChildrenResize();
 		this.members = this.childrenWidgets;//this.layoutChildWidgets();
 		this.Super('init', arguments);
+	},
+	/**
+	 * 子控件是否显示大小工具条
+	 * @param {Object}} child 子控件
+	 */
+	childShouldShowResizeBar: function(child){
+		var height = child.MultiHeight||child.height;
+		return isNaN(height)&&height.substring&&height.substring(height.length-2)!="px";
 	},
 
 	addV3Child: function (child) {

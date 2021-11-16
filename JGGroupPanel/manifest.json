@@ -99,6 +99,12 @@
                     "default":"组合"
                 },
                 {
+                    "code":"ChildrenResizable",
+                    "name":"调整子控件大小",
+                    "type": "boolean",
+                    "default":false
+                },
+                {
                     "code":"getChildrenHandler",
                     "name":"获取事件处理器",
                     "type":"char",

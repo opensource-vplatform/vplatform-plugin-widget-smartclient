@@ -22,8 +22,17 @@ isc.JGHGroupPanel.addMethods({
 		}
 		this.childrenWidgets = this.layoutChildWidgets();
 		this.adaptRectByV3();
-		this.members = this.layoutChildWidgets();
+		this.handleChildrenResize();
+		this.members = this.childrenWidgets;
 		this.Super('init', arguments);
+	},
+	/**
+	 * 子控件是否显示大小工具条
+	 * @param {Object}} child 子控件
+	 */
+	childShouldShowResizeBar: function(child){
+		var width = child.MultiWidth||child.width;
+		return isNaN(width)&&width.substring&&width.substring(width.length-2)!="px";
 	},
 
 	getGroupTitle: function () {

@@ -273,5 +273,27 @@ isc.JGIGroupPanel.addInterfaceMethods({
 	},
 	getSectionStackInfo: function () {//可能为null，调用者需判断
 		return this._sectionStackInfo;
+	},
+	/**
+	 * 处理子控件是否显示大小工具条
+	 */
+	handleChildrenResize: function(){
+		if(this.ChildrenResizable){
+			if(this.childrenWidgets&&this.childrenWidgets.length>1){
+				for(var i=0,l=this.childrenWidgets.length-1;i<l;i++){
+					var child = this.childrenWidgets[i];
+					if(this.childShouldShowResizeBar(child)){
+						child.showResizeBar = true;
+					}else{
+						var preChild = this.childrenWidgets[i-1];
+						if(preChild){
+							try{
+								delete preChild.showResizeBar;
+							}catch(err){}
+						}
+					}
+				}
+			}
+		}
 	}
 });
