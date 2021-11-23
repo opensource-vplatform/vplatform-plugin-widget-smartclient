@@ -98,6 +98,25 @@ isc.JGFormLayout.addMethods({
 		var dsInfo = this.multiDataSourceInfo;
 		//处理多数据源实体加载和改变
 		var _this = this;
+		/**
+		 * 获取改变的数据
+		 * @param {Object} oldRecord 旧记录
+		 * @param {Object} newRecord 新记录
+		 */
+		var getChange = function(oldRecord, newRecord){
+			var changeData = {};
+			if(oldRecord && newRecord && oldRecord.id === newRecord.id){
+				for(var key in newRecord){
+					if(newRecord.hasOwnProperty(key)){
+						var newValue = newRecord[key];
+						if(newValue !== oldRecord[key]){
+							changeData[key] = newValue;
+						}
+					}
+				}
+			}
+			return changeData;
+		}
 		for (var dsName in dsInfo) {
 			var ds = isc.JGDataSourceManager.get(this, dsName);
 			if (ds) {
@@ -105,6 +124,15 @@ isc.JGFormLayout.addMethods({
 					var items = _this.getItems();
 					if (items && items.length > 0) {
 						var resultSet = params.resultSet;
+						var oldResultSets = params.oldResultSet;
+						if(!resultSet || !oldResultSets || resultSet.length == 0 || oldResultSets.length ==0){
+							return;
+						}
+						var oldMap = {};
+						for(var i  = 0,len = oldResultSets.length;i<len;i++){
+							var oldResultSet = oldResultSets[i];
+							oldMap[oldResultSet.id] = oldResultSet;
+						}
 						var datasource = params.datasource;
 						for (var i = 0, l = items.length; i < l; i++) {
 							var item = items[i];
@@ -115,7 +143,8 @@ isc.JGFormLayout.addMethods({
 								for (var j = 0, len = fields.length; j < len; j++) {
 									var fieldName = fields[j];
 									for (var k = 0, length = resultSet.length; k < length; k++) {
-										var changedData = resultSet[k];
+										var rSet = resultSet[k];
+										var changedData = getChange(oldMap[rSet.id], rSet);
 										if (changedData) {
 											for (var key in changedData) {
 												if (datasource.dbName + item.form.multiDsSpecialChar + key === fieldName || datasource.dbName + item.form.multiDsSpecialChar + key === item.EndColumnName) {
