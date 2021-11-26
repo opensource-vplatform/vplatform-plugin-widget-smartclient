@@ -317,6 +317,15 @@
                             "editor": {
                                 "type": "ruleset"
                             }
+                        },{
+                            "code": "DisplayFormat",
+                            "name": "显示格式",
+                            "type": "object",
+                            "default": {
+                                "numType": "0",
+                                "displayFormat": "",
+                                "Index": "0"
+                            }
                         }]
                     }, {
                         "code": "JGTextBox",
@@ -661,6 +670,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGTextBoxFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -1434,6 +1452,15 @@
                                 "compatible": {
                                     "enhanceType": "dropDownSource"
                                 }
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -2080,6 +2107,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGRichTextEditorFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -2504,6 +2540,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGLongTextBoxFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -2867,6 +2912,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGBaseDictBoxFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -3219,6 +3273,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGCheckBoxFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -3464,6 +3527,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGButtonFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -3795,6 +3867,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGHyperLinkFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -4187,6 +4268,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGIntegerBoxFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -4426,6 +4516,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGImageFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -4827,6 +4926,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGPeriodFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -5566,6 +5674,15 @@
                                 "compatible": {
                                     "enhanceType": "dropDownSource"
                                 }
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -5944,6 +6061,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGPasswordFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -6286,6 +6412,15 @@
                                 "type": "char",
                                 "compatible": {
                                     "enhanceType": "dropDownSource"
+                                }
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
                                 }
                             }
                         ]
@@ -6732,6 +6867,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGAttachmentFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -6950,6 +7094,15 @@
                                 },
                                 "compatible": {
                                     "enhanceType": "color"
+                                }
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
                                 }
                             }
                         ]
@@ -7251,6 +7404,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGDateRangePickerFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -7584,6 +7746,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGFloatRangeBoxFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -7884,6 +8055,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGPeriodRangeFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -8178,6 +8358,15 @@
                                 "type": "char",
                                 "visible": false,
                                 "default": "JGPercentFormItem"
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
+                                }
                             }
                         ]
                     }, {
@@ -8329,6 +8518,15 @@
                                 "default": "链接",
                                 "compatible": {
                                     "enhanceType": "language"
+                                }
+                            },{
+                                "code": "DisplayFormat",
+                                "name": "显示格式",
+                                "type": "object",
+                                "default": {
+                                    "numType": "0",
+                                    "displayFormat": "",
+                                    "Index": "0"
                                 }
                             }
                         ]
