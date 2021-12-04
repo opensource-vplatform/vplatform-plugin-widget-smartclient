@@ -142,11 +142,18 @@ isc.JGAttachment.addMethods({
 		}
 	},
 
-	getProperty: function () {
+	getV3MethodMap: function () {
+		return {
+			getProperty: "getV3Property",
+			setProperty: "setV3Property"
+		}
+	},
+
+	getV3Property: function () {
 		return this.MaxChildNum;
 	},
 
-	setProperty: function (propertyValue) {
+	setV3Property: function (propertyValue) {
 		this.setMaxChildNum(propertyValue);
 	},
 
