@@ -1761,8 +1761,15 @@ isc.JGQueryConditionPanel.addMethods({
 					formItem.ignoreValueMap = true;
 					return;
 				}
-				if (formItem.type == 'JGCheckBoxGroup') {
-					formItem.setItems();
+				switch(formItem.type){
+					case "JGCheckBoxGroup":
+						formItem.setItems();
+					case "JGComboBox":
+					case "JGRadioGroup":
+						if(descInfo && descInfo.keys && typeof(formItem.markValueMapKey) == "function"){
+							formItem.markValueMapKey(descInfo.keys)//标记key的顺序
+						}
+						break;
 				}
 				formItem.setDefaultVal ? formItem.setDefaultVal(defaultValue) : formItem.getDefaultVal(defaultValue);
 				formItem.setValueMap(valueMap);
