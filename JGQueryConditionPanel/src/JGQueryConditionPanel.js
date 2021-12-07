@@ -572,7 +572,9 @@ isc.JGQueryConditionPanel.addMethods({
 				autoHide: true
 			},
 		});
-		this._locateBoxCanvas.bindDataSource(this.TableName);
+		if(this.TableName && typeof(this.TableName) != "string"){
+			this._locateBoxCanvas.bindDataSource(this.TableName);
+		}
 		return this._locateBoxCanvas;
 	},
 	addSearchBox: function (titleLayout, id) {
@@ -1658,6 +1660,9 @@ isc.JGQueryConditionPanel.addMethods({
 	resetDsRecord: function (remove, isLoad) {
 		//需获取平台实体，否则创建记录时没有默认值
 		var datasource = this._getEntity(this.SourceTableName);//isc.JGDataSourceManager.get(this, this._tableName);
+		if(!datasource){
+			return;
+		}
 		var records = datasource && datasource.getAllRecords();
 		var oldRecord;
 		if (records && records.length > 0) {

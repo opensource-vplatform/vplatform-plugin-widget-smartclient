@@ -180,6 +180,7 @@
             "compatible": {
                 "enhanceType": "tableName"
             },
+            "required":false,
             "default": ""
         }, {
             "code": "TriggerType",
