@@ -369,9 +369,9 @@ isc.JGSteps.addMethods({
 	},
 
 	getCurrentStep: function () {
-		var datasource = isc.WidgetDatasource.getDatasource(this);
+		var datasource = this._lookup(this.dsName);
 		var currentRecord = datasource.getCurrentRecord();
-		return currentRecord.get(widget.idColumn);
+		return currentRecord.get(this.idColumn);
 	},
 
 	setV3StepStatus: function (statusCode) {
