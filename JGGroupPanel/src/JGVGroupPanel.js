@@ -47,7 +47,7 @@ isc.JGVGroupPanel.addMethods({
 				//处理场景：处理垂直布局靠上，而布局中子控件高度控件自适应导致控件不显示问题
 				if (member && member.setHeight) {
 					var memberHeight = member.MultiHeight;
-					if (memberHeight == "Space") {
+					if (memberHeight == "space") {
 						member.setHeight(heightLeft);
 						heightLeft = 0;
 					} else {
