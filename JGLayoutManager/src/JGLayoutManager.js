@@ -75,16 +75,16 @@ isc.JGLayoutManager.addInterfaceMethods({
                 catalog = this.buildBorderLayoutById(layout);
                 members.push(layout);
             } else {
-                if(isc.JGLayoutManager._useNewLayout){
-                    var childrenIds = isc.WidgetContext.getChildrenIds(this.scopeId, parentId||this.widgetId);
+                if (isc.JGLayoutManager._useNewLayout) {
+                    var childrenIds = isc.WidgetContext.getChildrenIds(this.scopeId, parentId || this.widgetId);
                     var children = [];
                     this._forEach(childrenIds, function (childId) {
                         var childRefId = isc.WidgetUtils.genWidgetRefId(this.scopeId, childId);
                         var child = isc.JGWidgetManager.getWidget(childRefId);
-                        if(child){
+                        if (child) {
                             children.push(child);
                         }
-                    },null,this);
+                    }, null, this);
                     return this._newLayoutChildren(children);
                 }
                 catalog = this._catalogChildren(parentId);
@@ -330,7 +330,7 @@ isc.JGLayoutManager.addInterfaceMethods({
         }
     },
 
-    _layoutAbsChildren: function(absChildren){
+    _layoutAbsChildren: function (absChildren) {
         var contentAlign = this.getContentAlignment();
         if (contentAlign == "Vertical") {
             var topList = [],
@@ -692,75 +692,7 @@ isc.JGLayoutManager.addInterfaceMethods({
                 var info = widget.buildSectionStackItem() || {};
                 info["_$widgetCode"] = widgetId;
                 nowSectionStackItems.push(info);
-                //当前布局的高度跟其他布局高度不同，避免高度冲突，拆多个SectionStack Task20210311072
-                var _params = {
-                    visibilityMode: "multiple",
-                    width: "100%",
-                    membersMargin: 8,
-                    defaultHeight: 5,
-                    vPolicy: "none",
-                    height: 16,
-                    overflow: "visible",
-                    sectionIsExpanded: sectionIsExpanded,
-                    sections: nowSectionStackItems,
-                    expandSection: expandSection,
-                    type: "JGSectionStack",
-                    parentReadOnly: parentReadOnly
-                }
-                var multiHeight = widget.MultiHeight;
-                if (handleDock && this.Dock == "fill" || multiHeight == "100%" || multiHeight == "space") {
-                    _params.vPolicy = "fill";
-                    _params.overflow = "auto";
-                    try {
-                        delete _params.height;
-                        delete _params.defaultHeight;
-                    } catch (e) {}
-                } else {
-                    if (multiHeight.endsWith("%")) {
-                        _params.vPolicy = "fill";
-                        _params.height = multiHeight;
-                    } else {
-                        multiHeight = parseInt(multiHeight);
-                        if (multiHeight && !isNaN(multiHeight)) {
-                            _params.height = multiHeight;
-                        }
-                    }
-                }
-                var sectionStack = isc.SectionStack.create(_params);
-                //处理分组的显示隐藏
-                handleSectionStack(sectionStack, widgetMapping);
-                newVLayout.push(sectionStack);
-                nowSectionStackItems = null;
             } else {
-                if (null != nowSectionStackItems) {
-                    var _params = {
-                        visibilityMode: "multiple",
-                        width: "100%",
-                        membersMargin: 8,
-                        defaultHeight: 5,
-                        vPolicy: "none",
-                        height: 16,
-                        overflow: "visible",
-                        sectionIsExpanded: sectionIsExpanded,
-                        sections: nowSectionStackItems,
-                        expandSection: expandSection,
-                        type: "JGSectionStack",
-                        parentReadOnly: parentReadOnly
-                    }
-                    if (handleDock && this.Dock == "fill") {
-                        _params.vPolicy = "fill";
-                        _params.overflow = "auto";
-                        try {
-                            delete _params.height;
-                            delete _params.defaultHeight;
-                        } catch (e) {}
-                    }
-                    var sectionStack = isc.SectionStack.create(_params);
-                    //处理分组的显示隐藏
-                    handleSectionStack(sectionStack, widgetMapping);
-                    newVLayout.push(sectionStack);
-                    nowSectionStackItems = null;
-                }
                 newVLayout.push(widget);
             }
         }
@@ -896,7 +828,7 @@ isc.JGLayoutManager.addInterfaceMethods({
 
     _fillAbsoulteLayoutSpacer: function (arr1, arr2, arr3) {
         var members = [];
-        if(arr2.length>0&&arr1.length==0&&arr3.length==0){
+        if (arr2.length > 0 && arr1.length == 0 && arr3.length == 0) {
             members.push(isc.LayoutSpacer.create({}));
             members = members.concat(arr2);
             members.push(isc.LayoutSpacer.create({}));
@@ -908,8 +840,8 @@ isc.JGLayoutManager.addInterfaceMethods({
             if (item && item.length > 0) {
                 temp = temp.concat(item);
             }
-            if (i + 1 < l&&arguments[i+1]&&arguments[i+1].length>0||(this.componentCode=="vbase_prdbizframe"&&this.windowCode=="frameWindow")) {
-            //if(i +1 <l){
+            if (i + 1 < l && arguments[i + 1] && arguments[i + 1].length > 0 || (this.componentCode == "vbase_prdbizframe" && this.windowCode == "frameWindow")) {
+                //if(i +1 <l){
                 temp.push(isc.LayoutSpacer.create({}));
             }
         }

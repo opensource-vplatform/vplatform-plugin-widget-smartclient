@@ -1,4 +1,3 @@
-
 isc.ClassFactory.defineClass("JGVGroupPanel", "VLayout");
 //需要放置在IV3BaseWidget前：JGIGroupPanel方法覆盖IV3BaseWidget方法
 isc.ClassFactory.mixInInterface("JGVGroupPanel", "JGIGroupPanel");
@@ -19,16 +18,16 @@ isc.JGVGroupPanel.addMethods({
 		this.childrenWidgets = this.layoutChildWidgets();
 		this.adaptRectByV3();
 		this.handleChildrenResize();
-		this.members = this.childrenWidgets;//this.layoutChildWidgets();
+		this.members = this.childrenWidgets; //this.layoutChildWidgets();
 		this.Super('init', arguments);
 	},
 	/**
 	 * 子控件是否显示大小工具条
 	 * @param {Object}} child 子控件
 	 */
-	childShouldShowResizeBar: function(child){
-		var height = child.MultiHeight||child.height;
-		return isNaN(height)&&height.substring&&height.substring(height.length-2)!="px";
+	childShouldShowResizeBar: function (child) {
+		var height = child.MultiHeight || child.height;
+		return isNaN(height) && height.substring && height.substring(height.length - 2) != "px";
 	},
 
 	addV3Child: function (child) {
@@ -41,9 +40,24 @@ isc.JGVGroupPanel.addMethods({
 	buildSectionStackItem: function () {
 		var newMembers = [];
 		var members = this.members;
+		var heightLeft = parseInt(this.MultiHeight);
 		for (var i = 0, len = members.length; i < len; i++) {
 			if (members[i].getClassName() != "LayoutSpacer") {
-				newMembers.push(members[i]);
+				var member = members[i];
+				//处理场景：处理垂直布局靠上，而布局中子控件高度控件自适应导致控件不显示问题
+				if (member && member.setHeight) {
+					var memberHeight = member.MultiHeight;
+					if (memberHeight == "Space") {
+						member.setHeight(heightLeft);
+						heightLeft = 0;
+					} else {
+						memberHeight = parseInt(memberHeight);
+						if (!isNaN(memberHeight)) {
+							heightLeft -= memberHeight;
+						}
+					}
+				}
+				newMembers.push(member);
 			}
 		}
 		return {

@@ -1,4 +1,3 @@
-
 isc.ClassFactory.defineInterface("JGIGroupPanel");
 
 isc.JGIGroupPanel.addInterfaceProperties({
@@ -61,7 +60,7 @@ isc.JGIGroupPanel.addInterfaceMethods({
 		}
 		this.height = this.getProcessedHeight();
 		this.width = this.getProcessedWidth();
-		if (this.Dock == "Fill") {//如果铺满
+		if (this.Dock == "Fill") { //如果铺满
 			this.overflow = 'auto';
 		} else if (this.Dock == "None") {
 			this.left = this.Left;
@@ -70,7 +69,7 @@ isc.JGIGroupPanel.addInterfaceMethods({
 	},
 
 	getActiveChildWidgets: function () {
-		if (this.getVisible && !this.getVisible() || this.isVisible && !this.isVisible()) {//当前控件不显示，直接返回null
+		if (this.getVisible && !this.getVisible() || this.isVisible && !this.isVisible()) { //当前控件不显示，直接返回null
 			return null;
 		}
 		var result = [this.code];
@@ -80,7 +79,7 @@ isc.JGIGroupPanel.addInterfaceMethods({
 				var childWidgetCode = relationWidgets[i];
 				var childWidget = widgetContext.get(childWidgetCode, "widgetObj");
 				if (!childWidget.getActiveChildWidgets) {
-					if (childWidget.getVisible && childWidget.getVisible() || childWidget.isVisible && childWidget.isVisible()) {//子控件显示
+					if (childWidget.getVisible && childWidget.getVisible() || childWidget.isVisible && childWidget.isVisible()) { //子控件显示
 						result.push(childWidget.code);
 					}
 					continue;
@@ -106,17 +105,17 @@ isc.JGIGroupPanel.addInterfaceMethods({
 			items: [this]
 		};
 	},
-	isAssignLayout: function () {//是否指定布局
+	isAssignLayout: function () { //是否指定布局
 		var groupTitle = this.getGroupTitle();
 		if ("" != groupTitle) {
-			if (this.Dock == "Top") {//自己垂直
+			if (this.Dock == "Top") { //自己垂直
 				return true;
 			} else {
 				var parent = this.getParentHandler(this.widgetId);
 				if (parent) {
 					var type = widgetContext.get(parent, "type");
 					var contentAlignment = widgetContext.get(parent, "ContentAlignment");
-					if (type == "JGGroupPanel" && contentAlignment == "Vertical") {//处在垂直排列
+					if (type == "JGGroupPanel" && contentAlignment == "Vertical") { //处在垂直排列
 						return true;
 					}
 				}
@@ -124,12 +123,12 @@ isc.JGIGroupPanel.addInterfaceMethods({
 		}
 		return false;
 	},
-	inVLayout: function () {//是否指定布局
+	inVLayout: function () { //是否指定布局
 		var parent = this.getParentHandler(this.widgetId);
 		if (parent) {
 			var type = widgetContext.get(parent, "type");
 			var contentAlignment = widgetContext.get(parent, "ContentAlignment");
-			if (type == "JGGroupPanel" && contentAlignment == "Vertical") {//处在垂直排列
+			if (type == "JGGroupPanel" && contentAlignment == "Vertical") { //处在垂直排列
 				return true;
 			}
 		}
@@ -144,11 +143,14 @@ isc.JGIGroupPanel.addInterfaceMethods({
 		}
 	},
 	parentReadOnly: function (readOnly, canEditReadOnly) {
-		var childrens = this.members.concat(this.layoutChildWidgets());
-		var childrenWidgets = this.getChildWidgets(childrens);
-		for (var i = 0; i < childrenWidgets.length; i++) {
-			if (childrenWidgets[i].type) {
-				childrenWidgets[i].parentReadOnly(readOnly, canEditReadOnly);
+		var childIds = isc.WidgetContext.getChildrenIds(this.scopeId, this.widgetId);
+		if (childIds && childIds.length > 0) {
+			for (var i = 0; i < childIds.length; i++) {
+				var childId = childIds[i];
+				var child = isc.JGWidgetManager.getWidget(isc.WidgetUtils.genWidgetRefId(this.scopeId, childId))
+				if (child && child.type && child.parentReadOnly) {
+					child.parentReadOnly(readOnly, canEditReadOnly);
+				}
 			}
 		}
 	},
@@ -268,28 +270,28 @@ isc.JGIGroupPanel.addInterfaceMethods({
 	 * 	hide : Function//隐藏
 	 * }
 	 * */
-	setSectionStackInfo: function (info) {//设置分组信息,仅是分组标题时才有，用于设置控件隐藏
+	setSectionStackInfo: function (info) { //设置分组信息,仅是分组标题时才有，用于设置控件隐藏
 		this._sectionStackInfo = info;
 	},
-	getSectionStackInfo: function () {//可能为null，调用者需判断
+	getSectionStackInfo: function () { //可能为null，调用者需判断
 		return this._sectionStackInfo;
 	},
 	/**
 	 * 处理子控件是否显示大小工具条
 	 */
-	handleChildrenResize: function(){
-		if(this.ChildrenResizable){
-			if(this.childrenWidgets&&this.childrenWidgets.length>1){
-				for(var i=0,l=this.childrenWidgets.length-1;i<l;i++){
+	handleChildrenResize: function () {
+		if (this.ChildrenResizable) {
+			if (this.childrenWidgets && this.childrenWidgets.length > 1) {
+				for (var i = 0, l = this.childrenWidgets.length - 1; i < l; i++) {
 					var child = this.childrenWidgets[i];
-					if(this.childShouldShowResizeBar(child)){
+					if (this.childShouldShowResizeBar(child)) {
 						child.showResizeBar = true;
-					}else{
-						var preChild = this.childrenWidgets[i-1];
-						if(preChild){
-							try{
+					} else {
+						var preChild = this.childrenWidgets[i - 1];
+						if (preChild) {
+							try {
 								delete preChild.showResizeBar;
-							}catch(err){}
+							} catch (err) {}
 						}
 					}
 				}
