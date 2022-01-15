@@ -43,25 +43,25 @@ isc.JGTabControl.addProperties({
     WidgetStyle: "JGTabControl",
     //列事件
     _columnListener: [],
-    _savedWinParams: null,//动态页签下加载数据时生成的数据,对象引用
+    _savedWinParams: null, //动态页签下加载数据时生成的数据,对象引用
     lastValidateResult: true
 });
 isc.JGTabControl.addMethods({
-    
-    setBackColorJGTabPage: function(pageId, color) {
+
+    setBackColorJGTabPage: function (pageId, color) {
         var tabs = this.findTabByID(pageId)
         if (tabs && tabs.length > 0) {
             color = this.parseColor(color);
             tabs[0].pane.setBackgroundColor(color);
         }
     },
-    setSimpleChineseTitleJGTabPage: function(pageId, title) {
+    setSimpleChineseTitleJGTabPage: function (pageId, title) {
         var tabs = this.findTabByID(pageId)
         if (tabs) {
             this.tabSetObj.setTabTitle(tabs[0], title);
         }
     },
-    setVisibleJGTabPage: function(pageId, isboolea) {
+    setVisibleJGTabPage: function (pageId, isboolea) {
         if (isboolea) {
             this.showItem(pageId);
         } else {
@@ -71,13 +71,13 @@ isc.JGTabControl.addMethods({
         // 显示隐藏时需要重新计算页签工具栏布局
         this.childrenWidgets[0].fixLayout();
     },
-    setLabelTextJGTabPage: function(pageId, title) {
+    setLabelTextJGTabPage: function (pageId, title) {
         var tabs = this.findTabByID(pageId)
         if (tabs) {
             this.tabSetObj.setTabTitle(tabs[0], title);
         }
     },
-    getLabelTextJGTabPage: function(pageId) {
+    getLabelTextJGTabPage: function (pageId) {
         var tabs = this.findTabByID(pageId)
         var labelText;
         if (tabs) {
@@ -208,7 +208,7 @@ isc.JGTabControl.addMethods({
             tabBarPosition: this.Alignment,
             tabBarThickness: _tabBarThickness,
             useSimpleTabs: true,
-            tabs: (this.IsDynamic + "").toLowerCase()==="true" ?[]:array,
+            tabs: (this.IsDynamic + "").toLowerCase() === "true" ? [] : array,
             showTabPicker: false,
             overflow: _paneContainerOverflow,
             paneContainerClassName: this.isLineAppearance() ? null : "tabSetContainer",
@@ -257,7 +257,7 @@ isc.JGTabControl.addMethods({
                 var _3 = (_2 ? (this._tabBar.$td || 0) + (this._tabBar.$te || 0) : (this._tabBar.$tb || 0) + (this._tabBar.$tc || 0));
 
                 return _1 + _3 + (len - 1) * _tabMarginVal;
-            },  
+            },
             tabSelected: function () {
                 var selectTab = this.getSelectedTab();
                 if (selectTab) {
@@ -412,10 +412,10 @@ isc.JGTabControl.addMethods({
                     var _openWinParam = _this._getDynamicTabInfoByIndex(curSelectedTabNum);
                     if (_openWinParam) {
                         //处理窗体替换
-                         // _this.handleReplaceWindowInfo(_openWinParam);
+                        // _this.handleReplaceWindowInfo(_openWinParam);
                         if (!_this._isOpenedDynamicTabWindow(_openWinParam)) {
                             var tmpInputParams = _openWinParam.isStaticTabPage ? _openWinParam.inputParams : dynTabSettingInputParams;
-                            if (_openWinParam._scopeId) {//销毁前一次打开的窗体
+                            if (_openWinParam._scopeId) { //销毁前一次打开的窗体
                                 _this._windowDestroy(_openWinParam._scopeId);
                             }
                             _openWinParam._scopeId = function () {
@@ -450,7 +450,9 @@ isc.JGTabControl.addMethods({
                     if ($id) {
                         var record = entityDs.getRecordById($id);
                         //全部数据清空后，record为空，设置会报错
-                        record && entityDs.setCurrentRecord({ "record": record });
+                        record && entityDs.setCurrentRecord({
+                            "record": record
+                        });
                     }
                     if (_this.renderTabWindow) {
                         _this.renderTabWindow();
@@ -512,18 +514,18 @@ isc.JGTabControl.addMethods({
         }
     },
 
-    _afterInitWidget: function(){
+    _afterInitWidget: function () {
         //页签切换事件
         this.on("tabChange", this.TabIndexChangedAction);
     },
 
-    getV3MethodMap: function() {
+    getV3MethodMap: function () {
         return {
             setSelectedIndex: "setSelectedTabIndex",
             setSelectedName: "setSelectedTabName",
             selectedByName: "selectedByTabName",
-	        getSelectedCode: "getSelectedTabCode",
-	        setSelectedCode: "setSelectedTabCode",
+            getSelectedCode: "getSelectedTabCode",
+            setSelectedCode: "setSelectedTabCode",
             show: "showTabItem",
             hide: "hideTabItem",
             setReadOnly: "setTabReadOnly",
@@ -537,8 +539,8 @@ isc.JGTabControl.addMethods({
         }
     },
     /**
-    * 加载实体记录
-    * */
+     * 加载实体记录
+     * */
     loadRecord: function (widget, dynamicPageData, curTabsetObj) {
         var _this = this;
         var dynamicTabSetting = dynamicPageData.WindowTabSetting.dynamicTabSetting;
@@ -572,33 +574,33 @@ isc.JGTabControl.addMethods({
         }
     },
 
-    getOpenWindowInputParams: function(mappingItems, entityFieldValue) {
-		var variable = {};
-		if (mappingItems) {
-			
-			for (var i = 0; i < mappingItems.length; i++) {
-				var mappingItem = mappingItems[i],
-					target = mappingItem["paramName"],
-					source = mappingItem["paramValue"],
-					type = mappingItem["paramType"] + "";
+    getOpenWindowInputParams: function (mappingItems, entityFieldValue) {
+        var variable = {};
+        if (mappingItems) {
 
-				if (type === "expression") { //表达式
+            for (var i = 0; i < mappingItems.length; i++) {
+                var mappingItem = mappingItems[i],
+                    target = mappingItem["paramName"],
+                    source = mappingItem["paramValue"],
+                    type = mappingItem["paramType"] + "";
+
+                if (type === "expression") { //表达式
                     var expressionValue = this._expressionHandler(source);
-					variable[target] = expressionValue;
-				}else if(type === "entityField"){
-					variable[target] = entityFieldValue[source];
-				}
-			}
-		}
-		var retValue = {
-			"variable": variable
-		};
-		return retValue;
-	},
+                    variable[target] = expressionValue;
+                } else if (type === "entityField") {
+                    variable[target] = entityFieldValue[source];
+                }
+            }
+        }
+        var retValue = {
+            "variable": variable
+        };
+        return retValue;
+    },
 
     /**
      * 新增记录
-    * */
+     * */
     insertRecord: function (widget, dynamicPageData, curTabsetObj) {
         return function (params) {
             var dynamicTabSetting = dynamicPageData.WindowTabSetting.dynamicTabSetting;
@@ -606,23 +608,23 @@ isc.JGTabControl.addMethods({
             var newAddTabs = _this.genTabs(params, widget, dynamicTabSetting, dynTabSettingInputParams);
             if (newAddTabs.length !== 0) {
                 var index = params.datasource.getIndexById(newAddTabs[0].dataid);
-                if (widget._preStaticTab.length > 0) {//有前置页签，位置就是第一条新增记录加上前置页签长度
+                if (widget._preStaticTab.length > 0) { //有前置页签，位置就是第一条新增记录加上前置页签长度
                     index += widget._preStaticTab.length;
                 }
                 curTabsetObj.addTabs(newAddTabs, index);
             }
         }
     },
-    currentRecord: function(widget, dynamicPageData, curTabsetObj){
+    currentRecord: function (widget, dynamicPageData, curTabsetObj) {
         var _this = this;
-        return function(params){
+        return function (params) {
             var current = params.currentRecord;
             var id = current.getSysId();
             var tabIndex = 0;
             var tabs = widget.tabSetObj && widget.tabSetObj.tabs || [];
             for (var i = 0, len = tabs.length; i < len; i++) {
                 var tab = tabs[i];
-                if(tab.dataid == id){
+                if (tab.dataid == id) {
                     tabIndex = i;
                 }
             }
@@ -671,7 +673,7 @@ isc.JGTabControl.addMethods({
                 }
                 var isChange = _this._hasChangeParam(tabInfo.entityFieldValue, data);
                 if (changeData.hasOwnProperty(comCodeFieldName) ||
-                    changeData.hasOwnProperty(winCodeFieldName) || isChange) {//改变打开的窗体
+                    changeData.hasOwnProperty(winCodeFieldName) || isChange) { //改变打开的窗体
                     tabInfo["comCode"] = data[comCodeFieldName];
                     tabInfo["winCode"] = data[winCodeFieldName];
                     _this._markDynamicTabWindowNotOpen(tabInfo);
@@ -749,7 +751,7 @@ isc.JGTabControl.addMethods({
                 var id = tmpObj.id;
                 if (j == 0) {
                     currentTabLength = params.datasource.getIndexById(id);
-                    if (widget._preStaticTab.length > 0) {//有前置页签，位置就是第一条新增记录加上前置页签长度
+                    if (widget._preStaticTab.length > 0) { //有前置页签，位置就是第一条新增记录加上前置页签长度
                         currentTabLength += widget._preStaticTab.length;
                     }
                 }
@@ -777,44 +779,44 @@ isc.JGTabControl.addMethods({
         return newAddTabs;
     },
 
-	genTabPanel: function(widget){
-		var isContentHeight = widget.MultiHeight == "content";
-		var tabAppearance = widget.TabAppearance;
-		var alignment = widget.Alignment;
-		var _paneCanvas = isc.Canvas.create({
-			autoDraw: false,
-			width: "100%",
-			height: "100%",
-			overflow: isContentHeight ? "visible" : "auto",
-			contents: null
-		});
-		var layout;
-		var pros = {
-			autoDraw: false,
-			width: "100%",
-			height: "100%",
-			overflow: isContentHeight ? "visible" : "hidden",
-			members: [_paneCanvas]
-		};
-		if (tabAppearance == "line")
-			if (alignment == "top")
-				pros.layoutTopMargin = 8,
-				layout = isc.VLayout.create(pros);
-			else if (alignment == "bottom")
-				pros.layoutBottomMargin = 8,
-				layout = isc.VLayout.create(pros);
-			else if (alignment == "left")
-				pros.layoutLeftMargin = 8,
-				layout = isc.HLayout.create(pros);
-			else
-				pros.layoutRightMargin = 8,
-				layout = isc.HLayout.create(pros);
-		else if (tabAppearance == "card") {
-			pros.layoutMargin = 8;
-			layout = isc.HLayout.create(pros)
-		}
-		return layout;
-	},
+    genTabPanel: function (widget) {
+        var isContentHeight = widget.MultiHeight == "content";
+        var tabAppearance = widget.TabAppearance;
+        var alignment = widget.Alignment;
+        var _paneCanvas = isc.Canvas.create({
+            autoDraw: false,
+            width: "100%",
+            height: "100%",
+            overflow: isContentHeight ? "visible" : "auto",
+            contents: null
+        });
+        var layout;
+        var pros = {
+            autoDraw: false,
+            width: "100%",
+            height: "100%",
+            overflow: isContentHeight ? "visible" : "hidden",
+            members: [_paneCanvas]
+        };
+        if (tabAppearance == "line")
+            if (alignment == "top")
+                pros.layoutTopMargin = 8,
+                layout = isc.VLayout.create(pros);
+            else if (alignment == "bottom")
+            pros.layoutBottomMargin = 8,
+            layout = isc.VLayout.create(pros);
+        else if (alignment == "left")
+            pros.layoutLeftMargin = 8,
+            layout = isc.HLayout.create(pros);
+        else
+            pros.layoutRightMargin = 8,
+            layout = isc.HLayout.create(pros);
+        else if (tabAppearance == "card") {
+            pros.layoutMargin = 8;
+            layout = isc.HLayout.create(pros)
+        }
+        return layout;
+    },
 
     addtabPageData: function (windowCode, windowNumSource, openType, componentCode, title, icon, inputParams, isStaticTabPage) {
         var tmpTabPage = {};
@@ -832,17 +834,17 @@ isc.JGTabControl.addMethods({
         return tmpTabPage;
     },
 
-    _getChangeRecord: function(params){
+    _getChangeRecord: function (params) {
         var records = [];
         if (params.resultSet && params.resultSet.datas && params.resultSet.datas.length > 0) {
             var resultDatas = params.resultSet.datas;
             var resultDatasLen = resultDatas.length;
             if (resultDatasLen !== 0) {
-                for(var i = 0;i<resultDatasLen;i++){
+                for (var i = 0; i < resultDatasLen; i++) {
                     var data = resultDatas[i];
-                    if(data.toMap){//插入的数据是Record
+                    if (data.toMap) { //插入的数据是Record
                         records.push(data.toMap());
-                    }else{//加载的数据是map
+                    } else { //加载的数据是map
                         return resultDatas;
                     }
                 }
@@ -870,7 +872,7 @@ isc.JGTabControl.addMethods({
 
     /**
      *触发控件事件 
-    */
+     */
     fireEvent: function (eventName) {
         var eventHandler = this.listener[eventName];
         if (eventHandler && eventHandler.length > 0) {
@@ -952,7 +954,7 @@ isc.JGTabControl.addMethods({
             }
         }
         //兼容没有配置子页签报错的场景
-        if(this.tabSetObj && this.tabSetObj.tabs && this.tabSetObj.tabs.length > 0){
+        if (this.tabSetObj && this.tabSetObj.tabs && this.tabSetObj.tabs.length > 0) {
             this.setTabSelect();
         }
         // if ((this.IsDynamic + "").toLowerCase() === "true" && this.tabSetObj.tabs.length !== 0)
@@ -1092,14 +1094,14 @@ isc.JGTabControl.addMethods({
         }
     },
 
-    showTabItem: function(tabPageId) {
-		this.showItem(tabPageId);
-	},
+    showTabItem: function (tabPageId) {
+        this.showItem(tabPageId);
+    },
 
-    hideTabItem: function(tabPageId) {
-		this.hideItem(tabPageId);
-	},
-    
+    hideTabItem: function (tabPageId) {
+        this.hideItem(tabPageId);
+    },
+
     /**
      * 显示一个tab
      * 
@@ -1115,7 +1117,7 @@ isc.JGTabControl.addMethods({
                     }
                 }
             }
-            delete (this.hidenID[tabs[0].pane.id]);
+            delete(this.hidenID[tabs[0].pane.id]);
             if (this.tabSetObj.isDrawn()) {
                 this.tabSetObj.tabBar.getButton(tabs[0]).show();
                 this.tabSetObj.delayCall("fixLayout");
@@ -1136,12 +1138,12 @@ isc.JGTabControl.addMethods({
         }
     },
 
-    selectedById:function(tabIndex) {
-		var tabs = this.findTabByID(tabIndex);
-		if (tabs && tabs.length > 0) {
-			this.tabSetObj.selectTab(tabs[0]);
-		}
-	},
+    selectedById: function (tabIndex) {
+        var tabs = this.findTabByID(tabIndex);
+        if (tabs && tabs.length > 0) {
+            this.tabSetObj.selectTab(tabs[0]);
+        }
+    },
 
     enabledItem: function (id) {
         var tabs = this.findTabByID(id);
@@ -1187,9 +1189,9 @@ isc.JGTabControl.addMethods({
         }
     },
 
-    getIsDynamic: function(widgetId){
-		return this.IsDynamic;
-	},
+    getIsDynamic: function (widgetId) {
+        return this.IsDynamic;
+    },
 
     /**
      * 通过ID的名称，查找tab
@@ -1231,9 +1233,9 @@ isc.JGTabControl.addMethods({
         }
     },
 
-    selectedByTabName: function(tabName) {
-		this.selectedByName(tabName);
-	},
+    selectedByTabName: function (tabName) {
+        this.selectedByName(tabName);
+    },
 
     /**
      * 通过页签名来设置选中状态
@@ -1243,10 +1245,10 @@ isc.JGTabControl.addMethods({
         this.selectedByName(title);
     },
 
-    setSelectedTabName: function(title) {
-		var num = this.getSelectedIndex();
-		this.tabSetObj.setTabTitle(this.tabSetObj.tabs[num], title);
-	},
+    setSelectedTabName: function (title) {
+        var num = this.getSelectedIndex();
+        this.tabSetObj.setTabTitle(this.tabSetObj.tabs[num], title);
+    },
 
     setSelectedIndex: function (index) {
         //兼容传入数字串
@@ -1263,11 +1265,11 @@ isc.JGTabControl.addMethods({
         }
     },
 
-    setSelectedTabIndex: function(state) {
-		this.setSelectedIndex(state);
-		var tabIndex = this.SelectedIndex;
-		tabIndex == state && this.tabSelected(state);
-	},
+    setSelectedTabIndex: function (state) {
+        this.setSelectedIndex(state);
+        var tabIndex = this.SelectedIndex;
+        tabIndex == state && this.tabSelected(state);
+    },
 
     getCurrentlyTabsIndex: function () {
         return this.tabSetObj.selectedTab;
@@ -1393,19 +1395,19 @@ isc.JGTabControl.addMethods({
             this.refreshCurrentTabID();
         }
     },
-    
-    setSelectedTabCode: function(code) {
-		this.setSelectedCode(code);
-	},
+
+    setSelectedTabCode: function (code) {
+        this.setSelectedCode(code);
+    },
 
     // 获取选中的页签 Code
     getSelectedCode: function () {
         return this.tabSetObj.getSelectedTab().code;
     },
 
-    getSelectedTabCode: function() {
-		return this.getSelectedCode();
-	},
+    getSelectedTabCode: function () {
+        return this.getSelectedCode();
+    },
 
     getActiveChildWidgets: function () {
         if (this.getVisible && !this.getVisible() || this.isVisible && !this.isVisible()) { //当前控件不显示，直接返回null
@@ -1418,7 +1420,7 @@ isc.JGTabControl.addMethods({
             var relationWidgets = this.widgetChildren(tabPageCode, false);
             if (relationWidgets) {
                 for (var i = 0, len = relationWidgets.length; i < len; i++) {
-                    var childWidget = this.getWidgetContextProperty(relationWidgets[i],"widgetObj");
+                    var childWidget = this.getWidgetContextProperty(relationWidgets[i], "widgetObj");
                     if (!childWidget.getActiveChildWidgets) {
                         if (childWidget.getVisible && childWidget.getVisible() || childWidget.isVisible && childWidget.isVisible()) { //子控件显示
                             result.push(childWidget.code);
@@ -1453,7 +1455,7 @@ isc.JGTabControl.addMethods({
                 if (!isNaN(headWidth)) {
                     rect[index] = rect[index] - headWidth;
                 }
-            } catch (e) { }
+            } catch (e) {}
         }
         return rect;
     },
@@ -1470,25 +1472,25 @@ isc.JGTabControl.addMethods({
             case "top":
                 try {
                     delete params.layoutMargin;
-                } catch (e) { }
+                } catch (e) {}
                 params.layoutTopMargin = _layoutXMargin;
                 break;
             case "bottom":
                 try {
                     delete params.layoutMargin;
-                } catch (e) { }
+                } catch (e) {}
                 params.layoutBottomMargin = _layoutXMargin;
                 break;
             case "left":
                 try {
                     delete params.layoutMargin;
-                } catch (e) { }
+                } catch (e) {}
                 params.layoutLeftMargin = _layoutXMargin;
                 break;
             case "right":
                 try {
                     delete params.layoutMargin;
-                } catch (e) { }
+                } catch (e) {}
                 params.layoutRightMargin = _layoutXMargin;
                 break;
         }
@@ -1584,7 +1586,7 @@ isc.JGTabControl.addMethods({
         if (!this._savedWinParams) {
             this._savedWinParams = [];
         }
-        this._savedWinParams.addAt(info, index);//只是沿用原理处理逻辑
+        this._savedWinParams.addAt(info, index); //只是沿用原理处理逻辑
     },
     /**
      * 获取动态页签信息
@@ -1621,7 +1623,7 @@ isc.JGTabControl.addMethods({
                 if (tab.dataid && dataids.indexOf(tab.dataid) != -1) {
                     var scopeId = tab._scopeId;
                     if (scopeId) {
-                        _this._windowDestroy(scopeId);
+                        this._windowDestroy(scopeId);
                     }
                     this._savedWinParams.splice(i, 1);
                 }
@@ -1696,63 +1698,63 @@ isc.JGTabControl.addMethods({
         }
         return hasChange;
     },
-    setTabBarVisible: function(widgetId, visible){
-		this.TabBarVisible = visible;
-		this.tabSetObj.tabBar.setVisibility(visible);	
-		this.handleTabBarVisible(visible);
-	},
-    
-    getTabBarVisible: function(widgetId){
-		return this.TabBarVisible;
-	},
-    getReadOnly: function(widgetId) {
-		return this.isReadOnly();
-	},
-    setTabReadOnly: function(state) {
-		this.setReadOnly(state);
-	},
-    getVisible: function(widgetId) {
-		return this.isVisible();
-	},
-    setTabVisible: function(state) {
-		this.setVisible(state);
-	},
-    getEnabled: function(state) {
-		return !this.isDisabled();
-	},
-    selectedTabByIndex: function( tabIndex) {
-		this.selectedByIndex(tabIndex);
-	},
-    setBackColor: function(tabPageId, color) {
-		this.setPageBackColor(tabPageId, color)
-	},
-    setLabelText: function(tabPageId, title) {
-		this.setTitle(tabPageId, title);
-	},
-    enabled: function(tabPageId) {
-		this.enabledItem(tabPageId);
-	},
-    disabled: function(tabPageId) {
-		this.disabledItem(tabPageId);
-	},
-    readonly: function(tabPageId) {
-		this.readonlyItem(tabPageId);
-	},
-    writable: function(tabPageId) {
-		this.writableItem(tabPageId);
-	},
-    setTabEnabled: function(state) {
-		this.setEnabled(state);
-	},
-    getSelectedTabIndex: function(widgetId) {
-		return this.getSelectedIndex();
-	},
-    _showItem: function(tabPageId) {
-		this.showItem(tabPageId);
-	},
-    _hideItem: function(tabPageId) {
-		this.hideItem(tabPageId);
-	}
+    setTabBarVisible: function (widgetId, visible) {
+        this.TabBarVisible = visible;
+        this.tabSetObj.tabBar.setVisibility(visible);
+        this.handleTabBarVisible(visible);
+    },
+
+    getTabBarVisible: function (widgetId) {
+        return this.TabBarVisible;
+    },
+    getReadOnly: function (widgetId) {
+        return this.isReadOnly();
+    },
+    setTabReadOnly: function (state) {
+        this.setReadOnly(state);
+    },
+    getVisible: function (widgetId) {
+        return this.isVisible();
+    },
+    setTabVisible: function (state) {
+        this.setVisible(state);
+    },
+    getEnabled: function (state) {
+        return !this.isDisabled();
+    },
+    selectedTabByIndex: function (tabIndex) {
+        this.selectedByIndex(tabIndex);
+    },
+    setBackColor: function (tabPageId, color) {
+        this.setPageBackColor(tabPageId, color)
+    },
+    setLabelText: function (tabPageId, title) {
+        this.setTitle(tabPageId, title);
+    },
+    enabled: function (tabPageId) {
+        this.enabledItem(tabPageId);
+    },
+    disabled: function (tabPageId) {
+        this.disabledItem(tabPageId);
+    },
+    readonly: function (tabPageId) {
+        this.readonlyItem(tabPageId);
+    },
+    writable: function (tabPageId) {
+        this.writableItem(tabPageId);
+    },
+    setTabEnabled: function (state) {
+        this.setEnabled(state);
+    },
+    getSelectedTabIndex: function (widgetId) {
+        return this.getSelectedIndex();
+    },
+    _showItem: function (tabPageId) {
+        this.showItem(tabPageId);
+    },
+    _hideItem: function (tabPageId) {
+        this.hideItem(tabPageId);
+    }
 
 
 });

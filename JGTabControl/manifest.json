@@ -2,478 +2,471 @@
     "groupId": "com.toone.v3.platform",
     "code": "widget-smartclient-JGTabControl",
     "version": "3.22.0",
-    "plugins": [
-        {
-            "type": "widget",
-            "code": "JGTabControl",
-            "name": "页签",
-            "icon": "./JGTabControl.png",
-            "desc": "管理并向用户显示可以包含控件和控件相关的选项卡的集合。",
-            "defineUrl": "./dist/index.js",
-            "docUrl": "./doc/index.js",
-            "exampleUrl": "./example/index.js",
-            "properties": [
-                {
-                    "code": "Left",
-                    "name": "左边距",
-                    "type": "integer",
-                    "editor": {
-                        "type": "integer"
-                    },
-                    "default": 0
+    "plugins": [{
+        "type": "widget",
+        "code": "JGTabControl",
+        "name": "页签",
+        "icon": "./JGTabControl.png",
+        "desc": "管理并向用户显示可以包含控件和控件相关的选项卡的集合。",
+        "defineUrl": "./dist/index.js",
+        "docUrl": "./doc/index.js",
+        "exampleUrl": "./example/index.js",
+        "properties": [{
+                "code": "Left",
+                "name": "左边距",
+                "type": "integer",
+                "editor": {
+                    "type": "integer"
                 },
-                {
-                    "code": "PercentHeight",
-                    "name": "百分比高度",
-                    "type": "char",
-                    "default": "22.2%"
+                "default": 0
+            },
+            {
+                "code": "PercentHeight",
+                "name": "百分比高度",
+                "type": "char",
+                "default": "22.2%"
+            },
+            {
+                "code": "Top",
+                "name": "上边距",
+                "type": "char",
+                "default": 0
+            },
+            {
+                "code": "Code",
+                "name": "名称",
+                "type": "char",
+                "default": "JGTabControl1"
+            },
+            {
+                "code": "Alignment",
+                "name": "页签位置",
+                "type": "char",
+                "compatible": {
+                    "enhanceType": "alignment"
                 },
-                {
-                    "code": "Top",
-                    "name": "上边距",
-                    "type": "char",
-                    "default": 0
+                "default": "top"
+            },
+            {
+                "code": "Enabled",
+                "name": "使能",
+                "type": "boolean",
+                "editor": {
+                    "type": "boolean"
                 },
-                {
-                    "code": "Code",
-                    "name": "名称",
-                    "type": "char",
-                    "default": "JGTabControl1"
-                },
-                {
-                    "code": "Alignment",
-                    "name": "页签位置",
-                    "type": "char",
-                    "compatible": {
-                        "enhanceType": "alignment"
-                    },
-                    "default": "top"
-                },
-                {
-                    "code": "Enabled",
-                    "name": "使能",
-                    "type": "boolean",
-                    "editor": {
-                        "type": "boolean"
-                    },
-                    "access": {
-                        "webDesigner":{
-                            "readable": true,
-                            "writable": true
-                        }
-                    },
-                    "default": true
-                },
-                {
-                    "code": "LabelText",
-                    "name": "标题",
-                    "type": "char",
-                    "compatible": {
-                        "enhanceType": "language",
-                        "target": "LabelText"
+                "access": {
+                    "webDesigner": {
+                        "readable": true,
+                        "writable": true
                     }
                 },
-                {
-                    "code": "Width",
-                    "name": "宽度",
-                    "type": "integer",
-                    "editor": {
-                        "type": "integer"
-                    },
-                    "default": 200
+                "default": true
+            },
+            {
+                "code": "LabelText",
+                "name": "标题",
+                "type": "char",
+                "compatible": {
+                    "enhanceType": "language",
+                    "target": "LabelText"
+                }
+            },
+            {
+                "code": "Width",
+                "name": "宽度",
+                "type": "integer",
+                "editor": {
+                    "type": "integer"
                 },
-                {
-                    "code": "ReadOnly",
-                    "name": "只读",
-                    "type": "boolean",
-                    "editor": {
-                        "type": "boolean"
-                    },
-                    "access": {
-                        "webDesigner":{
-                            "readable": true,
-                            "writable": true
-                        }
-                    },
-                    "default": false
+                "default": 200
+            },
+            {
+                "code": "ReadOnly",
+                "name": "只读",
+                "type": "boolean",
+                "editor": {
+                    "type": "boolean"
                 },
-                {
-                    "code": "Height",
-                    "name": "高度",
-                    "type": "integer",
-                    "editor": {
-                        "type": "integer"
-                    },
-                    "default": 100
+                "access": {
+                    "webDesigner": {
+                        "readable": true,
+                        "writable": true
+                    }
                 },
-                {
-                    "code": "TabIndex",
-                    "name": "界面顺序号",
-                    "type": "integer",
-                    "editor": {
-                        "type": "integer"
-                    },
-                    "default": 0
+                "default": false
+            },
+            {
+                "code": "Height",
+                "name": "高度",
+                "type": "integer",
+                "editor": {
+                    "type": "integer"
                 },
-                {
-                    "code": "PercentWidth",
-                    "name": "百分比宽度",
-                    "type": "char",
-                    "default": "20.8%"
+                "default": 100
+            },
+            {
+                "code": "TabIndex",
+                "name": "界面顺序号",
+                "type": "integer",
+                "editor": {
+                    "type": "integer"
                 },
-                {
-                    "code": "Visible",
-                    "name": "显示",
-                    "type": "boolean",
-                    "editor": {
-                        "type": "boolean"
-                    },
-                    "access": {
-                        "webDesigner":{
-                            "readable": true,
-                            "writable": true
-                        }
-                    },
-                    "default": true
+                "default": 0
+            },
+            {
+                "code": "PercentWidth",
+                "name": "百分比宽度",
+                "type": "char",
+                "default": "20.8%"
+            },
+            {
+                "code": "Visible",
+                "name": "显示",
+                "type": "boolean",
+                "editor": {
+                    "type": "boolean"
                 },
-                {
-                    "code": "SelectedIndex",
-                    "name": "当前选中页",
-                    "type": "integer",
-                    "editor": {
-                        "type": "integer"
-                    },
-                    "default": 0
+                "access": {
+                    "webDesigner": {
+                        "readable": true,
+                        "writable": true
+                    }
                 },
-                {
-                    "code": "SelectedName",
-                    "name": "当前选中页名称",
-                    "type": "char",
-                    "default": ""
+                "default": true
+            },
+            {
+                "code": "SelectedIndex",
+                "name": "当前选中页",
+                "type": "integer",
+                "editor": {
+                    "type": "integer"
                 },
-                {
-                    "code": "StaticLayoutSize",
-                    "name": "宽度固定",
-                    "type": "boolean",
-                    "editor": {
-                        "type": "boolean"
-                    },
-                    "default": true
+                "default": 0
+            },
+            {
+                "code": "SelectedName",
+                "name": "当前选中页名称",
+                "type": "char",
+                "default": ""
+            },
+            {
+                "code": "StaticLayoutSize",
+                "name": "宽度固定",
+                "type": "boolean",
+                "editor": {
+                    "type": "boolean"
                 },
-                {
-                    "code": "MultiWidth",
-                    "name": "宽度",
-                    "type": "char",
-                    "default": "200px"
+                "default": true
+            },
+            {
+                "code": "MultiWidth",
+                "name": "宽度",
+                "type": "char",
+                "default": "200px"
+            },
+            {
+                "code": "MultiHeight",
+                "name": "高度",
+                "type": "char",
+                "default": "100px"
+            },
+            {
+                "code": "Dock",
+                "name": "泊靠",
+                "type": "char",
+                "default": "None"
+            },
+            {
+                "code": "TabBarVisible",
+                "name": "页签头显示",
+                "type": "boolean",
+                "editor": {
+                    "type": "boolean"
                 },
-                {
-                    "code": "MultiHeight",
-                    "name": "高度",
-                    "type": "char",
-                    "default": "100px"
+                "default": true
+            },
+            {
+                "code": "IsDynamic",
+                "name": "是否动态页签",
+                "type": "char",
+                "editor": {
+                    "type": "text"
                 },
-                {
-                    "code": "Dock",
-                    "name": "泊靠",
-                    "type": "char",
-                    "default": "None"
+                "default": "False"
+            },
+            {
+                "code": "TabIndexChangedAction",
+                "name": "页签切换事件",
+                "type": "char",
+                "editor": {
+                    "type": "ruleset"
                 },
-                {
-                    "code": "TabBarVisible",
-                    "name": "页签头显示",
-                    "type": "boolean",
-                    "editor": {
-                        "type": "boolean"
-                    },
-                    "default": true
+                "default": ""
+            },
+            {
+                "code": "TableName",
+                "name": "表名",
+                "type": "char",
+                "required": false,
+                "editor": {
+                    "type": "entity"
                 },
-                {
-                    "code": "IsDynamic",
-                    "name": "是否动态页签",
-                    "type": "char",
-                    "editor": {
-                        "type": "char"
-                    },
-                    "default": "False"
+                "compatible": {
+                    "enhanceType": "tableName"
                 },
-                {
-                    "code": "TabIndexChangedAction",
-                    "name": "页签切换事件",
-                    "type": "char",
-                    "editor": {
-                        "type": "ruleset"
-                    },
-                    "default": ""
-                },
-                {
-                    "code": "TableName",
-                    "name": "表名",
-                    "type": "char",
-                    "required": false,
-                    "editor": {
-                        "type": "entity"
-                    },
-                    "compatible": {
-                        "enhanceType": "tableName"
-                    },
-                    "default": ""
-                },
-                {
-                    "code": "_expressionHandler",
-                    "name": "计算表达式结果",
-                    "type": "char",
-                    "visible": false,
-                    "handler": "expression"
-                },
-                {
-                    "code": "_lookup",
-                    "name": "查找",
-                    "type": "char",
-                    "visible": false,
-                    "handler": "entity"
-                },
-                {
-                    "code": "renderWindowToElement",
-                    "name": "渲染窗体到指定节点",
-                    "type": "char",
-                    "handler": "window.renderToElement"
-                },
-                {
-                    "code": "widgetChildren",
-                    "name": "获取事件处理器",
-                    "type": "char",
-                    "handler": "widgetChildren"
-                },
-                {
-                    "code": "getWidgetContextProperty",
-                    "name": "获取事件处理器",
-                    "type": "char",
-                    "handler": "getWidgetContextProperty"
-                },
-                {
-                    "code": "_windowDestroy",
-                    "name": "销毁窗体域",
-                    "type": "char",
-                    "handler": "window.destroy"
-                 },
-                 {
-                    "code": "IsShowScrollbar",
-                    "name": "是否显示滚动条",
-                    "type": "char",
-                    "default": "True"
-                },
-                {
-                    "code": "HorizontalAlign",
-                    "name": "水平对齐",
-                    "type": "char",
-                    "default": "Left"
-                },
-                {
-                    "code": "TabHeadWidth",
-                    "name": "页签头宽度",
-                    "type": "char",
-                    "default": "110"
-                },
-                {
-                    "code": "WidgetStyle",
-                    "name": "样式标识",
-                    "type": "char",
-                    "default": "JGTabControl"
-                },
-                {
-                    "code": "DynamicPage",
-                    "name": "窗体参数",
-                    "type": "char",
-                    "default": ""
-                },
-                {
-                    "code": "Alias",
-                    "name": "别名",
-                    "type": "char",
-                    "default": "页签"
-                },
-                {
-                    "code": "ScrollbarDir",
-                    "name": "滚动条位置",
-                    "type": "char",
-                    "default": "both"
-                },
-                {
-                    "code": "TabAppearance",
-                    "name": "外观",
-                    "type": "char",
-                    "default": "line"
-                },
-                {
-                    "code": "tabs",
-                    "name": "页签子控件",
-                    "type": "char",
-                    "editor": {
-                        "type": "children",
-                        "define": [
+                "default": ""
+            },
+            {
+                "code": "_expressionHandler",
+                "name": "计算表达式结果",
+                "type": "char",
+                "visible": false,
+                "handler": "expression"
+            },
+            {
+                "code": "_lookup",
+                "name": "查找",
+                "type": "char",
+                "visible": false,
+                "handler": "entity"
+            },
+            {
+                "code": "renderWindowToElement",
+                "name": "渲染窗体到指定节点",
+                "type": "char",
+                "handler": "window.renderToElement"
+            },
+            {
+                "code": "widgetChildren",
+                "name": "获取事件处理器",
+                "type": "char",
+                "handler": "widgetChildren"
+            },
+            {
+                "code": "getWidgetContextProperty",
+                "name": "获取事件处理器",
+                "type": "char",
+                "handler": "getWidgetContextProperty"
+            },
+            {
+                "code": "_windowDestroy",
+                "name": "销毁窗体域",
+                "type": "char",
+                "handler": "window.destroy"
+            },
+            {
+                "code": "IsShowScrollbar",
+                "name": "是否显示滚动条",
+                "type": "char",
+                "default": "True"
+            },
+            {
+                "code": "HorizontalAlign",
+                "name": "水平对齐",
+                "type": "char",
+                "default": "Left"
+            },
+            {
+                "code": "TabHeadWidth",
+                "name": "页签头宽度",
+                "type": "char",
+                "default": "110"
+            },
+            {
+                "code": "WidgetStyle",
+                "name": "样式标识",
+                "type": "char",
+                "default": "JGTabControl"
+            },
+            {
+                "code": "DynamicPage",
+                "name": "窗体参数",
+                "type": "char",
+                "default": ""
+            },
+            {
+                "code": "Alias",
+                "name": "别名",
+                "type": "char",
+                "default": "页签"
+            },
+            {
+                "code": "ScrollbarDir",
+                "name": "滚动条位置",
+                "type": "char",
+                "default": "both"
+            },
+            {
+                "code": "TabAppearance",
+                "name": "外观",
+                "type": "char",
+                "default": "line"
+            },
+            {
+                "code": "tabs",
+                "name": "页签子控件",
+                "type": "char",
+                "editor": {
+                    "type": "children",
+                    "define": [{
+                        "code": "JGTabPage",
+                        "type": "widget",
+                        "properties": [{
+                                "code": "Width",
+                                "name": "宽度",
+                                "type": "integer",
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
                             {
-                                "code": "JGTabPage",
-                                "type": "widget",
-                                "properties": [
-                                    {
-                                        "code": "Width",
-                                        "name": "宽度",
-                                        "type": "integer",
-                                        "editor": {
-                                            "type": "integer"
-                                        }
-                                    },
-                                    {
-                                        "code": "Height",
-                                        "name": "高度",
-                                        "type": "integer",
-                                        "editor": {
-                                            "type": "integer"
-                                        }
-                                    },
-                                    {
-                                        "code": "Code",
-                                        "name": "名称",
-                                        "type": "char",
-                                        "editor": {
-                                            "type": "char"
-                                        }
-                                    },
-                                    {
-                                        "code": "layoutType",
-                                        "name": "布局类型",
-                                        "type": "char",
-                                        "editor": {
-                                            "type": "char"
-                                        }
-                                    },
-                                    {
-                                        "code": "TabIndex",
-                                        "name": "界面顺序号",
-                                        "type": "integer",
-                                        "editor": {
-                                            "type": "integer"
-                                        }
-                                    },
-                                    {
-                                        "code": "Padding",
-                                        "name": "内部间距",
-                                        "type": "char",
-                                        "compatible": {
-                                            "enhanceType": "padding"
-                                        }
-                                    },
-                                    {
-                                        "code": "BackColor",
-                                        "name": "背景色",
-                                        "type": "char",
-                                        "compatible": {
-                                            "enhanceType": "color"
-                                        }
-                                    },
-                                    {
-                                        "code": "Visible",
-                                        "name": "显示",
-                                        "type": "boolean",
-                                        "editor": {
-                                            "type": "boolean"
-                                        },
-                                        "default": true
-                                    },
-                                    {
-                                        "code": "Left",
-                                        "name": "左边距",
-                                        "type": "integer",
-                                        "editor": {
-                                            "type": "integer"
-                                        }
-                                    },
-                                    {
-                                        "code": "LabelText",
-                                        "name": "标题",
-                                        "type": "char",
-                                        "compatible": {
-                                            "enhanceType": "language"
-                                        }
-                                    },
-                                    {
-                                        "code": "show",
-                                        "name": "显示",
-                                        "type": "boolean",
-                                        "editor": {
-                                            "type": "boolean"
-                                        },
-                                        "access": {
-                                            "webDesigner":{
-                                                "readable": true,
-                                                "writable": true
-                                            }
-                                        },
-                                        "default": true
-                                    },
-                                    {
-                                        "code": "LayoutBottomMargin",
-                                        "name": "",
-                                        "type": "integer",
-                                        "editor": {
-                                            "type": "integer"
-                                        }
-                                    },
-                                    {
-                                        "code": "LayoutLeftMargin",
-                                        "name": "",
-                                        "type": "integer",
-                                        "editor": {
-                                            "type": "integer"
-                                        }
-                                    },
-                                    {
-                                        "code": "LayoutRightMargin",
-                                        "name": "",
-                                        "type": "integer",
-                                        "editor": {
-                                            "type": "integer"
-                                        }
-                                    },
-                                    {
-                                        "code": "selected",
-                                        "name": "是否选中",
-                                        "type": "boolean",
-                                        "editor": {
-                                            "type": "boolean"
-                                        },
-                                        "default": false
+                                "code": "Height",
+                                "name": "高度",
+                                "type": "integer",
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Code",
+                                "name": "名称",
+                                "type": "char",
+                                "editor": {
+                                    "type": "char"
+                                }
+                            },
+                            {
+                                "code": "layoutType",
+                                "name": "布局类型",
+                                "type": "char",
+                                "editor": {
+                                    "type": "char"
+                                }
+                            },
+                            {
+                                "code": "TabIndex",
+                                "name": "界面顺序号",
+                                "type": "integer",
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "Padding",
+                                "name": "内部间距",
+                                "type": "char",
+                                "compatible": {
+                                    "enhanceType": "padding"
+                                }
+                            },
+                            {
+                                "code": "BackColor",
+                                "name": "背景色",
+                                "type": "char",
+                                "compatible": {
+                                    "enhanceType": "color"
+                                }
+                            },
+                            {
+                                "code": "Visible",
+                                "name": "显示",
+                                "type": "boolean",
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "default": true
+                            },
+                            {
+                                "code": "Left",
+                                "name": "左边距",
+                                "type": "integer",
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "LabelText",
+                                "name": "标题",
+                                "type": "char",
+                                "compatible": {
+                                    "enhanceType": "language"
+                                }
+                            },
+                            {
+                                "code": "show",
+                                "name": "显示",
+                                "type": "boolean",
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "access": {
+                                    "webDesigner": {
+                                        "readable": true,
+                                        "writable": true
                                     }
-                                    
-                                ]
+                                },
+                                "default": true
+                            },
+                            {
+                                "code": "LayoutBottomMargin",
+                                "name": "",
+                                "type": "integer",
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "LayoutLeftMargin",
+                                "name": "",
+                                "type": "integer",
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "LayoutRightMargin",
+                                "name": "",
+                                "type": "integer",
+                                "editor": {
+                                    "type": "integer"
+                                }
+                            },
+                            {
+                                "code": "selected",
+                                "name": "是否选中",
+                                "type": "boolean",
+                                "editor": {
+                                    "type": "boolean"
+                                },
+                                "default": false
                             }
+
                         ]
-                    }
+                    }]
                 }
-            ],
-            "dependencies": [
-                {
-                    "groupId": "com.toone.v3.platform",
-                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
-                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
-                    "pluginCode": "JGBaseWidget",
-                    "pluginType": "widget"
-                },
-                {
-                    "groupId": "com.toone.v3.platform",
-                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
-                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
-                    "pluginCode": "JGStyleHelper",
-                    "pluginType": "widget"
-                },
-                {
-                    "groupId": "com.toone.v3.platform",
-                    "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGLayoutManager",
-                    "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGLayoutManager",
-                    "pluginCode": "JGLayoutManager",
-                    "pluginType": "widget"
-                }
-            ]
-        }
-    ]
+            }
+        ],
+        "dependencies": [{
+                "groupId": "com.toone.v3.platform",
+                "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGBaseWidget",
+                "pluginCode": "JGBaseWidget",
+                "pluginType": "widget"
+            },
+            {
+                "groupId": "com.toone.v3.platform",
+                "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+                "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGStyleHelper",
+                "pluginCode": "JGStyleHelper",
+                "pluginType": "widget"
+            },
+            {
+                "groupId": "com.toone.v3.platform",
+                "code": "vjs.framework.extension.platform.plugin.ui.smartclient.JGLayoutManager",
+                "pluginSymbolicName": "vjs.framework.extension.platform.plugin.ui.smartclient.JGLayoutManager",
+                "pluginCode": "JGLayoutManager",
+                "pluginType": "widget"
+            }
+        ]
+    }]
 }
