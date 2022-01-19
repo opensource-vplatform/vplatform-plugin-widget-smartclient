@@ -681,6 +681,34 @@ isc.JGLayoutManager.addInterfaceMethods({
             }
         }
         var widgetMapping = {};
+        var _this = this;
+        var createStack = function (members) {
+            var _params = {
+                visibilityMode: "multiple",
+                width: "100%",
+                membersMargin: 8,
+                defaultHeight: 5,
+                vPolicy: "none",
+                height: 16,
+                overflow: "visible",
+                sectionIsExpanded: sectionIsExpanded,
+                sections: members,
+                expandSection: expandSection,
+                type: "JGSectionStack",
+                parentReadOnly: parentReadOnly
+            };
+            if (handleDock && _this.Dock == "fill") {
+                _params.vPolicy = "fill";
+                _params.overflow = "auto";
+                try {
+                    delete _params.height;
+                    delete _params.defaultHeight
+                } catch (e) {}
+            }
+            var sectionStack = isc.SectionStack.create(_params);
+            handleSectionStack(sectionStack, widgetMapping);
+            return sectionStack;
+        }
         for (var i = 0, len = vLayout.length; i < len; i++) {
             var widget = vLayout[i];
             var widgetId = widget.widgetId;
@@ -693,36 +721,16 @@ isc.JGLayoutManager.addInterfaceMethods({
                 info["_$widgetCode"] = widgetId;
                 nowSectionStackItems.push(info);
             } else {
+                if (nowSectionStackItems && nowSectionStackItems.length > 0) {
+                    newVLayout.push(createStack(nowSectionStackItems));
+                    nowSectionStackItems = null;
+                }
                 newVLayout.push(widget);
             }
         }
-        if (null != nowSectionStackItems) {
-            var _params = {
-                visibilityMode: "multiple",
-                width: "100%",
-                membersMargin: 8,
-                defaultHeight: 5,
-                vPolicy: "none",
-                height: 16,
-                overflow: "visible",
-                sectionIsExpanded: sectionIsExpanded,
-                sections: nowSectionStackItems,
-                expandSection: expandSection,
-                type: "JGSectionStack",
-                parentReadOnly: parentReadOnly
-            }
-            if (handleDock && this.Dock == "fill") {
-                _params.vPolicy = "fill";
-                _params.overflow = "auto";
-                try {
-                    delete _params.height;
-                    delete _params.defaultHeight;
-                } catch (e) {}
-            }
-            var sectionStack = isc.SectionStack.create(_params);
-            handleSectionStack(sectionStack, widgetMapping);
-            newVLayout.push(sectionStack);
-            nowSectionStackItems = null;
+        if (nowSectionStackItems && nowSectionStackItems.length > 0) {
+            newVLayout.push(createStack(nowSectionStackItems));
+            nowSectionStackItems = null
         }
         return newVLayout;
     },
