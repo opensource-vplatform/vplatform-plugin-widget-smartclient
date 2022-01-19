@@ -85,38 +85,38 @@ isc.JGChart.addMethods({
 	},
 
 	_initEventAndDataBind: function () {
-        var _this = this;
+		var _this = this;
 		//初始化数据时，加载图表
 		this.loadData(this);
 		//var datasourceName = widgetDatasource.getBindDatasourceName(widgetId);
-		isc.DatasourceUtil.addDatasourceLoadEventHandler(this, function(rd) {
+		isc.DatasourceUtil.addDatasourceLoadEventHandler(this, function (rd) {
 			_this.loadData(_this);
 		});
-		isc.DatasourceUtil.addDatasourceInsertEventHandler(this, function(rd) {
+		isc.DatasourceUtil.addDatasourceInsertEventHandler(this, function (rd) {
 			_this.loadData(_this);
 		});
-		isc.DatasourceUtil.addDatasourceUpdateEventHandler(this, function(rd) {
+		isc.DatasourceUtil.addDatasourceUpdateEventHandler(this, function (rd) {
 			_this.loadData(_this);
 		});
-		isc.DatasourceUtil.addDatasourceDeleteEventHandler(this, function(rd) {
+		isc.DatasourceUtil.addDatasourceDeleteEventHandler(this, function (rd) {
 			_this.loadData(_this);
 		});
 	},
 
-	_afterInitWidget: function(){
+	_afterInitWidget: function () {
 		this.on("chartClick", this.OnChartClick());
 	},
 
-	loadData: function(widgetId){
+	loadData: function (widgetId) {
 		var isQuery = false;
 		var datasource = isc.WidgetDatasource.getDatasource(this);
-        var datas = datasource.getAllRecords();
-        var dataMaps = datas.toArray();
+		var datas = datasource.getAllRecords();
+		var dataMaps = datas.toArray();
 
-        var chartdata =  {};
-        chartdata["recordCount"] = dataMaps.length;
-        chartdata["values"] = dataMaps;
-		this.drawchart(chartdata, isQuery);   
+		var chartdata = {};
+		chartdata["recordCount"] = dataMaps.length;
+		chartdata["values"] = dataMaps;
+		this.drawchart(chartdata, isQuery);
 	},
 
 	//taoyz修改，不用getInnerHTML来创建DIV，用this.contents来创建，因为redraw时会重取innerHTML后图表dom结构都掉失了
@@ -197,19 +197,18 @@ isc.JGChart.addMethods({
 
 		var formatData;
 		formatData = $.extend(true, formatData, data);
-		if (formatData
-			&& formatData.values
-			&& formatData.values.length
-			&& self.formateValueToNum
-			&& self.fields
-			&& self.fields.length) {
+		if (formatData &&
+			formatData.values &&
+			formatData.values.length &&
+			self.formateValueToNum &&
+			self.fields &&
+			self.fields.length) {
 			for (var i = 0; i < formatData.values.length; i++) {
 				for (var j = 0; j < self.fields.length; j++) {
-					formatData.values[i][self.fields[j].name]
-						= self.formateValueToNum(
-							formatData.values[i][self.fields[j].name],
-							self.fields[j].pattern,
-							self.fields[j].numType)
+					formatData.values[i][self.fields[j].name] = self.formateValueToNum(
+						formatData.values[i][self.fields[j].name],
+						self.fields[j].pattern,
+						self.fields[j].numType)
 				}
 			}
 		}
@@ -228,10 +227,10 @@ isc.JGChart.addMethods({
 
 		if (self.GraphSettings.is3D == "false") {
 			this.loadRes([
-				'itop/common/smartclient/extra/thirdpart/chart/V3_ChartPalette.js',
-				'itop/common/smartclient/extra/thirdpart/chart/echarts/echarts.all.min.js',
-				'itop/common/smartclient/extra/thirdpart/chart/V3_echarts.js'
-			],
+					'itop/common/smartclient/extra/thirdpart/chart/V3_ChartPalette.js',
+					'itop/common/smartclient/extra/thirdpart/chart/echarts/echarts.all.min.js',
+					'itop/common/smartclient/extra/thirdpart/chart/V3_echarts.js'
+				],
 				function () {
 					if (!window.ActiveXObject && !("ActiveXObject" in window)) {
 						var style = self.getFlashDivObj().parentElement.style;
@@ -265,7 +264,7 @@ isc.JGChart.addMethods({
 							chartObj.clickBarData.data = params.data;
 							//条码颜色值
 							chartObj.clickBarData.color = params.color;
-							self.OnChartClick(chartObj);
+							chartObj.OnChartClick(chartObj);
 						}
 					}
 					//处理分组隐藏下，当前图表控件未显示，此时渲染会出现异常Task20200510028
@@ -295,11 +294,11 @@ isc.JGChart.addMethods({
 			self._dataConvert(self, self.GraphSettings);
 
 			this.loadRes(['itop/v3/controls/chart/fusionchart/js2/FusionCharts',
-				'itop/v3/controls/chart/fusionchart/Chart',
-				'itop/v3/controls/chart/V3_ChartTrans',
-				'itop/v3/controls/chart/fusionchart/jsonUtil',
-				'itop/v3/controls/chart/fusionchart/js/fusionCharts'
-			],
+					'itop/v3/controls/chart/fusionchart/Chart',
+					'itop/v3/controls/chart/V3_ChartTrans',
+					'itop/v3/controls/chart/fusionchart/jsonUtil',
+					'itop/v3/controls/chart/fusionchart/js/fusionCharts'
+				],
 				function (FusionChart, V3ChartTrans) {
 					//当此容器div还没有渲染完，就开始画图表的话，Fusionchart里会出错，这里捕获一下，不往外提示错误
 					try {
@@ -309,56 +308,56 @@ isc.JGChart.addMethods({
 							case "line": //x
 								self._chart = new FusionChart.Line();
 								break;
-							// 圆
+								// 圆
 							case "pie": //x
 								self._chart = new FusionChart.Pie();
 								break;
-							// 横柱
+								// 横柱
 							case "bar":
 							case "stackbar": //x
 								self._chart = new FusionChart.Bar();
 								break;
-							// 柱
+								// 柱
 							case "column":
 							case "stackcolumn": //x
 								self._chart = new FusionChart.Column();
 								break;
-							// 面职
+								// 面职
 							case "area":
 							case "stackarea": //x
 								self._chart = new FusionChart.Area();
 								break;
-							// 双Y
+								// 双Y
 							case "combidy":
 							case "stackcolumnlinedy":
 							case "columnlinedy": //x
 								self._chart = new FusionChart.CombiDY();
 								break;
-							// 组合
+								// 组合
 							case "combination": //x
 								self._chart = new FusionChart.Combination();
 								break;
-							//多柱
+								//多柱
 							case "stack": //x
 								self._chart = new FusionChart.Stack();
 								break;
-							// 圆环
+								// 圆环
 							case "dough": //x
 								self._chart = new FusionChart.Dough();
 								break;
-							// 雷达
+								// 雷达
 							case "radar":
 								self._chart = new FusionChart.Radar();
 								break;
-							// 散点
+								// 散点
 							case "scatter": //x
 								self._chart = new FusionChart.Scatter();
 								break;
-							// 仪表盘
+								// 仪表盘
 							case "angular": //x
 								self._chart = new FusionChart.Angular();
 								break;
-							// 气泡
+								// 气泡
 							case "bubble": //x
 								self._chart = new FusionChart.Bubble();
 								break;
@@ -392,7 +391,7 @@ isc.JGChart.addMethods({
 								'yvalue': value,
 								'zvalue': null
 							});
-							self.OnChartClick(chartObj);
+							chartObj.OnChartClick(chartObj);
 						}
 
 					}
@@ -409,7 +408,10 @@ isc.JGChart.addMethods({
 			style.height = this.getHeight();
 			if (window.echarts) {
 				var charts = echarts.getInstanceByDom(this.getFlashDivObj());
-				if (charts) charts.resize({ width: this.getWidth(), height: this.getHeight() });
+				if (charts) charts.resize({
+					width: this.getWidth(),
+					height: this.getHeight()
+				});
 			}
 		}
 	},
