@@ -16,15 +16,15 @@
             "name": "控件名称",
             "type": "char",
             "default": "JGRadioGroup1",
-            "editor":{
+            "editor": {
                 "type": "code",
                 "prefix": "JGRadioGroup"
             }
-        },{
+        }, {
             "code": "DropDownSource",
             "name": "数据来源",
             "type": "char",
-            "editor":{
+            "editor": {
                 "type": "text"
             },
             "compatible": {
@@ -77,11 +77,11 @@
                 "type": "integer"
             },
             "default": 235
-        },{
+        }, {
             "code": "MultiWidth",
             "name": "宽度",
             "type": "char",
-            "default":"235px",
+            "default": "235px",
             "editor": {
                 "type": "width"
             }
@@ -117,6 +117,11 @@
                 "type": "boolean"
             },
             "default": false
+        }, {
+            "code": "ColSpan",
+            "name": "列",
+            "type": "char",
+            "default": "1"
         }, {
             "code": "LabelTextAlign",
             "name": "标签对齐方式",
@@ -161,7 +166,7 @@
                 "type": "integer"
             },
             "default": 26
-        },{
+        }, {
             "code": "MultiHeight",
             "name": "高度",
             "type": "char",
@@ -250,7 +255,7 @@
             "name": "内部事件",
             "visible": false,
             "type": "char",
-            "editor":{
+            "editor": {
                 "type": "ruleset"
             },
             "compatible": {
@@ -293,7 +298,7 @@
                 "enhanceType": "tableName"
             },
             "default": ""
-        },{
+        }, {
             "code": "ColumnName",
             "name": "显示字段",
             "type": "char",

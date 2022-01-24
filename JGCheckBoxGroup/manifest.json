@@ -23,7 +23,7 @@
             "code": "DropDownSource",
             "name": "数据来源",
             "type": "char",
-            "editor":{
+            "editor": {
                 "type": "text"
             },
             "compatible": {
@@ -37,6 +37,11 @@
             "editor": {
                 "type": "boolean"
             }
+        }, {
+            "code": "ColSpan",
+            "name": "列",
+            "type": "char",
+            "default": "1"
         }, {
             "code": "ValueBackColor",
             "name": "值背景色",
@@ -68,11 +73,11 @@
                 "type": "integer"
             },
             "default": 235
-        },{
+        }, {
             "code": "MultiWidth",
             "name": "宽度",
             "type": "char",
-            "default":"235px",
+            "default": "235px",
             "editor": {
                 "type": "width"
             }
@@ -157,7 +162,7 @@
                 "type": "integer"
             },
             "default": 26
-        },{
+        }, {
             "code": "MultiHeight",
             "name": "高度",
             "type": "char",
@@ -307,7 +312,7 @@
                 "enhanceType": "columnName"
             },
             "default": "ColumnName"
-        },{
+        }, {
             "code": "IDColumnName",
             "name": "字段名称",
             "type": "char",
