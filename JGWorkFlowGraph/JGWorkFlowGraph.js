@@ -1385,12 +1385,12 @@ isc.JGWorkFlowGraph.addMethods({
 	setPercentWidth: function (percentWidth) {
 		this.Super("setPercentWidth", arguments);
 		//this._graph.setWidth(percentWidth);
-		this._graph.setWidth("100%");
+		//this._graph.setWidth("100%");
 	},
 	setPercentHeight: function (percentHeight) {
 		this.Super("setPercentHeight", arguments);
 		//this._graph.setHeight(percentHeight);
-		this._graph.setHeight("100%");
+		//this._graph.setHeight("100%");
 	},
 
 	destroy: function () {
