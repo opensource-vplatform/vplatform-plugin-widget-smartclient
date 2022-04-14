@@ -43,6 +43,7 @@ isc.JGWorkFlowGraph.addMethods({
 
 
 	_initWidget: function () {
+		this.useClipDiv = false;
 		this.initTool();
 		this.initAttribute();
 		this._initEventAndDataBind();
