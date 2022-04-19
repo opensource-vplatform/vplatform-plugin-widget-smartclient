@@ -602,6 +602,7 @@ isc.JGTabControl.addMethods({
      * 新增记录
      * */
     insertRecord: function (widget, dynamicPageData, curTabsetObj) {
+        var _this = this;
         return function (params) {
             var dynamicTabSetting = dynamicPageData.WindowTabSetting.dynamicTabSetting;
             var dynTabSettingInputParams = dynamicTabSetting.inputParams;
