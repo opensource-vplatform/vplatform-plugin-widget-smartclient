@@ -166,10 +166,10 @@ isc.JGQueryConditionPanel.addMethods({
 
 		this.removeHideFieldsFromFormLayout();
 
-		
+
 	},
 
-	v3InitEvent: function(){
+	v3InitEvent: function () {
 		this.formLayout && this.formLayout.v3InitEvent();
 		this.initEvent();
 		this.initDataBinding();
@@ -423,14 +423,14 @@ isc.JGQueryConditionPanel.addMethods({
 						_this.formLayout.show();
 						_this.panel.addMembers(_this._contentLayout);
 						_this._contentLayout.show();
-						_this.formLayoutBindDataSource(isc.JGDataSourceManager.get(_this,_this.SourceTableName));
+						_this.formLayoutBindDataSource(isc.JGDataSourceManager.get(_this, _this.SourceTableName));
 					} else {
 						_this._contentLayout.addMembers(_this.formLayout);
 						_this.formLayout.animateShow(null, null, 150, 'smoothEnd');
 						if (_this.ShowToolbar && _this.SearchBoxEnabled && !_this.titleLayout.members.contains(_this.searchBox)) {
 							_this.titleLayout.addMember(_this.searchBox);
 						}
-						_this.formLayoutBindDataSource(isc.JGDataSourceManager.get(_this,_this.SourceTableName));
+						_this.formLayoutBindDataSource(isc.JGDataSourceManager.get(_this, _this.SourceTableName));
 					}
 					_this.formLayout.setValues(formValue);
 					_this.titleLayout.setStyleName('content-h-layout-title');
@@ -506,7 +506,7 @@ isc.JGQueryConditionPanel.addMethods({
 		this.getLocateBoxField();
 		this._locateBoxCanvas = isc.DynamicForm.create({
 			autoFocus: true,
-			scopeId : this.scopeId,
+			scopeId: this.scopeId,
 			code: this.code,
 			styleName: 'search-box',
 			fields: [{
@@ -515,11 +515,11 @@ isc.JGQueryConditionPanel.addMethods({
 			}],
 			height: 40,
 			bindDataSource: function (ds) {
-				var id = isc.JGV3ValuesManager.genId(ds.ID, this.scopeId, this.code+"_JGFormLayout");
-                var vm = isc.JGV3ValuesManager.getById(id, ds);
-                var dy = vm.getMember(this.ID);
-                if (!dy){
-                    vm.addMember(this);
+				var id = isc.JGV3ValuesManager.genId(ds.ID, this.scopeId, this.code + "_JGFormLayout");
+				var vm = isc.JGV3ValuesManager.getById(id, ds);
+				var dy = vm.getMember(this.ID);
+				if (!dy) {
+					vm.addMember(this);
 				}
 			},
 			showHighlight: function () {
@@ -572,7 +572,7 @@ isc.JGQueryConditionPanel.addMethods({
 				autoHide: true
 			},
 		});
-		if(this.TableName && typeof(this.TableName) != "string"){
+		if (this.TableName && typeof (this.TableName) != "string") {
 			this._locateBoxCanvas.bindDataSource(this.TableName);
 		}
 		return this._locateBoxCanvas;
@@ -913,7 +913,7 @@ isc.JGQueryConditionPanel.addMethods({
 		//				if(lastHLayout[lastHLayout.length - 1].InputStyle.InputRelevance == "flpMoreAndQuery_item_static"){
 		//					lastHLayout.splice(lastHLayout.length - 1,1);
 		//				}
-		if (lastHLayout[lastHLayout.length - 1].colSpan == (this.ColumnCount *2 -1)) {
+		if (lastHLayout[lastHLayout.length - 1].colSpan == (this.ColumnCount * 2 - 1)) {
 			col = this.ColumnCount * 2;
 		} else {
 			if (lastHLayout.length == this.ColumnCount) {
@@ -928,7 +928,7 @@ isc.JGQueryConditionPanel.addMethods({
 		var _this = this;
 		this.formLayout = isc.JGFormLayout.create({
 			scopeId: this.scopeId,
-			code : this.code + "_JGFormLayout",//确保与快速检索控件共用一个valuesManager
+			code: this.code + "_JGFormLayout", //确保与快速检索控件共用一个valuesManager
 			NumCols: this.ColumnCount,
 			Width: "100%",
 			fields: this.layoutFields,
@@ -950,7 +950,7 @@ isc.JGQueryConditionPanel.addMethods({
 			fixedColWidths: this.fixedColWidths,
 			//解决窗体设计器中，查询面板内部子控件上下无间距   --- 看起来没啥用，先屏蔽
 			//					styleName:'v-query-condition-panel-form',   
-			_eventHandler:this._eventHandler,
+			_eventHandler: this._eventHandler,
 			_createDropdownSourceObserver: this._createDropdownSourceObserver,
 			_initFieldLayout: function () {},
 			_itemEventHandler: function (itemCode, eventCode, args) {
@@ -1226,42 +1226,42 @@ isc.JGQueryConditionPanel.addMethods({
 		var _value = value;
 		if (_value && typeof (_value) == "string") {
 			var tempDiv = document.createElement("div");
-			tempDiv.innerText = _value;
+			tempDiv.innerText = _value.asHTML ? _value.asHTML() : _value;
 			_value = tempDiv.innerHTML;
 		}
 		var html = '<div class = "select-wrapper">' +
 			'<span class = "select-title">' + title + '：</span>' +
-			'<span class = "select-value" data-from = "' + code + '" title = "' + value + '">' + _value + '</span>' +
+			'<span class = "select-value" data-from = "' + code + '" title = "' + _value + '">' + _value + '</span>' +
 			'</div>';
 		return html;
 	},
 
-	_exposeJGFormLayoutItemMethods: function(){
-		var fields = this.layoutFields;	
-		if(fields&&fields.length>0){
+	_exposeJGFormLayoutItemMethods: function () {
+		var fields = this.layoutFields;
+		if (fields && fields.length > 0) {
 			var fieldTypes = [];
-			for(var i=0,l=fields.length;i<l;i++){
+			for (var i = 0, l = fields.length; i < l; i++) {
 				var field = fields[i];
-				if(field&&field.type){
+				if (field && field.type) {
 					var type = field.type;
-					if(fieldTypes.indexOf(type)==-1){
+					if (fieldTypes.indexOf(type) == -1) {
 						fieldTypes.push(field.type);
 					}
 				}
 			}
 			var proto = isc.JGFormLayout.getPrototype();
-			for(var name in proto){
-				if(proto.hasOwnProperty(name)){
+			for (var name in proto) {
+				if (proto.hasOwnProperty(name)) {
 					var val = proto[name];
-					if(typeof(val)=='function'){
-						for(var i=0,l=fieldTypes.length;i<l;i++){
+					if (typeof (val) == 'function') {
+						for (var i = 0, l = fieldTypes.length; i < l; i++) {
 							var fieldType = fieldTypes[i];
-							if(name.substring(name.length-fieldType.length)==fieldType){
-								this[name] = (function(_this,func){
-									return function(){
-										return func.apply(_this.formLayout,arguments);
+							if (name.substring(name.length - fieldType.length) == fieldType) {
+								this[name] = (function (_this, func) {
+									return function () {
+										return func.apply(_this.formLayout, arguments);
 									}
-								})(this,val);
+								})(this, val);
 							}
 						}
 					}
@@ -1479,9 +1479,9 @@ isc.JGQueryConditionPanel.addMethods({
 		var _this = this;
 		var observerFormLayout = isc.CurrentRecordObserver.create({
 			fields: formLayoutFields,
-			setValueHandler: function (record,datasource) {
+			setValueHandler: function (record, datasource) {
 				var formWidget = _this.formLayout;
-				if(!formWidget){
+				if (!formWidget) {
 					return;
 				}
 				//把方法放在外面调用就会报错。。。
@@ -1534,7 +1534,7 @@ isc.JGQueryConditionPanel.addMethods({
 		datasource.addObserver(observerFormLayout);
 	},
 
-	editV3Record : function (record, fields) {
+	editV3Record: function (record, fields) {
 		var formWidget = this.formLayout;
 		var data = {
 			id: record.id
@@ -1586,7 +1586,7 @@ isc.JGQueryConditionPanel.addMethods({
 		var callback = function (params) {
 			var ds = params.datasource;
 			var record = ds.getRecordById(params.resultSet[0].id);
-			var recordMap = isc.addProperties({},record);
+			var recordMap = isc.addProperties({}, record);
 			if (widget.FilterVisible) {
 				for (var prop in record) {
 					var item = null;
@@ -1659,8 +1659,8 @@ isc.JGQueryConditionPanel.addMethods({
 	 * */
 	resetDsRecord: function (remove, isLoad) {
 		//需获取平台实体，否则创建记录时没有默认值
-		var datasource = this._getEntity(this.SourceTableName);//isc.JGDataSourceManager.get(this, this._tableName);
-		if(!datasource){
+		var datasource = this._getEntity(this.SourceTableName); //isc.JGDataSourceManager.get(this, this._tableName);
+		if (!datasource) {
 			return;
 		}
 		var records = datasource && datasource.getAllRecords();
@@ -1673,15 +1673,17 @@ isc.JGQueryConditionPanel.addMethods({
 		}
 		if (!remove) {
 			var newRecord = datasource.createRecord();
-			if(oldRecord){
+			if (oldRecord) {
 				var loadRecordMap = oldRecord.toMap();
-				for(var key in loadRecordMap){
-					if(loadRecordMap.hasOwnProperty(key)){
+				for (var key in loadRecordMap) {
+					if (loadRecordMap.hasOwnProperty(key)) {
 						newRecord.set(key, loadRecordMap[key]);
 					}
 				}
 			}
-			datasource.insertRecords({records :[newRecord]});
+			datasource.insertRecords({
+				records: [newRecord]
+			});
 		}
 	},
 
@@ -1766,13 +1768,13 @@ isc.JGQueryConditionPanel.addMethods({
 					formItem.ignoreValueMap = true;
 					return;
 				}
-				switch(formItem.type){
+				switch (formItem.type) {
 					case "JGCheckBoxGroup":
 						formItem.setItems();
 					case "JGComboBox":
 					case "JGRadioGroup":
-						if(descInfo && descInfo.keys && typeof(formItem.markValueMapKey) == "function"){
-							formItem.markValueMapKey(descInfo.keys)//标记key的顺序
+						if (descInfo && descInfo.keys && typeof (formItem.markValueMapKey) == "function") {
+							formItem.markValueMapKey(descInfo.keys) //标记key的顺序
 						}
 						break;
 				}
@@ -1890,7 +1892,7 @@ isc.JGQueryConditionPanel.addMethods({
 		} else {
 			titleValue = value;
 		}
-		if(widget.formLayout){
+		if (widget.formLayout) {
 			for (var i = 0; i < widget.formLayout.items.length; i++) {
 				if (widget.formLayout.items[i].ColumnName == code && widget.formLayout.items[i].type == 'JGPeriod') {
 					titleValue = widget.formLayout.items[i].mapValueToDisplay(value);
@@ -2006,15 +2008,15 @@ isc.JGQueryConditionPanel.addMethods({
 							}
 							if (defaultValue && defaultValue[fieldCode]) {
 								hasDefaultValue = true;
-								currentRecord.set(fieldCode,defaultValue[fieldCode]);
+								currentRecord.set(fieldCode, defaultValue[fieldCode]);
 							} else {
-								currentRecord.set(fieldCode,null);
+								currentRecord.set(fieldCode, null);
 							}
 						}
 					}
 				}
 				datasource.updateRecords({
-					records:[currentRecord]
+					records: [currentRecord]
 				});
 				datasource.clearRemoveDatas();
 			}
@@ -2069,7 +2071,7 @@ isc.JGQueryConditionPanel.addMethods({
 		}
 	},
 
-	hideItemHighlight : function (itemCode) {
+	hideItemHighlight: function (itemCode) {
 		if (itemCode.indexOf("JGLocateBox_quickSearch") != -1) {
 			this._locateBoxCanvas && this._locateBoxCanvas.hideHighlight();
 		} else {
@@ -2077,9 +2079,9 @@ isc.JGQueryConditionPanel.addMethods({
 		}
 	},
 
-	setChildProperty: function(methodName,code,itemCode,value){
-		if(this.formLayout&&this.formLayout[methodName]){
-			this.formLayout[methodName].apply(this.formLayout,[itemCode,value])
+	setChildProperty: function (methodName, code, itemCode, value) {
+		if (this.formLayout && this.formLayout[methodName]) {
+			this.formLayout[methodName].apply(this.formLayout, [itemCode, value])
 		}
 	}
 });
