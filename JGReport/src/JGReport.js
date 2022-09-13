@@ -2714,7 +2714,8 @@ isc.JGReport.addMethods({
 				var formRecords = [];
 				var formFieldCode = this.getFormFieldCode(reportFieldCode, entityRela);
 				var formRecord = formEntity.getRecordById(id);
-				formRecord.set(formFieldCode, value);
+				//formRecord.set(formFieldCode, value);
+				formRecord[formFieldCode] = value;
 				formRecords.push(formRecord);
 
 				formEntity.updateRecords(formRecords);
